@@ -37,7 +37,7 @@ class _OnBoardViewState extends State<OnBoardView> {
         return Scaffold(
           appBar: _buildAppBar(),
           body: Padding(
-            padding: context.padding.onlyBottomMedium,
+            padding: context.padding.medium,
             child: Column(
               children: [
                 Expanded(child: _buildPageView()),

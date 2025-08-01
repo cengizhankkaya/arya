@@ -1,7 +1,9 @@
 import 'package:arya/features/onboard/view/onboard_view.dart';
+import 'package:arya/product/init/application_initialize.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  ApplicationInitialize.init();
   runApp(const MyApp());
 }
 
