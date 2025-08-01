@@ -43,3 +43,200 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Firebase related files
+google-services.json
+GoogleService-Info.plist
+firebase_options.dart
+firebase_app_id_file.json
+firebase_options.dart
+firebase_options_web.dart
+firebase_options_android.dart
+firebase_options_ios.dart
+firebase_options_macos.dart
+firebase_options_windows.dart
+firebase_options_linux.dart
+
+# Firebase configuration files
+firebase.json
+.firebaserc
+firebase-debug.log
+firebase-debug.*.log
+
+# Environment variables and secrets
+.env
+.env.local
+.env.production
+.env.staging
+secrets.json
+
+# Build and generated files
+**/build/
+**/dist/
+**/out/
+**/target/
+**/bin/
+**/obj/
+**/Debug/
+**/Release/
+**/x64/
+**/x86/
+**/arm64/
+**/arm/
+
+# Flutter build artifacts
+**/ios/Flutter/App.framework
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_assets/
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/ServiceDefinitions.json
+**/ios/Runner/GeneratedPluginRegistrant.*
+
+# Android build files
+**/android/.gradle/
+**/android/captures/
+**/android/gradlew
+**/android/gradlew.bat
+**/android/local.properties
+**/android/**/GeneratedPluginRegistrant.java
+**/android/key.properties
+**/android/app/debug/
+**/android/app/profile/
+**/android/app/release/
+
+# Web build files
+**/web/build/
+**/web/firebase_options.dart
+
+# macOS build files
+**/macos/Flutter/GeneratedPluginRegistrant.swift
+**/macos/Flutter/ephemeral/
+
+# Windows build files
+**/windows/flutter/generated_plugin_registrant.cc
+**/windows/flutter/generated_plugin_registrant.h
+**/windows/flutter/generated_plugins.cmake
+
+# Linux build files
+**/linux/flutter/generated_plugin_registrant.cc
+**/linux/flutter/generated_plugin_registrant.h
+**/linux/flutter/generated_plugins.cmake
+
+# Generated files
+*.g.dart
+*.freezed.dart
+*.mocks.dart
+*.gr.dart
+*.chopper.dart
+*.retrofit.dart
+
+# Coverage reports
+coverage/
+*.lcov
+*.coverage
+*.coverage.*
+
+# Test artifacts
+test-results/
+junit.xml
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Package manager files
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+*.orig
+*.rej
+*.log
+*.pid
+*.seed
+*.pid.lock
+
+# Local configuration files
+local.properties
+key.properties
+keystore.properties
+*.keystore
+*.jks
+
+# FVM (Flutter Version Management)
+.fvm/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# CocoaPods
+ios/Pods/
+ios/Podfile.lock
+
+# Gradle
+android/.gradle/
+android/gradle/
+android/gradlew
+android/gradlew.bat
+android/local.properties
+
+# Xcode
+ios/Runner.xcworkspace/xcshareddata/
+ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/
+ios/Runner.xcodeproj/xcuserdata/
+ios/Runner.xcworkspace/xcuserdata/
+
+# Android Studio
+android/.idea/
+android/app/.idea/
+android/local.properties
+
+# Flutter specific
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+
+# Performance profiling
+*.trace
+*.timeline
+*.profile
+
+# Crash reports
+crash.log
+crash_report.txt
+
+# Analytics and monitoring
+analytics.log
+monitoring.log
+
+# Backup files
+*.backup
+*.bak
+*.old
+*.save
+
+# OS generated files
+.DS_Store?
+ehthumbs.db
+Icon?
+Thumbs.db
