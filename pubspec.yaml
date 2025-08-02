@@ -20,13 +20,16 @@ dependencies:
 
   # Flutter packages
   kartal: ^4.2.0
+  # Firebase packages
   firebase_core: ^4.0.0
+  firebase_auth: ^6.0.0
+  provider: ^6.1.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-#Firebase
+
 
 
   flutter_lints: ^5.0.0
