@@ -51,6 +51,20 @@ class _RegisterViewBody extends StatelessWidget {
                     textInputAction: TextInputAction.next,
                   ),
                   const SizedBox(height: 16),
+                  // Soyad alanı
+                  TextFormField(
+                    controller: viewModel.surnameController,
+                    decoration: InputDecoration(
+                      labelText: 'Soyad',
+                      prefixIcon: const Icon(Icons.person_outline),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    validator: viewModel.validateSurname,
+                    textInputAction: TextInputAction.next,
+                  ),
+                  const SizedBox(height: 16),
                   // E-posta alanı
                   TextFormField(
                     controller: viewModel.emailController,

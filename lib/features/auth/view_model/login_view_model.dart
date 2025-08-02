@@ -1,4 +1,3 @@
-import 'package:arya/features/auth/model/user_service.dart';
 import 'package:arya/features/auth/service/auth_service.dart';
 import 'package:flutter/material.dart';
 import '../auth_constants.dart';

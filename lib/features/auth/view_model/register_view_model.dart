@@ -1,5 +1,5 @@
 import 'package:arya/features/auth/model/user_model.dart';
-import 'package:arya/features/auth/model/user_service.dart';
+import 'package:arya/features/auth/service/user_service.dart';
 import 'package:arya/features/auth/service/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +7,7 @@ import '../auth_constants.dart';
 
 class RegisterViewModel extends ChangeNotifier {
   final FirebaseAuthService _authService = FirebaseAuthService();
-  UserService _userService = UserService();
+  final UserService _userService = UserService();
 
   // Form controllers
   final TextEditingController nameController = TextEditingController();
@@ -57,6 +57,19 @@ class RegisterViewModel extends ChangeNotifier {
     return null;
   }
 
+  String? validateSurname(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Soyad gereklidir';
+    }
+    if (value.trim().length < AuthConstants.minNameLength) {
+      return 'Soyad en az ${AuthConstants.minNameLength} karakter olmalıdır';
+    }
+    if (value.trim().length > AuthConstants.maxNameLength) {
+      return 'Soyad en fazla ${AuthConstants.maxNameLength} karakter olmalıdır';
+    }
+    return null;
+  }
+
   String? validateEmail(String? value) {
     if (value == null || value.trim().isEmpty) {
       return AuthConstants.emailRequired;
@@ -90,7 +103,7 @@ class RegisterViewModel extends ChangeNotifier {
     return null;
   }
 
-  // Register işlemi
+  // Register işlemi - MVVM mimarisine uygun
   Future<bool> register() async {
     if (!formKey.currentState!.validate()) {
       return false;
@@ -99,33 +112,53 @@ class RegisterViewModel extends ChangeNotifier {
     _setLoading(true);
     _clearError();
 
-    UserModel user = UserModel(
-      uid: '',
-      name: nameController.text.trim(),
-      surname: surnameController.text.trim(),
-      email: '',
-    );
-
     try {
-      final result = await _authService.signUp(
+      // 1. Firebase Auth ile kullanıcı oluştur
+      final authResult = await _authService.signUp(
         email: emailController.text.trim(),
         password: passwordController.text,
       );
 
-      if (result.isSuccess) {
-        _clearError();
-        _setLoading(false);
-        return true;
-      } else {
-        _setError(result.errorMessage ?? 'Kayıt işlemi başarısız');
+      if (!authResult.isSuccess) {
+        _setError(authResult.errorMessage ?? 'Kayıt işlemi başarısız');
         _setLoading(false);
         return false;
       }
+
+      // 2. Kullanıcı bilgilerini UserModel'e dönüştür
+      final user = UserModel(
+        uid: authResult.userCredential?.user?.uid ?? '',
+        name: nameController.text.trim(),
+        surname: surnameController.text.trim(),
+        email: emailController.text.trim(),
+        username: _generateUsername(
+          nameController.text.trim(),
+          surnameController.text.trim(),
+        ),
+      );
+
+      // 3. Firestore'a kullanıcı verilerini kaydet
+      await _userService.createDataUser(user);
+
+      _clearError();
+      _setLoading(false);
+      return true;
     } catch (e) {
       _setError('Beklenmeyen bir hata oluştu: $e');
       _setLoading(false);
       return false;
     }
+  }
+
+  // Kullanıcı adı oluşturma
+  String _generateUsername(String name, String surname) {
+    final timestamp = DateTime.now().millisecondsSinceEpoch;
+    final cleanName = name.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]'), '');
+    final cleanSurname = surname.toLowerCase().replaceAll(
+      RegExp(r'[^a-z0-9]'),
+      '',
+    );
+    return '${cleanName}_${cleanSurname}_$timestamp';
   }
 
   // State management methods
@@ -146,6 +179,8 @@ class RegisterViewModel extends ChangeNotifier {
 
   // Clear form
   void clearForm() {
+    nameController.clear();
+    surnameController.clear();
     emailController.clear();
     passwordController.clear();
     confirmPasswordController.clear();
@@ -155,11 +190,11 @@ class RegisterViewModel extends ChangeNotifier {
   // Dispose
   @override
   void dispose() {
+    nameController.dispose();
+    surnameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
     super.dispose();
   }
-
-  // Password reset işlemi
 }
