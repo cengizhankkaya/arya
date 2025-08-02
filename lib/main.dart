@@ -1,4 +1,6 @@
-import 'package:arya/auth/view/login_view.dart';
+import 'package:arya/features/auth/service/auth_service.dart';
+import 'package:arya/features/auth/view/login_view.dart';
+import 'package:arya/features/home/home_view.dart';
 import 'package:arya/product/init/application_initialize.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +20,18 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const LoginView(),
+      home: StreamBuilder(
+        stream: FirebaseAuthService().authStateChanges,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasData) {
+            return const HomeView();
+          } else {
+            return const LoginView();
+          }
+        },
+      ),
     );
   }
 }

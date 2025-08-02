@@ -38,19 +38,19 @@ class _RegisterViewBody extends StatelessWidget {
                   const Icon(Icons.person_add, size: 80, color: Colors.blue),
                   const SizedBox(height: 32),
                   // // Ad alanı
-                  // TextFormField(
-                  //   controller: viewModel.nameController,
-                  //   decoration: InputDecoration(
-                  //     labelText: AuthConstants.nameHint,
-                  //     prefixIcon: const Icon(Icons.person),
-                  //     border: OutlineInputBorder(
-                  //       borderRadius: BorderRadius.circular(12),
-                  //     ),
-                  //   ),
-                  //   validator: viewModel.validateName,
-                  //   textInputAction: TextInputAction.next,
-                  // ),
-                  // const SizedBox(height: 16),
+                  TextFormField(
+                    controller: viewModel.nameController,
+                    decoration: InputDecoration(
+                      labelText: AuthConstants.nameHint,
+                      prefixIcon: const Icon(Icons.person),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    validator: viewModel.validateName,
+                    textInputAction: TextInputAction.next,
+                  ),
+                  const SizedBox(height: 16),
                   // E-posta alanı
                   TextFormField(
                     controller: viewModel.emailController,

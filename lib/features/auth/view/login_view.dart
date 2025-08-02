@@ -1,4 +1,5 @@
-import 'package:arya/auth/view/register_view.dart';
+import 'package:arya/features/auth/view/register_view.dart';
+import 'package:arya/features/home/home_view.dart';
 import 'package:flutter/material.dart';
 import '../view_model/login_view_model.dart';
 import '../auth_constants.dart';
@@ -209,14 +210,13 @@ class _LoginViewBody extends StatelessWidget {
                                     backgroundColor: Colors.green,
                                   ),
                                 );
-                                //Ana sayfaya yönlendir
-                                print('Home vivew açılıyor');
-                                // Navigator.pushReplacement(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => HomeView(),
-                                //   ),
-                                // );
+                                // Ana sayfaya yönlendir
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => HomeView(),
+                                  ),
+                                );
                               }
                             },
                       style: ElevatedButton.styleFrom(

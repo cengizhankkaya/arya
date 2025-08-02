@@ -1,12 +1,17 @@
-import 'package:arya/auth/service/auth_service.dart';
+import 'package:arya/features/auth/model/user_model.dart';
+import 'package:arya/features/auth/model/user_service.dart';
+import 'package:arya/features/auth/service/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../auth_constants.dart';
 
 class RegisterViewModel extends ChangeNotifier {
   final FirebaseAuthService _authService = FirebaseAuthService();
+  UserService _userService = UserService();
 
   // Form controllers
   final TextEditingController nameController = TextEditingController();
+  final TextEditingController surnameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
@@ -93,6 +98,13 @@ class RegisterViewModel extends ChangeNotifier {
 
     _setLoading(true);
     _clearError();
+
+    UserModel user = UserModel(
+      uid: '',
+      name: nameController.text.trim(),
+      surname: surnameController.text.trim(),
+      email: '',
+    );
 
     try {
       final result = await _authService.signUp(
