@@ -1,11 +1,43 @@
 class UserModel {
-  String? uid;
-  String? name;
-  String? surname;
-  String? username;
-  String? email;
+  final String? uid;
+  final String? name;
+  final String? surname;
+  final String? username;
+  final String? email;
 
-  UserModel({this.uid, this.name, this.surname, this.username, this.email});
+  const UserModel({
+    this.uid,
+    this.name,
+    this.surname,
+    this.username,
+    this.email,
+  });
+
+  /// Kullanıcının tam adını döndürür
+  String get fullName {
+    final nameParts = <String>[];
+    if (name?.isNotEmpty == true) nameParts.add(name!);
+    if (surname?.isNotEmpty == true) nameParts.add(surname!);
+    return nameParts.isEmpty ? 'İsimsiz Kullanıcı' : nameParts.join(' ');
+  }
+
+  /// Kullanıcının görünen adını döndürür (username varsa username, yoksa fullName)
+  String get displayName {
+    if (username?.isNotEmpty == true) return username!;
+    if (fullName.isNotEmpty) return fullName;
+    return 'İsimsiz Kullanıcı';
+  }
+
+  /// Kullanıcı verilerinin geçerli olup olmadığını kontrol eder
+  bool get isValid => uid?.isNotEmpty == true && email?.isNotEmpty == true;
+
+  /// Kullanıcı verilerinin tam olup olmadığını kontrol eder
+  bool get isComplete =>
+      uid?.isNotEmpty == true &&
+      name?.isNotEmpty == true &&
+      surname?.isNotEmpty == true &&
+      username?.isNotEmpty == true &&
+      email?.isNotEmpty == true;
 
   UserModel copyWith({
     String? uid,
@@ -45,7 +77,7 @@ class UserModel {
 
   @override
   String toString() =>
-      "UserModel(uid: $uid,name: $name,surname: $surname,username: $username,email: $email)";
+      "UserModel(uid: $uid, name: $name, surname: $surname, username: $username, email: $email)";
 
   @override
   int get hashCode => Object.hash(uid, name, surname, username, email);

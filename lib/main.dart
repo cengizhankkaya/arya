@@ -2,7 +2,7 @@ import 'package:arya/features/auth/service/auth_service.dart';
 import 'package:arya/features/auth/view/login_view.dart';
 import 'package:arya/features/auth/view/profile_view.dart';
 import 'package:arya/features/home/home_view.dart';
-import 'package:arya/features/home/profile_view.dart';
+
 import 'package:arya/product/init/application_initialize.dart';
 import 'package:flutter/material.dart';
 

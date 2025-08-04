@@ -17,18 +17,9 @@ class HomeView extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      ProfileScreen(uid: authService.currentUser?.uid ?? ''),
-                ),
+                MaterialPageRoute(builder: (context) => const ProfileScreen()),
               );
             },
-          ),
-          TextButton(
-            onPressed: () async {
-              await authService.signOut();
-            },
-            child: const Text('Çıkış Yap'),
           ),
         ],
       ),

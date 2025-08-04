@@ -1,55 +1,136 @@
+import 'package:arya/features/index.dart';
 import 'package:flutter/material.dart';
-import 'package:arya/features/auth/model/user_model.dart';
-import 'package:arya/features/auth/service/user_service.dart';
+import 'package:provider/provider.dart';
 
-class ProfileScreen extends StatelessWidget {
-  final String uid;
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
 
-  const ProfileScreen({super.key, required this.uid});
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  late final ProfileViewModel _viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    _viewModel = ProfileViewModel();
+    _viewModel.fetchUser();
+  }
+
+  @override
+  void dispose() {
+    _viewModel.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Profil')),
-      body: FutureBuilder<UserModel?>(
-        future: UserService().getUserData(uid),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
+    return ChangeNotifierProvider.value(
+      value: _viewModel,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Profil'),
+          actions: [ProfileActionsConsumer()],
+        ),
+        body: Consumer<ProfileViewModel>(
+          builder: (context, viewModel, child) {
+            if (viewModel.isLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-          if (snapshot.hasError) {
-            return Center(child: Text("Hata: ${snapshot.error}"));
-          }
+            if (viewModel.errorMessage != null) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.error_outline, size: 64, color: Colors.red[300]),
+                    const SizedBox(height: 16),
+                    Text(
+                      viewModel.errorMessage!,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.red[700]),
+                    ),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () => viewModel.fetchUser(),
+                      child: const Text('Tekrar Dene'),
+                    ),
+                  ],
+                ),
+              );
+            }
 
-          final user = snapshot.data;
+            if (!viewModel.hasUser) {
+              return const Center(child: Text("Kullanıcı verisi bulunamadı."));
+            }
 
-          if (user == null) {
-            return const Center(child: Text("Kullanıcı verisi bulunamadı."));
-          }
+            final user = viewModel.user!;
+            return _buildProfileContent(context, viewModel, user);
+          },
+        ),
+      ),
+    );
+  }
 
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
+  Widget _buildProfileContent(
+    BuildContext context,
+    ProfileViewModel viewModel,
+    user,
+  ) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Profil başlığı
+          Center(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Ad: ${user.name}", style: const TextStyle(fontSize: 18)),
-                Text(
-                  "Soyad: ${user.surname}",
-                  style: const TextStyle(fontSize: 18),
+                CircleAvatar(
+                  radius: 50,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  child: Text(
+                    user.displayName.isNotEmpty
+                        ? user.displayName[0].toUpperCase()
+                        : '?',
+                    style: const TextStyle(
+                      fontSize: 32,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
+                const SizedBox(height: 16),
                 Text(
-                  "Kullanıcı Adı: ${user.username}",
-                  style: const TextStyle(fontSize: 18),
+                  user.displayName,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                Text(
-                  "Email: ${user.email}",
-                  style: const TextStyle(fontSize: 18),
-                ),
+                if (user.email != null) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    user.email!,
+                    style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                  ),
+                ],
               ],
             ),
-          );
-        },
+          ),
+          const SizedBox(height: 32),
+          // Kullanıcı bilgileri
+          if (viewModel.isEditing) ...[
+            const EditProfileForm(),
+          ] else ...[
+            UserInfoSection(user: user),
+          ],
+          // Tamamlanma durumu
+          const SizedBox(height: 24),
+          const ProfileCompletionStatus(),
+        ],
       ),
     );
   }

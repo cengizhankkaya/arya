@@ -1,9 +1,5 @@
-import 'package:arya/features/auth/model/user_model.dart';
-import 'package:arya/features/auth/service/user_service.dart';
-import 'package:arya/features/auth/service/auth_service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:arya/features/index.dart';
 import 'package:flutter/material.dart';
-import '../auth_constants.dart';
 
 class RegisterViewModel extends ChangeNotifier {
   final FirebaseAuthService _authService = FirebaseAuthService();
