@@ -4,6 +4,12 @@ import '../auth_constants.dart';
 class FirebaseAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  /// Mevcut kullanıcıyı alma
+  User? get currentUser => _auth.currentUser;
+
+  /// Kullanıcı durumu değişikliklerini dinleme
+  Stream<User?> get authStateChanges => _auth.authStateChanges();
+
   /// Giriş yapma işlemi
   Future<AuthResult> signIn({
     required String email,
@@ -44,56 +50,6 @@ class FirebaseAuthService {
   Future<void> signOut() async {
     await _auth.signOut();
   }
-
-  /// Mevcut kullanıcıyı alma
-  User? get currentUser => _auth.currentUser;
-
-  /// Kullanıcı durumu değişikliklerini dinleme
-  Stream<User?> get authStateChanges => _auth.authStateChanges();
-
-  // /// Firestore'a kullanıcı bilgilerini kaydetme
-  // Future<void> _saveUserToFirestore({
-  //   required String userId,
-  //   required String email,
-  //   String? displayName,
-  // }) async {
-  //   try {
-  //     print('🔥 Firestore kayıt başlıyor...');
-  //     print('📝 User ID: $userId');
-  //     print('📧 Email: $email');
-  //     print('👤 Display Name: $displayName');
-
-  //     final userData = {
-  //       'uid': userId,
-  //       'email': email,
-  //       'displayName': displayName ?? '',
-  //       'isEmailVerified': false,
-  //     };
-
-  //     print('📊 User Data: $userData');
-
-  //     await _firestore.collection('users').doc(userId).set(userData);
-  //     print('✅ Firestore kayıt başarılı!');
-  //   } catch (e) {
-  //     print('❌ Firestore kayıt hatası: $e');
-  //     print('🔍 Hata detayı: ${e.toString()}');
-  //     // Firestore hatası olsa bile kullanıcı kaydını engellemiyoruz
-  //   }
-  // }
-
-  // /// Firestore'dan kullanıcı bilgilerini alma
-  // Future<Map<String, dynamic>?> getUserFromFirestore(String userId) async {
-  //   try {
-  //     final doc = await _firestore.collection('users').doc(userId).get();
-  //     if (doc.exists) {
-  //       return doc.data();
-  //     }
-  //     return null;
-  //   } catch (e) {
-  //     print('Firestore okuma hatası: $e');
-  //     return null;
-  //   }
-  // }
 
   /// Firebase hata kodlarını Türkçe mesajlara çevirme
   String _getErrorMessage(String code) {
