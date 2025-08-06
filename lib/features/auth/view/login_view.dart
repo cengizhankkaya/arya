@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../view_model/login_view_model.dart';
 import '../auth_constants.dart';
 import 'package:provider/provider.dart';
+import 'package:arya/features/store/view/store_view.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -214,7 +215,7 @@ class _LoginViewBody extends StatelessWidget {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => HomeView(),
+                                    builder: (context) => ProductsPage(),
                                   ),
                                 );
                               }

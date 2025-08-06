@@ -1,0 +1,19 @@
+{
+    "hello": {
+        "title": "Ana Sayfa "
+       
+    },
+    "general": {
+        "button":{
+            "ok": "Tamam",
+            "cancel": "İptal"
+        },
+        "error": {
+            "network": "Ağ hatası, lütfen tekrar deneyin.",
+            "server": "Sunucu hatası, lütfen daha sonra tekrar deneyin."
+        }
+        
+
+        
+    }
+}

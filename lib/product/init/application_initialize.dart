@@ -1,7 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 class ApplicationInitialize {
+  // static Future<void> localization() async {
+  //   await EasyLocalization.ensureInitialized();
+  // }
+
   static Future<void> init() async {
     try {
       WidgetsFlutterBinding.ensureInitialized();

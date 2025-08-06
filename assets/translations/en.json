@@ -1,0 +1,19 @@
+{
+    "hello": {
+        "title": "Home Page "
+       
+    },
+    "general": {
+        "button":{
+            "ok": "OK",
+            "cancel": "Cancel"
+        },
+        "error": {
+            "network": "Network error, please try again.",
+            "server": "Server error, please try again later."
+        }
+        
+
+        
+    }
+}
