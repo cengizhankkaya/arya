@@ -3,10 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 class ApplicationInitialize {
-  // static Future<void> localization() async {
-  //   await EasyLocalization.ensureInitialized();
-  // }
-
   static Future<void> init() async {
     try {
       WidgetsFlutterBinding.ensureInitialized();
@@ -26,5 +22,9 @@ class ApplicationInitialize {
       debugPrint('❌ Firebase başlatma hatası: $e');
       rethrow;
     }
+  }
+
+  static Future<void> localization() async {
+    await EasyLocalization.ensureInitialized();
   }
 }

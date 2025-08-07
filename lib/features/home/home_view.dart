@@ -1,27 +1,103 @@
-// import 'package:arya/features/auth/view/profile_view.dart';
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
-// class HomeView extends StatelessWidget {
-//   const HomeView({super.key});
+class Category {
+  final String name;
+  final String imageUrl;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         actions: [
-//           IconButton(
-//             icon: const Icon(Icons.account_circle),
-//             onPressed: () {
-//               Navigator.push(
-//                 context,
-//                 MaterialPageRoute(builder: (context) => const ProfileScreen()),
-//               );
-//             },
-//           ),
-//         ],
-//         title: const Text('Ana Sayfa'),
-//       ),
-//       body: const Center(child: Text('Hoş Geldiniz!')),
-//     );
-//   }
-// }
+  Category({required this.name, required this.imageUrl});
+}
+
+class CategoryScreen extends StatelessWidget {
+  final List<Category> categories = [
+    Category(
+      name: 'Fruits & Vegetables',
+      imageUrl: 'assets/images/categories/cat_fruits.png',
+    ),
+    Category(
+      name: 'Breakfast',
+      imageUrl: 'assets/images/categories/cat_breakfast.png',
+    ),
+    Category(
+      name: 'Beverages',
+      imageUrl: 'assets/images/categories/cat_beverages.png',
+    ),
+    Category(
+      name: 'Meat & Fish',
+      imageUrl: 'assets/images/categories/cat_meat_fish.png',
+    ),
+    Category(
+      name: 'Snacks',
+      imageUrl: 'assets/images/categories/cat_snacks.png',
+    ),
+    Category(name: 'Dairy', imageUrl: 'assets/images/categories/cat_dairy.png'),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Category'),
+        centerTitle: false,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 0,
+      ),
+      backgroundColor: const Color(0xFFF8F8F8),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: GridView.builder(
+          itemCount: categories.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 16,
+            crossAxisSpacing: 16,
+            childAspectRatio: 0.95,
+          ),
+          itemBuilder: (context, index) {
+            return CategoryCard(category: categories[index]);
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class CategoryCard extends StatelessWidget {
+  final Category category;
+
+  const CategoryCard({super.key, required this.category});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 6,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.all(12),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(child: Image.asset(category.imageUrl, fit: BoxFit.contain)),
+          const SizedBox(height: 10),
+          Text(
+            category.name,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF333333),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

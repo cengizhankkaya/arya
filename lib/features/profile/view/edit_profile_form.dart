@@ -1,4 +1,5 @@
 import 'package:arya/features/index.dart';
+import 'package:arya/features/profile/view_model/profile_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

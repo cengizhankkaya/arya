@@ -1,6 +1,6 @@
+import 'package:arya/features/auth/login/view/login_view.dart';
 import 'package:flutter/material.dart';
-import 'package:arya/features/auth/view_model/profile_view_model.dart';
-import 'package:arya/features/auth/view/login_view.dart';
+import 'package:arya/features/profile/view_model/profile_view_model.dart';
 
 Future<void> showDeleteAccountDialog(
   BuildContext context,

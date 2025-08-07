@@ -1,6 +1,6 @@
+import 'package:arya/features/auth/auth_constants.dart';
 import 'package:arya/features/auth/service/auth_service.dart';
 import 'package:flutter/material.dart';
-import '../auth_constants.dart';
 
 class LoginViewModel extends ChangeNotifier {
   final FirebaseAuthService _authService = FirebaseAuthService();
