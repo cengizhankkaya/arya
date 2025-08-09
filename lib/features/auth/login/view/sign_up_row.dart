@@ -1,4 +1,5 @@
 import 'package:arya/features/auth/register/view/register_view.dart';
+import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import '../../auth_constants.dart';
 
@@ -15,6 +16,7 @@ class SignUpRow extends StatelessWidget {
           style: TextStyle(color: Colors.grey[600]),
         ),
         TextButton(
+          style: TextButton.styleFrom(padding: ProjectPadding.verticalNormal),
           onPressed: () {
             Navigator.push(
               context,

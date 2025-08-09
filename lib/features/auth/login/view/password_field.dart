@@ -1,4 +1,6 @@
 import 'package:arya/features/auth/login/view_model/login_view_model.dart';
+import 'package:arya/product/index.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +18,7 @@ class PasswordField extends StatelessWidget {
           obscureText: viewModel.obscurePassword,
           decoration: InputDecoration(
             labelText: AuthConstants.passwordHint,
-            hintText: 'Şifrenizi girin',
+            hintText: AuthConstants.passwordHintText,
             prefixIcon: const Icon(Icons.lock_outline),
             suffixIcon: IconButton(
               icon: Icon(
@@ -26,9 +28,7 @@ class PasswordField extends StatelessWidget {
               ),
               onPressed: viewModel.togglePasswordVisibility,
             ),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-            filled: true,
-            fillColor: Colors.grey[50],
+            border: OutlineInputBorder(borderRadius: ProjectRadius.large),
           ),
           validator: viewModel.validatePassword,
           textInputAction: TextInputAction.done,

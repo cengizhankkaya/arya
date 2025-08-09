@@ -1,3 +1,4 @@
+import 'package:arya/features/auth/auth_constants.dart';
 import 'package:flutter/material.dart';
 
 class LoginTitle extends StatelessWidget {
@@ -14,7 +15,7 @@ class LoginTitle extends StatelessWidget {
         ),
         const SizedBox(height: 24),
         Text(
-          'Hoş Geldiniz',
+          AuthConstants.welcomeMessage,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.bold,
             color: Colors.black87,
@@ -23,7 +24,7 @@ class LoginTitle extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          'Hesabınıza giriş yapın',
+          AuthConstants.loginInstructions,
           style: Theme.of(
             context,
           ).textTheme.bodyLarge?.copyWith(color: Colors.grey[600]),

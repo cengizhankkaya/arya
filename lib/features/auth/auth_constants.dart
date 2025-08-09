@@ -30,10 +30,13 @@ class AuthConstants {
   static const String operationNotAllowed = 'operation-not-allowed';
 
   // UI metinleri
+  static const String welcomeMessage = 'Hoş Geldiniz';
+  static const String loginInstructions = 'Hesabınıza giriş yapın';
   static const String loginTitle = 'Giriş Yap';
   static const String registerTitle = 'Kayıt Ol';
   static const String emailHint = 'E-posta adresiniz';
   static const String passwordHint = 'Şifreniz';
+  static const String passwordHintText = 'Şifrenizi girin';
   static const String nameHint = 'Adınız';
   static const String confirmPasswordHint = 'Şifrenizi tekrar giriniz';
   static const String loginButtonText = 'Giriş Yap';

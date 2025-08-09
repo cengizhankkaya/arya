@@ -1,9 +1,9 @@
 import 'package:arya/features/auth/login/view_model/login_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../store/view/store_view.dart';
+import 'package:arya/features/main_page/main_page.dart';
+import '../../../../product/constants/index.dart';
 import '../../auth_constants.dart';
-
 
 class LoginButton extends StatelessWidget {
   const LoginButton({super.key});
@@ -24,17 +24,17 @@ class LoginButton extends StatelessWidget {
                     backgroundColor: Colors.green,
                   ),
                 );
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => ProductsPage()),
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (_) => const MainPage()),
+                  (route) => false,
                 );
               }
             },
       style: ElevatedButton.styleFrom(
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        padding: ProjectPadding.verticalNormal,
+        shape: RoundedRectangleBorder(borderRadius: ProjectRadius.large),
         elevation: 2,
       ),
       child: viewModel.isLoading

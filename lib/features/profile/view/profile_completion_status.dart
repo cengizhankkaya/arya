@@ -11,27 +11,37 @@ class ProfileCompletionStatus extends StatelessWidget {
     final viewModel = context.watch<ProfileViewModel>();
     final isComplete = viewModel.isUserComplete;
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: isComplete ? Colors.green[50] : Colors.orange[50],
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: isComplete ? Colors.green : Colors.orange),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 6,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Row(
         children: [
           Icon(
             isComplete ? Icons.check_circle : Icons.info,
-            color: isComplete ? Colors.green : Colors.orange,
+            color: isComplete
+                ? const Color(0xFF7C7C7C)
+                : const Color(0xFF7C7C7C),
+            size: 24,
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 16),
           Expanded(
             child: Text(
               isComplete
                   ? 'Profil bilgileriniz tamamlanmış.'
                   : 'Profil bilgilerinizi tamamlamanız önerilir.',
-              style: TextStyle(
-                color: isComplete ? Colors.green[700] : Colors.orange[700],
-                fontWeight: FontWeight.w500,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF333333),
               ),
             ),
           ),

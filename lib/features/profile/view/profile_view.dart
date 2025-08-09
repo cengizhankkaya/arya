@@ -35,8 +35,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Profil'),
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          elevation: 0,
           actions: const [ProfileActionsConsumer()],
         ),
+        backgroundColor: const Color(0xFFF8F8F8),
         body: const ProfileBody(),
       ),
     );

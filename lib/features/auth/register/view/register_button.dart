@@ -10,35 +10,43 @@ class RegisterButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final vm = Provider.of<RegisterViewModel>(context);
 
-    return ElevatedButton(
-      onPressed: vm.isLoading
-          ? null
-          : () async {
-              final success = await vm.register();
-              if (success && context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(AuthConstants.registerSuccess),
-                    backgroundColor: Colors.green,
-                  ),
-                );
-                Navigator.of(context).pop();
-              }
-            },
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: vm.isLoading
+            ? null
+            : () async {
+                final success = await vm.register();
+                if (success && context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(AuthConstants.registerSuccess),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                  Navigator.of(context).pop();
+                }
+              },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.white,
+          foregroundColor: Theme.of(context).primaryColor,
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          elevation: 2,
+        ),
+        child: vm.isLoading
+            ? const SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
+            : const Text(
+                AuthConstants.registerButtonText,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              ),
       ),
-      child: vm.isLoading
-          ? const SizedBox(
-              height: 20,
-              width: 20,
-              child: CircularProgressIndicator(strokeWidth: 2),
-            )
-          : const Text(
-              AuthConstants.registerButtonText,
-              style: TextStyle(fontSize: 16),
-            ),
     );
   }
 }

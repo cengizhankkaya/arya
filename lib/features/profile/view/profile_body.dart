@@ -47,7 +47,7 @@ class ProfileBody extends StatelessWidget {
         final user = viewModel.user!;
 
         return SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

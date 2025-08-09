@@ -72,7 +72,6 @@ class RegisterForm extends StatelessWidget {
                 if (vm.errorMessage != null)
                   RegisterErrorBox(message: vm.errorMessage!),
                 const SizedBox(height: 16),
-
                 const RegisterButton(),
                 const SizedBox(height: 16),
 

@@ -1,3 +1,4 @@
+import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 
 class ErrorMessage extends StatelessWidget {
@@ -7,16 +8,16 @@ class ErrorMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(12),
-      margin: const EdgeInsets.only(top: 12),
+      padding: ProjectPadding.allVerySmall(),
+      margin: ProjectMargin.topMedium,
       decoration: BoxDecoration(
         color: Colors.red.shade50,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: ProjectRadius.medium,
         border: Border.all(color: Colors.red.shade200),
       ),
       child: Text(
         message,
-        style: TextStyle(color: Colors.red.shade700),
+        style: TextStyle(color: const Color.fromARGB(255, 74, 14, 169)),
         textAlign: TextAlign.center,
       ),
     );
