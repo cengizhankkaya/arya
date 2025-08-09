@@ -1,5 +1,4 @@
-import 'package:arya/features/auth/auth_constants.dart';
-import 'package:arya/features/auth/service/auth_service.dart';
+import 'package:arya/features/index.dart';
 import 'package:flutter/material.dart';
 
 class LoginViewModel extends ChangeNotifier {
@@ -16,6 +15,7 @@ class LoginViewModel extends ChangeNotifier {
   bool _isLoading = false;
   String? _errorMessage;
   bool _obscurePassword = true;
+  bool _isDisposed = false;
 
   // Getters
   bool get isLoading => _isLoading;
@@ -25,7 +25,7 @@ class LoginViewModel extends ChangeNotifier {
   // Password visibility toggle
   void togglePasswordVisibility() {
     _obscurePassword = !_obscurePassword;
-    notifyListeners();
+    _notifySafely();
   }
 
   // Form validation
@@ -64,6 +64,8 @@ class LoginViewModel extends ChangeNotifier {
         password: passwordController.text,
       );
 
+      if (_isDisposed) return false;
+
       if (result.isSuccess) {
         _clearError();
         _setLoading(false);
@@ -83,17 +85,23 @@ class LoginViewModel extends ChangeNotifier {
   // State management methods
   void _setLoading(bool loading) {
     _isLoading = loading;
-    notifyListeners();
+    _notifySafely();
   }
 
   void _setError(String message) {
     _errorMessage = message;
-    notifyListeners();
+    _notifySafely();
   }
 
   void _clearError() {
     _errorMessage = null;
-    notifyListeners();
+    _notifySafely();
+  }
+
+  void _notifySafely() {
+    if (!_isDisposed) {
+      notifyListeners();
+    }
   }
 
   // Clear form
@@ -106,6 +114,7 @@ class LoginViewModel extends ChangeNotifier {
   // Dispose
   @override
   void dispose() {
+    _isDisposed = true;
     emailController.dispose();
     passwordController.dispose();
     super.dispose();

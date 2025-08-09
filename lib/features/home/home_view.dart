@@ -4,8 +4,15 @@ import 'package:arya/features/store/view/store_view.dart';
 class Category {
   final String name;
   final String imageUrl;
+  final Color backgroundColor;
+  final Color borderColor;
 
-  Category({required this.name, required this.imageUrl});
+  Category({
+    required this.name,
+    required this.imageUrl,
+    required this.backgroundColor,
+    required this.borderColor,
+  });
 }
 
 class CategoryScreen extends StatelessWidget {
@@ -13,24 +20,39 @@ class CategoryScreen extends StatelessWidget {
     Category(
       name: 'Fruits & Vegetables',
       imageUrl: 'assets/images/categories/cat_fruits.png',
+      backgroundColor: const Color(0xFFE8F7EE), // soft green
+      borderColor: const Color(0xFFB7E4C7),
     ),
     Category(
       name: 'Breakfast',
       imageUrl: 'assets/images/categories/cat_breakfast.png',
+      backgroundColor: const Color(0xFFF0E6FF), // soft purple
+      borderColor: const Color(0xFFD4C2FF),
     ),
     Category(
       name: 'Beverages',
       imageUrl: 'assets/images/categories/cat_beverages.png',
+      backgroundColor: const Color(0xFFEFF7FF), // soft blue
+      borderColor: const Color(0xFFBBDFFF),
     ),
     Category(
       name: 'Meat & Fish',
       imageUrl: 'assets/images/categories/cat_meat_fish.png',
+      backgroundColor: const Color(0xFFFFEEF1), // soft pink
+      borderColor: const Color(0xFFFFC7D1),
     ),
     Category(
       name: 'Snacks',
       imageUrl: 'assets/images/categories/cat_snacks.png',
+      backgroundColor: const Color(0xFFFFF1E6), // soft peach
+      borderColor: const Color(0xFFFFD4B3),
     ),
-    Category(name: 'Dairy', imageUrl: 'assets/images/categories/cat_dairy.png'),
+    Category(
+      name: 'Dairy',
+      imageUrl: 'assets/images/categories/cat_dairy.png',
+      backgroundColor: const Color(0xFFFFF6DD), // soft yellow
+      borderColor: const Color(0xFFFFE9A9),
+    ),
   ];
 
   @override
@@ -80,8 +102,9 @@ class CategoryCard extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: category.backgroundColor,
           borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: category.borderColor, width: 1),
           boxShadow: [
             BoxShadow(
               color: Colors.black12,

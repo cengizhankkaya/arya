@@ -1,7 +1,7 @@
 import 'package:arya/features/auth/login/view_model/login_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:arya/product/constants/project_padding.dart';
+import 'package:arya/product/utility/constants/dimensions/project_padding.dart';
 
 import 'email_field.dart';
 import 'password_field.dart';

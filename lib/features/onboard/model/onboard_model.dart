@@ -1,11 +1,11 @@
+import 'package:arya/product/utility/index.dart';
+
 class OnboardModel {
   final String title;
   final String description;
-  final String imageName;
+  final String? lottiePath;
 
-  OnboardModel(this.title, this.description, this.imageName);
-
-  String get imageWithPath => 'assets/images/$imageName.png';
+  OnboardModel(this.title, this.description, this.lottiePath);
 }
 
 class OnBoardModels {
@@ -13,17 +13,22 @@ class OnBoardModels {
     OnboardModel(
       'Welcome to WhatsInside',
       'Discover the best places around you with our app.',
-      'ic_order',
+      LottiePaths.onShoppingGreen,
     ),
     OnboardModel(
       'Explore Nearby',
       'Find restaurants, cafes, and more just a tap away.',
-      'ic_back',
+      LottiePaths.onGrocery,
     ),
     OnboardModel(
       'Stay Updated',
       'Get the latest updates and offers from your favorite places.',
-      'ic_pro',
+      LottiePaths.onNutrition,
+    ),
+    OnboardModel(
+      'Stay Updated',
+      'Get the latest updates and offers from your favorite places.',
+      LottiePaths.onGrocery,
     ),
   ];
 }

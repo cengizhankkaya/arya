@@ -4,6 +4,7 @@ import 'package:arya/features/auth/register/view/register_error_box.dart';
 import 'package:arya/features/auth/register/view/register_footer.dart';
 import 'package:arya/features/auth/register/view/register_password_field.dart';
 import 'package:arya/features/auth/register/view/register_text_field.dart';
+import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../view_model/register_view_model.dart';
@@ -17,7 +18,7 @@ class RegisterForm extends StatelessWidget {
 
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: ProjectPadding.allSmall(),
         child: Form(
           key: vm.formKey,
           child: SingleChildScrollView(
@@ -36,7 +37,7 @@ class RegisterForm extends StatelessWidget {
 
                 RegisterTextField(
                   controller: vm.surnameController,
-                  label: 'Soyad',
+                  label: AuthConstants.surnameHint,
                   icon: Icons.person_outline,
                   validator: vm.validateSurname,
                 ),
@@ -74,7 +75,6 @@ class RegisterForm extends StatelessWidget {
                 const SizedBox(height: 16),
                 const RegisterButton(),
                 const SizedBox(height: 16),
-
                 const RegisterFooter(),
               ],
             ),

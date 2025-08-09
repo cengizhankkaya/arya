@@ -1,4 +1,5 @@
 import 'package:arya/features/auth/auth_constants.dart';
+import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../view_model/register_view_model.dart';
@@ -31,9 +32,7 @@ class RegisterButton extends StatelessWidget {
           backgroundColor: Colors.white,
           foregroundColor: Theme.of(context).primaryColor,
           padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: ProjectRadius.large),
           elevation: 2,
         ),
         child: vm.isLoading

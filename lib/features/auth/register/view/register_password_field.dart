@@ -1,3 +1,4 @@
+import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPasswordField extends StatelessWidget {
@@ -29,7 +30,7 @@ class RegisterPasswordField extends StatelessWidget {
           icon: Icon(obscureText ? Icons.visibility : Icons.visibility_off),
           onPressed: onToggle,
         ),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+        border: OutlineInputBorder(borderRadius: ProjectRadius.large),
       ),
     );
   }

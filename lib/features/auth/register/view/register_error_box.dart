@@ -1,3 +1,4 @@
+import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 
 class RegisterErrorBox extends StatelessWidget {
@@ -8,10 +9,10 @@ class RegisterErrorBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: ProjectPadding.allVerySmall(),
       decoration: BoxDecoration(
         color: Colors.red.shade50,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: ProjectRadius.medium,
         border: Border.all(color: Colors.red.shade200),
       ),
       child: Text(

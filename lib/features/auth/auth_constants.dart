@@ -38,6 +38,7 @@ class AuthConstants {
   static const String passwordHint = 'Şifreniz';
   static const String passwordHintText = 'Şifrenizi girin';
   static const String nameHint = 'Adınız';
+  static const String surnameHint = 'Soyadınız';
   static const String confirmPasswordHint = 'Şifrenizi tekrar giriniz';
   static const String loginButtonText = 'Giriş Yap';
   static const String registerButtonText = 'Kayıt Ol';
