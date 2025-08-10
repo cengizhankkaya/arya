@@ -9,6 +9,7 @@ class ProfileViewModel extends ChangeNotifier {
   bool _isLoading = false;
   String? _errorMessage;
   bool _isEditing = false;
+  bool _isDisposed = false;
 
   // TextEditingController'lar
   final nameController = TextEditingController();
@@ -25,6 +26,7 @@ class ProfileViewModel extends ChangeNotifier {
 
   /// Kullanıcı verisini Firestore'dan çek
   Future<void> fetchUser() async {
+    if (_isDisposed) return;
     _setLoading(true);
     _clearError();
 
@@ -50,6 +52,7 @@ class ProfileViewModel extends ChangeNotifier {
 
   /// Controller'lara veriyi yükle
   void _initializeControllers() {
+    if (_isDisposed) return;
     nameController.text = _user?.name ?? '';
     surnameController.text = _user?.surname ?? '';
     usernameController.text = _user?.username ?? '';
@@ -57,6 +60,7 @@ class ProfileViewModel extends ChangeNotifier {
 
   /// Kullanıcı verilerini controller'lardan güncelle
   Future<void> updateUserFromControllers() async {
+    if (_isDisposed) return;
     await updateUser(
       name: nameController.text.trim(),
       surname: surnameController.text.trim(),
@@ -70,6 +74,7 @@ class ProfileViewModel extends ChangeNotifier {
     String? surname,
     String? username,
   }) async {
+    if (_isDisposed) return;
     if (_user == null) {
       _setError("Güncellenecek kullanıcı verisi bulunamadı.");
       return;
@@ -89,7 +94,7 @@ class ProfileViewModel extends ChangeNotifier {
       _user = updatedUser;
       _isEditing = false;
       _initializeControllers(); // güncellenmiş verileri tekrar yükle
-      notifyListeners();
+      _notifySafely();
     } catch (e) {
       _setError("Kullanıcı verisi güncellenirken hata oluştu: ${e.toString()}");
     } finally {
@@ -98,14 +103,16 @@ class ProfileViewModel extends ChangeNotifier {
   }
 
   void toggleEditMode() {
+    if (_isDisposed) return;
     _isEditing = !_isEditing;
     if (!_isEditing) {
       _clearError();
     }
-    notifyListeners();
+    _notifySafely();
   }
 
   Future<void> signOut() async {
+    if (_isDisposed) return;
     _setLoading(true);
     try {
       await FirebaseAuth.instance.signOut();
@@ -120,6 +127,7 @@ class ProfileViewModel extends ChangeNotifier {
   }
 
   Future<void> deleteAccount() async {
+    if (_isDisposed) return;
     if (_user?.uid == null) {
       _setError("Silinecek kullanıcı verisi bulunamadı.");
       return;
@@ -142,29 +150,36 @@ class ProfileViewModel extends ChangeNotifier {
   }
 
   void clearError() {
+    if (_isDisposed) return;
     _clearError();
   }
 
   void _setLoading(bool loading) {
     _isLoading = loading;
-    notifyListeners();
+    _notifySafely();
   }
 
   void _setError(String error) {
     _errorMessage = error;
-    notifyListeners();
+    _notifySafely();
   }
 
   void _clearError() {
     _errorMessage = null;
-    notifyListeners();
+    _notifySafely();
   }
 
   @override
   void dispose() {
+    _isDisposed = true;
     nameController.dispose();
     surnameController.dispose();
     usernameController.dispose();
     super.dispose();
+  }
+
+  void _notifySafely() {
+    if (_isDisposed) return;
+    notifyListeners();
   }
 }
