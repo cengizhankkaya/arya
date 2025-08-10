@@ -73,7 +73,7 @@ class _OnBoardViewState extends State<OnBoardView> {
 
   AppBar _buildAppBar() {
     return AppBar(
-      backgroundColor: Colors.transparent,
+      backgroundColor: const Color.fromARGB(255, 28, 226, 1),
       elevation: OnboardConstants.appBarElevation,
       systemOverlayStyle: SystemUiOverlayStyle.dark,
       actions: [
@@ -82,7 +82,7 @@ class _OnBoardViewState extends State<OnBoardView> {
             onPressed: _controller.skipToLastPage,
             child: Text(
               OnboardConstants.skipText,
-              style: TextStyle(color: OnboardConstants.skipButtonColor),
+              style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0)),
             ),
           ),
       ],
@@ -91,7 +91,7 @@ class _OnBoardViewState extends State<OnBoardView> {
           : IconButton(
               icon: Icon(
                 Icons.arrow_back,
-                color: OnboardConstants.backButtonColor,
+                color: const Color.fromARGB(255, 0, 0, 0),
               ),
               onPressed: _controller.previousPage,
             ),
@@ -100,6 +100,8 @@ class _OnBoardViewState extends State<OnBoardView> {
 
   Widget _buildNextButton() {
     return FloatingActionButton(
+      elevation: 0,
+      backgroundColor: const Color.fromARGB(255, 28, 226, 1),
       onPressed: _controller.isLastPage
           ? _onStartPressed
           : _controller.nextPage,

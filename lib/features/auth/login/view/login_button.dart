@@ -3,6 +3,7 @@ import 'package:arya/features/index.dart';
 import 'package:arya/features/main_page/main_page.dart';
 
 import 'package:arya/product/index.dart';
+import 'package:arya/product/theme/custom_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -32,7 +33,7 @@ class LoginButton extends StatelessWidget {
               }
             },
       style: ElevatedButton.styleFrom(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: const Color(0xFF4CAF50),
         foregroundColor: Colors.white,
         padding: ProjectPadding.verticalNormal,
         shape: RoundedRectangleBorder(borderRadius: ProjectRadius.large),

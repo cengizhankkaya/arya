@@ -32,6 +32,12 @@ class _TabIndicatorState extends State<TabIndicator>
 
   @override
   Widget build(BuildContext context) {
-    return TabPageSelector(controller: _tabController);
+    return TabPageSelector(
+      controller: _tabController,
+      selectedColor: const Color.fromARGB(255, 23, 194, 0),
+
+      indicatorSize: 10.0,
+      borderStyle: BorderStyle.solid,
+    );
   }
 }

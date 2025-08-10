@@ -11,23 +11,18 @@ class OnboardModel {
 class OnBoardModels {
   static final List<OnboardModel> onboardModels = [
     OnboardModel(
-      'Welcome to WhatsInside',
-      'Discover the best places around you with our app.',
+      'Hoş Geldiniz',
+      'Ürünlerin besin değerlerini ve içerik bilgilerini saniyeler içinde öğrenin. Sağlıklı seçimler yapmaya şimdi başlayın.',
       LottiePaths.onShoppingGreen,
     ),
     OnboardModel(
-      'Explore Nearby',
-      'Find restaurants, cafes, and more just a tap away.',
-      LottiePaths.onGrocery,
-    ),
-    OnboardModel(
-      'Stay Updated',
-      'Get the latest updates and offers from your favorite places.',
+      'Ürünleri Keşfet',
+      'Ürün detaylarını inceleyin, içeriklerini görün ve size özel diyet sepetinizi kolayca oluşturun.',
       LottiePaths.onNutrition,
     ),
     OnboardModel(
-      'Stay Updated',
-      'Get the latest updates and offers from your favorite places.',
+      'Sepetini Oluştur',
+      'Markette barkod okutarak ya da arama yaparak ürünleri sepete ekleyin, toplam kalori ve besin değerlerini anında görün.',
       LottiePaths.onGrocery,
     ),
   ];

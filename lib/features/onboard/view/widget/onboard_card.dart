@@ -15,7 +15,7 @@ class OnBoardCard extends StatelessWidget {
         Text(
           onboardModel.title,
           style: const TextStyle(
-            fontSize: 20, // Yazı boyutu
+            fontSize: 30, // Yazı boyutu
             fontWeight: FontWeight.bold, // Kalın
             color: Colors.black, // Renk
             letterSpacing: 1.2, // Harf aralığı
