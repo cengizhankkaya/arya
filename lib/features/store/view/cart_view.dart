@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:arya/product/theme/app_colors.dart';
 import '../view_model/cart_view_model.dart';
 import 'product_detail_view.dart';
 
 class CartView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final appColors = Theme.of(context).extension<AppColors>();
     final cart = Provider.of<CartViewModel>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Sepet'),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        backgroundColor: scheme.surface,
+        foregroundColor: scheme.onSurface,
         elevation: 0,
       ),
-      backgroundColor: const Color(0xFFF8F8F8),
+      backgroundColor: appColors?.surfaceMuted ?? scheme.surface,
       body: StreamBuilder<List<Map<String, dynamic>>>(
         stream: cart.cartStream,
         builder: (context, snapshot) {
@@ -30,7 +33,7 @@ class CartView extends StatelessWidget {
                   Icon(
                     Icons.shopping_cart_outlined,
                     size: 80,
-                    color: Colors.grey[400],
+                    color: scheme.outlineVariant,
                   ),
                   const SizedBox(height: 16),
                   Text(
@@ -38,13 +41,16 @@ class CartView extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
-                      color: Colors.grey[600],
+                      color: scheme.onSurfaceVariant,
                     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     'Henüz ürün eklenmemiş',
-                    style: TextStyle(fontSize: 14, color: Colors.grey[500]),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: scheme.onSurfaceVariant,
+                    ),
                   ),
                 ],
               ),
@@ -59,11 +65,14 @@ class CartView extends StatelessWidget {
                 return Container(
                   margin: const EdgeInsets.only(bottom: 12),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: scheme.surface,
                     borderRadius: BorderRadius.circular(18),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black12,
+                        color:
+                            (Theme.of(context).brightness == Brightness.light)
+                            ? Colors.black12
+                            : scheme.shadow.withOpacity(0.2),
                         blurRadius: 6,
                         offset: const Offset(0, 4),
                       ),
@@ -76,7 +85,7 @@ class CartView extends StatelessWidget {
                       height: 60,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        color: Colors.grey[100],
+                        color: scheme.surfaceContainerHighest,
                       ),
                       child: product['image_thumb_url'] != null
                           ? ClipRRect(
@@ -89,25 +98,28 @@ class CartView extends StatelessWidget {
                           : Icon(
                               Icons.image,
                               size: 30,
-                              color: Colors.grey[400],
+                              color: scheme.outlineVariant,
                             ),
                     ),
                     title: Text(
                       product['product_name'] ?? 'İsimsiz',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        color: Color(0xFF333333),
+                        color: appColors?.textStrong ?? scheme.onSurface,
                       ),
                     ),
                     subtitle: Text(
                       product['brands'] ?? '',
-                      style: const TextStyle(fontSize: 14, color: Colors.grey),
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: scheme.onSurfaceVariant,
+                      ),
                     ),
                     trailing: IconButton(
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.remove_circle,
-                        color: Color(0xFF7C7C7C),
+                        color: appColors?.textMuted ?? scheme.outline,
                         size: 28,
                       ),
                       onPressed: () => cart.removeFromCart(product['id']),
@@ -129,8 +141,8 @@ class CartView extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xFF7C7C7C),
-        foregroundColor: Colors.white,
+        backgroundColor: scheme.primary,
+        foregroundColor: scheme.onPrimary,
         child: const Icon(Icons.delete),
         onPressed: () => cart.clearCart(),
         tooltip: 'Sepeti Temizle',

@@ -8,16 +8,17 @@ class RegisterErrorBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     return Container(
       padding: ProjectPadding.allVerySmall(),
       decoration: BoxDecoration(
-        color: Colors.red.shade50,
+        color: scheme.errorContainer,
         borderRadius: ProjectRadius.medium,
-        border: Border.all(color: Colors.red.shade200),
+        border: Border.all(color: scheme.error),
       ),
       child: Text(
         message,
-        style: TextStyle(color: Colors.red.shade700),
+        style: TextStyle(color: scheme.onErrorContainer),
         textAlign: TextAlign.center,
       ),
     );

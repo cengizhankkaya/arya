@@ -1,6 +1,5 @@
 import 'package:arya/features/store/view_model/cart_view_model.dart';
-import 'package:flutter/material.dart';
-
+// import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +18,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     final product = widget.product;
     final nutriments = product['nutriments'] ?? {};
 
@@ -26,10 +26,13 @@ class _ProductDetailViewState extends State<ProductDetailView> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: BackButton(color: Colors.black),
+        leading: BackButton(color: Theme.of(context).colorScheme.onSurface),
         actions: [
           IconButton(
-            icon: Icon(Icons.share, color: Colors.black),
+            icon: Icon(
+              Icons.share,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
             onPressed: () {},
           ),
         ],
@@ -46,8 +49,10 @@ class _ProductDetailViewState extends State<ProductDetailView> {
             child: Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Colors.grey[100],
-                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                color: scheme.surfaceContainerHighest,
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(24),
+                ),
               ),
               child: ListView(
                 children: [
@@ -63,13 +68,18 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                           ),
                         ),
                       ),
-                      Icon(Icons.favorite_border),
+                      Icon(
+                        Icons.favorite_border,
+                        color: scheme.onSurfaceVariant,
+                      ),
                     ],
                   ),
                   SizedBox(height: 4),
-                  Text('1kg, Price', style: TextStyle(color: Colors.grey[600])),
+                  Text(
+                    '1kg, Price',
+                    style: TextStyle(color: scheme.onSurfaceVariant),
+                  ),
                   SizedBox(height: 16),
-
                   // Quantity and Price
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -90,7 +100,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                     ],
                   ),
 
-                  Divider(height: 32),
+                  Divider(height: 32, color: scheme.outlineVariant),
 
                   // Product Detail (collapsible)
                   GestureDetector(
@@ -116,7 +126,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                     Text(
                       product['ingredients_text'] ??
                           "Apples are nutritious. Apples may be good for weight loss and heart health.",
-                      style: TextStyle(color: Colors.grey[700]),
+                      style: TextStyle(color: scheme.onSurfaceVariant),
                     ),
                   ],
 
@@ -137,7 +147,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                         ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
-                          color: Colors.grey[300],
+                          color: scheme.surfaceContainerHighest,
                         ),
                         child: Text("100gr", style: TextStyle(fontSize: 12)),
                       ),
@@ -167,7 +177,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                         children: List.generate(5, (i) {
                           return Icon(
                             Icons.star,
-                            color: Colors.orange,
+                            color: scheme.tertiary,
                             size: 20,
                           );
                         }),
@@ -185,7 +195,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               padding: const EdgeInsets.all(16),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
+                  backgroundColor: scheme.primary,
                   padding: EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
@@ -199,7 +209,10 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                 },
                 child: Center(
                   child: IconButton(
-                    icon: const Icon(Icons.add_shopping_cart),
+                    icon: Icon(
+                      Icons.add_shopping_cart,
+                      color: scheme.onPrimary,
+                    ),
                     onPressed: () {
                       Provider.of<CartViewModel>(
                         context,
@@ -228,7 +241,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
         width: 32,
         height: 32,
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
+          border: Border.all(color: Theme.of(context).colorScheme.outline),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Icon(icon, size: 18),

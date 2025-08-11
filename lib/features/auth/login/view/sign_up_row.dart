@@ -13,7 +13,9 @@ class SignUpRow extends StatelessWidget {
       children: [
         Text(
           AuthConstants.noAccountText,
-          style: TextStyle(color: Colors.grey[600]),
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
         ),
         TextButton(
           style: TextButton.styleFrom(padding: ProjectPadding.verticalNormal),
@@ -26,7 +28,7 @@ class SignUpRow extends StatelessWidget {
           child: Text(
             AuthConstants.signUpText,
             style: TextStyle(
-              color: Theme.of(context).primaryColor,
+              color: Theme.of(context).colorScheme.primary,
               fontWeight: FontWeight.w600,
             ),
           ),

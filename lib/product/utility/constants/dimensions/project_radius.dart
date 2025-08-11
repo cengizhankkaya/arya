@@ -9,4 +9,5 @@ class ProjectRadius {
   static const BorderRadius medium = BorderRadius.all(Radius.circular(8));
   static const BorderRadius large = BorderRadius.all(Radius.circular(12));
   static const BorderRadius xLarge = BorderRadius.all(Radius.circular(16));
+  static const BorderRadius xxLarge = BorderRadius.all(Radius.circular(18));
 }

@@ -1,8 +1,7 @@
-import 'package:arya/features/auth/login/view_model/login_view_model.dart';
+import 'package:arya/features/index.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../auth_constants.dart';
 
 class EmailField extends StatelessWidget {
   const EmailField({super.key});

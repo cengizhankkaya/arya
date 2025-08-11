@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:arya/product/theme/app_colors.dart';
 import 'package:arya/features/auth/model/user_model.dart';
 
 class UserInfoSection extends StatelessWidget {
@@ -8,13 +9,17 @@ class UserInfoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    // Keep extension warmed for subtree if needed later
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: scheme.surface,
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            color: Colors.black12,
+            color: (Theme.of(context).brightness == Brightness.light)
+                ? Colors.black12
+                : scheme.shadow.withOpacity(0.2),
             blurRadius: 6,
             offset: const Offset(0, 4),
           ),
@@ -24,16 +29,22 @@ class UserInfoSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildInfoRow('Ad', user.name ?? 'Belirtilmemiş'),
-          _buildInfoRow('Soyad', user.surname ?? 'Belirtilmemiş'),
-          _buildInfoRow('Kullanıcı Adı', user.username ?? 'Belirtilmemiş'),
-          _buildInfoRow('E-posta', user.email ?? 'Belirtilmemiş'),
+          _buildInfoRow(context, 'Ad', user.name ?? 'Belirtilmemiş'),
+          _buildInfoRow(context, 'Soyad', user.surname ?? 'Belirtilmemiş'),
+          _buildInfoRow(
+            context,
+            'Kullanıcı Adı',
+            user.username ?? 'Belirtilmemiş',
+          ),
+          _buildInfoRow(context, 'E-posta', user.email ?? 'Belirtilmemiş'),
         ],
       ),
     );
   }
 
-  Widget _buildInfoRow(String label, String value) {
+  Widget _buildInfoRow(BuildContext context, String label, String value) {
+    final scheme = Theme.of(context).colorScheme;
+    final appColors = Theme.of(context).extension<AppColors>();
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: Row(
@@ -43,17 +54,17 @@ class UserInfoSection extends StatelessWidget {
             width: 120,
             child: Text(
               '$label:',
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 16,
-                color: Color(0xFF333333),
+                color: appColors?.textStrong ?? scheme.onSurface,
               ),
             ),
           ),
           Expanded(
             child: Text(
               value,
-              style: const TextStyle(fontSize: 16, color: Colors.grey),
+              style: TextStyle(fontSize: 16, color: scheme.onSurfaceVariant),
             ),
           ),
         ],

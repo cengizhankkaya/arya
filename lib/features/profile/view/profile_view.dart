@@ -2,6 +2,7 @@ import 'package:arya/features/profile/view_model/profile_view_model.dart';
 import 'package:arya/features/profile/view/profile_actions_consumer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:arya/product/theme/app_colors.dart';
 
 import 'profile_body.dart';
 
@@ -35,12 +36,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Profil'),
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          foregroundColor: Theme.of(context).colorScheme.onSurface,
           elevation: 0,
           actions: const [ProfileActionsConsumer()],
         ),
-        backgroundColor: const Color(0xFFF8F8F8),
+        backgroundColor:
+            Theme.of(context).extension<AppColors>()?.surfaceMuted ??
+            Theme.of(context).colorScheme.surface,
         body: const ProfileBody(),
       ),
     );

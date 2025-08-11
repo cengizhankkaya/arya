@@ -24,7 +24,11 @@ class RegisterForm extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                const Icon(Icons.person_add, size: 80, color: Colors.blue),
+                Icon(
+                  Icons.person_add,
+                  size: 80,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
                 const SizedBox(height: 32),
 
                 RegisterTextField(

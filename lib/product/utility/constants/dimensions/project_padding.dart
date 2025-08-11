@@ -5,9 +5,10 @@ final class ProjectPadding extends EdgeInsets {
 
   const ProjectPadding.allVerySmall() : super.all(12);
   const ProjectPadding.allSmall() : super.all(16);
-  const ProjectPadding.allNormal() : super.all(20);
+  const ProjectPadding.allNormal() : super.all(18);
+  const ProjectPadding.allLarge() : super.all(20);
   const ProjectPadding.allMedium() : super.all(24);
-  const ProjectPadding.allLarge() : super.all(28);
+  const ProjectPadding.allXLarge() : super.all(28);
 
   // Vertical Top Padding
   static const EdgeInsets topSmall = EdgeInsets.only(top: 8);

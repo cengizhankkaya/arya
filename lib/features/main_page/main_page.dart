@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:arya/product/theme/app_colors.dart';
 import 'package:arya/features/home/home_view.dart';
 import 'package:arya/features/store/view/store_view.dart';
 import 'package:arya/features/profile/view/profile_view.dart';
@@ -35,7 +36,7 @@ class _MainPageState extends State<MainPage> {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Theme.of(context).colorScheme.shadow.withOpacity(0.1),
               blurRadius: 10,
               offset: const Offset(0, -2),
             ),
@@ -43,9 +44,11 @@ class _MainPageState extends State<MainPage> {
         ),
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.white,
-          selectedItemColor: const Color(0xFF7C7C7C),
-          unselectedItemColor: Colors.grey,
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          selectedItemColor:
+              Theme.of(context).extension<AppColors>()?.textMuted ??
+              Theme.of(context).colorScheme.primary,
+          unselectedItemColor: Theme.of(context).colorScheme.onSurfaceVariant,
           selectedLabelStyle: const TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 12,

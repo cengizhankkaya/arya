@@ -20,17 +20,17 @@ class RegisterButton extends StatelessWidget {
                 final success = await vm.register();
                 if (success && context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(AuthConstants.registerSuccess),
-                      backgroundColor: Colors.green,
+                    SnackBar(
+                      content: const Text(AuthConstants.registerSuccess),
+                      backgroundColor: Theme.of(context).colorScheme.primary,
                     ),
                   );
                   Navigator.of(context).pop();
                 }
               },
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.white,
-          foregroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          foregroundColor: Theme.of(context).colorScheme.primary,
           padding: const EdgeInsets.symmetric(vertical: 16),
           shape: RoundedRectangleBorder(borderRadius: ProjectRadius.large),
           elevation: 2,

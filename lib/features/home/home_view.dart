@@ -1,71 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:arya/product/theme/app_colors.dart';
 import 'package:arya/features/store/view/store_view.dart';
 
 class Category {
   final String name;
   final String imageUrl;
-  final Color backgroundColor;
-  final Color borderColor;
+  final CategoryPalette palette;
 
-  Category({
-    required this.name,
-    required this.imageUrl,
-    required this.backgroundColor,
-    required this.borderColor,
-  });
+  Category({required this.name, required this.imageUrl, required this.palette});
 }
 
 class CategoryScreen extends StatelessWidget {
-  final List<Category> categories = [
-    Category(
-      name: 'Fruits & Vegetables',
-      imageUrl: 'assets/images/categories/cat_fruits.png',
-      backgroundColor: const Color(0xFFE8F7EE), // soft green
-      borderColor: const Color(0xFFB7E4C7),
-    ),
-    Category(
-      name: 'Breakfast',
-      imageUrl: 'assets/images/categories/cat_breakfast.png',
-      backgroundColor: const Color(0xFFF0E6FF), // soft purple
-      borderColor: const Color(0xFFD4C2FF),
-    ),
-    Category(
-      name: 'Beverages',
-      imageUrl: 'assets/images/categories/cat_beverages.png',
-      backgroundColor: const Color(0xFFEFF7FF), // soft blue
-      borderColor: const Color(0xFFBBDFFF),
-    ),
-    Category(
-      name: 'Meat & Fish',
-      imageUrl: 'assets/images/categories/cat_meat_fish.png',
-      backgroundColor: const Color(0xFFFFEEF1), // soft pink
-      borderColor: const Color(0xFFFFC7D1),
-    ),
-    Category(
-      name: 'Snacks',
-      imageUrl: 'assets/images/categories/cat_snacks.png',
-      backgroundColor: const Color(0xFFFFF1E6), // soft peach
-      borderColor: const Color(0xFFFFD4B3),
-    ),
-    Category(
-      name: 'Dairy',
-      imageUrl: 'assets/images/categories/cat_dairy.png',
-      backgroundColor: const Color(0xFFFFF6DD), // soft yellow
-      borderColor: const Color(0xFFFFE9A9),
-    ),
-  ];
+  const CategoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final appColors = Theme.of(context).extension<AppColors>()!;
+    final List<Category> categories = [
+      Category(
+        name: 'Fruits & Vegetables',
+        imageUrl: 'assets/images/categories/cat_fruits.png',
+        palette: CategoryPalette.fruitsVegetables,
+      ),
+      Category(
+        name: 'Breakfast',
+        imageUrl: 'assets/images/categories/cat_breakfast.png',
+        palette: CategoryPalette.breakfast,
+      ),
+      Category(
+        name: 'Beverages',
+        imageUrl: 'assets/images/categories/cat_beverages.png',
+        palette: CategoryPalette.beverages,
+      ),
+      Category(
+        name: 'Meat & Fish',
+        imageUrl: 'assets/images/categories/cat_meat_fish.png',
+        palette: CategoryPalette.meatFish,
+      ),
+      Category(
+        name: 'Snacks',
+        imageUrl: 'assets/images/categories/cat_snacks.png',
+        palette: CategoryPalette.snacks,
+      ),
+      Category(
+        name: 'Dairy',
+        imageUrl: 'assets/images/categories/cat_dairy.png',
+        palette: CategoryPalette.dairy,
+      ),
+    ];
     return Scaffold(
       appBar: AppBar(
         title: const Text('Kategoriler'),
         centerTitle: true,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        backgroundColor: scheme.surface,
+        foregroundColor: scheme.onSurface,
         elevation: 0,
       ),
-      backgroundColor: const Color(0xFFF8F8F8),
+      backgroundColor: appColors.surfaceMuted,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: GridView.builder(
@@ -92,6 +84,7 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appColors = Theme.of(context).extension<AppColors>()!;
     return InkWell(
       onTap: () {
         Navigator.of(context).push(
@@ -102,12 +95,18 @@ class CategoryCard extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: category.backgroundColor,
+          color: appColors.categoryBg(category.palette),
           borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: category.borderColor, width: 1),
+          border: Border.all(
+            color: appColors.categoryBorder(category.palette),
+            width: 1,
+          ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black12,
+              color:
+                  (Theme.of(context).colorScheme.brightness == Brightness.light)
+                  ? Colors.black12
+                  : Theme.of(context).colorScheme.shadow.withOpacity(0.2),
               blurRadius: 6,
               offset: const Offset(0, 4),
             ),
@@ -124,10 +123,12 @@ class CategoryCard extends StatelessWidget {
             Text(
               category.name,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: Color(0xFF333333),
+                color:
+                    Theme.of(context).extension<AppColors>()?.textStrong ??
+                    Theme.of(context).colorScheme.onSurface,
               ),
             ),
           ],

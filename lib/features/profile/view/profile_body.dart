@@ -23,12 +23,18 @@ class ProfileBody extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.error_outline, size: 64, color: Colors.red[300]),
+                Icon(
+                  Icons.error_outline,
+                  size: 64,
+                  color: Theme.of(context).colorScheme.errorContainer,
+                ),
                 const SizedBox(height: 16),
                 Text(
                   viewModel.errorMessage!,
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.red[700]),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onErrorContainer,
+                  ),
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(

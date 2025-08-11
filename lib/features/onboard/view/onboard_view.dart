@@ -73,8 +73,8 @@ class _OnBoardViewState extends State<OnBoardView> {
 
   AppBar _buildAppBar() {
     return AppBar(
-      backgroundColor: const Color.fromARGB(255, 28, 226, 1),
-      elevation: OnboardConstants.appBarElevation,
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      elevation: 0,
       systemOverlayStyle: SystemUiOverlayStyle.dark,
       actions: [
         if (!_controller.isBackEnabled)
@@ -82,7 +82,7 @@ class _OnBoardViewState extends State<OnBoardView> {
             onPressed: _controller.skipToLastPage,
             child: Text(
               OnboardConstants.skipText,
-              style: TextStyle(color: const Color.fromARGB(255, 0, 0, 0)),
+              style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
             ),
           ),
       ],
@@ -91,7 +91,7 @@ class _OnBoardViewState extends State<OnBoardView> {
           : IconButton(
               icon: Icon(
                 Icons.arrow_back,
-                color: const Color.fromARGB(255, 0, 0, 0),
+                color: Theme.of(context).colorScheme.onSurface,
               ),
               onPressed: _controller.previousPage,
             ),
@@ -99,16 +99,24 @@ class _OnBoardViewState extends State<OnBoardView> {
   }
 
   Widget _buildNextButton() {
-    return FloatingActionButton(
-      elevation: 0,
-      backgroundColor: const Color.fromARGB(255, 28, 226, 1),
-      onPressed: _controller.isLastPage
-          ? _onStartPressed
-          : _controller.nextPage,
-      child: Text(
-        _controller.isLastPage
-            ? OnboardConstants.startText
-            : OnboardConstants.nextText,
+    return SizedBox(
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20), // köşe yuvarlama
+          ),
+          elevation: 0,
+        ),
+        onPressed: _controller.isLastPage
+            ? _onStartPressed
+            : _controller.nextPage,
+        child: Text(
+          _controller.isLastPage
+              ? OnboardConstants.startText
+              : OnboardConstants.nextText,
+          style: const TextStyle(fontSize: 14),
+        ),
       ),
     );
   }

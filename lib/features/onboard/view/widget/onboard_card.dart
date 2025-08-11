@@ -14,10 +14,10 @@ class OnBoardCard extends StatelessWidget {
       children: [
         Text(
           onboardModel.title,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 30, // Yazı boyutu
             fontWeight: FontWeight.bold, // Kalın
-            color: Colors.black, // Renk
+            color: Theme.of(context).colorScheme.onSurface, // Renk
             letterSpacing: 1.2, // Harf aralığı
             wordSpacing: 2.0, // Kelime aralığı
             height: 1.5, // Satır yüksekliği
@@ -31,10 +31,12 @@ class OnBoardCard extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           onboardModel.description,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w400, // Normal
-            color: Colors.black54, // Hafif soluk renk
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurfaceVariant, // Hafif soluk renk
             height: 1.5, // Satır yüksekliği
           ),
           textAlign: TextAlign.center, // Ortalı

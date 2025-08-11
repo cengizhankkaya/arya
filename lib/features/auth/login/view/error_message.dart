@@ -7,17 +7,18 @@ class ErrorMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     return Container(
       padding: ProjectPadding.allVerySmall(),
       margin: ProjectMargin.topMedium,
       decoration: BoxDecoration(
-        color: Colors.red.shade50,
+        color: scheme.errorContainer,
         borderRadius: ProjectRadius.medium,
-        border: Border.all(color: Colors.red.shade200),
+        border: Border.all(color: scheme.error),
       ),
       child: Text(
         message,
-        style: TextStyle(color: const Color.fromARGB(255, 74, 14, 169)),
+        style: TextStyle(color: scheme.onErrorContainer),
         textAlign: TextAlign.center,
       ),
     );

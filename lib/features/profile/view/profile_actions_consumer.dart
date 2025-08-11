@@ -30,7 +30,7 @@ class ProfileActionsConsumer extends StatelessWidget {
             }
           },
           itemBuilder: (context) => [
-            const PopupMenuItem(
+            PopupMenuItem(
               value: 'edit',
               child: Row(
                 children: [
@@ -40,7 +40,7 @@ class ProfileActionsConsumer extends StatelessWidget {
                 ],
               ),
             ),
-            const PopupMenuItem(
+            PopupMenuItem(
               value: 'logout',
               child: Row(
                 children: [
@@ -50,13 +50,21 @@ class ProfileActionsConsumer extends StatelessWidget {
                 ],
               ),
             ),
-            const PopupMenuItem(
+            PopupMenuItem(
               value: 'delete',
               child: Row(
                 children: [
-                  Icon(Icons.delete_forever, color: Colors.red),
+                  Icon(
+                    Icons.delete_forever,
+                    color: Theme.of(context).colorScheme.error,
+                  ),
                   SizedBox(width: 8),
-                  Text('Hesabı Sil', style: TextStyle(color: Colors.red)),
+                  Text(
+                    'Hesabı Sil',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
                 ],
               ),
             ),

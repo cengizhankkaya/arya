@@ -1,4 +1,6 @@
+import 'package:arya/product/utility/constants/dimensions/project_padding.dart';
 import 'package:flutter/material.dart';
+import 'package:arya/product/theme/app_colors.dart';
 
 class ProfileHeader extends StatelessWidget {
   final dynamic user; // Replace `dynamic` with your actual `User` model
@@ -7,25 +9,29 @@ class ProfileHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final appColors = Theme.of(context).extension<AppColors>();
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: scheme.surface,
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            color: Colors.black12,
+            color: (Theme.of(context).brightness == Brightness.light)
+                ? Colors.black12
+                : scheme.shadow.withOpacity(0.2),
             blurRadius: 6,
             offset: const Offset(0, 4),
           ),
         ],
       ),
-      padding: const EdgeInsets.all(24),
+      padding: const ProjectPadding.allMedium(),
       child: Center(
         child: Column(
           children: [
             CircleAvatar(
               radius: 50,
-              backgroundColor: const Color(0xFF7C7C7C),
+              backgroundColor: appColors?.textMuted ?? scheme.primary,
               child: Text(
                 user.displayName.isNotEmpty
                     ? user.displayName[0].toUpperCase()
@@ -40,17 +46,17 @@ class ProfileHeader extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               user.displayName,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w600,
-                color: Color(0xFF333333),
+                color: appColors?.textStrong ?? scheme.onSurface,
               ),
             ),
             if (user.email != null) ...[
               const SizedBox(height: 8),
               Text(
                 user.email!,
-                style: const TextStyle(fontSize: 16, color: Colors.grey),
+                style: TextStyle(fontSize: 16, color: scheme.onSurfaceVariant),
               ),
             ],
           ],

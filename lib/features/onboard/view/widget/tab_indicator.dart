@@ -34,7 +34,7 @@ class _TabIndicatorState extends State<TabIndicator>
   Widget build(BuildContext context) {
     return TabPageSelector(
       controller: _tabController,
-      selectedColor: const Color.fromARGB(255, 23, 194, 0),
+      selectedColor: Theme.of(context).colorScheme.primary,
 
       indicatorSize: 10.0,
       borderStyle: BorderStyle.solid,

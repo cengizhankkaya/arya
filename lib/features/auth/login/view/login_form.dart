@@ -20,7 +20,7 @@ class LoginForm extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: ProjectPadding.allMedium(),
@@ -53,14 +53,15 @@ class LoginForm extends StatelessWidget {
   }
 
   Widget _buildDivider(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     return Row(
       children: [
-        Expanded(child: Divider(color: Colors.grey[300])),
+        Expanded(child: Divider(color: scheme.outlineVariant)),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text('veya', style: TextStyle(color: Colors.grey[600])),
+          child: Text('veya', style: TextStyle(color: scheme.onSurfaceVariant)),
         ),
-        Expanded(child: Divider(color: Colors.grey[300])),
+        Expanded(child: Divider(color: scheme.outlineVariant)),
       ],
     );
   }
