@@ -1,25 +1,86 @@
 import 'package:arya/product/index.dart';
+import 'package:arya/features/store/view_model/index.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class ProductDetailView extends StatefulWidget {
+class ProductDetailView extends StatelessWidget {
   final Map<String, dynamic> product;
 
   const ProductDetailView({Key? key, required this.product}) : super(key: key);
 
   @override
-  State<ProductDetailView> createState() => _ProductDetailViewState();
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) {
+        final viewModel = ProductDetailViewModel();
+        viewModel.loadProduct(product);
+        return viewModel;
+      },
+      child: Consumer<ProductDetailViewModel>(
+        builder: (context, viewModel, child) {
+          return _ProductDetailContent(viewModel: viewModel);
+        },
+      ),
+    );
+  }
 }
 
-class _ProductDetailViewState extends State<ProductDetailView> {
-  int quantity = 1;
-  bool showDetail = false;
-  bool isFavorite = false;
+class _ProductDetailContent extends StatelessWidget {
+  final ProductDetailViewModel viewModel;
+
+  const _ProductDetailContent({required this.viewModel});
 
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final product = widget.product;
+    final product = viewModel.productData;
     final nutriments = product['nutriments'] ?? {};
+
+    // Quantity değişikliklerini dinle
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (viewModel.quantity <= 0) {
+        viewModel.resetQuantity();
+      }
+    });
+
+    if (viewModel.isLoading) {
+      return Scaffold(
+        body: Center(child: CircularProgressIndicator(color: scheme.primary)),
+      );
+    }
+
+    if (viewModel.error != null) {
+      return Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.error_outline, size: 64, color: scheme.error),
+              const SizedBox(height: 16),
+              Text(
+                'Hata',
+                style: AppTypography.lightTextTheme.headlineMedium?.copyWith(
+                  color: scheme.error,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                viewModel.error!,
+                style: AppTypography.lightTextTheme.bodyMedium?.copyWith(
+                  color: scheme.onSurfaceVariant,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: () => viewModel.loadProduct(product),
+                child: const Text('Tekrar Dene'),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
 
     return Scaffold(
       body: CustomScrollView(
@@ -51,10 +112,12 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                 ),
                 child: IconButton(
                   icon: Icon(
-                    isFavorite ? Icons.favorite : Icons.favorite_border,
-                    color: isFavorite ? Colors.red : Colors.white,
+                    viewModel.isFavorite
+                        ? Icons.favorite
+                        : Icons.favorite_border,
+                    color: viewModel.isFavorite ? Colors.red : Colors.white,
                   ),
-                  onPressed: () => setState(() => isFavorite = !isFavorite),
+                  onPressed: () => viewModel.toggleFavorite(),
                 ),
               ),
               Container(
@@ -247,32 +310,50 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     IconButton(
-                      onPressed: () => setState(() {
-                        if (quantity > 1) quantity--;
-                      }),
-                      icon: const Icon(Icons.remove_circle_outline),
+                      onPressed: viewModel.quantity > 1
+                          ? () => viewModel.decreaseQuantity()
+                          : null,
+                      icon: Icon(
+                        Icons.remove_circle_outline,
+                        color: viewModel.quantity > 1
+                            ? scheme.primary
+                            : scheme.onSurfaceVariant,
+                      ),
                     ),
-                    Text(
-                      quantity.toString(),
-                      style: AppTypography.lightTextTheme.titleLarge,
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        color: scheme.surfaceContainerHighest,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: scheme.outline.withOpacity(0.2),
+                        ),
+                      ),
+                      child: Text(
+                        viewModel.quantity.toString(),
+                        style: AppTypography.lightTextTheme.titleLarge
+                            ?.copyWith(
+                              color: scheme.onSurface,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
                     ),
                     IconButton(
-                      onPressed: () => setState(() {
-                        quantity++;
-                      }),
-                      icon: const Icon(Icons.add_circle_outline),
+                      onPressed: () => viewModel.increaseQuantity(),
+                      icon: Icon(
+                        Icons.add_circle_outline,
+                        color: scheme.primary,
+                      ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 12),
                 SizedBox(
                   width: double.infinity,
-                  child: addElevatedButton(
-                    scheme,
-                    context,
-                    product,
-                    quantity: quantity,
-                  ),
+                  child: addElevatedButton(scheme, context, product),
                 ),
               ],
             ),
@@ -358,31 +439,6 @@ class _ProductDetailViewState extends State<ProductDetailView> {
           color: scheme.onSurface,
           fontWeight: FontWeight.w500,
         ),
-      ),
-    );
-  }
-
-  Widget _buildDetailItem(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: AppTypography.lightTextTheme.labelLarge?.copyWith(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          SizedBox(height: 4),
-          Text(
-            value,
-            style: AppTypography.lightTextTheme.bodyLarge?.copyWith(
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
-          ),
-        ],
       ),
     );
   }

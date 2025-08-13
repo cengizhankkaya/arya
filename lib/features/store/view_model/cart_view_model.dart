@@ -1,161 +1,100 @@
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
+import 'package:flutter/foundation.dart';
+import 'package:arya/features/store/model/cart_item_model.dart';
 
 class CartViewModel extends ChangeNotifier {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final List<CartItemModel> _cartItems = [];
+  final StreamController<List<CartItemModel>> _cartController =
+      StreamController<List<CartItemModel>>.broadcast();
 
-  String get userId => _auth.currentUser?.uid ?? '';
+  Stream<List<CartItemModel>> get cartStream => _cartController.stream;
+  List<CartItemModel> get cartItems => List.unmodifiable(_cartItems);
 
-  Stream<List<Map<String, dynamic>>> get cartStream {
-    if (userId.isEmpty) return const Stream.empty();
-    return _firestore
-        .collection('carts')
-        .doc(userId)
-        .collection('items')
-        .snapshots()
-        .map(
-          (snapshot) => snapshot.docs.map((doc) {
-            final data = doc.data();
-            final quantityRaw = data['quantity'];
-            final quantity = quantityRaw is int
-                ? quantityRaw
-                : (quantityRaw is num ? quantityRaw.toInt() : 1);
-            return {
-              ...data,
-              'id': doc.id,
-              'quantity': quantity < 1 ? 1 : quantity,
-            };
-          }).toList(),
+  void addToCart(CartItemModel item) {
+    final existingIndex = _cartItems.indexWhere(
+      (element) => element.id == item.id,
+    );
+
+    if (existingIndex != -1) {
+      _cartItems[existingIndex] = _cartItems[existingIndex].copyWith(
+        quantity: _cartItems[existingIndex].quantity + 1,
+      );
+    } else {
+      _cartItems.add(item);
+    }
+
+    _updateCart();
+  }
+
+  void removeFromCart(String productId) {
+    _cartItems.removeWhere((item) => item.id == productId);
+    _updateCart();
+  }
+
+  void increaseQuantity(String productId) {
+    final index = _cartItems.indexWhere((item) => item.id == productId);
+    if (index != -1) {
+      _cartItems[index] = _cartItems[index].copyWith(
+        quantity: _cartItems[index].quantity + 1,
+      );
+      _updateCart();
+    }
+  }
+
+  void decreaseQuantity(String productId) {
+    final index = _cartItems.indexWhere((item) => item.id == productId);
+    if (index != -1) {
+      if (_cartItems[index].quantity > 1) {
+        _cartItems[index] = _cartItems[index].copyWith(
+          quantity: _cartItems[index].quantity - 1,
         );
-  }
-
-  Future<void> addToCart(
-    Map<String, dynamic> product, {
-    int quantity = 1,
-  }) async {
-    if (userId.isEmpty) return;
-    // Null ve tip kontrolleri
-    final safeProduct = <String, dynamic>{
-      'product_name': product['product_name'] ?? 'İsimsiz',
-      'brands': product['brands'] ?? '-',
-      'image_thumb_url': product['image_thumb_url'] ?? '',
-      'code': product['code']?.toString() ?? '-',
-      'ingredients_text': product['ingredients_text'] ?? '-',
-      'nutriments': product['nutriments'] is Map<String, dynamic>
-          ? product['nutriments']
-          : {},
-    };
-    try {
-      // Aynı üründen varsa miktarı artır, yoksa yeni ekle
-      final code = safeProduct['code'];
-      final itemsRef = _firestore
-          .collection('carts')
-          .doc(userId)
-          .collection('items');
-
-      if (code != null && code != '-') {
-        final existing = await itemsRef
-            .where('code', isEqualTo: code)
-            .limit(1)
-            .get();
-        if (existing.docs.isNotEmpty) {
-          final docRef = existing.docs.first.reference;
-          await _firestore.runTransaction((txn) async {
-            final snap = await txn.get(docRef);
-            final currentQtyRaw = snap.data()?['quantity'];
-            final currentQty = currentQtyRaw is int
-                ? currentQtyRaw
-                : (currentQtyRaw is num ? currentQtyRaw.toInt() : 0);
-            final newQty = (currentQty) + (quantity <= 0 ? 1 : quantity);
-            txn.update(docRef, {'quantity': newQty});
-          });
-        } else {
-          await itemsRef.add({
-            ...safeProduct,
-            'quantity': quantity <= 0 ? 1 : quantity,
-          });
-        }
       } else {
-        await itemsRef.add({
-          ...safeProduct,
-          'quantity': quantity <= 0 ? 1 : quantity,
-        });
+        _cartItems.removeAt(index);
       }
-      notifyListeners();
-    } catch (e) {
-      debugPrint('Sepete eklerken hata: \\${e.toString()}');
+      _updateCart();
     }
   }
 
-  Future<void> removeFromCart(String productId) async {
-    if (userId.isEmpty) return;
-    await _firestore
-        .collection('carts')
-        .doc(userId)
-        .collection('items')
-        .doc(productId)
-        .delete();
+  void clearCart() {
+    _cartItems.clear();
+    _updateCart();
+  }
+
+  void _updateCart() {
+    _cartController.add(List.unmodifiable(_cartItems));
     notifyListeners();
   }
 
-  Future<void> clearCart() async {
-    if (userId.isEmpty) return;
-    final batch = _firestore.batch();
-    final items = await _firestore
-        .collection('carts')
-        .doc(userId)
-        .collection('items')
-        .get();
-    for (var doc in items.docs) {
-      batch.delete(doc.reference);
+  double get totalKcal {
+    double total = 0;
+    for (final item in _cartItems) {
+      final energyKcal = _parseNumber(item.nutriments['energy-kcal_100g']);
+      total += energyKcal * item.quantity;
     }
-    await batch.commit();
-    notifyListeners();
+    return total;
   }
 
-  Future<void> increaseQuantity(String productId, {int by = 1}) async {
-    if (userId.isEmpty) return;
-    final docRef = _firestore
-        .collection('carts')
-        .doc(userId)
-        .collection('items')
-        .doc(productId);
-    await _firestore.runTransaction((txn) async {
-      final snap = await txn.get(docRef);
-      if (!snap.exists) return;
-      final currentQtyRaw = snap.data()?['quantity'];
-      final currentQty = currentQtyRaw is int
-          ? currentQtyRaw
-          : (currentQtyRaw is num ? currentQtyRaw.toInt() : 0);
-      final newQty = (currentQty) + (by <= 0 ? 1 : by);
-      txn.update(docRef, {'quantity': newQty});
-    });
-    notifyListeners();
+  double get totalProtein {
+    double total = 0;
+    for (final item in _cartItems) {
+      final protein = _parseNumber(item.nutriments['proteins_100g']);
+      total += protein * item.quantity;
+    }
+    return total;
   }
 
-  Future<void> decreaseQuantity(String productId, {int by = 1}) async {
-    if (userId.isEmpty) return;
-    final docRef = _firestore
-        .collection('carts')
-        .doc(userId)
-        .collection('items')
-        .doc(productId);
-    await _firestore.runTransaction((txn) async {
-      final snap = await txn.get(docRef);
-      if (!snap.exists) return;
-      final currentQtyRaw = snap.data()?['quantity'];
-      final currentQty = currentQtyRaw is int
-          ? currentQtyRaw
-          : (currentQtyRaw is num ? currentQtyRaw.toInt() : 0);
-      final newQty = currentQty - (by <= 0 ? 1 : by);
-      if (newQty <= 0) {
-        txn.delete(docRef);
-      } else {
-        txn.update(docRef, {'quantity': newQty});
-      }
-    });
-    notifyListeners();
+  double _parseNumber(dynamic value) {
+    if (value is num) return value.toDouble();
+    if (value is String) {
+      final parsed = double.tryParse(value.replaceAll(',', '.'));
+      return parsed ?? 0.0;
+    }
+    return 0.0;
+  }
+
+  @override
+  void dispose() {
+    _cartController.close();
+    super.dispose();
   }
 }
