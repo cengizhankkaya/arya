@@ -16,13 +16,25 @@ class CartViewModel extends ChangeNotifier {
         .collection('items')
         .snapshots()
         .map(
-          (snapshot) => snapshot.docs
-              .map((doc) => {...doc.data(), 'id': doc.id})
-              .toList(),
+          (snapshot) => snapshot.docs.map((doc) {
+            final data = doc.data();
+            final quantityRaw = data['quantity'];
+            final quantity = quantityRaw is int
+                ? quantityRaw
+                : (quantityRaw is num ? quantityRaw.toInt() : 1);
+            return {
+              ...data,
+              'id': doc.id,
+              'quantity': quantity < 1 ? 1 : quantity,
+            };
+          }).toList(),
         );
   }
 
-  Future<void> addToCart(Map<String, dynamic> product) async {
+  Future<void> addToCart(
+    Map<String, dynamic> product, {
+    int quantity = 1,
+  }) async {
     if (userId.isEmpty) return;
     // Null ve tip kontrolleri
     final safeProduct = <String, dynamic>{
@@ -36,11 +48,41 @@ class CartViewModel extends ChangeNotifier {
           : {},
     };
     try {
-      await _firestore
+      // Aynı üründen varsa miktarı artır, yoksa yeni ekle
+      final code = safeProduct['code'];
+      final itemsRef = _firestore
           .collection('carts')
           .doc(userId)
-          .collection('items')
-          .add(safeProduct);
+          .collection('items');
+
+      if (code != null && code != '-') {
+        final existing = await itemsRef
+            .where('code', isEqualTo: code)
+            .limit(1)
+            .get();
+        if (existing.docs.isNotEmpty) {
+          final docRef = existing.docs.first.reference;
+          await _firestore.runTransaction((txn) async {
+            final snap = await txn.get(docRef);
+            final currentQtyRaw = snap.data()?['quantity'];
+            final currentQty = currentQtyRaw is int
+                ? currentQtyRaw
+                : (currentQtyRaw is num ? currentQtyRaw.toInt() : 0);
+            final newQty = (currentQty) + (quantity <= 0 ? 1 : quantity);
+            txn.update(docRef, {'quantity': newQty});
+          });
+        } else {
+          await itemsRef.add({
+            ...safeProduct,
+            'quantity': quantity <= 0 ? 1 : quantity,
+          });
+        }
+      } else {
+        await itemsRef.add({
+          ...safeProduct,
+          'quantity': quantity <= 0 ? 1 : quantity,
+        });
+      }
       notifyListeners();
     } catch (e) {
       debugPrint('Sepete eklerken hata: \\${e.toString()}');
@@ -70,6 +112,50 @@ class CartViewModel extends ChangeNotifier {
       batch.delete(doc.reference);
     }
     await batch.commit();
+    notifyListeners();
+  }
+
+  Future<void> increaseQuantity(String productId, {int by = 1}) async {
+    if (userId.isEmpty) return;
+    final docRef = _firestore
+        .collection('carts')
+        .doc(userId)
+        .collection('items')
+        .doc(productId);
+    await _firestore.runTransaction((txn) async {
+      final snap = await txn.get(docRef);
+      if (!snap.exists) return;
+      final currentQtyRaw = snap.data()?['quantity'];
+      final currentQty = currentQtyRaw is int
+          ? currentQtyRaw
+          : (currentQtyRaw is num ? currentQtyRaw.toInt() : 0);
+      final newQty = (currentQty) + (by <= 0 ? 1 : by);
+      txn.update(docRef, {'quantity': newQty});
+    });
+    notifyListeners();
+  }
+
+  Future<void> decreaseQuantity(String productId, {int by = 1}) async {
+    if (userId.isEmpty) return;
+    final docRef = _firestore
+        .collection('carts')
+        .doc(userId)
+        .collection('items')
+        .doc(productId);
+    await _firestore.runTransaction((txn) async {
+      final snap = await txn.get(docRef);
+      if (!snap.exists) return;
+      final currentQtyRaw = snap.data()?['quantity'];
+      final currentQty = currentQtyRaw is int
+          ? currentQtyRaw
+          : (currentQtyRaw is num ? currentQtyRaw.toInt() : 0);
+      final newQty = currentQty - (by <= 0 ? 1 : by);
+      if (newQty <= 0) {
+        txn.delete(docRef);
+      } else {
+        txn.update(docRef, {'quantity': newQty});
+      }
+    });
     notifyListeners();
   }
 }

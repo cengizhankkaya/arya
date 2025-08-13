@@ -1,4 +1,4 @@
-import 'package:arya/features/auth/auth_constants.dart';
+import 'package:arya/features/index.dart';
 import 'package:flutter/material.dart';
 
 class RegisterFooter extends StatelessWidget {

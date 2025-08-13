@@ -1,8 +1,5 @@
-import 'package:arya/features/store/view/product_detail_view.dart';
-import 'package:arya/features/store/view_model/cart_view_model.dart';
-import 'package:arya/features/store/view_model/store_view_model.dart';
-import 'package:arya/product/theme/app_colors.dart';
-import 'package:arya/product/utility/index.dart';
+import 'package:arya/features/index.dart';
+import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -73,11 +70,11 @@ class ProductList extends StatelessWidget {
                           textAlign: TextAlign.center,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: appColors?.textStrong ?? scheme.onSurface,
-                          ),
+                          style: Theme.of(context).textTheme.labelLarge
+                              ?.copyWith(
+                                color:
+                                    appColors?.textStrong ?? scheme.onSurface,
+                              ),
                         ),
                       ],
                     ),
@@ -87,13 +84,11 @@ class ProductList extends StatelessWidget {
                         Expanded(
                           child: Text(
                             product['brands'] ?? '',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: scheme.onSurfaceVariant,
-                            ),
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(color: scheme.onSurfaceVariant),
                           ),
                         ),
-                        _addButton(appColors, scheme, context, product),
+                        addButton(appColors, scheme, context, product),
                       ],
                     ),
                   ],
@@ -102,33 +97,6 @@ class ProductList extends StatelessWidget {
             );
           },
         );
-      },
-    );
-  }
-
-  IconButton _addButton(
-    AppColors? appColors,
-    ColorScheme scheme,
-    BuildContext context,
-    product,
-  ) {
-    return IconButton(
-      icon: const Icon(
-        Icons.add, // sadece artı işareti
-        color: Colors.white,
-      ),
-      style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all(
-          appColors?.primary ?? scheme.primary,
-        ),
-        shape: WidgetStateProperty.all(const CircleBorder()),
-      ),
-      onPressed: () {
-        Provider.of<CartViewModel>(context, listen: false).addToCart(product);
-
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('Ürün sepete eklendi')));
       },
     );
   }

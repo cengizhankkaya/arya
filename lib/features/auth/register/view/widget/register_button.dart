@@ -1,8 +1,7 @@
-import 'package:arya/features/auth/auth_constants.dart';
+import 'package:arya/features/index.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../view_model/register_view_model.dart';
 
 class RegisterButton extends StatelessWidget {
   const RegisterButton({super.key});
@@ -41,9 +40,9 @@ class RegisterButton extends StatelessWidget {
                 width: 20,
                 child: CircularProgressIndicator(strokeWidth: 2),
               )
-            : const Text(
+            : Text(
                 AuthConstants.registerButtonText,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                style: Theme.of(context).textTheme.labelLarge,
               ),
       ),
     );

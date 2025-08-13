@@ -1,4 +1,4 @@
-import 'package:arya/product/utility/index.dart';
+import 'package:arya/product/index.dart';
 
 class OnboardModel {
   final String title;

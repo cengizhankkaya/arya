@@ -1,5 +1,5 @@
-import 'package:arya/features/store/view_model/store_view_model.dart';
-import 'package:arya/product/theme/app_colors.dart';
+import 'package:arya/features/index.dart';
+import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -30,11 +30,15 @@ class _SearchStoreBarState extends State<SearchStoreBar> {
         ],
       ),
       child: TextField(
-        style: TextStyle(color: appColors?.textStrong ?? scheme.onSurface),
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+          color: appColors?.textStrong ?? scheme.onSurface,
+        ),
         controller: _controller,
         decoration: InputDecoration(
           hintText: 'Ürün ara...',
-          hintStyle: TextStyle(color: scheme.onSurfaceVariant),
+          hintStyle: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(color: scheme.onSurfaceVariant),
           prefixIcon: IconButton(
             icon: Icon(
               Icons.search,

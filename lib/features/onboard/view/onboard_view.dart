@@ -1,8 +1,5 @@
-import 'package:arya/features/onboard/model/onboard_model.dart';
-import 'package:arya/features/onboard/view/constants/onboard_constants.dart';
-import 'package:arya/features/onboard/view/controller/onboard_controller.dart';
-import 'package:arya/features/onboard/view/widget/onboard_card.dart';
-import 'package:arya/features/onboard/view/widget/tab_indicator.dart';
+import 'package:arya/features/index.dart';
+import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kartal/kartal.dart';
@@ -115,14 +112,21 @@ class _OnBoardViewState extends State<OnBoardView> {
           _controller.isLastPage
               ? OnboardConstants.startText
               : OnboardConstants.nextText,
-          style: const TextStyle(fontSize: 14),
+          style: Theme.of(context).textTheme.labelLarge,
         ),
       ),
     );
   }
 
   void _onStartPressed() {
-    // TODO: Navigate to main app or login screen
-    print('Start button pressed - Navigate to main app');
+    _completeOnboardingAndNavigate();
+  }
+
+  Future<void> _completeOnboardingAndNavigate() async {
+    await AppPrefs.setHasOnboarded(true);
+    if (!mounted) return;
+    Navigator.of(
+      context,
+    ).pushReplacement(MaterialPageRoute(builder: (_) => const LoginView()));
   }
 }

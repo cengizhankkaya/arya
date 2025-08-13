@@ -1,9 +1,6 @@
+import 'package:arya/features/index.dart';
+import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
-import 'package:arya/product/theme/app_colors.dart';
-import 'package:arya/features/home/home_view.dart';
-import 'package:arya/features/store/view/store_view.dart';
-import 'package:arya/features/profile/view/profile_view.dart';
-import 'package:arya/features/store/view/cart_view.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -44,19 +41,17 @@ class _MainPageState extends State<MainPage> {
         ),
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Theme.of(context).colorScheme.surface,
+          backgroundColor: Theme.of(context).colorScheme.primary,
           selectedItemColor:
               Theme.of(context).extension<AppColors>()?.textMuted ??
               Theme.of(context).colorScheme.primary,
           unselectedItemColor: Theme.of(context).colorScheme.onSurfaceVariant,
-          selectedLabelStyle: const TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 12,
-          ),
-          unselectedLabelStyle: const TextStyle(
-            fontWeight: FontWeight.w400,
-            fontSize: 12,
-          ),
+          selectedLabelStyle: Theme.of(
+            context,
+          ).textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w600),
+          unselectedLabelStyle: Theme.of(
+            context,
+          ).textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w400),
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
           items: const [

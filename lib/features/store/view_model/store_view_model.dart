@@ -1,4 +1,4 @@
-import 'package:arya/features/store/services/open_food_fackts_service.dart';
+import 'package:arya/features/index.dart';
 import 'package:flutter/material.dart';
 
 class StoreViewModel extends ChangeNotifier {

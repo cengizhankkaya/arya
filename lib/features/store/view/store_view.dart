@@ -1,10 +1,7 @@
-import 'package:arya/features/store/widget/country_dropdown_widget.dart';
-import 'package:arya/features/store/widget/product_list_widget.dart';
-import 'package:arya/features/store/widget/search_bar_widget.dart';
+import 'package:arya/features/index.dart';
+import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
-import 'package:arya/product/theme/app_colors.dart';
 import 'package:provider/provider.dart';
-import '../view_model/store_view_model.dart';
 
 class ProductsPage extends StatelessWidget {
   final String? initialCategory;
@@ -30,7 +27,7 @@ class ProductsPage extends StatelessWidget {
           title: Text(
             initialCategory?.isNotEmpty == true ? initialCategory! : 'Ürün Ara',
           ),
-          backgroundColor: scheme.surface,
+          backgroundColor: scheme.primary,
           foregroundColor: scheme.onSurface,
           elevation: 0,
         ),

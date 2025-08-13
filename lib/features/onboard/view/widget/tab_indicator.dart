@@ -1,4 +1,4 @@
-import 'package:arya/features/onboard/model/onboard_model.dart';
+import 'package:arya/features/index.dart';
 import 'package:flutter/material.dart';
 
 class TabIndicator extends StatefulWidget {

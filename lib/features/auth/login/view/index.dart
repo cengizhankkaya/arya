@@ -1,9 +1,10 @@
 export 'email_field.dart';
 export 'password_field.dart';
-export 'error_message.dart';
-export 'forgot_password_button.dart';
-export 'login_button.dart';
-export 'login_form.dart';
+export 'widget/error_message.dart';
+export 'widget/forgot_password_button.dart';
+export 'widget/login_button.dart';
+export 'widget/login_form.dart';
 export 'login_view.dart';
 export 'sign_up_row.dart';
 export 'login_title.dart';
+export 'widget/index.dart';

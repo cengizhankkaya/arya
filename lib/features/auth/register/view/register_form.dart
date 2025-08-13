@@ -1,13 +1,7 @@
-import 'package:arya/features/auth/auth_constants.dart';
-import 'package:arya/features/auth/register/view/register_button.dart';
-import 'package:arya/features/auth/register/view/register_error_box.dart';
-import 'package:arya/features/auth/register/view/register_footer.dart';
-import 'package:arya/features/auth/register/view/register_password_field.dart';
-import 'package:arya/features/auth/register/view/register_text_field.dart';
+import 'package:arya/features/index.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../view_model/register_view_model.dart';
 
 class RegisterForm extends StatelessWidget {
   const RegisterForm({super.key});

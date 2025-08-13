@@ -1,6 +1,7 @@
 import 'package:arya/product/theme/custom_color_scheme.dart';
 import 'package:arya/product/theme/app_colors.dart';
 import 'package:arya/product/theme/custom_theme.dart';
+import 'package:arya/product/theme/app_typography.dart';
 import 'package:flutter/material.dart';
 
 /// Custom light theme for project design
@@ -11,13 +12,14 @@ final class CustomDarkTheme implements CustomTheme {
     return ThemeData(
       useMaterial3: true,
       colorScheme: scheme,
+      textTheme: AppTypography.darkTextTheme,
       extensions: const <ThemeExtension<dynamic>>[AppColors.dark],
       floatingActionButtonTheme: floatingActionButtonThemeData,
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.resolveWith((states) {
             if (states.contains(WidgetState.disabled)) {
-              return scheme.primary.withOpacity(0.4);
+              return scheme.primary.withValues(alpha: 0.4);
             }
             return scheme.primary;
           }),

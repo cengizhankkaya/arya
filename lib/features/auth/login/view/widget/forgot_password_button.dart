@@ -1,5 +1,5 @@
+import 'package:arya/features/index.dart';
 import 'package:flutter/material.dart';
-import '../../auth_constants.dart';
 
 class ForgotPasswordButton extends StatelessWidget {
   const ForgotPasswordButton({super.key});

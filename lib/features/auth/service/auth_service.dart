@@ -1,5 +1,5 @@
+import 'package:arya/features/index.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../auth_constants.dart';
 
 class FirebaseAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;

@@ -1,6 +1,6 @@
+import 'package:arya/features/index.dart';
+import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
-import 'package:arya/product/theme/app_colors.dart';
-import 'package:arya/features/store/view/store_view.dart';
 
 class Category {
   final String name;
@@ -53,13 +53,13 @@ class CategoryScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Kategoriler'),
         centerTitle: true,
-        backgroundColor: scheme.surface,
+        backgroundColor: scheme.primary,
         foregroundColor: scheme.onSurface,
         elevation: 0,
       ),
       backgroundColor: appColors.surfaceMuted,
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: ProjectPadding.allSmall(),
         child: GridView.builder(
           itemCount: categories.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -112,7 +112,7 @@ class CategoryCard extends StatelessWidget {
             ),
           ],
         ),
-        padding: const EdgeInsets.all(12),
+        padding: ProjectPadding.allVerySmall(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -123,9 +123,7 @@ class CategoryCard extends StatelessWidget {
             Text(
               category.name,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
                 color:
                     Theme.of(context).extension<AppColors>()?.textStrong ??
                     Theme.of(context).colorScheme.onSurface,

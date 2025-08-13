@@ -1,6 +1,6 @@
+import 'package:arya/features/index.dart';
+import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
-import 'package:arya/product/theme/app_colors.dart';
-import 'package:arya/features/auth/model/user_model.dart';
 
 class UserInfoSection extends StatelessWidget {
   final UserModel user;
@@ -14,28 +14,32 @@ class UserInfoSection extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: scheme.surface,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: ProjectRadius.xxLarge,
+        border: Border.all(color: scheme.outline.withOpacity(0.08), width: 1),
         boxShadow: [
           BoxShadow(
             color: (Theme.of(context).brightness == Brightness.light)
                 ? Colors.black12
-                : scheme.shadow.withOpacity(0.2),
-            blurRadius: 6,
-            offset: const Offset(0, 4),
+                : scheme.shadow.withOpacity(0.25),
+            blurRadius: 10,
+            offset: const Offset(0, 6),
           ),
         ],
       ),
-      padding: const EdgeInsets.all(20),
+      padding: ProjectPadding.allLarge(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildInfoRow(context, 'Ad', user.name ?? 'Belirtilmemiş'),
+          _divider(context),
           _buildInfoRow(context, 'Soyad', user.surname ?? 'Belirtilmemiş'),
+          _divider(context),
           _buildInfoRow(
             context,
             'Kullanıcı Adı',
             user.username ?? 'Belirtilmemiş',
           ),
+          _divider(context),
           _buildInfoRow(context, 'E-posta', user.email ?? 'Belirtilmemiş'),
         ],
       ),
@@ -46,7 +50,7 @@ class UserInfoSection extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     final appColors = Theme.of(context).extension<AppColors>();
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      padding: ProjectPadding.verticalMedium,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -54,9 +58,8 @@ class UserInfoSection extends StatelessWidget {
             width: 120,
             child: Text(
               '$label:',
-              style: TextStyle(
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 fontWeight: FontWeight.w600,
-                fontSize: 16,
                 color: appColors?.textStrong ?? scheme.onSurface,
               ),
             ),
@@ -64,11 +67,22 @@ class UserInfoSection extends StatelessWidget {
           Expanded(
             child: Text(
               value,
-              style: TextStyle(fontSize: 16, color: scheme.onSurfaceVariant),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge?.copyWith(color: scheme.onSurfaceVariant),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _divider(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return Divider(
+      height: 0,
+      thickness: 1,
+      color: scheme.outlineVariant.withOpacity(0.2),
     );
   }
 }

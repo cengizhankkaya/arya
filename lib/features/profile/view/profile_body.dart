@@ -1,11 +1,6 @@
-import 'package:arya/features/profile/view_model/profile_view_model.dart';
-import 'package:arya/features/profile/view/profile_completion_status.dart';
+import 'package:arya/features/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'edit_profile_form.dart';
-import 'profile_header.dart';
-import 'user_info_section.dart';
 
 class ProfileBody extends StatelessWidget {
   const ProfileBody({super.key});
@@ -15,7 +10,27 @@ class ProfileBody extends StatelessWidget {
     return Consumer<ProfileViewModel>(
       builder: (context, viewModel, child) {
         if (viewModel.isLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return Center(
+            child: Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.06),
+                    blurRadius: 12,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
+              ),
+              child: const Padding(
+                padding: EdgeInsets.all(12.0),
+                child: CircularProgressIndicator(strokeWidth: 3),
+              ),
+            ),
+          );
         }
 
         if (viewModel.errorMessage != null) {
@@ -53,17 +68,19 @@ class ProfileBody extends StatelessWidget {
         final user = viewModel.user!;
 
         return SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ProfileHeader(user: user),
-              const SizedBox(height: 32),
+              const SizedBox(height: 20),
               viewModel.isEditing
                   ? const EditProfileForm()
                   : UserInfoSection(user: user),
-              const SizedBox(height: 24),
-              const ProfileCompletionStatus(),
+              if (!viewModel.isUserComplete) ...[
+                const SizedBox(height: 16),
+                const ProfileCompletionStatus(),
+              ],
             ],
           ),
         );

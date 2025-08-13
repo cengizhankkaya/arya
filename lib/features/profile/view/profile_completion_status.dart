@@ -1,5 +1,5 @@
-import 'package:arya/product/theme/app_colors.dart';
-import 'package:arya/features/profile/view_model/profile_view_model.dart';
+import 'package:arya/features/index.dart';
+import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,38 +13,62 @@ class ProfileCompletionStatus extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     final appColors = Theme.of(context).extension<AppColors>();
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: scheme.surface,
-        borderRadius: BorderRadius.circular(18),
+        color: isComplete
+            ? scheme.primaryContainer
+            : scheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: scheme.outline.withOpacity(0.08), width: 1),
         boxShadow: [
           BoxShadow(
             color: (Theme.of(context).brightness == Brightness.light)
                 ? Colors.black12
-                : scheme.shadow.withOpacity(0.2),
-            blurRadius: 6,
-            offset: const Offset(0, 4),
+                : scheme.shadow.withOpacity(0.25),
+            blurRadius: 10,
+            offset: const Offset(0, 6),
           ),
         ],
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            isComplete ? Icons.check_circle : Icons.info,
-            color: appColors?.textMuted ?? scheme.primary,
-            size: 24,
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: isComplete ? scheme.primary : scheme.secondary,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              isComplete ? Icons.check_rounded : Icons.info_rounded,
+              color: scheme.onPrimary,
+              size: 18,
+            ),
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: 12),
           Expanded(
-            child: Text(
-              isComplete
-                  ? 'Profil bilgileriniz tamamlanmış.'
-                  : 'Profil bilgilerinizi tamamlamanız önerilir.',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: appColors?.textStrong ?? scheme.onSurface,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  isComplete ? 'Profil tamamlandı' : 'Eksik profil bilgileri',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    color: isComplete
+                        ? scheme.onPrimaryContainer
+                        : appColors?.textStrong ?? scheme.onSurface,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  isComplete
+                      ? 'Tüm zorunlu bilgiler mevcut.'
+                      : 'Daha iyi deneyim için ad, soyad ve kullanıcı adı ekleyin.',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: scheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
             ),
           ),
         ],

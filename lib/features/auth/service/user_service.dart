@@ -1,4 +1,4 @@
-import 'package:arya/features/auth/model/user_model.dart';
+import 'package:arya/features/index.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserService {

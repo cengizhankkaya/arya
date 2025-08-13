@@ -1,9 +1,5 @@
-import 'package:arya/features/auth/login/index.dart';
 import 'package:arya/features/index.dart';
-import 'package:arya/features/main_page/main_page.dart';
-
 import 'package:arya/product/index.dart';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -44,9 +40,9 @@ class LoginButton extends StatelessWidget {
                 ),
               ),
             )
-          : const Text(
+          : Text(
               AuthConstants.loginButtonText,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              style: Theme.of(context).textTheme.labelLarge,
             ),
     );
   }

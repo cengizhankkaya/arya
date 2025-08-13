@@ -1,7 +1,6 @@
-import 'package:arya/features/auth/register/view/register_view.dart';
+import 'package:arya/features/index.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
-import '../../auth_constants.dart';
 
 class SignUpRow extends StatelessWidget {
   const SignUpRow({super.key});
@@ -13,7 +12,7 @@ class SignUpRow extends StatelessWidget {
       children: [
         Text(
           AuthConstants.noAccountText,
-          style: TextStyle(
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
             color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
         ),
@@ -27,9 +26,8 @@ class SignUpRow extends StatelessWidget {
           },
           child: Text(
             AuthConstants.signUpText,
-            style: TextStyle(
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
               color: Theme.of(context).colorScheme.primary,
-              fontWeight: FontWeight.w600,
             ),
           ),
         ),

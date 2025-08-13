@@ -1,10 +1,6 @@
-// lib/features/auth/widget/dialogs/profile_actions_consumer.dart
-
+import 'package:arya/features/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:arya/features/profile/view_model/profile_view_model.dart';
-import 'package:arya/features/auth/widget/dialogs/logout_dialog.dart';
-import 'package:arya/features/auth/widget/dialogs/delete_account_dialog.dart';
 
 class ProfileActionsConsumer extends StatelessWidget {
   const ProfileActionsConsumer({super.key});

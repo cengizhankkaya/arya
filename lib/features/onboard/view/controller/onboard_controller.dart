@@ -1,6 +1,6 @@
-import 'package:arya/features/onboard/model/onboard_model.dart';
-import 'package:arya/features/onboard/view/constants/onboard_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:arya/features/index.dart';
+import 'package:arya/product/index.dart';
 
 class OnboardController extends ChangeNotifier {
   final PageController pageController = PageController();

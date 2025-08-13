@@ -1,15 +1,7 @@
-import 'package:arya/features/auth/login/view_model/login_view_model.dart';
+import 'package:arya/features/index.dart';
+import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:arya/product/utility/constants/dimensions/project_padding.dart';
-
-import 'email_field.dart';
-import 'password_field.dart';
-import 'login_button.dart';
-import 'login_title.dart';
-import 'forgot_password_button.dart';
-import 'error_message.dart';
-import 'sign_up_row.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
@@ -59,7 +51,12 @@ class LoginForm extends StatelessWidget {
         Expanded(child: Divider(color: scheme.outlineVariant)),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text('veya', style: TextStyle(color: scheme.onSurfaceVariant)),
+          child: Text(
+            'veya',
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: scheme.onSurfaceVariant),
+          ),
         ),
         Expanded(child: Divider(color: scheme.outlineVariant)),
       ],
