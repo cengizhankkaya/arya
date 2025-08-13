@@ -1,63 +1,30 @@
-import 'package:flutter/foundation.dart';
-import 'package:arya/features/store/model/product_model.dart';
-import 'package:arya/features/store/model/cart_item_model.dart';
+import 'package:flutter/material.dart';
 
 class ProductDetailViewModel extends ChangeNotifier {
-  ProductModel? _product;
+  final Map<String, dynamic> product;
+
   int _quantity = 1;
+  bool _showDetail = false;
   bool _isFavorite = false;
   bool _isLoading = false;
-  String? _error;
+  String? _errorMessage;
 
-  ProductModel? get product => _product;
+  ProductDetailViewModel({required this.product});
+
+  // Getters
   int get quantity => _quantity;
+  bool get showDetail => _showDetail;
   bool get isFavorite => _isFavorite;
   bool get isLoading => _isLoading;
-  String? get error => _error;
+  String? get errorMessage => _errorMessage;
 
-  void initializeProduct(Map<String, dynamic> productData) {
-    _product = ProductModel.fromMap(productData);
-    notifyListeners();
-  }
-
-  Future<void> loadProduct(Map<String, dynamic> productData) async {
-    setLoading(true);
-    clearError();
-
-    try {
-      // Simüle edilmiş yükleme süresi
-      await Future.delayed(const Duration(milliseconds: 500));
-
-      _product = ProductModel.fromMap(productData);
-    } catch (e) {
-      setError('Ürün yüklenirken hata oluştu: ${e.toString()}');
-      // Hata durumunda varsayılan değerler
-      _product = ProductModel(
-        name: 'Ürün bulunamadı',
-        brand: 'Bilinmiyor',
-        imageUrl: null,
-        ingredients: null,
-        quantity: null,
-        nutriments: {},
-      );
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  void setQuantity(int newQuantity) {
-    if (newQuantity >= 1) {
-      _quantity = newQuantity;
-      notifyListeners();
-    }
-  }
-
-  void increaseQuantity() {
+  // Methods
+  void incrementQuantity() {
     _quantity++;
     notifyListeners();
   }
 
-  void decreaseQuantity() {
+  void decrementQuantity() {
     if (_quantity > 1) {
       _quantity--;
       notifyListeners();
@@ -69,82 +36,80 @@ class ProductDetailViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void toggleDetail() {
+    _showDetail = !_showDetail;
+    notifyListeners();
+  }
+
   void setLoading(bool loading) {
     _isLoading = loading;
     notifyListeners();
   }
 
   void setError(String? error) {
-    _error = error;
+    _errorMessage = error;
     notifyListeners();
   }
 
-  void clearError() {
-    _error = null;
-    notifyListeners();
-  }
+  // Product related methods
+  String get productName => product['product_name'] ?? 'Product Name';
+  String? get brand => product['brands'];
+  String? get imageUrl => product['image_url'];
+  String? get ingredients => product['ingredients_text'];
+  String? get quantityText => product['quantity'];
+  String? get categories => product['categories'];
+  Map<String, dynamic> get nutriments => product['nutriments'] ?? {};
 
-  void updateProductInfo({
-    String? name,
-    String? brand,
-    String? imageUrl,
-    String? ingredients,
-    String? quantity,
-    Map<String, dynamic>? nutriments,
-  }) {
-    if (_product != null) {
-      _product = ProductModel(
-        name: name ?? _product!.name,
-        brand: brand ?? _product!.brand,
-        imageUrl: imageUrl ?? _product!.imageUrl,
-        ingredients: ingredients ?? _product!.ingredients,
-        quantity: quantity ?? _product!.quantity,
-        nutriments: nutriments ?? _product!.nutriments,
-      );
-      notifyListeners();
+  // Nutrition data
+  List<Map<String, String>> get nutritionData => [
+    {'key': 'energy-kcal_100g', 'label': 'Energy', 'unit': 'kcal'},
+    {'key': 'fat_100g', 'label': 'Fat', 'unit': 'g'},
+    {'key': 'saturated-fat_100g', 'label': 'Saturated Fat', 'unit': 'g'},
+    {'key': 'carbohydrates_100g', 'label': 'Carbohydrates', 'unit': 'g'},
+    {'key': 'sugars_100g', 'label': 'Sugars', 'unit': 'g'},
+    {'key': 'proteins_100g', 'label': 'Proteins', 'unit': 'g'},
+    {'key': 'salt_100g', 'label': 'Salt', 'unit': 'g'},
+  ];
+
+  // Business logic methods
+  Future<void> addToCart() async {
+    try {
+      setLoading(true);
+      setError(null);
+
+      // TODO: Implement cart functionality
+      // Simulate API call
+      await Future.delayed(const Duration(seconds: 1));
+
+      // Show success message or navigate to cart
+      setLoading(false);
+    } catch (e) {
+      setError('Sepete eklenirken bir hata oluştu: $e');
+      setLoading(false);
     }
   }
 
+  void shareProduct() {
+    // TODO: Implement share functionality
+    // This could use url_launcher or share_plus package
+  }
+
+  // Validation methods
+  bool get canAddToCart => quantity > 0 && !isLoading;
+
+  // Reset methods
   void resetQuantity() {
     _quantity = 1;
     notifyListeners();
   }
 
-  CartItemModel createCartItem() {
-    if (_product == null) {
-      throw Exception('Product not initialized');
-    }
-
-    return CartItemModel(
-      id: _product!.name ?? '', // Geçici ID olarak name kullanılıyor
-      productName: _product!.name ?? 'İsimsiz Ürün',
-      brands: _product!.brand,
-      imageThumbUrl: _product!.imageUrl,
-      quantity: _quantity,
-      nutriments: _product!.nutriments,
-    );
-  }
-
-  Map<String, dynamic> get productData {
-    if (_product == null) return {};
-
-    return {
-      'product_name': _product!.name,
-      'brands': _product!.brand,
-      'image_url': _product!.imageUrl,
-      'ingredients_text': _product!.ingredients,
-      'quantity': _product!.quantity,
-      'nutriments': _product!.nutriments,
-    };
+  void clearError() {
+    _errorMessage = null;
+    notifyListeners();
   }
 
   @override
   void dispose() {
-    _product = null;
-    _quantity = 1;
-    _isFavorite = false;
-    _isLoading = false;
-    _error = null;
     super.dispose();
   }
 }

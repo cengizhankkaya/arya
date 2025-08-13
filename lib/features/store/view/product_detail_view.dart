@@ -1,7 +1,7 @@
 import 'package:arya/product/index.dart';
-import 'package:arya/features/store/view_model/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../view_model/product_detail_view_model.dart';
 
 class ProductDetailView extends StatelessWidget {
   final Map<String, dynamic> product;
@@ -11,279 +11,279 @@ class ProductDetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) {
-        final viewModel = ProductDetailViewModel();
-        viewModel.loadProduct(product);
-        return viewModel;
-      },
-      child: Consumer<ProductDetailViewModel>(
-        builder: (context, viewModel, child) {
-          return _ProductDetailContent(viewModel: viewModel);
-        },
-      ),
+      create: (context) => ProductDetailViewModel(product: product),
+      child: _ProductDetailViewBody(),
     );
   }
 }
 
-class _ProductDetailContent extends StatelessWidget {
-  final ProductDetailViewModel viewModel;
-
-  const _ProductDetailContent({required this.viewModel});
+class _ProductDetailViewBody extends StatelessWidget {
+  const _ProductDetailViewBody();
 
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final product = viewModel.productData;
-    final nutriments = product['nutriments'] ?? {};
-
-    // Quantity değişikliklerini dinle
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (viewModel.quantity <= 0) {
-        viewModel.resetQuantity();
-      }
-    });
-
-    if (viewModel.isLoading) {
-      return Scaffold(
-        body: Center(child: CircularProgressIndicator(color: scheme.primary)),
-      );
-    }
-
-    if (viewModel.error != null) {
-      return Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.error_outline, size: 64, color: scheme.error),
-              const SizedBox(height: 16),
-              Text(
-                'Hata',
-                style: AppTypography.lightTextTheme.headlineMedium?.copyWith(
-                  color: scheme.error,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                viewModel.error!,
-                style: AppTypography.lightTextTheme.bodyMedium?.copyWith(
-                  color: scheme.onSurfaceVariant,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: () => viewModel.loadProduct(product),
-                child: const Text('Tekrar Dene'),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
+    final viewModel = context.watch<ProductDetailViewModel>();
 
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          // Custom App Bar with Hero Image
-          SliverAppBar(
-            expandedHeight: 400,
-            floating: false,
-            pinned: true,
-            backgroundColor: scheme.primary,
-            elevation: 0,
-            leading: Container(
-              margin: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: IconButton(
-                icon: Icon(Icons.arrow_back, color: Colors.white),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ),
-            actions: [
-              Container(
-                margin: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: IconButton(
-                  icon: Icon(
-                    viewModel.isFavorite
-                        ? Icons.favorite
-                        : Icons.favorite_border,
-                    color: viewModel.isFavorite ? Colors.red : Colors.white,
+      body: Stack(
+        children: [
+          CustomScrollView(
+            slivers: [
+              // Custom App Bar with Hero Image
+              SliverAppBar(
+                expandedHeight: 400,
+                floating: false,
+                pinned: true,
+                backgroundColor: scheme.primary,
+                elevation: 0,
+                leading: Container(
+                  margin: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  onPressed: () => viewModel.toggleFavorite(),
+                  child: IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () => Navigator.pop(context),
+                  ),
                 ),
-              ),
-              Container(
-                margin: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: IconButton(
-                  icon: Icon(Icons.share, color: Colors.white),
-                  onPressed: () {},
-                ),
-              ),
-            ],
-            flexibleSpace: FlexibleSpaceBar(
-              background: Stack(
-                fit: StackFit.expand,
-                children: [
-                  if (product['image_url'] != null)
-                    Image.network(product['image_url'], fit: BoxFit.cover)
-                  else
-                    Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [scheme.primary, scheme.primaryContainer],
-                        ),
-                      ),
-                      child: Icon(
-                        Icons.image_not_supported,
-                        size: 80,
-                        color: Colors.white.withOpacity(0.7),
-                      ),
-                    ),
-                  // Gradient overlay
+                actions: [
                   Container(
+                    margin: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.transparent,
-                          Colors.black.withOpacity(0.3),
-                        ],
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: IconButton(
+                      icon: Icon(
+                        viewModel.isFavorite
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        color: viewModel.isFavorite ? Colors.red : Colors.white,
                       ),
+                      onPressed: () => viewModel.toggleFavorite(),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: IconButton(
+                      icon: const Icon(Icons.share, color: Colors.white),
+                      onPressed: () => viewModel.shareProduct(),
                     ),
                   ),
                 ],
-              ),
-            ),
-          ),
-
-          // Content
-          SliverToBoxAdapter(
-            child: Container(
-              decoration: BoxDecoration(
-                color: scheme.surface,
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(24),
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      if (viewModel.imageUrl != null)
+                        Image.network(viewModel.imageUrl!, fit: BoxFit.cover)
+                      else
+                        Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [scheme.primary, scheme.primaryContainer],
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.image_not_supported,
+                            size: 80,
+                            color: Colors.white.withOpacity(0.7),
+                          ),
+                        ),
+                      // Gradient overlay
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.transparent,
+                              Colors.black.withOpacity(0.3),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              child: Padding(
-                padding: ProjectPadding.allLarge(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Product Title Section
-                    Container(
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: scheme.surfaceContainerHighest,
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
-                            blurRadius: 10,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Title and Brand in same row
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  product['product_name'] ?? 'Product Name',
-                                  style: AppTypography
-                                      .lightTextTheme
-                                      .headlineLarge
-                                      ?.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        color: scheme.onSurface,
-                                      ),
+
+              // Content
+              SliverToBoxAdapter(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: scheme.surface,
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(24),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: ProjectPadding.allLarge(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Error Message Display
+                        if (viewModel.errorMessage != null)
+                          Container(
+                            width: double.infinity,
+                            margin: const EdgeInsets.only(bottom: 16),
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: scheme.errorContainer,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: scheme.error),
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.error_outline,
+                                  color: scheme.error,
+                                  size: 20,
                                 ),
-                              ),
-                              if (product['brands'] != null)
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 6,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: scheme.primaryContainer,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
+                                const SizedBox(width: 12),
+                                Expanded(
                                   child: Text(
-                                    product['brands'],
+                                    viewModel.errorMessage!,
                                     style: AppTypography
                                         .lightTextTheme
-                                        .labelLarge
+                                        .bodyMedium
                                         ?.copyWith(
-                                          color: scheme.onPrimaryContainer,
+                                          color: scheme.onErrorContainer,
                                         ),
                                   ),
                                 ),
-                            ],
-                          ),
-
-                          SizedBox(height: 16),
-
-                          // Product Details in compact horizontal layout
-                          if (product['ingredients_text'] != null ||
-                              product['quantity'] != null ||
-                              product['categories'] != null)
-                            Wrap(
-                              spacing: 16,
-                              runSpacing: 12,
-                              children: [
-                                if (product['ingredients_text'] != null)
-                                  _buildCompactDetailItem(
-                                    "Ingredients",
-                                    product['ingredients_text'],
-                                    scheme,
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.close,
+                                    color: scheme.error,
+                                    size: 20,
                                   ),
-                                if (product['quantity'] != null)
-                                  _buildCompactDetailItem(
-                                    "Quantity",
-                                    product['quantity'],
-                                    scheme,
-                                  ),
+                                  onPressed: () => viewModel.clearError(),
+                                ),
                               ],
                             ),
-                        ],
-                      ),
-                    ),
+                          ),
 
-                    SizedBox(height: 24),
-                    // Nutrition Section
-                    _buildDetailCard(
-                      context,
-                      scheme,
-                      "Nutrition Facts",
-                      Icons.monitor_heart_outlined,
-                      _buildNutritionItems(nutriments, scheme),
+                        // Product Title Section
+                        Container(
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            color: scheme.surfaceContainerHighest,
+                            borderRadius: BorderRadius.circular(16),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.05),
+                                blurRadius: 10,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Title and Brand in same row
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      viewModel.productName,
+                                      style: AppTypography
+                                          .lightTextTheme
+                                          .headlineLarge
+                                          ?.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            color: scheme.onSurface,
+                                          ),
+                                    ),
+                                  ),
+                                  if (viewModel.brand != null)
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 12,
+                                        vertical: 6,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: scheme.primaryContainer,
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: Text(
+                                        viewModel.brand!,
+                                        style: AppTypography
+                                            .lightTextTheme
+                                            .labelLarge
+                                            ?.copyWith(
+                                              color: scheme.onPrimaryContainer,
+                                            ),
+                                      ),
+                                    ),
+                                ],
+                              ),
+
+                              const SizedBox(height: 16),
+
+                              // Product Details in compact horizontal layout
+                              if (viewModel.ingredients != null ||
+                                  viewModel.quantityText != null ||
+                                  viewModel.categories != null)
+                                Wrap(
+                                  spacing: 16,
+                                  runSpacing: 12,
+                                  children: [
+                                    if (viewModel.ingredients != null)
+                                      _buildCompactDetailItem(
+                                        "Ingredients",
+                                        viewModel.ingredients!,
+                                        scheme,
+                                      ),
+                                    if (viewModel.quantityText != null)
+                                      _buildCompactDetailItem(
+                                        "Quantity",
+                                        viewModel.quantityText!,
+                                        scheme,
+                                      ),
+                                  ],
+                                ),
+                            ],
+                          ),
+                        ),
+
+                        const SizedBox(height: 24),
+                        // Nutrition Section
+                        _buildDetailCard(
+                          context,
+                          scheme,
+                          "Nutrition Facts",
+                          Icons.monitor_heart_outlined,
+                          _buildNutritionItems(
+                            viewModel.nutriments,
+                            viewModel.nutritionData,
+                            scheme,
+                          ),
+                        ),
+                        const SizedBox(height: 32),
+                      ],
                     ),
-                    SizedBox(height: 32),
-                  ],
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
+
+          // Loading Overlay
+          if (viewModel.isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.3),
+              child: const Center(child: CircularProgressIndicator()),
+            ),
         ],
       ),
 
@@ -310,50 +310,27 @@ class _ProductDetailContent extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     IconButton(
-                      onPressed: viewModel.quantity > 1
-                          ? () => viewModel.decreaseQuantity()
-                          : null,
-                      icon: Icon(
-                        Icons.remove_circle_outline,
-                        color: viewModel.quantity > 1
-                            ? scheme.primary
-                            : scheme.onSurfaceVariant,
-                      ),
+                      onPressed: viewModel.isLoading
+                          ? null
+                          : () => viewModel.decrementQuantity(),
+                      icon: const Icon(Icons.remove_circle_outline),
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: scheme.surfaceContainerHighest,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: scheme.outline.withOpacity(0.2),
-                        ),
-                      ),
-                      child: Text(
-                        viewModel.quantity.toString(),
-                        style: AppTypography.lightTextTheme.titleLarge
-                            ?.copyWith(
-                              color: scheme.onSurface,
-                              fontWeight: FontWeight.bold,
-                            ),
-                      ),
+                    Text(
+                      viewModel.quantity.toString(),
+                      style: AppTypography.lightTextTheme.titleLarge,
                     ),
                     IconButton(
-                      onPressed: () => viewModel.increaseQuantity(),
-                      icon: Icon(
-                        Icons.add_circle_outline,
-                        color: scheme.primary,
-                      ),
+                      onPressed: viewModel.isLoading
+                          ? null
+                          : () => viewModel.incrementQuantity(),
+                      icon: const Icon(Icons.add_circle_outline),
                     ),
                   ],
                 ),
                 const SizedBox(height: 12),
                 SizedBox(
                   width: double.infinity,
-                  child: addElevatedButton(scheme, context, product),
+                  child: _buildAddToCartButton(context, scheme, viewModel),
                 ),
               ],
             ),
@@ -396,7 +373,7 @@ class _ProductDetailContent extends StatelessWidget {
                 ),
                 child: Icon(icon, color: scheme.onPrimaryContainer, size: 20),
               ),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               Text(
                 title,
                 style: AppTypography.lightTextTheme.titleLarge?.copyWith(
@@ -406,7 +383,7 @@ class _ProductDetailContent extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           ...children,
           // Product info subtitle
           Text(
@@ -445,21 +422,12 @@ class _ProductDetailContent extends StatelessWidget {
 
   List<Widget> _buildNutritionItems(
     Map<String, dynamic> nutriments,
+    List<Map<String, String>> nutritionData,
     ColorScheme scheme,
   ) {
-    final nutritionData = [
-      {'key': 'energy-kcal_100g', 'label': 'Energy', 'unit': 'kcal'},
-      {'key': 'fat_100g', 'label': 'Fat', 'unit': 'g'},
-      {'key': 'saturated-fat_100g', 'label': 'Saturated Fat', 'unit': 'g'},
-      {'key': 'carbohydrates_100g', 'label': 'Carbohydrates', 'unit': 'g'},
-      {'key': 'sugars_100g', 'label': 'Sugars', 'unit': 'g'},
-      {'key': 'proteins_100g', 'label': 'Proteins', 'unit': 'g'},
-      {'key': 'salt_100g', 'label': 'Salt', 'unit': 'g'},
-    ];
-
     return nutritionData.map((item) {
       final value = nutriments[item['key']];
-      if (value == null) return SizedBox.shrink();
+      if (value == null) return const SizedBox.shrink();
 
       return Container(
         margin: const EdgeInsets.only(bottom: 12),
@@ -490,5 +458,58 @@ class _ProductDetailContent extends StatelessWidget {
         ),
       );
     }).toList();
+  }
+
+  Widget _buildAddToCartButton(
+    BuildContext context,
+    ColorScheme scheme,
+    ProductDetailViewModel viewModel,
+  ) {
+    return ElevatedButton(
+      onPressed: viewModel.isLoading ? null : () => viewModel.addToCart(),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: scheme.primary,
+        foregroundColor: scheme.onPrimary,
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        elevation: 2,
+      ),
+      child: viewModel.isLoading
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor: AlwaysStoppedAnimation<Color>(scheme.onPrimary),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  'Sepete Ekleniyor...',
+                  style: AppTypography.lightTextTheme.titleMedium?.copyWith(
+                    color: scheme.onPrimary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.shopping_cart, color: scheme.onPrimary, size: 24),
+                const SizedBox(width: 12),
+                Text(
+                  'Sepete Ekle (${viewModel.quantity})',
+                  style: AppTypography.lightTextTheme.titleMedium?.copyWith(
+                    color: scheme.onPrimary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+    );
   }
 }
