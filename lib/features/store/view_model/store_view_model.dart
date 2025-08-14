@@ -1,5 +1,6 @@
 import 'package:arya/features/index.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class StoreViewModel extends ChangeNotifier {
   final OpenFoodFactsService _service = OpenFoodFactsService();
@@ -73,5 +74,22 @@ class StoreViewModel extends ChangeNotifier {
     }
     isLoading = false;
     safeNotify();
+  }
+
+  Future<void> addProductToCart(
+    BuildContext context,
+    Map<String, dynamic> product,
+  ) async {
+    final cartItem = CartItemModel(
+      id: product['id']?.toString() ?? '',
+      productName: product['product_name']?.toString() ?? 'İsimsiz Ürün',
+      brands: product['brands']?.toString(),
+      imageThumbUrl: (product['image_thumb_url'] ?? product['image_url'])
+          ?.toString(),
+      quantity: 1,
+      nutriments: (product['nutriments'] as Map<String, dynamic>?) ?? const {},
+    );
+
+    await context.read<CartViewModel>().addToCart(cartItem);
   }
 }

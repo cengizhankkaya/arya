@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:arya/features/store/view_model/cart_view_model.dart';
+import 'package:arya/features/store/model/cart_item_model.dart';
 
 class ProductDetailViewModel extends ChangeNotifier {
   final Map<String, dynamic> product;
@@ -72,16 +75,24 @@ class ProductDetailViewModel extends ChangeNotifier {
   ];
 
   // Business logic methods
-  Future<void> addToCart() async {
+  Future<void> addToCart(BuildContext context) async {
     try {
       setLoading(true);
       setError(null);
 
-      // TODO: Implement cart functionality
-      // Simulate API call
-      await Future.delayed(const Duration(seconds: 1));
+      final cartItem = CartItemModel(
+        id: product['id']?.toString() ?? '',
+        productName: product['product_name']?.toString() ?? 'İsimsiz Ürün',
+        brands: product['brands']?.toString(),
+        imageThumbUrl: (product['image_thumb_url'] ?? product['image_url'])
+            ?.toString(),
+        quantity: _quantity,
+        nutriments:
+            (product['nutriments'] as Map<String, dynamic>?) ?? const {},
+      );
 
-      // Show success message or navigate to cart
+      await context.read<CartViewModel>().addToCart(cartItem);
+
       setLoading(false);
     } catch (e) {
       setError('Sepete eklenirken bir hata oluştu: $e');

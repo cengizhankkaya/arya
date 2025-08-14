@@ -1,64 +1,66 @@
-import 'package:arya/features/store/view_model/cart_view_model.dart';
-import 'package:arya/features/store/model/cart_item_model.dart';
+import 'package:arya/features/index.dart';
+import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-ElevatedButton addElevatedButton(
-  ColorScheme scheme,
-  BuildContext context,
-  Map<String, dynamic> product, {
-  int quantity = 1,
-}) {
-  return ElevatedButton.icon(
-    style:
-        ElevatedButton.styleFrom(
-          backgroundColor: scheme.primary,
-          foregroundColor: scheme.onPrimary,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          elevation: 4, // Normalde gölge
-          shadowColor: Colors.black.withOpacity(0.3),
-        ).copyWith(
-          overlayColor: WidgetStateProperty.all(
-            scheme.onPrimary.withOpacity(0.1), // Basıldığında renk değişimi
-          ),
-          elevation: WidgetStateProperty.resolveWith<double>(
-            (states) => states.contains(WidgetState.pressed)
-                ? 1
-                : 4, // Basınca gölge azalır
-          ),
-        ),
-    icon: const Icon(Icons.add_shopping_cart),
-    label: const Text(
-      'Sepete Ekle',
-      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-    ),
-    onPressed: () {
-      // Product Map'ini CartItemModel'e dönüştür
-      final cartItem = CartItemModel(
-        id: product['id']?.toString() ?? '',
-        productName: product['product_name']?.toString() ?? 'İsimsiz Ürün',
-        brands: product['brands']?.toString(),
-        imageThumbUrl: product['image_thumb_url']?.toString(),
-        quantity: quantity,
-        nutriments:
-            (product['nutriments'] as Map<String, dynamic>?) ?? const {},
-      );
+class AddToCartButton extends StatelessWidget {
+  const AddToCartButton({
+    super.key,
+    required this.viewModel,
+    required this.scheme,
+  });
 
-      Provider.of<CartViewModel>(context, listen: false).addToCart(cartItem);
+  final ProductDetailViewModel viewModel;
+  final ColorScheme scheme;
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('$quantity adet ürün sepete eklendi'),
-          duration: const Duration(seconds: 2),
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-      );
-    },
-  );
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: viewModel.isLoading
+          ? null
+          : () => viewModel.addToCart(context),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: scheme.primary,
+        foregroundColor: scheme.onPrimary,
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        elevation: 2,
+      ),
+      child: viewModel.isLoading
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor: AlwaysStoppedAnimation<Color>(scheme.onPrimary),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  'Sepete Ekleniyor...',
+                  style: AppTypography.lightTextTheme.titleMedium?.copyWith(
+                    color: scheme.onPrimary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.shopping_cart, color: scheme.onPrimary, size: 24),
+                const SizedBox(width: 12),
+                Text(
+                  'Sepete Ekle (${viewModel.quantity})',
+                  style: AppTypography.lightTextTheme.titleMedium?.copyWith(
+                    color: scheme.onPrimary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+    );
+  }
 }

@@ -330,7 +330,7 @@ class _ProductDetailViewBody extends StatelessWidget {
                 const SizedBox(height: 12),
                 SizedBox(
                   width: double.infinity,
-                  child: _buildAddToCartButton(context, scheme, viewModel),
+                  child: AddToCartButton(viewModel: viewModel, scheme: scheme),
                 ),
               ],
             ),
@@ -426,7 +426,13 @@ class _ProductDetailViewBody extends StatelessWidget {
     ColorScheme scheme,
   ) {
     return nutritionData.map((item) {
-      final value = nutriments[item['key']];
+      final raw = nutriments[item['key']];
+      double? value;
+      if (raw is num) {
+        value = raw.toDouble();
+      } else if (raw is String) {
+        value = double.tryParse(raw.replaceAll(',', '.'));
+      }
       if (value == null) return const SizedBox.shrink();
 
       return Container(
@@ -458,58 +464,5 @@ class _ProductDetailViewBody extends StatelessWidget {
         ),
       );
     }).toList();
-  }
-
-  Widget _buildAddToCartButton(
-    BuildContext context,
-    ColorScheme scheme,
-    ProductDetailViewModel viewModel,
-  ) {
-    return ElevatedButton(
-      onPressed: viewModel.isLoading ? null : () => viewModel.addToCart(),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: scheme.primary,
-        foregroundColor: scheme.onPrimary,
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        elevation: 2,
-      ),
-      child: viewModel.isLoading
-          ? Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    valueColor: AlwaysStoppedAnimation<Color>(scheme.onPrimary),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Text(
-                  'Sepete Ekleniyor...',
-                  style: AppTypography.lightTextTheme.titleMedium?.copyWith(
-                    color: scheme.onPrimary,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            )
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.shopping_cart, color: scheme.onPrimary, size: 24),
-                const SizedBox(width: 12),
-                Text(
-                  'Sepete Ekle (${viewModel.quantity})',
-                  style: AppTypography.lightTextTheme.titleMedium?.copyWith(
-                    color: scheme.onPrimary,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-    );
   }
 }
