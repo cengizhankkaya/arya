@@ -31,6 +31,9 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        
+        // Image cropper için gerekli
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {

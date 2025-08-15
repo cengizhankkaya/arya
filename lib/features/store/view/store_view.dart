@@ -30,6 +30,17 @@ class ProductsPage extends StatelessWidget {
           backgroundColor: scheme.primary,
           foregroundColor: scheme.onSurface,
           elevation: 0,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.add),
+              tooltip: 'Ürün ekle',
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const AddProductScreen()),
+                );
+              },
+            ),
+          ],
         ),
         backgroundColor: appColors?.surfaceMuted ?? scheme.surface,
         body: Column(

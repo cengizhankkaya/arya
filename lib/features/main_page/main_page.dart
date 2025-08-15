@@ -16,6 +16,7 @@ class _MainPageState extends State<MainPage> {
     CategoryScreen(),
     ProductsPage(),
     CartView(),
+    AddProductScreen(),
     ProfileScreen(),
   ];
 
@@ -69,6 +70,11 @@ class _MainPageState extends State<MainPage> {
               icon: Icon(Icons.shopping_cart_outlined),
               activeIcon: Icon(Icons.shopping_cart),
               label: 'Sepet',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.ad_units),
+              activeIcon: Icon(Icons.ad_units_outlined),
+              label: 'Ürün ekle',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person_outline),

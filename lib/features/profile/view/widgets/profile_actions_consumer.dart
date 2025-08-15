@@ -17,6 +17,11 @@ class ProfileActionsConsumer extends StatelessWidget {
               case 'edit':
                 viewModel.toggleEditMode();
                 break;
+              case 'off':
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const OffCredentialsView()),
+                );
+                break;
               case 'logout':
                 await showLogoutDialog(context, viewModel);
                 break;
@@ -33,6 +38,16 @@ class ProfileActionsConsumer extends StatelessWidget {
                   Icon(Icons.edit),
                   SizedBox(width: 8),
                   Text('Düzenle'),
+                ],
+              ),
+            ),
+            PopupMenuItem(
+              value: 'off',
+              child: Row(
+                children: [
+                  Icon(Icons.key),
+                  SizedBox(width: 8),
+                  Text('Open Food Facts Hesabı'),
                 ],
               ),
             ),

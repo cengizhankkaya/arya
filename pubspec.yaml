@@ -28,15 +28,22 @@ dependencies:
 
   # Shared Preferences
   shared_preferences: ^2.5.3
+  dio: ^5.9.0
 
   # Open Food Facts API
   openfoodfacts: ^3.24.0
+  # HTTP client
+  http: ^1.5.0
   # Translation and localization
   localization: ^2.1.1
   easy_localization: ^3.0.8
 
   # Animations
   lottie: ^3.3.1
+  
+  # Image handling
+  image_picker: ^1.0.7
+
 
 dev_dependencies:
   flutter_test:
