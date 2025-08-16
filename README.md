@@ -1,3 +1,3 @@
 # arya
 
-Yapım Şamasında
+Yapım Aşamasında
