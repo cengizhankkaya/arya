@@ -13,6 +13,7 @@ enum CategoryPalette {
 /// App-specific semantic colors that are not covered by Material ColorScheme
 @immutable
 class AppColors extends ThemeExtension<AppColors> {
+  final Color addbakground;
   final Color textStrong;
   final Color textMuted;
   final Color surfaceMuted;
@@ -32,6 +33,7 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color categorySoftYellowBorder;
 
   const AppColors({
+    required this.addbakground,
     required this.textStrong,
     required this.textMuted,
     required this.surfaceMuted,
@@ -51,6 +53,7 @@ class AppColors extends ThemeExtension<AppColors> {
   });
 
   static const AppColors light = AppColors(
+    addbakground: Color.fromARGB(255, 4, 65, 114),
     textStrong: Color(0xFF333333),
     textMuted: Color(0xFF7C7C7C),
     surfaceMuted: Color(0xFFF8F8F8),
@@ -70,6 +73,7 @@ class AppColors extends ThemeExtension<AppColors> {
   );
 
   static const AppColors dark = AppColors(
+    addbakground: Color.fromARGB(255, 204, 132, 0),
     textStrong: Color(0xFFE6E1E5),
     textMuted: Color(0xFFCAC4D0),
     surfaceMuted: Color(0xFF1E1E1E),
@@ -92,6 +96,7 @@ class AppColors extends ThemeExtension<AppColors> {
 
   @override
   AppColors copyWith({
+    Color? addbakground,
     Color? textStrong,
     Color? textMuted,
     Color? surfaceMuted,
@@ -110,6 +115,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? categorySoftYellowBorder,
   }) {
     return AppColors(
+      addbakground: addbakground ?? this.addbakground,
       textStrong: textStrong ?? this.textStrong,
       textMuted: textMuted ?? this.textMuted,
       surfaceMuted: surfaceMuted ?? this.surfaceMuted,
@@ -139,6 +145,7 @@ class AppColors extends ThemeExtension<AppColors> {
   AppColors lerp(ThemeExtension<AppColors>? other, double t) {
     if (other is! AppColors) return this;
     return AppColors(
+      addbakground: Color.lerp(addbakground, other.addbakground, t)!,
       textStrong: Color.lerp(textStrong, other.textStrong, t)!,
       textMuted: Color.lerp(textMuted, other.textMuted, t)!,
       surfaceMuted: Color.lerp(surfaceMuted, other.surfaceMuted, t)!,

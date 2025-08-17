@@ -12,11 +12,22 @@ class CartService {
   }
 
   Stream<List<CartItemModel>> streamCart(String uid) {
-    return _userCartCollection(uid).snapshots().map(
-      (snapshot) => snapshot.docs
-          .map((doc) => CartItemModel.fromMap(doc.data()))
-          .toList(growable: false),
-    );
+    print('CartService: Starting stream for user: $uid'); // Debug
+    return _userCartCollection(uid)
+        .snapshots()
+        .map((snapshot) {
+          print(
+            'CartService: Received snapshot with ${snapshot.docs.length} docs',
+          ); // Debug
+          return snapshot.docs
+              .map((doc) => CartItemModel.fromMap(doc.data()))
+              .toList(growable: false);
+        })
+        .handleError((error) {
+          print('CartService: Error in stream: $error'); // Debug
+          // Hata durumunda boş liste döndür
+          return <CartItemModel>[];
+        });
   }
 
   Future<void> addToCart(String uid, CartItemModel item) async {

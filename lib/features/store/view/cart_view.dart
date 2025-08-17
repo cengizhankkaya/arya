@@ -25,25 +25,36 @@ class CartView extends StatelessWidget {
       body: StreamBuilder<List<CartItemModel>>(
         stream: cart.cartStream,
         builder: (context, snapshot) {
+          print(
+            'CartView StreamBuilder: hasData=${snapshot.hasData}, connectionState=${snapshot.connectionState}, data=${snapshot.data?.length ?? 0}',
+          ); // Debug
+
+          // Eğer veri varsa loading gösterme
+          if (snapshot.hasData) {
+            final cartItems = snapshot.data!;
+
+            if (cartItems.isEmpty) {
+              return const EmptyCartWidget();
+            }
+
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ListView.builder(
+                itemCount: cartItems.length,
+                itemBuilder: (context, index) {
+                  return CartItemWidget(product: cartItems[index]);
+                },
+              ),
+            );
+          }
+
+          // Sadece ilk kez yüklenirken loading göster
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          final cartItems = snapshot.data ?? [];
-
-          if (cartItems.isEmpty) {
-            return const EmptyCartWidget();
-          }
-
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ListView.builder(
-              itemCount: cartItems.length,
-              itemBuilder: (context, index) {
-                return CartItemWidget(product: cartItems[index]);
-              },
-            ),
-          );
+          // Varsayılan olarak boş sepet göster
+          return const EmptyCartWidget();
         },
       ),
       bottomNavigationBar: StreamBuilder<List<CartItemModel>>(

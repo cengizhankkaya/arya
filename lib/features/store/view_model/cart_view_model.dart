@@ -8,6 +8,9 @@ class CartViewModel extends ChangeNotifier {
   CartViewModel({CartService? cartService, FirebaseAuth? firebaseAuth})
     : _cartService = cartService ?? CartService(),
       _auth = firebaseAuth ?? FirebaseAuth.instance {
+    print('CartViewModel constructor called'); // Debug
+    // Constructor'da hemen boş liste yayınla
+    _cartController.add([]);
     _listenAuthAndCart();
   }
 
@@ -86,6 +89,7 @@ class CartViewModel extends ChangeNotifier {
   }
 
   void _updateCart() {
+    print('Updating cart: ${_cartItems.length} items'); // Debug
     _cartController.add(List.unmodifiable(_cartItems));
     notifyListeners();
   }
@@ -105,31 +109,52 @@ class CartViewModel extends ChangeNotifier {
   }
 
   void _listenAuthAndCart() {
+    // Mevcut kullanıcı varsa hemen sepeti yükle
+    final currentUser = _auth.currentUser;
+    if (currentUser != null) {
+      print('Current user exists: ${currentUser.uid}'); // Debug
+      _setupCartStream(currentUser.uid);
+    }
+
     // Auth değişince sepet akışını yeniden bağla
     _auth.userChanges().listen((user) {
+      print('Auth changed: ${user?.uid}'); // Debug
       _cartSub?.cancel();
       if (user == null) {
+        print('User logged out, clearing cart'); // Debug
         _cartItems.clear();
         _updateCart();
         return;
       }
-      if (_cartItems.isNotEmpty) {
-        final localCopy = List<CartItemModel>.from(_cartItems);
-        _cartItems.clear();
-        _updateCart();
-        Future(() async {
-          for (final item in localCopy) {
-            await _cartService.addToCart(user.uid, item);
-          }
-        });
-      }
-      _cartSub = _cartService.streamCart(user.uid).listen((items) {
-        _cartItems
-          ..clear()
-          ..addAll(items);
-        _updateCart();
-      });
+
+      print('User logged in, setting up cart stream'); // Debug
+      _setupCartStream(user.uid);
     });
+  }
+
+  void _setupCartStream(String uid) {
+    // Kullanıcı giriş yaptığında hemen boş liste yayınla
+    _cartItems.clear();
+    _updateCart();
+
+    // Firebase stream'ini dinle
+    _cartSub = _cartService
+        .streamCart(uid)
+        .listen(
+          (items) {
+            print('Cart stream received: ${items.length} items'); // Debug
+            _cartItems
+              ..clear()
+              ..addAll(items);
+            _updateCart();
+          },
+          onError: (error) {
+            print('Cart stream error: $error'); // Debug
+            // Hata durumunda boş liste yayınla
+            _cartItems.clear();
+            _updateCart();
+          },
+        );
   }
 
   double get totalKcal {

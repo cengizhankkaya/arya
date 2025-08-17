@@ -1,3 +1,4 @@
+import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:arya/features/addproduct/view_model/add_product_viewmodel.dart';
 
@@ -12,14 +13,16 @@ class ProductFormActions extends StatelessWidget {
     return Column(
       children: [
         const SizedBox(height: 30),
-        _buildSubmitButton(),
+        _buildSubmitButton(context),
         const SizedBox(height: 20),
         _buildMessages(),
       ],
     );
   }
 
-  Widget _buildSubmitButton() {
+  Widget _buildSubmitButton(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColors>()!;
+
     return SizedBox(
       width: double.infinity,
       height: 50,
@@ -28,10 +31,10 @@ class ProductFormActions extends StatelessWidget {
           : ElevatedButton(
               onPressed: () => viewModel.addProduct(),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
+                backgroundColor: colors.addbakground,
+                foregroundColor: Theme.of(context).colorScheme.onPrimary,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: ProjectRadius.medium,
                 ),
               ),
               child: const Text(
@@ -52,7 +55,7 @@ class ProductFormActions extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.red.shade50,
               border: Border.all(color: Colors.red.shade200),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: ProjectRadius.xLarge,
             ),
             child: Row(
               children: [
