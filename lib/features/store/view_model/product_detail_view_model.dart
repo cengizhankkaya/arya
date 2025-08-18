@@ -55,13 +55,22 @@ class ProductDetailViewModel extends ChangeNotifier {
   }
 
   // Product related methods
-  String get productName => product['product_name'] ?? 'Product Name';
-  String? get brand => product['brands'];
-  String? get imageUrl => product['image_url'];
-  String? get ingredients => product['ingredients_text'];
-  String? get quantityText => product['quantity'];
-  String? get categories => product['categories'];
-  Map<String, dynamic> get nutriments => product['nutriments'] ?? {};
+  String get productName =>
+      (product['product_name'] ?? 'Product Name').toString();
+  String? get brand =>
+      product['brands'] != null ? product['brands'].toString() : null;
+  String? get imageUrl =>
+      product['image_url'] != null ? product['image_url'].toString() : null;
+  String? get ingredients => product['ingredients_text'] != null
+      ? product['ingredients_text'].toString()
+      : null;
+  String? get quantityText =>
+      product['quantity'] != null ? product['quantity'].toString() : null;
+  String? get categories =>
+      product['categories'] != null ? product['categories'].toString() : null;
+  Map<String, dynamic> get nutriments => product['nutriments'] is Map
+      ? Map<String, dynamic>.from(product['nutriments'] as Map)
+      : const {};
 
   // Nutrition data
   List<Map<String, String>> get nutritionData => [

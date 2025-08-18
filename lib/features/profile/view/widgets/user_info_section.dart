@@ -34,12 +34,6 @@ class UserInfoSection extends StatelessWidget {
           _divider(context),
           _buildInfoRow(context, 'Soyad', user.surname ?? 'Belirtilmemiş'),
           _divider(context),
-          _buildInfoRow(
-            context,
-            'Kullanıcı Adı',
-            user.username ?? 'Belirtilmemiş',
-          ),
-          _divider(context),
           _buildInfoRow(context, 'E-posta', user.email ?? 'Belirtilmemiş'),
         ],
       ),

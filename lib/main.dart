@@ -1,6 +1,6 @@
 import 'package:arya/features/auth/login/view/login_view.dart';
 import 'package:arya/features/auth/service/auth_service.dart';
-import 'package:arya/features/main_page/main_page.dart';
+import 'package:arya/features/mainpage/main_page.dart';
 
 import 'package:arya/features/onboard/view/onboard_view.dart';
 import 'package:arya/features/store/view_model/cart_view_model.dart';

@@ -1,5 +1,5 @@
 export 'auth/index.dart';
-export 'main_page/index.dart';
+export 'mainpage/index.dart';
 export 'profile/index.dart';
 export 'store/index.dart';
 export 'home/index.dart';

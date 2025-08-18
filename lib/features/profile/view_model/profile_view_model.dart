@@ -14,7 +14,7 @@ class ProfileViewModel extends ChangeNotifier {
   // TextEditingController'lar
   final nameController = TextEditingController();
   final surnameController = TextEditingController();
-  final usernameController = TextEditingController();
+  // Username kaldırıldı
 
   // Getters
   UserModel? get user => _user;
@@ -55,7 +55,6 @@ class ProfileViewModel extends ChangeNotifier {
     if (_isDisposed) return;
     nameController.text = _user?.name ?? '';
     surnameController.text = _user?.surname ?? '';
-    usernameController.text = _user?.username ?? '';
   }
 
   /// Kullanıcı verilerini controller'lardan güncelle
@@ -64,16 +63,11 @@ class ProfileViewModel extends ChangeNotifier {
     await updateUser(
       name: nameController.text.trim(),
       surname: surnameController.text.trim(),
-      username: usernameController.text.trim(),
     );
   }
 
   /// Kullanıcı verilerini parametrelerle güncelle
-  Future<void> updateUser({
-    String? name,
-    String? surname,
-    String? username,
-  }) async {
+  Future<void> updateUser({String? name, String? surname}) async {
     if (_isDisposed) return;
     if (_user == null) {
       _setError("Güncellenecek kullanıcı verisi bulunamadı.");
@@ -84,11 +78,7 @@ class ProfileViewModel extends ChangeNotifier {
     _clearError();
 
     try {
-      final updatedUser = _user!.copyWith(
-        name: name,
-        surname: surname,
-        username: username,
-      );
+      final updatedUser = _user!.copyWith(name: name, surname: surname);
 
       await _userService.updateUserData(updatedUser);
       _user = updatedUser;
@@ -174,7 +164,7 @@ class ProfileViewModel extends ChangeNotifier {
     _isDisposed = true;
     nameController.dispose();
     surnameController.dispose();
-    usernameController.dispose();
+    // username controller kaldırıldı
     super.dispose();
   }
 

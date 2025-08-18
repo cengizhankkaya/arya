@@ -17,12 +17,16 @@ class CartItemModel {
 
   factory CartItemModel.fromMap(Map<String, dynamic> map) {
     return CartItemModel(
-      id: map['id'] ?? '',
-      productName: map['product_name'] ?? 'İsimsiz',
-      brands: map['brands'],
-      imageThumbUrl: map['image_thumb_url'],
-      quantity: map['quantity'] ?? 1,
-      nutriments: (map['nutriments'] as Map<String, dynamic>?) ?? const {},
+      id: (map['id'] ?? '').toString(),
+      productName: (map['product_name'] ?? 'İsimsiz').toString(),
+      brands: map['brands'] != null ? map['brands'].toString() : null,
+      imageThumbUrl: map['image_thumb_url'] != null
+          ? map['image_thumb_url'].toString()
+          : null,
+      quantity: (map['quantity'] as num?)?.toInt() ?? 1,
+      nutriments: map['nutriments'] is Map
+          ? Map<String, dynamic>.from(map['nutriments'] as Map)
+          : const {},
     );
   }
 

@@ -46,13 +46,6 @@ class EditProfileForm extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          TextField(
-            controller: viewModel.usernameController,
-            decoration: const InputDecoration(
-              labelText: 'Kullanıcı Adı',
-              prefixIcon: Icon(Icons.alternate_email),
-            ),
-          ),
           const SizedBox(height: 20),
           Row(
             children: [

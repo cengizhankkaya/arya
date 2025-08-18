@@ -127,10 +127,6 @@ class RegisterViewModel extends ChangeNotifier {
         name: nameController.text.trim(),
         surname: surnameController.text.trim(),
         email: emailController.text.trim(),
-        username: _generateUsername(
-          nameController.text.trim(),
-          surnameController.text.trim(),
-        ),
       );
 
       // 3. Firestore'a kullanıcı verilerini kaydet
@@ -146,16 +142,7 @@ class RegisterViewModel extends ChangeNotifier {
     }
   }
 
-  // Kullanıcı adı oluşturma
-  String _generateUsername(String name, String surname) {
-    final timestamp = DateTime.now().millisecondsSinceEpoch;
-    final cleanName = name.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]'), '');
-    final cleanSurname = surname.toLowerCase().replaceAll(
-      RegExp(r'[^a-z0-9]'),
-      '',
-    );
-    return '${cleanName}_${cleanSurname}_$timestamp';
-  }
+  // Kullanıcı adı oluşturma kaldırıldı: kayıt sırasında username üretilmiyor
 
   // State management methods
   void _setLoading(bool loading) {

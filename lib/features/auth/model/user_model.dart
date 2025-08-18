@@ -36,7 +36,6 @@ class UserModel {
       uid?.isNotEmpty == true &&
       name?.isNotEmpty == true &&
       surname?.isNotEmpty == true &&
-      username?.isNotEmpty == true &&
       email?.isNotEmpty == true;
 
   UserModel copyWith({
@@ -56,13 +55,13 @@ class UserModel {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'uid': uid,
-      'name': name,
-      'surname': surname,
-      'username': username,
-      'email': email,
-    };
+    final data = <String, dynamic>{};
+    if (uid != null) data['uid'] = uid;
+    if (name != null) data['name'] = name;
+    if (surname != null) data['surname'] = surname;
+    if (username != null && username!.isNotEmpty) data['username'] = username;
+    if (email != null) data['email'] = email;
+    return data;
   }
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
