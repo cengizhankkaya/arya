@@ -10,13 +10,15 @@ class OpenFoodFactsService {
     ),
   );
 
-  Future<List<dynamic>> searchProducts(String query, {String? country}) async {
+  Future<List<dynamic>> searchProducts(String query, {String? country, int page = 1, int pageSize = 20}) async {
     try {
       final params = {
         'search_terms': query,
         'search_simple': 1,
         'action': 'process',
         'json': 1,
+        'page': page,
+        'page_size': pageSize,
       };
       if (country != null && country.isNotEmpty) {
         params['country'] = country;
@@ -34,6 +36,8 @@ class OpenFoodFactsService {
   Future<List<dynamic>> searchProductsByCategory(
     String category, {
     String? country,
+    int page = 1,
+    int pageSize = 20,
   }) async {
     try {
       final candidates = _candidateTagsForCategory(category);
@@ -52,7 +56,8 @@ class OpenFoodFactsService {
           'tagtype_0': 'categories',
           'tag_contains_0': 'contains',
           'tag_0': tag,
-          'page_size': 100,
+          'page': page,
+          'page_size': pageSize,
         };
         if (country != null && country.isNotEmpty) {
           params['country'] = country;
@@ -89,19 +94,21 @@ class OpenFoodFactsService {
   Future<List<dynamic>> _fetchCategoryEndpointProducts(
     String tag, {
     String? country,
+    int page = 1,
+    int pageSize = 20,
   }) async {
     try {
       // Try without language prefix
       final resp = await _dio.get(
         '/category/$tag.json',
-        queryParameters: {'page_size': 100, 'json': 1},
+        queryParameters: {'page': page, 'page_size': pageSize, 'json': 1},
       );
       List<dynamic> products = (resp.data['products'] ?? []) as List<dynamic>;
       if (products.isEmpty) {
         // Try with en: prefix
         final respEn = await _dio.get(
           '/category/en:$tag.json',
-          queryParameters: {'page_size': 100, 'json': 1},
+          queryParameters: {'page': page, 'page_size': pageSize, 'json': 1},
         );
         products = (respEn.data['products'] ?? []) as List<dynamic>;
       }

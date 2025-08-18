@@ -11,6 +11,7 @@ class CartViewModel extends ChangeNotifier {
     print('CartViewModel constructor called'); // Debug
     // Constructor'da hemen boş liste yayınla
     _cartController.add([]);
+    // Auth dinlemeyi başlat
     _listenAuthAndCart();
   }
 
@@ -26,11 +27,18 @@ class CartViewModel extends ChangeNotifier {
   List<CartItemModel> get cartItems => List.unmodifiable(_cartItems);
 
   Future<void> addToCart(CartItemModel item) async {
+    print('CartViewModel: Adding item to cart:');
+    print('  Product: ${item.productName}');
+    print('  Image URL: ${item.imageThumbUrl}');
+    print('  Quantity: ${item.quantity}');
+
     final uid = _auth.currentUser?.uid;
     if (uid == null) {
+      print('  User not logged in, adding to local cart');
       _addLocal(item);
       return;
     }
+    print('  User logged in, adding to Firebase cart');
     await _cartService.addToCart(uid, item);
   }
 
@@ -89,20 +97,30 @@ class CartViewModel extends ChangeNotifier {
   }
 
   void _updateCart() {
-    print('Updating cart: ${_cartItems.length} items'); // Debug
+    print('CartViewModel: Updating cart: ${_cartItems.length} items');
+    for (final item in _cartItems) {
+      print('  - ${item.productName}: ${item.imageThumbUrl}');
+    }
+    print('CartViewModel: Publishing to stream');
     _cartController.add(List.unmodifiable(_cartItems));
     notifyListeners();
   }
 
   void _addLocal(CartItemModel item) {
+    print('CartViewModel: Adding to local cart:');
+    print('  Product: ${item.productName}');
+    print('  Image URL: ${item.imageThumbUrl}');
+
     final existingIndex = _cartItems.indexWhere(
       (element) => element.id == item.id,
     );
     if (existingIndex != -1) {
+      print('  Item already exists, increasing quantity');
       _cartItems[existingIndex] = _cartItems[existingIndex].copyWith(
         quantity: _cartItems[existingIndex].quantity + 1,
       );
     } else {
+      print('  Adding new item to local cart');
       _cartItems.add(item);
     }
     _updateCart();
@@ -114,6 +132,10 @@ class CartViewModel extends ChangeNotifier {
     if (currentUser != null) {
       print('Current user exists: ${currentUser.uid}'); // Debug
       _setupCartStream(currentUser.uid);
+    } else {
+      // Kullanıcı giriş yapmamışsa hemen boş liste yayınla
+      print('No user logged in, publishing empty cart'); // Debug
+      _cartController.add([]);
     }
 
     // Auth değişince sepet akışını yeniden bağla
@@ -133,9 +155,7 @@ class CartViewModel extends ChangeNotifier {
   }
 
   void _setupCartStream(String uid) {
-    // Kullanıcı giriş yaptığında hemen boş liste yayınla
-    _cartItems.clear();
-    _updateCart();
+    print('CartViewModel: Setting up cart stream for user: $uid'); // Debug
 
     // Firebase stream'ini dinle
     _cartSub = _cartService

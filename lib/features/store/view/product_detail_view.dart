@@ -82,7 +82,57 @@ class _ProductDetailViewBody extends StatelessWidget {
                     fit: StackFit.expand,
                     children: [
                       if (viewModel.imageUrl != null)
-                        Image.network(viewModel.imageUrl!, fit: BoxFit.cover)
+                        Image.network(
+                          viewModel.imageUrl!,
+                          fit: BoxFit.cover,
+                          headers: const {'User-Agent': 'AryaApp/1.0'},
+                          errorBuilder: (context, error, stackTrace) {
+                            print('ProductDetailView: Image error: $error');
+                            return Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    scheme.primary,
+                                    scheme.primaryContainer,
+                                  ],
+                                ),
+                              ),
+                              child: Icon(
+                                Icons.image_not_supported,
+                                size: 80,
+                                color: Colors.white.withOpacity(0.7),
+                              ),
+                            );
+                          },
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    scheme.primary,
+                                    scheme.primaryContainer,
+                                  ],
+                                ),
+                              ),
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  value:
+                                      loadingProgress.expectedTotalBytes != null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                      : null,
+                                  strokeWidth: 3,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            );
+                          },
+                        )
                       else
                         Container(
                           decoration: BoxDecoration(
@@ -387,7 +437,7 @@ class _ProductDetailViewBody extends StatelessWidget {
           ...children,
           // Product info subtitle
           Text(
-            "Ürün bilgileri gönülüler sayeeysinde toplanmaktadır gerçeği yansıtmakta sorun çıkabilir",
+            "Ürün bilgileri gönüllüler sayesinde toplanmaktadır, gerçeği yansıtmakta sorun çıkabilir",
             style: AppTypography.lightTextTheme.bodySmall?.copyWith(
               color: scheme.onSurfaceVariant,
               fontWeight: FontWeight.w500,

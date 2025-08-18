@@ -16,6 +16,10 @@ class CartItemWidget extends StatelessWidget {
     final appColors = Theme.of(context).extension<AppColors>();
     final cart = Provider.of<CartViewModel>(context, listen: false);
 
+    // Debug bilgisi ekle
+    print('CartItemWidget - Product: ${product.productName}');
+    print('CartItemWidget - Image URL: ${product.imageThumbUrl}');
+
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
@@ -54,6 +58,13 @@ class CartItemWidget extends StatelessWidget {
   }
 
   Widget _buildProductImage(ColorScheme scheme) {
+    // Debug bilgisi ekle
+    print('_buildProductImage - Image URL: ${product.imageThumbUrl}');
+    print('_buildProductImage - URL is null: ${product.imageThumbUrl == null}');
+    print(
+      '_buildProductImage - URL is empty: ${product.imageThumbUrl?.isEmpty}',
+    );
+
     return Container(
       width: 60,
       height: 60,
@@ -61,12 +72,73 @@ class CartItemWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         color: scheme.surfaceContainerHighest,
       ),
-      child: product.imageThumbUrl != null
+      child: product.imageThumbUrl != null && product.imageThumbUrl!.isNotEmpty
           ? ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.network(product.imageThumbUrl!, fit: BoxFit.cover),
+              child: Image.network(
+                product.imageThumbUrl!,
+                fit: BoxFit.cover,
+                width: 60,
+                height: 60,
+                errorBuilder: (context, error, stackTrace) {
+                  print('Image error for ${product.imageThumbUrl}: $error');
+                  return Container(
+                    width: 60,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: scheme.surfaceContainerHighest,
+                    ),
+                    child: Icon(
+                      Icons.image_not_supported,
+                      size: 30,
+                      color: scheme.outlineVariant,
+                    ),
+                  );
+                },
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) {
+                    print(
+                      'Image loaded successfully: ${product.imageThumbUrl}',
+                    );
+                    return child;
+                  }
+                  print(
+                    'Image loading progress: ${loadingProgress.cumulativeBytesLoaded}/${loadingProgress.expectedTotalBytes}',
+                  );
+                  return Container(
+                    width: 60,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: scheme.surfaceContainerHighest,
+                    ),
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                            : null,
+                        strokeWidth: 2,
+                      ),
+                    ),
+                  );
+                },
+              ),
             )
-          : Icon(Icons.image, size: 30, color: scheme.outlineVariant),
+          : Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: scheme.surfaceContainerHighest,
+              ),
+              child: Icon(
+                Icons.image_not_supported,
+                size: 30,
+                color: scheme.outlineVariant,
+              ),
+            ),
     );
   }
 

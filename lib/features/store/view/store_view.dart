@@ -55,7 +55,13 @@ class ProductsPage extends StatelessWidget {
                 ],
               ),
             ),
-            Expanded(child: ProductList()),
+            Expanded(
+              child: Consumer<StoreViewModel>(
+                builder: (context, model, child) {
+                  return ProductList();
+                },
+              ),
+            ),
           ],
         ),
       ),

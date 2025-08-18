@@ -6,6 +6,10 @@ class StoreViewModel extends ChangeNotifier {
   final OpenFoodFactsService _service = OpenFoodFactsService();
   List<dynamic> products = [];
   bool isLoading = false;
+  bool isLoadingMore = false;
+  bool hasMoreProducts = true;
+  int currentPage = 1;
+  String currentQuery = '';
   // List<String> countries = ['turkey', 'france', 'germany', 'united-states'];
   String selectedCountry = '';
   String selectedCategory = '';
@@ -24,13 +28,21 @@ class StoreViewModel extends ChangeNotifier {
 
   Future<void> search(String query) async {
     isLoading = true;
+    currentQuery = query;
+    currentPage = 1;
+    hasMoreProducts = true;
     safeNotify();
     try {
       if (query.trim().isEmpty) {
         await fetchRandomProducts();
         return;
       }
-      products = await _service.searchProducts(query, country: selectedCountry);
+      products = await _service.searchProducts(
+        query,
+        country: selectedCountry,
+        page: currentPage,
+        pageSize: 20,
+      );
     } catch (e) {
       products = [];
     }
@@ -40,18 +52,73 @@ class StoreViewModel extends ChangeNotifier {
 
   Future<void> fetchRandomProducts() async {
     isLoading = true;
+    currentPage = 1;
+    hasMoreProducts = true;
     safeNotify();
     try {
       final allProducts = await _service.searchProducts(
         '',
         country: selectedCountry,
+        page: currentPage,
+        pageSize: 20,
       );
       allProducts.shuffle();
-      products = allProducts.take(30).toList();
+      products = allProducts.take(20).toList();
     } catch (e) {
       products = [];
     }
     isLoading = false;
+    safeNotify();
+  }
+
+  Future<void> loadMoreProducts() async {
+    if (isLoadingMore || !hasMoreProducts) return;
+
+    isLoadingMore = true;
+    safeNotify();
+
+    try {
+      List<dynamic> newProducts = [];
+      currentPage++;
+
+      if (selectedCategory.isNotEmpty) {
+        // Kategori aramaları için
+        newProducts = await _service.searchProductsByCategory(
+          selectedCategory,
+          country: selectedCountry,
+          page: currentPage,
+          pageSize: 20,
+        );
+      } else if (currentQuery.trim().isEmpty) {
+        // Rastgele ürünler için
+        final allProducts = await _service.searchProducts(
+          '',
+          country: selectedCountry,
+          page: currentPage,
+          pageSize: 20,
+        );
+        allProducts.shuffle();
+        newProducts = allProducts.take(20).toList();
+      } else {
+        // Arama sonuçları için
+        newProducts = await _service.searchProducts(
+          currentQuery,
+          country: selectedCountry,
+          page: currentPage,
+          pageSize: 20,
+        );
+      }
+
+      if (newProducts.isNotEmpty) {
+        products.addAll(newProducts);
+      } else {
+        hasMoreProducts = false;
+      }
+    } catch (e) {
+      hasMoreProducts = false;
+    }
+
+    isLoadingMore = false;
     safeNotify();
   }
 
@@ -63,11 +130,16 @@ class StoreViewModel extends ChangeNotifier {
   Future<void> fetchByCategory(String category) async {
     isLoading = true;
     selectedCategory = category;
+    currentPage = 1;
+    hasMoreProducts = true;
+    currentQuery = '';
     safeNotify();
     try {
       products = await _service.searchProductsByCategory(
         category,
         country: selectedCountry,
+        page: currentPage,
+        pageSize: 20,
       );
     } catch (e) {
       products = [];
@@ -80,16 +152,28 @@ class StoreViewModel extends ChangeNotifier {
     BuildContext context,
     Map<String, dynamic> product,
   ) async {
+    // Debug: Ürün verilerini kontrol et
+    print('Adding product to cart:');
+    print('  ID: ${product['id']}');
+    print('  Name: ${product['product_name']}');
+    print('  Brands: ${product['brands']}');
+    print('  Image thumb URL: ${product['image_thumb_url']}');
+    print('  Image URL: ${product['image_url']}');
+
+    final imageUrl = (product['image_thumb_url'] ?? product['image_url'])
+        ?.toString();
+    print('  Final image URL: $imageUrl');
+
     final cartItem = CartItemModel(
       id: product['id']?.toString() ?? '',
       productName: product['product_name']?.toString() ?? 'İsimsiz Ürün',
       brands: product['brands']?.toString(),
-      imageThumbUrl: (product['image_thumb_url'] ?? product['image_url'])
-          ?.toString(),
+      imageThumbUrl: imageUrl,
       quantity: 1,
       nutriments: (product['nutriments'] as Map<String, dynamic>?) ?? const {},
     );
 
+    print('  Cart item image URL: ${cartItem.imageThumbUrl}');
     await context.read<CartViewModel>().addToCart(cartItem);
   }
 }
