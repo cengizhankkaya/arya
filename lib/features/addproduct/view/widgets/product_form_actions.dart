@@ -82,7 +82,7 @@ class ProductFormActions extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.green.shade50,
               border: Border.all(color: Colors.green.shade200),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: ProjectRadius.xLarge,
             ),
             child: Row(
               children: [

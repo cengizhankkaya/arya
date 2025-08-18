@@ -15,7 +15,6 @@ mixin FormControllersMixin on ChangeNotifier {
   final TextEditingController carbsController = TextEditingController();
   final TextEditingController proteinController = TextEditingController();
   final TextEditingController ingredientsController = TextEditingController();
-  final TextEditingController imageUrlController = TextEditingController();
   final TextEditingController sodiumController = TextEditingController();
   final TextEditingController fiberController = TextEditingController();
   final TextEditingController sugarController = TextEditingController();
@@ -34,7 +33,6 @@ mixin FormControllersMixin on ChangeNotifier {
     carbsController.clear();
     proteinController.clear();
     ingredientsController.clear();
-    imageUrlController.clear();
     sodiumController.clear();
     fiberController.clear();
     sugarController.clear();
@@ -56,7 +54,6 @@ mixin FormControllersMixin on ChangeNotifier {
     carbsController.dispose();
     proteinController.dispose();
     ingredientsController.dispose();
-    imageUrlController.dispose();
     sodiumController.dispose();
     fiberController.dispose();
     sugarController.dispose();

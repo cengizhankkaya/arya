@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+// removed unused Flutter material import
 
 class ProductModel {
   final String? id;
@@ -12,7 +12,6 @@ class ProductModel {
   final String carbs;
   final String protein;
   final String ingredients;
-  final String imageUrl;
   final String sodium;
   final String fiber;
   final String sugar;
@@ -32,7 +31,6 @@ class ProductModel {
     required this.carbs,
     required this.protein,
     required this.ingredients,
-    required this.imageUrl,
     required this.sodium,
     required this.fiber,
     required this.sugar,
@@ -102,7 +100,6 @@ class ProductModel {
     String carbs = '',
     String protein = '',
     required String ingredients,
-    String imageUrl = '',
     String sodium = '',
     String fiber = '',
     String sugar = '',
@@ -121,7 +118,6 @@ class ProductModel {
       carbs: carbs.trim(),
       protein: protein.trim(),
       ingredients: ingredients.trim(),
-      imageUrl: imageUrl.trim(),
       sodium: sodium.trim(),
       fiber: fiber.trim(),
       sugar: sugar.trim(),
@@ -133,14 +129,13 @@ class ProductModel {
 
   // Convert to Map for API
   Map<String, String> toApiData() {
-    return {
+    final data = <String, String>{
       'code': barcode,
       'product_name': name,
       'brands': brands,
       'categories': categories,
       'quantity': quantity,
       'ingredients_text': ingredients,
-      'image_url': imageUrl,
       'nutriment_sodium': sodium,
       'nutriment_fiber': fiber,
       'nutriment_sugars': sugar,
@@ -148,6 +143,8 @@ class ProductModel {
       'generic_name': description,
       'labels_tags': tags,
     };
+
+    return data;
   }
 
   // Copy with method
@@ -163,7 +160,6 @@ class ProductModel {
     String? carbs,
     String? protein,
     String? ingredients,
-    String? imageUrl,
     String? sodium,
     String? fiber,
     String? sugar,
@@ -183,7 +179,6 @@ class ProductModel {
       carbs: carbs ?? this.carbs,
       protein: protein ?? this.protein,
       ingredients: ingredients ?? this.ingredients,
-      imageUrl: imageUrl ?? this.imageUrl,
       sodium: sodium ?? this.sodium,
       fiber: fiber ?? this.fiber,
       sugar: sugar ?? this.sugar,

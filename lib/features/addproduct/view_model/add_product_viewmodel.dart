@@ -101,7 +101,6 @@ class AddProductViewModel extends ChangeNotifier
         carbs: carbsController.text,
         protein: proteinController.text,
         ingredients: ingredientsController.text,
-        imageUrl: imageUrlController.text,
         sodium: sodiumController.text,
         fiber: fiberController.text,
         sugar: sugarController.text,
@@ -110,11 +109,12 @@ class AddProductViewModel extends ChangeNotifier
         tags: tagsController.text,
       );
 
-      // 4) Repository üzerinden ürünü kaydet
+      // 4) Repository üzerinden ürünü kaydet (varsa resimle birlikte)
       final result = await _productRepository.saveProduct(
         product,
         offUsername,
         offPassword,
+        imageFile: selectedImage,
       );
 
       if (result.status == 1) {

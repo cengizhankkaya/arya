@@ -1,13 +1,15 @@
 import 'package:openfoodfacts/openfoodfacts.dart' as off;
 import 'package:http/http.dart' as http;
+import 'dart:io';
 import '../model/product_model.dart';
 
 abstract class IProductRepository {
   Future<off.Status> saveProduct(
     ProductModel product,
     String username,
-    String password,
-  );
+    String password, {
+    File? imageFile,
+  });
 }
 
 class ProductRepository implements IProductRepository {
@@ -18,8 +20,9 @@ class ProductRepository implements IProductRepository {
   Future<off.Status> saveProduct(
     ProductModel product,
     String username,
-    String password,
-  ) async {
+    String password, {
+    File? imageFile,
+  }) async {
     final uri = Uri.parse('$_baseUrl$_endpoint');
 
     // Form data hazırla
@@ -61,9 +64,36 @@ class ProductRepository implements IProductRepository {
 
       // Redirect'leri handle et
       if (response.statusCode >= 300 && response.statusCode < 400) {
-        return await _handleRedirect(client, response, headers, body);
+        final status = await _handleRedirect(client, response, headers, body);
+        if (status.status == 1) {
+          // If product saved, try image upload if provided
+          if (imageFile != null) {
+            await _uploadProductImage(
+              client: client,
+              barcode: product.barcode,
+              username: username,
+              password: password,
+              imageFile: imageFile,
+              headers: headers,
+            );
+          }
+        }
+        return status;
       } else if (response.statusCode == 200) {
-        return _parseResponse(response.body);
+        final status = _parseResponse(response.body);
+        if (status.status == 1) {
+          if (imageFile != null) {
+            await _uploadProductImage(
+              client: client,
+              barcode: product.barcode,
+              username: username,
+              password: password,
+              imageFile: imageFile,
+              headers: headers,
+            );
+          }
+        }
+        return status;
       } else {
         return off.Status(
           status: -1,
@@ -133,6 +163,43 @@ class ProductRepository implements IProductRepository {
       }
     } catch (e) {
       return off.Status(status: -1, statusVerbose: 'Parse error: $e');
+    }
+  }
+
+  Future<void> _uploadProductImage({
+    required http.Client client,
+    required String barcode,
+    required String username,
+    required String password,
+    required File imageFile,
+    required Map<String, String> headers,
+  }) async {
+    try {
+      final uri = Uri.parse('$_baseUrl/cgi/product_image_upload.pl');
+      final multipartRequest = http.MultipartRequest('POST', uri);
+      final multipartHeaders = Map<String, String>.from(headers);
+      multipartHeaders.remove('Content-Type');
+      multipartRequest.headers.addAll(multipartHeaders);
+
+      multipartRequest.fields.addAll({
+        'code': barcode,
+        'imagefield': 'front',
+        'user_id': username,
+        'password': password,
+        'action': 'process',
+      });
+
+      multipartRequest.files.add(
+        await http.MultipartFile.fromPath('imgupload_front', imageFile.path),
+      );
+
+      final streamed = await client.send(multipartRequest);
+      final response = await http.Response.fromStream(streamed);
+      print('DEBUG: Image upload status: ${response.statusCode}');
+      print('DEBUG: Image upload body: ${response.body}');
+      // We don't block product save based on image upload result
+    } catch (e) {
+      print('DEBUG: Image upload failed: $e');
     }
   }
 }
