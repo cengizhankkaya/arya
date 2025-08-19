@@ -1,4 +1,5 @@
 import 'package:arya/features/index.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 Future<void> showDeleteAccountDialog(
@@ -8,14 +9,12 @@ Future<void> showDeleteAccountDialog(
   final result = await showDialog<bool>(
     context: context,
     builder: (context) => AlertDialog(
-      title: const Text('Hesabı Sil'),
-      content: const Text(
-        'Hesabınızı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!',
-      ),
+      title: Text('dialogs.delete_account.title'.tr()),
+      content: Text('dialogs.delete_account.content'.tr()),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(false),
-          child: const Text('İptal'),
+          child: Text('general.button.cancel'.tr()),
         ),
         ElevatedButton(
           onPressed: () => Navigator.of(context).pop(true),
@@ -23,7 +22,7 @@ Future<void> showDeleteAccountDialog(
             backgroundColor: Theme.of(context).colorScheme.error,
             foregroundColor: Theme.of(context).colorScheme.onError,
           ),
-          child: const Text('Hesabı Sil'),
+          child: Text('general.button.delete_account'.tr()),
         ),
       ],
     ),

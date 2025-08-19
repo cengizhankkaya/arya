@@ -1,4 +1,5 @@
 import 'package:arya/features/index.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 
@@ -54,26 +55,26 @@ class _MainPageState extends State<MainPage> {
           ).textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w400),
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
-          items: const [
+          items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined),
               activeIcon: Icon(Icons.home),
-              label: 'Ana Sayfa',
+              label: 'bottom.home'.tr(),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.store_outlined),
               activeIcon: Icon(Icons.store),
-              label: 'Mağaza',
+              label: 'bottom.store'.tr(),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.shopping_cart_outlined),
               activeIcon: Icon(Icons.shopping_cart),
-              label: 'Sepet',
+              label: 'bottom.cart'.tr(),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person_outline),
               activeIcon: Icon(Icons.person),
-              label: 'Profil',
+              label: 'bottom.profile'.tr(),
             ),
           ],
         ),

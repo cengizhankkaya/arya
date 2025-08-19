@@ -15,11 +15,6 @@ class CartItemWidget extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     final appColors = Theme.of(context).extension<AppColors>();
     final cart = Provider.of<CartViewModel>(context, listen: false);
-
-    // Debug bilgisi ekle
-    print('CartItemWidget - Product: ${product.productName}');
-    print('CartItemWidget - Image URL: ${product.imageThumbUrl}');
-
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
@@ -58,13 +53,6 @@ class CartItemWidget extends StatelessWidget {
   }
 
   Widget _buildProductImage(ColorScheme scheme) {
-    // Debug bilgisi ekle
-    print('_buildProductImage - Image URL: ${product.imageThumbUrl}');
-    print('_buildProductImage - URL is null: ${product.imageThumbUrl == null}');
-    print(
-      '_buildProductImage - URL is empty: ${product.imageThumbUrl?.isEmpty}',
-    );
-
     return Container(
       width: 60,
       height: 60,
@@ -81,7 +69,6 @@ class CartItemWidget extends StatelessWidget {
                 width: 60,
                 height: 60,
                 errorBuilder: (context, error, stackTrace) {
-                  print('Image error for ${product.imageThumbUrl}: $error');
                   return Container(
                     width: 60,
                     height: 60,
@@ -97,15 +84,7 @@ class CartItemWidget extends StatelessWidget {
                   );
                 },
                 loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) {
-                    print(
-                      'Image loaded successfully: ${product.imageThumbUrl}',
-                    );
-                    return child;
-                  }
-                  print(
-                    'Image loading progress: ${loadingProgress.cumulativeBytesLoaded}/${loadingProgress.expectedTotalBytes}',
-                  );
+                  if (loadingProgress == null) return Container();
                   return Container(
                     width: 60,
                     height: 60,

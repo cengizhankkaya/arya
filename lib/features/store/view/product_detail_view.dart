@@ -2,6 +2,7 @@ import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../view_model/product_detail_view_model.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProductDetailView extends StatelessWidget {
   final Map<String, dynamic> product;
@@ -290,13 +291,13 @@ class _ProductDetailViewBody extends StatelessWidget {
                                   children: [
                                     if (viewModel.ingredients != null)
                                       _buildCompactDetailItem(
-                                        "Ingredients",
+                                        'detail.ingredients'.tr(),
                                         viewModel.ingredients!,
                                         scheme,
                                       ),
                                     if (viewModel.quantityText != null)
                                       _buildCompactDetailItem(
-                                        "Quantity",
+                                        'detail.quantity'.tr(),
                                         viewModel.quantityText!,
                                         scheme,
                                       ),
@@ -311,7 +312,7 @@ class _ProductDetailViewBody extends StatelessWidget {
                         _buildDetailCard(
                           context,
                           scheme,
-                          "Nutrition Facts",
+                          'detail.nutrition_facts'.tr(),
                           Icons.monitor_heart_outlined,
                           _buildNutritionItems(
                             viewModel.nutriments,
@@ -437,7 +438,7 @@ class _ProductDetailViewBody extends StatelessWidget {
           ...children,
           // Product info subtitle
           Text(
-            "Ürün bilgileri gönüllüler sayesinde toplanmaktadır, gerçeği yansıtmakta sorun çıkabilir",
+            'detail.data_disclaimer'.tr(),
             style: AppTypography.lightTextTheme.bodySmall?.copyWith(
               color: scheme.onSurfaceVariant,
               fontWeight: FontWeight.w500,
@@ -497,7 +498,7 @@ class _ProductDetailViewBody extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              item['label']!,
+              (item['label']!).tr(),
               style: AppTypography.lightTextTheme.bodyLarge?.copyWith(
                 color: scheme.onSurface,
                 fontWeight: FontWeight.w500,

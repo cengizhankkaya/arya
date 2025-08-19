@@ -1,4 +1,5 @@
 import 'package:arya/features/index.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +17,7 @@ class ProductList extends StatelessWidget {
         }
 
         if (model.products.isEmpty) {
-          return const Center(child: Text('Ürün bulunamadı'));
+          return Center(child: Text('store.no_products'.tr()));
         }
 
         return NotificationListener<ScrollNotification>(
@@ -89,7 +90,8 @@ class ProductList extends StatelessWidget {
                       Column(
                         children: [
                           Text(
-                            product['product_name'] ?? 'Ürün adı yok',
+                            product['product_name'] ??
+                                'store.product_name_missing'.tr(),
                             textAlign: TextAlign.center,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,

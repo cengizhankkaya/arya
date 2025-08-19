@@ -1,19 +1,193 @@
 {
     "hello": {
-        "title": "Ana Sayfa "
-       
+        "title": "Ana Sayfa"
+    },
+    "settings": {
+        "language": "Dil"
+    },
+    "dialogs": {
+        "language": {
+            "title": "Dil Seçin",
+            "turkish": "Türkçe",
+            "english": "İngilizce"
+        }
+    ,
+        "logout": {
+            "title": "Çıkış Yap",
+            "content": "Çıkış yapmak istediğinizden emin misiniz?"
+        },
+        "delete_account": {
+            "title": "Hesabı Sil",
+            "content": "Hesabınızı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!"
+        }
+    },
+    "detail": {
+        "ingredients": "İçindekiler",
+        "quantity": "Miktar",
+        "nutrition_facts": "Besin Değerleri",
+        "data_disclaimer": "Ürün bilgileri gönüllüler tarafından toplanır ve tamamen doğru olmayabilir.",
+        "adding_to_cart": "Sepete ekleniyor...",
+        "add_to_cart": "Sepete Ekle",
+        "energy": "Enerji",
+        "fat": "Yağ",
+        "saturated_fat": "Doymuş Yağ",
+        "carbohydrates": "Karbonhidrat",
+        "sugars": "Şeker",
+        "proteins": "Protein",
+        "salt": "Tuz"
     },
     "general": {
-        "button":{
+        "button": {
             "ok": "Tamam",
-            "cancel": "İptal"
+            "cancel": "İptal",
+            "save": "Kaydet",
+            "edit": "Düzenle",
+            "clear": "Temizle",
+            "try_again": "Tekrar Dene",
+            "logout": "Çıkış Yap",
+            "delete_account": "Hesabı Sil"
+        },
+        "tooltip": {
+            "clear_cart": "Sepeti Temizle"
         },
         "error": {
             "network": "Ağ hatası, lütfen tekrar deneyin.",
             "server": "Sunucu hatası, lütfen daha sonra tekrar deneyin."
+        },
+        "or": "veya",
+        "no_image": "Resim Yok",
+        "not_specified": "Belirtilmemiş"
+    },
+    "appbar": {
+        "cart": "Sepet",
+        "profile": "Profil",
+        "categories": "Kategoriler",
+        "off_account": "Open Food Facts Hesabı"
+    },
+    "profile": {
+        "labels": {
+            "name": "Ad",
+            "surname": "Soyad",
+            "email": "E-posta"
+        },
+        "edit": {
+            "save": "Kaydet",
+            "cancel": "İptal"
+        },
+        "status": {
+            "completed": "Profil tamamlandı",
+            "incomplete": "Eksik profil bilgileri",
+            "completed_desc": "Tüm zorunlu bilgiler mevcut.",
+            "incomplete_desc": "Daha iyi deneyim için ad, soyad ve kullanıcı adı ekleyin."
+        },
+        "no_user_data": "Kullanıcı verisi bulunamadı."
+    },
+    "off": {
+        "saved": "Open Food Facts bilgileri kaydedildi.",
+        "cleared": "Open Food Facts bilgileri temizlendi.",
+        "save_failed": "Kaydedilemedi: {error}",
+        "username": "Kullanıcı Adı",
+        "password": "Şifre",
+        "required_username": "Kullanıcı adı zorunlu",
+        "required_password": "Şifre zorunlu"
+    },
+    "dialogs": {
+        "logout": {
+            "title": "Çıkış Yap",
+            "content": "Çıkış yapmak istediğinizden emin misiniz?"
+        },
+        "delete_account": {
+            "title": "Hesabı Sil",
+            "content": "Hesabınızı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!"
         }
-        
-
-        
+    },
+    "store": {
+        "search_hint": "Ürün ara...",
+        "search_products": "Ürün Ara",
+        "add_product": "Ürün Ekle",
+        "no_products": "Ürün bulunamadı",
+        "product_name_missing": "Ürün adı yok",
+        "added_to_cart": "Ürün sepete eklendi",
+        "nutrition_title": "Besin Değerleri (100g)",
+        "kcal": "Kalori",
+        "protein": "Protein",
+        "carbs": "Karbonhidrat",
+        "fat": "Yağ",
+        "empty_cart_title": "Sepet boş",
+        "empty_cart_subtitle": "Henüz ürün eklenmemiş",
+        "totals": {
+            "total_kcal": "Toplam Kalori",
+            "total_protein": "Toplam Protein"
+        }
+    },
+    "bottom": {
+        "home": "Ana Sayfa",
+        "store": "Mağaza",
+        "cart": "Sepet",
+        "profile": "Profil"
+    },
+    "add_product": {
+        "image_section_title": "Ürün Fotoğrafı",
+        "processing": "İşleniyor...",
+        "pick_from_gallery": "Galeriden Seç",
+        "take_photo": "Fotoğraf Çek",
+        "remove_image": "Resmi Kaldır"
+    },
+    "categories": {
+        "title": "Kategoriler",
+        "fruits_vegetables": "Meyve & Sebze",
+        "breakfast": "Kahvaltı",
+        "beverages": "İçecekler",
+        "meat_fish": "Et & Balık",
+        "snacks": "Atıştırmalıklar",
+        "dairy": "Süt Ürünleri"
+    },
+    "onboard": {
+        "skip": "Geç",
+        "next": "İleri",
+        "start": "Başla",
+        "welcome_title": "Hoş Geldiniz",
+        "welcome_desc": "Ürünlerin besin değerlerini ve içerik bilgilerini saniyeler içinde öğrenin. Sağlıklı seçimler yapmaya şimdi başlayın.",
+        "discover_title": "Ürünleri Keşfet",
+        "discover_desc": "Ürün detaylarını inceleyin, içeriklerini görün ve size özel diyet sepetinizi kolayca oluşturun.",
+        "basket_title": "Sepetini Oluştur",
+        "basket_desc": "Markette barkod okutarak ya da arama yaparak ürünleri sepete ekleyin, toplam kalori ve besin değerlerini anında görün."
+    },
+    "auth": {
+        "welcome": "Hoş Geldiniz",
+        "login_instructions": "Hesabınıza giriş yapın",
+        "login_title": "Giriş Yap",
+        "register_title": "Kayıt Ol",
+        "email_hint": "E-posta adresiniz",
+        "email_hint_example": "ornek@email.com",
+        "password_hint": "Şifreniz",
+        "password_hint_text": "Şifrenizi girin",
+        "name_hint": "Adınız",
+        "surname_hint": "Soyadınız",
+        "confirm_password_hint": "Şifrenizi tekrar giriniz",
+        "login_button": "Giriş Yap",
+        "register_button": "Kayıt Ol",
+        "forgot_password": "Şifremi Unuttum",
+        "no_account": "Hesabınız yok mu?",
+        "have_account": "Zaten hesabınız var mı?",
+        "sign_up": "Kayıt Ol",
+        "sign_in": "Giriş Yap",
+        "logging_in": "Giriş yapılıyor...",
+        "registering": "Kayıt olunuyor...",
+        "signing_out": "Çıkış yapılıyor...",
+        "login_success": "Başarıyla giriş yapıldı",
+        "register_success": "Başarıyla kayıt olundu",
+        "logout_success": "Başarıyla çıkış yapıldı",
+        "validators": {
+            "email_required": "E-posta adresi gereklidir",
+            "email_invalid": "Geçerli bir e-posta adresi giriniz",
+            "password_required": "Şifre gereklidir",
+            "password_min_length": "Şifre en az {min} karakter olmalıdır",
+            "password_max_length": "Şifre en fazla {max} karakter olmalıdır",
+            "name_required": "Ad gereklidir",
+            "name_min_length": "Ad en az {min} karakter olmalıdır",
+            "confirm_password_required": "Şifre tekrarı gereklidir",
+            "passwords_not_match": "Şifreler eşleşmiyor"
+        }
     }
 }

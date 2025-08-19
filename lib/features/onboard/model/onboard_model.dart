@@ -1,4 +1,5 @@
 import 'package:arya/product/index.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class OnboardModel {
   final String title;
@@ -11,18 +12,18 @@ class OnboardModel {
 class OnBoardModels {
   static final List<OnboardModel> onboardModels = [
     OnboardModel(
-      'Hoş Geldiniz',
-      'Ürünlerin besin değerlerini ve içerik bilgilerini saniyeler içinde öğrenin. Sağlıklı seçimler yapmaya şimdi başlayın.',
+      'onboard.welcome_title'.tr(),
+      'onboard.welcome_desc'.tr(),
       LottiePaths.onShoppingGreen,
     ),
     OnboardModel(
-      'Ürünleri Keşfet',
-      'Ürün detaylarını inceleyin, içeriklerini görün ve size özel diyet sepetinizi kolayca oluşturun.',
+      'onboard.discover_title'.tr(),
+      'onboard.discover_desc'.tr(),
       LottiePaths.onNutrition,
     ),
     OnboardModel(
-      'Sepetini Oluştur',
-      'Markette barkod okutarak ya da arama yaparak ürünleri sepete ekleyin, toplam kalori ve besin değerlerini anında görün.',
+      'onboard.basket_title'.tr(),
+      'onboard.basket_desc'.tr(),
       LottiePaths.onGrocery,
     ),
   ];

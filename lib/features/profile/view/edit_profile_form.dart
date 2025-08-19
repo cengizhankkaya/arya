@@ -1,4 +1,5 @@
 import 'package:arya/features/index.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,12 +15,15 @@ class EditProfileForm extends StatelessWidget {
       decoration: BoxDecoration(
         color: scheme.surface,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: scheme.outline.withOpacity(0.08), width: 1),
+        border: Border.all(
+          color: scheme.outline.withValues(alpha: 0.08),
+          width: 1,
+        ),
         boxShadow: [
           BoxShadow(
             color: (Theme.of(context).brightness == Brightness.light)
                 ? Colors.black12
-                : scheme.shadow.withOpacity(0.25),
+                : scheme.shadow.withValues(alpha: 0.25),
             blurRadius: 10,
             offset: const Offset(0, 6),
           ),
@@ -31,18 +35,18 @@ class EditProfileForm extends StatelessWidget {
           TextField(
             controller: viewModel.nameController,
             textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(
-              labelText: 'Ad',
-              prefixIcon: Icon(Icons.badge_outlined),
+            decoration: InputDecoration(
+              labelText: 'profile.labels.name'.tr(),
+              prefixIcon: const Icon(Icons.badge_outlined),
             ),
           ),
           const SizedBox(height: 12),
           TextField(
             controller: viewModel.surnameController,
             textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(
-              labelText: 'Soyad',
-              prefixIcon: Icon(Icons.badge),
+            decoration: InputDecoration(
+              labelText: 'profile.labels.surname'.tr(),
+              prefixIcon: const Icon(Icons.badge),
             ),
           ),
           const SizedBox(height: 12),
@@ -53,7 +57,7 @@ class EditProfileForm extends StatelessWidget {
                 child: OutlinedButton.icon(
                   onPressed: () => viewModel.toggleEditMode(),
                   icon: const Icon(Icons.close),
-                  label: const Text('İptal'),
+                  label: Text('general.button.cancel'.tr()),
                 ),
               ),
               const SizedBox(width: 12),
@@ -61,7 +65,7 @@ class EditProfileForm extends StatelessWidget {
                 child: ElevatedButton.icon(
                   onPressed: () => viewModel.updateUserFromControllers(),
                   icon: const Icon(Icons.save_rounded),
-                  label: const Text('Kaydet'),
+                  label: Text('general.button.save'.tr()),
                 ),
               ),
             ],

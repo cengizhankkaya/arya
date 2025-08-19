@@ -1,4 +1,5 @@
 import 'package:arya/features/store/view_model/store_view_model.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/product/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +25,7 @@ IconButton addButton(
       await context.read<StoreViewModel>().addProductToCart(context, product);
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Ürün sepete eklendi')));
+      ).showSnackBar(SnackBar(content: Text('store.added_to_cart'.tr())));
     },
   );
 }

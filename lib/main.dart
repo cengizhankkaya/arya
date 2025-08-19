@@ -1,20 +1,13 @@
-import 'package:arya/features/auth/login/view/login_view.dart';
-import 'package:arya/features/auth/service/auth_service.dart';
-import 'package:arya/features/mainpage/main_page.dart';
-
-import 'package:arya/features/onboard/view/onboard_view.dart';
-import 'package:arya/features/store/view_model/cart_view_model.dart';
-import 'package:arya/product/init/application_initialize.dart';
-import 'package:arya/product/theme/custom_dark_theme.dart';
-import 'package:arya/product/theme/custom_light_theme.dart';
-
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
-import 'package:arya/product/utility/storage/app_prefs.dart';
+import 'features/index.dart';
+import 'product/index.dart';
 
 void main() async {
   await ApplicationInitialize.init();
-  runApp(MyApp());
+  await ApplicationInitialize.localization();
+  runApp(ProductLocalization(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -25,6 +18,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [ChangeNotifierProvider(create: (_) => CartViewModel())],
       child: MaterialApp(
+        locale: context.locale,
+        supportedLocales: context.supportedLocales,
+        localizationsDelegates: context.localizationDelegates,
         theme: CustomLightTheme().themeData,
         darkTheme: CustomDarkTheme().themeData,
         home: FutureBuilder<bool>(

@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 
 class ProfileHeader extends StatelessWidget {
   final dynamic user; // Replace `dynamic` with your actual `User` model
-
   const ProfileHeader({super.key, required this.user});
-
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
@@ -18,12 +16,15 @@ class ProfileHeader extends StatelessWidget {
           BoxShadow(
             color: (Theme.of(context).brightness == Brightness.light)
                 ? Colors.black12
-                : scheme.shadow.withOpacity(0.25),
+                : scheme.shadow.withValues(alpha: 0.25),
             blurRadius: 10,
             offset: const Offset(0, 6),
           ),
         ],
-        border: Border.all(color: scheme.outline.withOpacity(0.08), width: 1),
+        border: Border.all(
+          color: scheme.outline.withValues(alpha: 0.08),
+          width: 1,
+        ),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
       child: Row(
@@ -33,8 +34,8 @@ class ProfileHeader extends StatelessWidget {
               CircleAvatar(
                 radius: 44,
                 backgroundColor:
-                    appColors?.textMuted.withOpacity(0.15) ??
-                    scheme.primary.withOpacity(0.15),
+                    appColors?.textMuted.withValues(alpha: 0.15) ??
+                    scheme.primary.withValues(alpha: 0.15),
                 child: Text(
                   user.displayName.isNotEmpty
                       ? user.displayName[0].toUpperCase()

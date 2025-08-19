@@ -1,4 +1,5 @@
 import 'package:arya/features/index.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +36,7 @@ class _SearchStoreBarState extends State<SearchStoreBar> {
         ),
         controller: _controller,
         decoration: InputDecoration(
-          hintText: 'Ürün ara...',
+          hintText: 'store.search_hint'.tr(),
           hintStyle: Theme.of(
             context,
           ).textTheme.bodyMedium?.copyWith(color: scheme.onSurfaceVariant),

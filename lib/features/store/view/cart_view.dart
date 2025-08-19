@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/features/store/model/cart_item_model.dart';
 import 'package:arya/features/store/view_model/cart_view_model.dart';
 import 'package:arya/features/store/view/widget/index.dart';
@@ -19,7 +20,7 @@ class CartView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sepet'),
+        title: Text('appbar.cart'.tr()),
         backgroundColor: scheme.primary,
         foregroundColor: scheme.onSurface,
         elevation: 0,
@@ -79,7 +80,7 @@ class CartView extends StatelessWidget {
             backgroundColor: scheme.primary,
             foregroundColor: scheme.onPrimary,
             onPressed: () => cart.clearCart(),
-            tooltip: 'Sepeti Temizle',
+            tooltip: 'general.tooltip.clear_cart'.tr(),
             child: const Icon(Icons.delete),
           );
         },
@@ -168,7 +169,7 @@ class _CartItemDetailWidget extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      'Besin Değerleri (100g)',
+                      'store.nutrition_title'.tr(),
                       style: Theme.of(context).textTheme.labelMedium?.copyWith(
                         fontWeight: FontWeight.w600,
                         color: scheme.primary,
@@ -183,7 +184,7 @@ class _CartItemDetailWidget extends StatelessWidget {
                   children: [
                     Expanded(
                       child: _NutrientTile(
-                        label: 'Kalori',
+                        label: 'store.kcal'.tr(),
                         value: '${kcal.toStringAsFixed(0)}',
                         unit: 'kcal',
                         icon: Icons.local_fire_department,
@@ -194,7 +195,7 @@ class _CartItemDetailWidget extends StatelessWidget {
                     const SizedBox(width: 8),
                     Expanded(
                       child: _NutrientTile(
-                        label: 'Protein',
+                        label: 'store.protein'.tr(),
                         value: '${protein.toStringAsFixed(1)}',
                         unit: 'g',
                         icon: Icons.fitness_center,
@@ -205,7 +206,7 @@ class _CartItemDetailWidget extends StatelessWidget {
                     const SizedBox(width: 8),
                     Expanded(
                       child: _NutrientTile(
-                        label: 'Karbonhidrat',
+                        label: 'store.carbs'.tr(),
                         value: '${carbs.toStringAsFixed(1)}',
                         unit: 'g',
                         icon: Icons.grain,
@@ -216,7 +217,7 @@ class _CartItemDetailWidget extends StatelessWidget {
                     const SizedBox(width: 8),
                     Expanded(
                       child: _NutrientTile(
-                        label: 'Yağ',
+                        label: 'store.fat'.tr(),
                         value: '${fat.toStringAsFixed(1)}',
                         unit: 'g',
                         icon: Icons.opacity,
@@ -277,7 +278,7 @@ class _CartItemDetailWidget extends StatelessWidget {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          'Resim Yok',
+                          'general.no_image'.tr(),
                           style: TextStyle(
                             fontSize: 8,
                             color: scheme.outlineVariant,
@@ -342,7 +343,7 @@ class _CartItemDetailWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    'Resim Yok',
+                    'general.no_image'.tr(),
                     style: TextStyle(fontSize: 8, color: scheme.outlineVariant),
                   ),
                 ],

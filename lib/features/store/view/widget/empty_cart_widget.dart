@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class EmptyCartWidget extends StatelessWidget {
   const EmptyCartWidget({super.key});
@@ -18,7 +19,7 @@ class EmptyCartWidget extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'Sepet boş',
+            'store.empty_cart_title'.tr(),
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w600,
               color: scheme.onSurfaceVariant,
@@ -26,7 +27,7 @@ class EmptyCartWidget extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Henüz ürün eklenmemiş',
+            'store.empty_cart_subtitle'.tr(),
             style: Theme.of(
               context,
             ).textTheme.bodyMedium?.copyWith(color: scheme.onSurfaceVariant),

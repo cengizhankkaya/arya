@@ -51,17 +51,8 @@ class ProductRepository implements IProductRepository {
       request.headers.addAll(headers);
       request.bodyFields = body;
 
-      print('DEBUG: Sending request to: $uri');
-      print('DEBUG: Headers: $headers');
-      print('DEBUG: Body: $body');
-
       final streamedResponse = await client.send(request);
       final response = await http.Response.fromStream(streamedResponse);
-
-      print('DEBUG: Response status: ${response.statusCode}');
-      print('DEBUG: Response headers: ${response.headers}');
-      print('DEBUG: Response body: ${response.body}');
-
       // Redirect'leri handle et
       if (response.statusCode >= 300 && response.statusCode < 400) {
         final status = await _handleRedirect(client, response, headers, body);
@@ -192,12 +183,6 @@ class ProductRepository implements IProductRepository {
       multipartRequest.files.add(
         await http.MultipartFile.fromPath('imgupload_front', imageFile.path),
       );
-
-      final streamed = await client.send(multipartRequest);
-      final response = await http.Response.fromStream(streamed);
-      print('DEBUG: Image upload status: ${response.statusCode}');
-      print('DEBUG: Image upload body: ${response.body}');
-      // We don't block product save based on image upload result
     } catch (e) {
       print('DEBUG: Image upload failed: $e');
     }

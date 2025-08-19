@@ -1,4 +1,5 @@
 import 'package:arya/features/index.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -78,7 +79,7 @@ class _OnBoardViewState extends State<OnBoardView> {
           TextButton(
             onPressed: _controller.skipToLastPage,
             child: Text(
-              OnboardConstants.skipText,
+              'onboard.skip'.tr(),
               style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
             ),
           ),
@@ -109,9 +110,7 @@ class _OnBoardViewState extends State<OnBoardView> {
             ? _onStartPressed
             : _controller.nextPage,
         child: Text(
-          _controller.isLastPage
-              ? OnboardConstants.startText
-              : OnboardConstants.nextText,
+          _controller.isLastPage ? 'onboard.start'.tr() : 'onboard.next'.tr(),
           style: Theme.of(context).textTheme.labelLarge,
         ),
       ),

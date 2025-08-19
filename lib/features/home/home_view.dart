@@ -1,4 +1,5 @@
 import 'package:arya/features/index.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 
@@ -19,39 +20,39 @@ class CategoryScreen extends StatelessWidget {
     final appColors = Theme.of(context).extension<AppColors>()!;
     final List<Category> categories = [
       Category(
-        name: 'Fruits & Vegetables',
+        name: 'categories.fruits_vegetables'.tr(),
         imageUrl: 'assets/images/categories/cat_fruits.png',
         palette: CategoryPalette.fruitsVegetables,
       ),
       Category(
-        name: 'Breakfast',
+        name: 'categories.breakfast'.tr(),
         imageUrl: 'assets/images/categories/cat_breakfast.png',
         palette: CategoryPalette.breakfast,
       ),
       Category(
-        name: 'Beverages',
+        name: 'categories.beverages'.tr(),
         imageUrl: 'assets/images/categories/cat_beverages.png',
         palette: CategoryPalette.beverages,
       ),
       Category(
-        name: 'Meat & Fish',
+        name: 'categories.meat_fish'.tr(),
         imageUrl: 'assets/images/categories/cat_meat_fish.png',
         palette: CategoryPalette.meatFish,
       ),
       Category(
-        name: 'Snacks',
+        name: 'categories.snacks'.tr(),
         imageUrl: 'assets/images/categories/cat_snacks.png',
         palette: CategoryPalette.snacks,
       ),
       Category(
-        name: 'Dairy',
+        name: 'categories.dairy'.tr(),
         imageUrl: 'assets/images/categories/cat_dairy.png',
         palette: CategoryPalette.dairy,
       ),
     ];
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Kategoriler'),
+        title: Text('appbar.categories'.tr()),
         centerTitle: true,
         backgroundColor: scheme.primary,
         foregroundColor: scheme.onSurface,

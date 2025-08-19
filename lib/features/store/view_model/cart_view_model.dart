@@ -27,18 +27,11 @@ class CartViewModel extends ChangeNotifier {
   List<CartItemModel> get cartItems => List.unmodifiable(_cartItems);
 
   Future<void> addToCart(CartItemModel item) async {
-    print('CartViewModel: Adding item to cart:');
-    print('  Product: ${item.productName}');
-    print('  Image URL: ${item.imageThumbUrl}');
-    print('  Quantity: ${item.quantity}');
-
     final uid = _auth.currentUser?.uid;
     if (uid == null) {
-      print('  User not logged in, adding to local cart');
       _addLocal(item);
       return;
     }
-    print('  User logged in, adding to Firebase cart');
     await _cartService.addToCart(uid, item);
   }
 

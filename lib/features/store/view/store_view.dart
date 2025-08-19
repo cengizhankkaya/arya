@@ -1,4 +1,5 @@
 import 'package:arya/features/index.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +26,9 @@ class ProductsPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            initialCategory?.isNotEmpty == true ? initialCategory! : 'Ürün Ara',
+            initialCategory?.isNotEmpty == true
+                ? initialCategory!
+                : 'store.search_products'.tr(),
           ),
           backgroundColor: scheme.primary,
           foregroundColor: scheme.onSurface,
@@ -33,7 +36,7 @@ class ProductsPage extends StatelessWidget {
           actions: [
             IconButton(
               icon: const Icon(Icons.add),
-              tooltip: 'Ürün ekle',
+              tooltip: 'store.add_product'.tr(),
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (_) => const AddProductScreen()),

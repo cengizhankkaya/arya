@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/features/store/view_model/cart_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +30,7 @@ class CartSummaryWidget extends StatelessWidget {
             children: [
               Expanded(
                 child: _TotalTile(
-                  label: 'Toplam Kalori',
+                  label: 'store.totals.total_kcal'.tr(),
                   value: '${cart.totalKcal.toStringAsFixed(0)} kcal',
                   scheme: scheme,
                 ),
@@ -37,7 +38,7 @@ class CartSummaryWidget extends StatelessWidget {
               const SizedBox(width: 12),
               Expanded(
                 child: _TotalTile(
-                  label: 'Toplam Protein',
+                  label: 'store.totals.total_protein'.tr(),
                   value: '${cart.totalProtein.toStringAsFixed(1)} g',
                   scheme: scheme,
                 ),

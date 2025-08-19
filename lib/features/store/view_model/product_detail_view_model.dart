@@ -91,13 +91,13 @@ class ProductDetailViewModel extends ChangeNotifier {
 
   // Nutrition data
   List<Map<String, String>> get nutritionData => [
-    {'key': 'energy-kcal_100g', 'label': 'Energy', 'unit': 'kcal'},
-    {'key': 'fat_100g', 'label': 'Fat', 'unit': 'g'},
-    {'key': 'saturated-fat_100g', 'label': 'Saturated Fat', 'unit': 'g'},
-    {'key': 'carbohydrates_100g', 'label': 'Carbohydrates', 'unit': 'g'},
-    {'key': 'sugars_100g', 'label': 'Sugars', 'unit': 'g'},
-    {'key': 'proteins_100g', 'label': 'Proteins', 'unit': 'g'},
-    {'key': 'salt_100g', 'label': 'Salt', 'unit': 'g'},
+    {'key': 'energy-kcal_100g', 'label': 'detail.energy', 'unit': 'kcal'},
+    {'key': 'fat_100g', 'label': 'detail.fat', 'unit': 'g'},
+    {'key': 'saturated-fat_100g', 'label': 'detail.saturated_fat', 'unit': 'g'},
+    {'key': 'carbohydrates_100g', 'label': 'detail.carbohydrates', 'unit': 'g'},
+    {'key': 'sugars_100g', 'label': 'detail.sugars', 'unit': 'g'},
+    {'key': 'proteins_100g', 'label': 'detail.proteins', 'unit': 'g'},
+    {'key': 'salt_100g', 'label': 'detail.salt', 'unit': 'g'},
   ];
 
   // Business logic methods

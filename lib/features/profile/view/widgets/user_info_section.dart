@@ -1,12 +1,11 @@
 import 'package:arya/features/index.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 
 class UserInfoSection extends StatelessWidget {
   final UserModel user;
-
   const UserInfoSection({super.key, required this.user});
-
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
@@ -15,12 +14,15 @@ class UserInfoSection extends StatelessWidget {
       decoration: BoxDecoration(
         color: scheme.surface,
         borderRadius: ProjectRadius.xxLarge,
-        border: Border.all(color: scheme.outline.withOpacity(0.08), width: 1),
+        border: Border.all(
+          color: scheme.outline.withValues(alpha: 0.08),
+          width: 1,
+        ),
         boxShadow: [
           BoxShadow(
             color: (Theme.of(context).brightness == Brightness.light)
                 ? Colors.black12
-                : scheme.shadow.withOpacity(0.25),
+                : scheme.shadow.withValues(alpha: 0.25),
             blurRadius: 10,
             offset: const Offset(0, 6),
           ),
@@ -30,11 +32,23 @@ class UserInfoSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildInfoRow(context, 'Ad', user.name ?? 'Belirtilmemiş'),
+          _buildInfoRow(
+            context,
+            'profile.labels.name'.tr(),
+            user.name ?? 'general.not_specified'.tr(),
+          ),
           _divider(context),
-          _buildInfoRow(context, 'Soyad', user.surname ?? 'Belirtilmemiş'),
+          _buildInfoRow(
+            context,
+            'profile.labels.surname'.tr(),
+            user.surname ?? 'general.not_specified'.tr(),
+          ),
           _divider(context),
-          _buildInfoRow(context, 'E-posta', user.email ?? 'Belirtilmemiş'),
+          _buildInfoRow(
+            context,
+            'profile.labels.email'.tr(),
+            user.email ?? 'general.not_specified'.tr(),
+          ),
         ],
       ),
     );
@@ -76,7 +90,7 @@ class UserInfoSection extends StatelessWidget {
     return Divider(
       height: 0,
       thickness: 1,
-      color: scheme.outlineVariant.withOpacity(0.2),
+      color: scheme.outlineVariant.withValues(alpha: 0.2),
     );
   }
 }

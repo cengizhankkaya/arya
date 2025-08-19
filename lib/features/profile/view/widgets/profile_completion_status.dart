@@ -1,4 +1,5 @@
 import 'package:arya/features/index.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,12 +20,15 @@ class ProfileCompletionStatus extends StatelessWidget {
             ? scheme.primaryContainer
             : scheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: scheme.outline.withOpacity(0.08), width: 1),
+        border: Border.all(
+          color: scheme.outline.withValues(alpha: 0.08),
+          width: 1,
+        ),
         boxShadow: [
           BoxShadow(
             color: (Theme.of(context).brightness == Brightness.light)
                 ? Colors.black12
-                : scheme.shadow.withOpacity(0.25),
+                : scheme.shadow.withValues(alpha: 0.25),
             blurRadius: 10,
             offset: const Offset(0, 6),
           ),
@@ -51,7 +55,9 @@ class ProfileCompletionStatus extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  isComplete ? 'Profil tamamlandı' : 'Eksik profil bilgileri',
+                  isComplete
+                      ? 'profile.status.completed'.tr()
+                      : 'profile.status.incomplete'.tr(),
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w700,
                     color: isComplete
@@ -62,8 +68,8 @@ class ProfileCompletionStatus extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   isComplete
-                      ? 'Tüm zorunlu bilgiler mevcut.'
-                      : 'Daha iyi deneyim için ad, soyad ve kullanıcı adı ekleyin.',
+                      ? 'profile.status.completed_desc'.tr()
+                      : 'profile.status.incomplete_desc'.tr(),
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: scheme.onSurfaceVariant,
                   ),

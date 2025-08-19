@@ -12,55 +12,33 @@ class CartService {
   }
 
   Stream<List<CartItemModel>> streamCart(String uid) {
-    print('CartService: Starting stream for user: $uid'); // Debug
-    print('CartService: Collection path: carts/$uid/items'); // Debug
-
     return _userCartCollection(uid)
         .snapshots()
         .map((snapshot) {
-          print(
-            'CartService: Received snapshot with ${snapshot.docs.length} docs',
-          ); // Debug
           final items = snapshot.docs
               .map((doc) {
                 final data = doc.data();
-                print('CartService: Document data: $data'); // Debug
                 return CartItemModel.fromMap(data);
               })
               .toList(growable: false);
 
-          print('CartService: Parsed items:');
-          for (final item in items) {
-            print('  - ${item.productName}: ${item.imageThumbUrl}');
-          }
-
           return items;
         })
         .handleError((error) {
-          print('CartService: Error in stream: $error'); // Debug
           // Hata durumunda boş liste döndür
           return <CartItemModel>[];
         });
   }
 
   Future<void> addToCart(String uid, CartItemModel item) async {
-    print('CartService - Adding item to Firebase cart:');
-    print('  User ID: $uid');
-    print('  Item ID: ${item.id}');
-    print('  Item Name: ${item.productName}');
-    print('  Item Image URL: ${item.imageThumbUrl}');
-    print('  Item Map: ${item.toMap()}');
-
     final docRef = _userCartCollection(uid).doc(item.id);
     await _firestore.runTransaction((transaction) async {
       final existing = await transaction.get(docRef);
       if (existing.exists) {
         final currentQty = (existing.data()!['quantity'] as num?)?.toInt() ?? 0;
         transaction.update(docRef, {'quantity': currentQty + 1});
-        print('  Updated existing item quantity');
       } else {
         transaction.set(docRef, item.toMap());
-        print('  Created new item in cart');
       }
     });
   }

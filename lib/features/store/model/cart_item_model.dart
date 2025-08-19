@@ -36,7 +36,7 @@ class CartItemModel {
       'product_name': productName,
       'brands': brands,
       'image_thumb_url': imageThumbUrl,
-      'image_url': imageThumbUrl, // image_url olarak da ekle
+      'image_url': imageThumbUrl,
       'quantity': quantity,
       'nutriments': nutriments,
     };

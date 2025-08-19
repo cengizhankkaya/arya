@@ -1,4 +1,5 @@
 import 'package:arya/product/index.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:arya/features/addproduct/view_model/add_product_viewmodel.dart';
 import 'package:arya/features/addproduct/view/widgets/common/section_title.dart';
@@ -13,7 +14,7 @@ class ImageSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionTitle(title: "Ürün Fotoğrafı"),
+        SectionTitle(title: 'add_product.image_section_title'.tr()),
         const SizedBox(height: 15),
         _buildImageButtons(),
         if (viewModel.selectedImage != null) ...[
@@ -42,8 +43,8 @@ class ImageSection extends StatelessWidget {
                   )
                 : const Icon(Icons.photo_library),
             label: viewModel.isImageUploading
-                ? "İşleniyor..."
-                : "Galeriden Seç",
+                ? 'add_product.processing'.tr()
+                : 'add_product.pick_from_gallery'.tr(),
           ),
         ),
         const SizedBox(width: 10),
@@ -59,7 +60,9 @@ class ImageSection extends StatelessWidget {
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
                 : const Icon(Icons.camera_alt),
-            label: viewModel.isImageUploading ? "Fotoğraf Çek" : "Fotoğraf Çek",
+            label: viewModel.isImageUploading
+                ? 'add_product.take_photo'.tr()
+                : 'add_product.take_photo'.tr(),
           ),
         ),
       ],
@@ -97,7 +100,10 @@ class ImageSection extends StatelessWidget {
     return TextButton.icon(
       onPressed: () => viewModel.removeSelectedImage(),
       icon: const Icon(Icons.delete, color: Colors.red),
-      label: const Text("Resmi Kaldır", style: TextStyle(color: Colors.red)),
+      label: Text(
+        'add_product.remove_image'.tr(),
+        style: const TextStyle(color: Colors.red),
+      ),
     );
   }
 }

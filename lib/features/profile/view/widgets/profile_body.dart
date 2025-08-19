@@ -1,4 +1,5 @@
 import 'package:arya/features/index.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +20,7 @@ class ProfileBody extends StatelessWidget {
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.06),
+                    color: Colors.black.withValues(alpha: 0.06),
                     blurRadius: 12,
                     offset: const Offset(0, 6),
                   ),
@@ -54,7 +55,7 @@ class ProfileBody extends StatelessWidget {
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: viewModel.fetchUser,
-                  child: const Text('Tekrar Dene'),
+                  child: Text('general.button.try_again'.tr()),
                 ),
               ],
             ),
@@ -62,7 +63,7 @@ class ProfileBody extends StatelessWidget {
         }
 
         if (!viewModel.hasUser) {
-          return const Center(child: Text("Kullanıcı verisi bulunamadı."));
+          return Center(child: Text('profile.no_user_data'.tr()));
         }
 
         final user = viewModel.user!;

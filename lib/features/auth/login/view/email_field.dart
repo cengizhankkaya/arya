@@ -1,4 +1,5 @@
 import 'package:arya/features/index.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +15,7 @@ class EmailField extends StatelessWidget {
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
         labelText: AuthConstants.emailHint,
-        hintText: 'ornek@email.com',
+        hintText: 'auth.email_hint_example'.tr(),
         prefixIcon: const Icon(Icons.email_outlined),
         border: OutlineInputBorder(borderRadius: ProjectRadius.large),
       ),

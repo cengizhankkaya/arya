@@ -1,19 +1,193 @@
 {
     "hello": {
-        "title": "Home Page "
-       
+        "title": "Home Page"
+    },
+    "settings": {
+        "language": "Language"
+    },
+    "dialogs": {
+        "language": {
+            "title": "Choose Language",
+            "turkish": "Turkish",
+            "english": "English"
+        }
+    ,
+        "logout": {
+            "title": "Log Out",
+            "content": "Are you sure you want to log out?"
+        },
+        "delete_account": {
+            "title": "Delete Account",
+            "content": "Are you sure you want to delete your account? This action cannot be undone!"
+        }
+    },
+    "detail": {
+        "ingredients": "Ingredients",
+        "quantity": "Quantity",
+        "nutrition_facts": "Nutrition Facts",
+        "data_disclaimer": "Product information is collected by volunteers and may not be fully accurate.",
+        "adding_to_cart": "Adding to cart...",
+        "add_to_cart": "Add to Cart",
+        "energy": "Energy",
+        "fat": "Fat",
+        "saturated_fat": "Saturated Fat",
+        "carbohydrates": "Carbohydrates",
+        "sugars": "Sugars",
+        "proteins": "Proteins",
+        "salt": "Salt"
     },
     "general": {
-        "button":{
+        "button": {
             "ok": "OK",
-            "cancel": "Cancel"
+            "cancel": "Cancel",
+            "save": "Save",
+            "edit": "Edit",
+            "clear": "Clear",
+            "try_again": "Try Again",
+            "logout": "Log Out",
+            "delete_account": "Delete Account"
+        },
+        "tooltip": {
+            "clear_cart": "Clear Cart"
         },
         "error": {
             "network": "Network error, please try again.",
             "server": "Server error, please try again later."
+        },
+        "or": "or",
+        "no_image": "No Image",
+        "not_specified": "Not specified"
+    },
+    "appbar": {
+        "cart": "Cart",
+        "profile": "Profile",
+        "categories": "Categories",
+        "off_account": "Open Food Facts Account"
+    },
+    "profile": {
+        "labels": {
+            "name": "Name",
+            "surname": "Surname",
+            "email": "Email"
+        },
+        "edit": {
+            "save": "Save",
+            "cancel": "Cancel"
+        },
+        "status": {
+            "completed": "Profile completed",
+            "incomplete": "Incomplete profile information",
+            "completed_desc": "All required information is present.",
+            "incomplete_desc": "For a better experience, add your name, surname and username."
+        },
+        "no_user_data": "User data not found."
+    },
+    "off": {
+        "saved": "Open Food Facts information saved.",
+        "cleared": "Open Food Facts information cleared.",
+        "save_failed": "Could not save: {error}",
+        "username": "Username",
+        "password": "Password",
+        "required_username": "Username is required",
+        "required_password": "Password is required"
+    },
+    "dialogs": {
+        "logout": {
+            "title": "Log Out",
+            "content": "Are you sure you want to log out?"
+        },
+        "delete_account": {
+            "title": "Delete Account",
+            "content": "Are you sure you want to delete your account? This action cannot be undone!"
         }
-        
-
-        
+    },
+    "store": {
+        "search_hint": "Search product...",
+        "search_products": "Search Products",
+        "add_product": "Add Product",
+        "no_products": "No products found",
+        "product_name_missing": "No product name",
+        "added_to_cart": "Product added to cart",
+        "nutrition_title": "Nutrition Facts (100g)",
+        "kcal": "Calories",
+        "protein": "Protein",
+        "carbs": "Carbohydrate",
+        "fat": "Fat",
+        "empty_cart_title": "Cart is empty",
+        "empty_cart_subtitle": "No items added yet",
+        "totals": {
+            "total_kcal": "Total Calories",
+            "total_protein": "Total Protein"
+        }
+    },
+    "bottom": {
+        "home": "Home",
+        "store": "Store",
+        "cart": "Cart",
+        "profile": "Profile"
+    },
+    "add_product": {
+        "image_section_title": "Product Photo",
+        "processing": "Processing...",
+        "pick_from_gallery": "Choose from Gallery",
+        "take_photo": "Take Photo",
+        "remove_image": "Remove Image"
+    },
+    "categories": {
+        "title": "Categories",
+        "fruits_vegetables": "Fruits & Vegetables",
+        "breakfast": "Breakfast",
+        "beverages": "Beverages",
+        "meat_fish": "Meat & Fish",
+        "snacks": "Snacks",
+        "dairy": "Dairy"
+    },
+    "onboard": {
+        "skip": "Skip",
+        "next": "Next",
+        "start": "Start",
+        "welcome_title": "Welcome",
+        "welcome_desc": "Learn nutritional values and ingredient information of products in seconds. Start making healthy choices now.",
+        "discover_title": "Discover Products",
+        "discover_desc": "Review product details, see ingredients and easily create your personalized diet cart.",
+        "basket_title": "Build Your Basket",
+        "basket_desc": "Scan barcodes at the market or search to add products to your cart and instantly see total calories and nutrients."
+    },
+    "auth": {
+        "welcome": "Welcome",
+        "login_instructions": "Sign in to your account",
+        "login_title": "Sign In",
+        "register_title": "Sign Up",
+        "email_hint": "Your email address",
+        "email_hint_example": "email@example.com",
+        "password_hint": "Your password",
+        "password_hint_text": "Enter your password",
+        "name_hint": "Your name",
+        "surname_hint": "Your surname",
+        "confirm_password_hint": "Re-enter your password",
+        "login_button": "Sign In",
+        "register_button": "Sign Up",
+        "forgot_password": "Forgot Password",
+        "no_account": "Don't have an account?",
+        "have_account": "Already have an account?",
+        "sign_up": "Sign Up",
+        "sign_in": "Sign In",
+        "logging_in": "Signing in...",
+        "registering": "Signing up...",
+        "signing_out": "Signing out...",
+        "login_success": "Successfully signed in",
+        "register_success": "Successfully signed up",
+        "logout_success": "Successfully signed out",
+        "validators": {
+            "email_required": "Email is required",
+            "email_invalid": "Please enter a valid email address",
+            "password_required": "Password is required",
+            "password_min_length": "Password must be at least {min} characters",
+            "password_max_length": "Password must be at most {max} characters",
+            "name_required": "Name is required",
+            "name_min_length": "Name must be at least {min} characters",
+            "confirm_password_required": "Confirm password is required",
+            "passwords_not_match": "Passwords do not match"
+        }
     }
 }

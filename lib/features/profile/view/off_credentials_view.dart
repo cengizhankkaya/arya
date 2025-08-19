@@ -1,4 +1,5 @@
 import 'package:arya/product/utility/storage/app_prefs.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class OffCredentialsView extends StatefulWidget {
@@ -38,15 +39,15 @@ class _OffCredentialsViewState extends State<OffCredentialsView> {
         password: _passwordController.text.trim(),
       );
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Open Food Facts bilgileri kaydedildi.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('off.saved'.tr())));
       Navigator.of(context).pop();
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Kaydedilemedi: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('off.save_failed'.tr(args: [e.toString()]))),
+      );
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -57,15 +58,15 @@ class _OffCredentialsViewState extends State<OffCredentialsView> {
     if (!mounted) return;
     _usernameController.clear();
     _passwordController.clear();
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Open Food Facts bilgileri temizlendi.')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('off.cleared'.tr())));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Open Food Facts Hesabı')),
+      appBar: AppBar(title: Text('appbar.off_account'.tr())),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -75,18 +76,19 @@ class _OffCredentialsViewState extends State<OffCredentialsView> {
             children: [
               TextFormField(
                 controller: _usernameController,
-                decoration: const InputDecoration(labelText: 'Kullanıcı Adı'),
+                decoration: InputDecoration(labelText: 'off.username'.tr()),
                 validator: (v) => (v == null || v.trim().isEmpty)
-                    ? 'Kullanıcı adı zorunlu'
+                    ? 'off.required_username'.tr()
                     : null,
               ),
               const SizedBox(height: 12),
               TextFormField(
                 controller: _passwordController,
-                decoration: const InputDecoration(labelText: 'Şifre'),
+                decoration: InputDecoration(labelText: 'off.password'.tr()),
                 obscureText: true,
-                validator: (v) =>
-                    (v == null || v.trim().isEmpty) ? 'Şifre zorunlu' : null,
+                validator: (v) => (v == null || v.trim().isEmpty)
+                    ? 'off.required_password'.tr()
+                    : null,
               ),
               const SizedBox(height: 24),
               Row(
@@ -99,12 +101,12 @@ class _OffCredentialsViewState extends State<OffCredentialsView> {
                             width: 16,
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
-                        : const Text('Kaydet'),
+                        : Text('general.button.save'.tr()),
                   ),
                   const SizedBox(width: 12),
                   TextButton(
                     onPressed: _loading ? null : _clear,
-                    child: const Text('Temizle'),
+                    child: Text('general.button.clear'.tr()),
                   ),
                 ],
               ),

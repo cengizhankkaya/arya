@@ -1,6 +1,7 @@
 import 'package:arya/features/index.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AddToCartButton extends StatelessWidget {
   const AddToCartButton({
@@ -39,7 +40,7 @@ class AddToCartButton extends StatelessWidget {
                 ),
                 const SizedBox(width: 12),
                 Text(
-                  'Sepete Ekleniyor...',
+                  'detail.adding_to_cart'.tr(),
                   style: AppTypography.lightTextTheme.titleMedium?.copyWith(
                     color: scheme.onPrimary,
                     fontWeight: FontWeight.w600,
@@ -53,7 +54,7 @@ class AddToCartButton extends StatelessWidget {
                 Icon(Icons.shopping_cart, color: scheme.onPrimary, size: 24),
                 const SizedBox(width: 12),
                 Text(
-                  'Sepete Ekle (${viewModel.quantity})',
+                  '${'detail.add_to_cart'.tr()} (${viewModel.quantity})',
                   style: AppTypography.lightTextTheme.titleMedium?.copyWith(
                     color: scheme.onPrimary,
                     fontWeight: FontWeight.w600,

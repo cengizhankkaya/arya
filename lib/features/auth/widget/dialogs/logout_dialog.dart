@@ -1,4 +1,5 @@
 import 'package:arya/features/index.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 Future<void> showLogoutDialog(
@@ -8,12 +9,12 @@ Future<void> showLogoutDialog(
   final result = await showDialog<bool>(
     context: context,
     builder: (context) => AlertDialog(
-      title: const Text('Çıkış Yap'),
-      content: const Text('Çıkış yapmak istediğinizden emin misiniz?'),
+      title: Text('dialogs.logout.title'.tr()),
+      content: Text('dialogs.logout.content'.tr()),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(false),
-          child: const Text('İptal'),
+          child: Text('general.button.cancel'.tr()),
         ),
         ElevatedButton(
           onPressed: () => Navigator.of(context).pop(true),
@@ -21,7 +22,7 @@ Future<void> showLogoutDialog(
             backgroundColor: Theme.of(context).colorScheme.error,
             foregroundColor: Theme.of(context).colorScheme.onError,
           ),
-          child: const Text('Çıkış Yap'),
+          child: Text('general.button.logout'.tr()),
         ),
       ],
     ),

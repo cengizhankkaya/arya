@@ -1,4 +1,6 @@
 import 'package:arya/features/index.dart';
+import 'package:arya/product/index.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +24,36 @@ class ProfileActionsConsumer extends StatelessWidget {
                   MaterialPageRoute(builder: (_) => const OffCredentialsView()),
                 );
                 break;
+              case 'language':
+                await showDialog<void>(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: Text('dialogs.language.title'.tr()),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          ProductLocalization.updateLanguage(
+                            context: context,
+                            value: Locales.tr,
+                          );
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('dialogs.language.turkish'.tr()),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          ProductLocalization.updateLanguage(
+                            context: context,
+                            value: Locales.en,
+                          );
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('dialogs.language.english'.tr()),
+                      ),
+                    ],
+                  ),
+                );
+                break;
               case 'logout':
                 await showLogoutDialog(context, viewModel);
                 break;
@@ -37,7 +69,17 @@ class ProfileActionsConsumer extends StatelessWidget {
                 children: [
                   Icon(Icons.edit),
                   SizedBox(width: 8),
-                  Text('Düzenle'),
+                  Text('general.button.edit'.tr()),
+                ],
+              ),
+            ),
+            PopupMenuItem(
+              value: 'language',
+              child: Row(
+                children: [
+                  Icon(Icons.language),
+                  SizedBox(width: 8),
+                  Text('settings.language'.tr()),
                 ],
               ),
             ),
@@ -47,7 +89,7 @@ class ProfileActionsConsumer extends StatelessWidget {
                 children: [
                   Icon(Icons.key),
                   SizedBox(width: 8),
-                  Text('Open Food Facts Hesabı'),
+                  Text('appbar.off_account'.tr()),
                 ],
               ),
             ),
@@ -57,7 +99,7 @@ class ProfileActionsConsumer extends StatelessWidget {
                 children: [
                   Icon(Icons.logout),
                   SizedBox(width: 8),
-                  Text('Çıkış Yap'),
+                  Text('general.button.logout'.tr()),
                 ],
               ),
             ),
@@ -71,7 +113,7 @@ class ProfileActionsConsumer extends StatelessWidget {
                   ),
                   SizedBox(width: 8),
                   Text(
-                    'Hesabı Sil',
+                    'general.button.delete_account'.tr(),
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.error,
                     ),
