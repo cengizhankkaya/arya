@@ -4,6 +4,8 @@ import 'package:arya/features/store/view_model/cart_view_model.dart';
 import 'package:arya/features/store/view/product_detail_view.dart';
 import 'package:arya/product/index.dart';
 import 'package:provider/provider.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:arya/product/navigation/app_router.dart';
 
 class CartItemWidget extends StatelessWidget {
   final CartItemModel product;
@@ -161,11 +163,6 @@ class CartItemWidget extends StatelessWidget {
   }
 
   void _navigateToProductDetail(BuildContext context, CartItemModel product) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ProductDetailView(product: product.toMap()),
-      ),
-    );
+    context.router.push(ProductDetailRoute(product: product.toMap()));
   }
 }

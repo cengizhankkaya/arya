@@ -3,6 +3,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:arya/product/navigation/app_router.dart';
 
 class ProductList extends StatelessWidget {
   @override
@@ -52,12 +54,7 @@ class ProductList extends StatelessWidget {
               final product = model.products[index];
               return GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ProductDetailView(product: product),
-                    ),
-                  );
+                  context.router.push(ProductDetailRoute(product: product));
                 },
                 child: Container(
                   decoration: BoxDecoration(

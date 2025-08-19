@@ -3,6 +3,8 @@ import 'package:arya/product/index.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:arya/product/navigation/app_router.dart';
 
 class ProfileActionsConsumer extends StatelessWidget {
   const ProfileActionsConsumer({super.key});
@@ -20,9 +22,7 @@ class ProfileActionsConsumer extends StatelessWidget {
                 viewModel.toggleEditMode();
                 break;
               case 'off':
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const OffCredentialsView()),
-                );
+                context.router.push(const OffCredentialsRoute());
                 break;
               case 'language':
                 await showDialog<void>(

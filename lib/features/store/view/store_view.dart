@@ -1,9 +1,12 @@
 import 'package:arya/features/index.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:arya/product/navigation/app_router.dart';
 
+@RoutePage()
 class ProductsPage extends StatelessWidget {
   final String? initialCategory;
 
@@ -38,9 +41,7 @@ class ProductsPage extends StatelessWidget {
               icon: const Icon(Icons.add),
               tooltip: 'store.add_product'.tr(),
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const AddProductScreen()),
-                );
+                context.router.push(const AddProductRoute());
               },
             ),
           ],

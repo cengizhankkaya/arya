@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/features/store/model/cart_item_model.dart';
 import 'package:arya/features/store/view_model/cart_view_model.dart';
@@ -7,8 +8,10 @@ import 'package:arya/features/store/view/widget/empty_cart_widget.dart';
 import 'package:arya/features/store/view/widget/cart_summary_widget.dart';
 import 'package:arya/features/store/view/product_detail_view.dart';
 import 'package:arya/product/index.dart';
+import 'package:arya/product/navigation/app_router.dart';
 import 'package:provider/provider.dart';
 
+@RoutePage()
 class CartView extends StatelessWidget {
   const CartView({super.key});
 
@@ -401,12 +404,7 @@ class _CartItemDetailWidget extends StatelessWidget {
     print('  image_thumb_url in map: ${productMap['image_thumb_url']}');
     print('  image_url in map: ${productMap['image_url']}');
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ProductDetailView(product: productMap),
-      ),
-    );
+    context.router.push(ProductDetailRoute(product: productMap));
   }
 }
 

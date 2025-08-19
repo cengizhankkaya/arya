@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../view_model/product_detail_view_model.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:arya/product/navigation/app_router.dart';
 
+@RoutePage()
 class ProductDetailView extends StatelessWidget {
   final Map<String, dynamic> product;
 
@@ -46,7 +49,7 @@ class _ProductDetailViewBody extends StatelessWidget {
                   ),
                   child: IconButton(
                     icon: const Icon(Icons.arrow_back, color: Colors.white),
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () => context.router.pop(),
                   ),
                 ),
                 actions: [

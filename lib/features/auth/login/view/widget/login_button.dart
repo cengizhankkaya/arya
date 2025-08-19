@@ -2,6 +2,8 @@ import 'package:arya/features/index.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:arya/product/navigation/app_router.dart';
 
 class LoginButton extends StatelessWidget {
   const LoginButton({super.key});
@@ -19,10 +21,7 @@ class LoginButton extends StatelessWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text(AuthConstants.loginSuccess)),
                 );
-                Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (_) => const MainPage()),
-                  (route) => false,
-                );
+                context.router.replaceAll([const MainPageRoute()]);
               }
             },
       style: ElevatedButton.styleFrom(

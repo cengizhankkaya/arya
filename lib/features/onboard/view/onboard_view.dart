@@ -1,10 +1,13 @@
 import 'package:arya/features/index.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kartal/kartal.dart';
+import 'package:arya/product/navigation/app_router.dart';
 
+@RoutePage()
 class OnBoardView extends StatefulWidget {
   const OnBoardView({super.key});
 
@@ -124,8 +127,6 @@ class _OnBoardViewState extends State<OnBoardView> {
   Future<void> _completeOnboardingAndNavigate() async {
     await AppPrefs.setHasOnboarded(true);
     if (!mounted) return;
-    Navigator.of(
-      context,
-    ).pushReplacement(MaterialPageRoute(builder: (_) => const LoginView()));
+    context.router.replace(const LoginRoute());
   }
 }

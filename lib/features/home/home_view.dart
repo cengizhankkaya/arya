@@ -1,7 +1,9 @@
 import 'package:arya/features/index.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
+import 'package:arya/product/navigation/app_router.dart';
 
 class Category {
   final String name;
@@ -11,6 +13,7 @@ class Category {
   Category({required this.name, required this.imageUrl, required this.palette});
 }
 
+@RoutePage()
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({super.key});
 
@@ -88,11 +91,7 @@ class CategoryCard extends StatelessWidget {
     final appColors = Theme.of(context).extension<AppColors>()!;
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => ProductsPage(initialCategory: category.name),
-          ),
-        );
+        context.router.push(ProductsRoute(initialCategory: category.name));
       },
       child: Container(
         decoration: BoxDecoration(

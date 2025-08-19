@@ -1,5 +1,4 @@
 import 'package:arya/features/index.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

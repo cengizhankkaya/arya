@@ -1,5 +1,6 @@
 import 'package:arya/features/index.dart';
 import 'package:flutter/material.dart';
+import 'package:auto_route/auto_route.dart';
 
 class RegisterFooter extends StatelessWidget {
   const RegisterFooter({super.key});
@@ -11,7 +12,7 @@ class RegisterFooter extends StatelessWidget {
       children: [
         Text(AuthConstants.haveAccountText),
         TextButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => context.router.pop(),
           child: const Text(AuthConstants.signInText),
         ),
       ],
