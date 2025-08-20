@@ -25,15 +25,6 @@ class ProductDetailBottomBar extends StatelessWidget {
             width: 1,
           ),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(
-              context,
-            ).extension<AppColors>()!.black.withValues(alpha: 0.06),
-            blurRadius: 16,
-            offset: const Offset(0, -4),
-          ),
-        ],
       ),
       child: SafeArea(
         child: Padding(

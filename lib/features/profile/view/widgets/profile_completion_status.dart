@@ -24,15 +24,6 @@ class ProfileCompletionStatus extends StatelessWidget {
           color: scheme.outline.withValues(alpha: 0.08),
           width: 1,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: (Theme.of(context).brightness == Brightness.light)
-                ? appColors!.dividerAlt
-                : scheme.shadow.withValues(alpha: 0.25),
-            blurRadius: 10,
-            offset: const Offset(0, 6),
-          ),
-        ],
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

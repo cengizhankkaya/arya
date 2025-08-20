@@ -60,16 +60,6 @@ class ProductList extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: scheme.surface,
                     borderRadius: ProjectRadius.xxLarge,
-                    boxShadow: [
-                      BoxShadow(
-                        color:
-                            (Theme.of(context).brightness == Brightness.light)
-                            ? appColors!.dividerAlt
-                            : scheme.shadow.withOpacity(0.2),
-                        blurRadius: 6,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
                   ),
                   padding: const EdgeInsets.all(12),
                   child: Column(

@@ -26,16 +26,6 @@ class CategoryCard extends StatelessWidget {
             color: appColors.categoryBorder(category.palette),
             width: 1,
           ),
-          boxShadow: [
-            BoxShadow(
-              color:
-                  (Theme.of(context).colorScheme.brightness == Brightness.light)
-                  ? appColors.dividerAlt
-                  : Theme.of(context).colorScheme.shadow.withValues(alpha: 0.2),
-              blurRadius: 6,
-              offset: const Offset(0, 4),
-            ),
-          ],
         ),
         padding: ProjectPadding.allVerySmall(),
         child: Column(

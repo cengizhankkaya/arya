@@ -20,15 +20,6 @@ class _SearchStoreBarState extends State<SearchStoreBar> {
       decoration: BoxDecoration(
         color: scheme.surface,
         borderRadius: BorderRadius.circular(18),
-        boxShadow: [
-          BoxShadow(
-            color: (Theme.of(context).brightness == Brightness.light)
-                ? appColors!.dividerAlt
-                : scheme.error,
-            blurRadius: 6,
-            offset: const Offset(0, 4),
-          ),
-        ],
       ),
       child: TextField(
         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -40,7 +31,7 @@ class _SearchStoreBarState extends State<SearchStoreBar> {
           hintStyle: Theme.of(
             context,
           ).textTheme.bodyMedium?.copyWith(color: scheme.onSurfaceVariant),
-          prefixIcon: IconButton(
+          suffixIcon: IconButton(
             icon: Icon(
               Icons.search,
               color: appColors?.textMuted ?? scheme.outline,

@@ -31,15 +31,6 @@ class ProductDetailCard extends StatelessWidget {
           colors: [scheme.surfaceContainerHighest, scheme.surface],
         ),
         borderRadius: ProjectRadius.xxLarge,
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(
-              context,
-            ).extension<AppColors>()!.black.withValues(alpha: 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

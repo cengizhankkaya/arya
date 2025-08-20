@@ -53,25 +53,14 @@ class _ProductDetailViewBody extends StatelessWidget {
                           ),
                         // Product Title Section
                         Container(
-                          padding: const EdgeInsets.all(20),
+                          padding: ProjectPadding.allLarge(),
                           decoration: BoxDecoration(
                             color: scheme.surfaceContainerHighest,
                             borderRadius: ProjectRadius.xxLarge,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Theme.of(context)
-                                    .extension<AppColors>()!
-                                    .black
-                                    .withValues(alpha: 0.05),
-                                blurRadius: 10,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Title and Brand in same row
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
