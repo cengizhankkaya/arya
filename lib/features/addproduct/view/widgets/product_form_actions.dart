@@ -1,12 +1,12 @@
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:arya/features/addproduct/view_model/add_product_viewmodel.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProductFormActions extends StatelessWidget {
   final AddProductViewModel viewModel;
 
-  const ProductFormActions({Key? key, required this.viewModel})
-    : super(key: key);
+  const ProductFormActions({super.key, required this.viewModel});
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +37,12 @@ class ProductFormActions extends StatelessWidget {
                   borderRadius: ProjectRadius.medium,
                 ),
               ),
-              child: const Text(
-                "Ürünü Ekle",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              child: Text(
+                "add_product.buttons.add_product".tr(),
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
     );

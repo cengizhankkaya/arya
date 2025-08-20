@@ -1,3 +1,4 @@
+import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/features/store/view_model/cart_view_model.dart';
@@ -65,10 +66,10 @@ class _TotalTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: ProjectPadding.allLarge(),
       decoration: BoxDecoration(
         color: scheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: ProjectRadius.xxLarge,
         border: Border.all(
           color: scheme.outline.withValues(alpha: 0.15),
           width: 1,

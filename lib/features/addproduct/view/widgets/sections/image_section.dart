@@ -7,7 +7,7 @@ import 'package:arya/features/addproduct/view/widgets/common/section_title.dart'
 class ImageSection extends StatelessWidget {
   final AddProductViewModel viewModel;
 
-  const ImageSection({Key? key, required this.viewModel}) : super(key: key);
+  const ImageSection({super.key, required this.viewModel});
 
   @override
   Widget build(BuildContext context) {

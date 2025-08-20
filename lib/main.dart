@@ -3,6 +3,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 import 'features/index.dart';
 import 'product/index.dart';
+import 'package:auto_route/auto_route.dart';
+import 'product/navigation/app_router.dart';
 
 void main() async {
   await ApplicationInitialize.init();
@@ -12,40 +14,25 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  Future<bool> _hasCompletedOnboarding() => AppPrefs.getHasOnboarded();
+
   @override
   Widget build(BuildContext context) {
+    final appRouter = AppRouter();
     return MultiProvider(
       providers: [ChangeNotifierProvider(create: (_) => CartViewModel())],
-      child: MaterialApp(
+      child: MaterialApp.router(
         locale: context.locale,
         supportedLocales: context.supportedLocales,
         localizationsDelegates: context.localizationDelegates,
         theme: CustomLightTheme().themeData,
         darkTheme: CustomDarkTheme().themeData,
-        home: FutureBuilder<bool>(
-          future: _hasCompletedOnboarding(),
-          builder: (context, onboardingSnapshot) {
-            if (onboardingSnapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            final hasCompletedOnboarding = onboardingSnapshot.data ?? false;
-            if (!hasCompletedOnboarding) {
-              return const OnBoardView();
-            }
-            return StreamBuilder(
-              stream: FirebaseAuthService().authStateChanges,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasData) {
-                  return MainPage();
-                } else {
-                  return const LoginView();
-                }
-              },
-            );
-          },
+        routerConfig: appRouter.config(
+          // auth durumları için guard'ların reevaluate edilebilmesi
+          // için stream'i dinletiyoruz
+          reevaluateListenable: ReevaluateListenable.stream(
+            FirebaseAuthService().authStateChanges,
+          ),
+          navigatorObservers: () => [AutoRouteObserver()],
         ),
       ),
     );

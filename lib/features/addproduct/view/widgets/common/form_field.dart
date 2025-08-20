@@ -9,14 +9,14 @@ class CustomFormField extends StatelessWidget {
   final bool enabled;
 
   const CustomFormField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.labelText,
     this.validator,
     this.maxLines = 1,
     this.keyboardType,
     this.enabled = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

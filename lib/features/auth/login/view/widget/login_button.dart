@@ -21,7 +21,7 @@ class LoginButton extends StatelessWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text(AuthConstants.loginSuccess)),
                 );
-                context.router.replaceAll([const MainPageRoute()]);
+                context.router.replaceAll([const AppShellRoute()]);
               }
             },
       style: ElevatedButton.styleFrom(

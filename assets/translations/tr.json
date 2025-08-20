@@ -127,11 +127,48 @@
         "profile": "Profil"
     },
     "add_product": {
+        "title": "Ürün Ekle",
         "image_section_title": "Ürün Fotoğrafı",
         "processing": "İşleniyor...",
         "pick_from_gallery": "Galeriden Seç",
         "take_photo": "Fotoğraf Çek",
-        "remove_image": "Resmi Kaldır"
+        "remove_image": "Resmi Kaldır",
+        "sections": {
+            "basic_info": "Temel Bilgiler",
+            "nutrition": "Besin Değerleri",
+            "additional_info": "Diğer Bilgiler"
+        },
+        "fields": {
+            "barcode": "Barkod",
+            "barcode_required": "Barkod zorunlu",
+            "product_name": "Ürün Adı",
+            "product_name_required": "Ürün adı zorunlu",
+            "brand": "Marka",
+            "categories": "Kategoriler",
+            "quantity": "Miktar",
+            "ingredients": "İçindekiler",
+            "energy": "Enerji (kcal)",
+            "fat": "Yağ (g)",
+            "carbs": "Karbonhidrat (g)",
+            "protein": "Protein (g)",
+            "sodium": "Sodyum (mg)",
+            "fiber": "Lif (g)",
+            "sugar": "Şeker (g)",
+            "allergens": "Allerjenler (virgülle ayırın)",
+            "description": "Ürün Açıklaması",
+            "tags": "Etiketler (vegan, organik, vb.)"
+        },
+        "buttons": {
+            "add_product": "Ürünü Ekle"
+        },
+        "validation": {
+            "fill_required_fields": "Lütfen tüm gerekli alanları doldurun.",
+            "login_first": "Lütfen önce giriş yapın.",
+            "off_credentials_not_found": "Open Food Facts kullanıcı adı/şifresi bulunamadı. Lütfen ayarlardan ekleyin.",
+            "product_added_success": "Ürün başarıyla eklendi!",
+            "product_add_failed": "Ürün eklenemedi: {status}",
+            "error_occurred": "Hata oluştu: {error}"
+        }
     },
     "categories": {
         "title": "Kategoriler",

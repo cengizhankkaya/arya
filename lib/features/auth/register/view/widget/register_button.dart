@@ -3,6 +3,7 @@ import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:arya/product/navigation/app_router.dart';
 
 class RegisterButton extends StatelessWidget {
   const RegisterButton({super.key});
@@ -25,7 +26,8 @@ class RegisterButton extends StatelessWidget {
                       backgroundColor: Theme.of(context).colorScheme.primary,
                     ),
                   );
-                  context.router.pop();
+                  if (!context.mounted) return;
+                  context.router.replaceAll([const AppShellRoute()]);
                 }
               },
         style: ElevatedButton.styleFrom(

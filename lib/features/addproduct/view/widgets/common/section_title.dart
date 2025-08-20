@@ -6,11 +6,11 @@ class SectionTitle extends StatelessWidget {
   final FontWeight fontWeight;
 
   const SectionTitle({
-    Key? key,
+    super.key,
     required this.title,
     this.fontSize = 18,
     this.fontWeight = FontWeight.bold,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -127,11 +127,48 @@
         "profile": "Profile"
     },
     "add_product": {
+        "title": "Add Product",
         "image_section_title": "Product Photo",
         "processing": "Processing...",
         "pick_from_gallery": "Choose from Gallery",
         "take_photo": "Take Photo",
-        "remove_image": "Remove Image"
+        "remove_image": "Remove Image",
+        "sections": {
+            "basic_info": "Basic Information",
+            "nutrition": "Nutrition Facts",
+            "additional_info": "Additional Information"
+        },
+        "fields": {
+            "barcode": "Barcode",
+            "barcode_required": "Barcode is required",
+            "product_name": "Product Name",
+            "product_name_required": "Product name is required",
+            "brand": "Brand",
+            "categories": "Categories",
+            "quantity": "Quantity",
+            "ingredients": "Ingredients",
+            "energy": "Energy (kcal)",
+            "fat": "Fat (g)",
+            "carbs": "Carbohydrates (g)",
+            "protein": "Protein (g)",
+            "sodium": "Sodium (mg)",
+            "fiber": "Fiber (g)",
+            "sugar": "Sugar (g)",
+            "allergens": "Allergens (separate with commas)",
+            "description": "Product Description",
+            "tags": "Tags (vegan, organic, etc.)"
+        },
+        "buttons": {
+            "add_product": "Add Product"
+        },
+        "validation": {
+            "fill_required_fields": "Please fill in all required fields.",
+            "login_first": "Please login first.",
+            "off_credentials_not_found": "Open Food Facts username/password not found. Please add them from settings.",
+            "product_added_success": "Product added successfully!",
+            "product_add_failed": "Product could not be added: {status}",
+            "error_occurred": "An error occurred: {error}"
+        }
     },
     "categories": {
         "title": "Categories",

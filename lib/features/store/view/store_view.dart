@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:arya/product/navigation/app_router.dart';
 
-@RoutePage()
+@RoutePage(name: 'ProductsRoute')
 class ProductsPage extends StatelessWidget {
   final String? initialCategory;
 

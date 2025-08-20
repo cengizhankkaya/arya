@@ -1,12 +1,9 @@
+import 'package:arya/features/index.dart';
+import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fb;
-import 'package:arya/product/utility/storage/app_prefs.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'dart:io';
-import '../model/product_model.dart';
-import '../service/product_repository.dart';
-import '../service/image_service.dart';
-import 'mixins/form_state_mixin.dart';
-import 'mixins/form_controllers_mixin.dart';
 
 class AddProductViewModel extends ChangeNotifier
     with FormStateMixin, FormControllersMixin {
@@ -46,12 +43,13 @@ class AddProductViewModel extends ChangeNotifier
     }
 
     // Custom validation
-    if (ProductModel.validateBarcode(barcodeController.text) != null ||
-        ProductModel.validateName(nameController.text) != null ||
-        ProductModel.validateBrands(brandsController.text) != null ||
-        ProductModel.validateCategories(categoriesController.text) != null ||
-        ProductModel.validateQuantity(quantityController.text) != null ||
-        ProductModel.validateIngredients(ingredientsController.text) != null) {
+    if (AddProductModel.validateBarcode(barcodeController.text) != null ||
+        AddProductModel.validateName(nameController.text) != null ||
+        AddProductModel.validateBrands(brandsController.text) != null ||
+        AddProductModel.validateCategories(categoriesController.text) != null ||
+        AddProductModel.validateQuantity(quantityController.text) != null ||
+        AddProductModel.validateIngredients(ingredientsController.text) !=
+            null) {
       return false;
     }
 
@@ -61,7 +59,7 @@ class AddProductViewModel extends ChangeNotifier
   // Main business logic
   Future<void> addProduct() async {
     if (!validateForm()) {
-      setError('Lütfen tüm gerekli alanları doldurun.');
+      setError('add_product.validation.fill_required_fields'.tr());
       return;
     }
 
@@ -71,7 +69,7 @@ class AddProductViewModel extends ChangeNotifier
       // 1) Firebase oturumu kontrol et
       final firebaseUser = fb.FirebaseAuth.instance.currentUser;
       if (firebaseUser == null) {
-        setError('Lütfen önce giriş yapın.');
+        setError('add_product.validation.login_first'.tr());
         return;
       }
 
@@ -83,14 +81,12 @@ class AddProductViewModel extends ChangeNotifier
           offPassword == null ||
           offUsername.isEmpty ||
           offPassword.isEmpty) {
-        setError(
-          'Open Food Facts kullanıcı adı/şifresi bulunamadı. Lütfen ayarlardan ekleyin.',
-        );
+        setError('add_product.validation.off_credentials_not_found'.tr());
         return;
       }
 
       // 3) Product model oluştur
-      final product = ProductModel.fromForm(
+      final product = AddProductModel.fromForm(
         barcode: barcodeController.text,
         name: nameController.text,
         brands: brandsController.text,
@@ -118,13 +114,19 @@ class AddProductViewModel extends ChangeNotifier
       );
 
       if (result.status == 1) {
-        setSuccess("Ürün başarıyla eklendi!");
+        setSuccess("add_product.validation.product_added_success".tr());
         _resetForm();
       } else {
-        setError("Ürün eklenemedi: ${result.statusVerbose ?? result.status}");
+        setError(
+          "add_product.validation.product_add_failed".tr(
+            args: [result.statusVerbose ?? result.status.toString()],
+          ),
+        );
       }
     } catch (e) {
-      setError("Hata oluştu: $e");
+      setError(
+        "add_product.validation.error_occurred".tr(args: [e.toString()]),
+      );
     }
   }
 

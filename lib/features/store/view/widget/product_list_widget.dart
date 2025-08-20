@@ -75,14 +75,7 @@ class ProductList extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Expanded(
-                        child: product['image_thumb_url'] != null
-                            ? Image.network(
-                                product['image_thumb_url'],
-                                fit: BoxFit.contain,
-                              )
-                            : const Icon(Icons.image_not_supported, size: 48),
-                      ),
+                      Expanded(child: _ProductGridImage(product: product)),
                       const SizedBox(height: 10),
                       Column(
                         children: [
@@ -121,6 +114,39 @@ class ProductList extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _ProductGridImage extends StatelessWidget {
+  final Map<String, dynamic> product;
+  const _ProductGridImage({required this.product});
+
+  @override
+  Widget build(BuildContext context) {
+    String? imageUrl =
+        (product['image_url'] ??
+                product['image_small_url'] ??
+                product['image_thumb_url'])
+            ?.toString();
+
+    // http'yi https'e çevir
+    if (imageUrl != null && imageUrl.startsWith('http://')) {
+      imageUrl = imageUrl.replaceFirst('http://', 'https://');
+    }
+
+    if (imageUrl == null || imageUrl.isEmpty) {
+      return const Icon(Icons.image_not_supported, size: 48);
+    }
+
+    return Image.network(
+      imageUrl,
+      fit: BoxFit.contain,
+      cacheWidth: 600,
+      cacheHeight: 600,
+      headers: const {'User-Agent': 'AryaApp/1.0'},
+      errorBuilder: (context, error, stackTrace) =>
+          const Icon(Icons.image_not_supported, size: 48),
     );
   }
 }

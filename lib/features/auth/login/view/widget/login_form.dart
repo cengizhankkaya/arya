@@ -10,7 +10,6 @@ class LoginForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = Provider.of<LoginViewModel>(context);
     final size = MediaQuery.of(context).size;
-
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(

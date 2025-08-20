@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import '../view_model/product_detail_view_model.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:arya/product/navigation/app_router.dart';
 
 @RoutePage()
 class ProductDetailView extends StatelessWidget {
@@ -23,12 +22,10 @@ class ProductDetailView extends StatelessWidget {
 
 class _ProductDetailViewBody extends StatelessWidget {
   const _ProductDetailViewBody();
-
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final viewModel = context.watch<ProductDetailViewModel>();
-
     return Scaffold(
       body: Stack(
         children: [
@@ -44,8 +41,8 @@ class _ProductDetailViewBody extends StatelessWidget {
                 leading: Container(
                   margin: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.white.withValues(alpha: 0.2),
+                    borderRadius: ProjectRadius.xxLarge,
                   ),
                   child: IconButton(
                     icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -56,8 +53,8 @@ class _ProductDetailViewBody extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white.withValues(alpha: 0.2),
+                      borderRadius: ProjectRadius.xxLarge,
                     ),
                     child: IconButton(
                       icon: Icon(
@@ -72,8 +69,8 @@ class _ProductDetailViewBody extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white.withValues(alpha: 0.2),
+                      borderRadius: ProjectRadius.xxLarge,
                     ),
                     child: IconButton(
                       icon: const Icon(Icons.share, color: Colors.white),
@@ -90,6 +87,7 @@ class _ProductDetailViewBody extends StatelessWidget {
                           viewModel.imageUrl!,
                           fit: BoxFit.cover,
                           headers: const {'User-Agent': 'AryaApp/1.0'},
+                          filterQuality: FilterQuality.high,
                           errorBuilder: (context, error, stackTrace) {
                             print('ProductDetailView: Image error: $error');
                             return Container(
@@ -106,7 +104,7 @@ class _ProductDetailViewBody extends StatelessWidget {
                               child: Icon(
                                 Icons.image_not_supported,
                                 size: 80,
-                                color: Colors.white.withOpacity(0.7),
+                                color: Colors.white.withValues(alpha: 0.7),
                               ),
                             );
                           },
@@ -149,7 +147,7 @@ class _ProductDetailViewBody extends StatelessWidget {
                           child: Icon(
                             Icons.image_not_supported,
                             size: 80,
-                            color: Colors.white.withOpacity(0.7),
+                            color: Colors.white.withValues(alpha: 0.7),
                           ),
                         ),
                       // Gradient overlay
@@ -160,7 +158,7 @@ class _ProductDetailViewBody extends StatelessWidget {
                             end: Alignment.bottomCenter,
                             colors: [
                               Colors.transparent,
-                              Colors.black.withOpacity(0.3),
+                              Colors.black.withValues(alpha: 0.3),
                             ],
                           ),
                         ),
@@ -169,15 +167,12 @@ class _ProductDetailViewBody extends StatelessWidget {
                   ),
                 ),
               ),
-
               // Content
               SliverToBoxAdapter(
                 child: Container(
                   decoration: BoxDecoration(
                     color: scheme.surface,
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(24),
-                    ),
+                    borderRadius: ProjectRadius.xxLarge,
                   ),
                   child: Padding(
                     padding: ProjectPadding.allLarge(),
@@ -188,11 +183,11 @@ class _ProductDetailViewBody extends StatelessWidget {
                         if (viewModel.errorMessage != null)
                           Container(
                             width: double.infinity,
-                            margin: const EdgeInsets.only(bottom: 16),
-                            padding: const EdgeInsets.all(16),
+                            margin: ProjectMargin.medium,
+                            padding: ProjectPadding.allLarge(),
                             decoration: BoxDecoration(
                               color: scheme.errorContainer,
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: ProjectRadius.xxLarge,
                               border: Border.all(color: scheme.error),
                             ),
                             child: Row(
@@ -231,10 +226,10 @@ class _ProductDetailViewBody extends StatelessWidget {
                           padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
                             color: scheme.surfaceContainerHighest,
-                            borderRadius: BorderRadius.circular(16),
+                            borderRadius: ProjectRadius.xxLarge,
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.05),
+                                color: Colors.black.withValues(alpha: 0.05),
                                 blurRadius: 10,
                                 offset: const Offset(0, 2),
                               ),
@@ -267,7 +262,7 @@ class _ProductDetailViewBody extends StatelessWidget {
                                       ),
                                       decoration: BoxDecoration(
                                         color: scheme.primaryContainer,
-                                        borderRadius: BorderRadius.circular(20),
+                                        borderRadius: ProjectRadius.xxLarge,
                                       ),
                                       child: Text(
                                         viewModel.brand!,
@@ -335,7 +330,7 @@ class _ProductDetailViewBody extends StatelessWidget {
           // Loading Overlay
           if (viewModel.isLoading)
             Container(
-              color: Colors.black.withOpacity(0.3),
+              color: Colors.black.withValues(alpha: 0.3),
               child: const Center(child: CircularProgressIndicator()),
             ),
         ],
@@ -347,7 +342,7 @@ class _ProductDetailViewBody extends StatelessWidget {
           color: scheme.surface,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 20,
               offset: const Offset(0, -5),
             ),
@@ -405,10 +400,10 @@ class _ProductDetailViewBody extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: scheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: ProjectRadius.xxLarge,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -423,7 +418,7 @@ class _ProductDetailViewBody extends StatelessWidget {
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   color: scheme.primaryContainer,
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: ProjectRadius.xxLarge,
                 ),
                 child: Icon(icon, color: scheme.onPrimaryContainer, size: 20),
               ),
@@ -461,8 +456,11 @@ class _ProductDetailViewBody extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         color: scheme.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: scheme.outline.withOpacity(0.2), width: 1),
+        borderRadius: ProjectRadius.xxLarge,
+        border: Border.all(
+          color: scheme.outline.withValues(alpha: 0.2),
+          width: 1,
+        ),
       ),
       child: Text(
         "$label: $value",
@@ -494,8 +492,11 @@ class _ProductDetailViewBody extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: scheme.surface,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: scheme.outline.withOpacity(0.2), width: 1),
+          borderRadius: ProjectRadius.xxLarge,
+          border: Border.all(
+            color: scheme.outline.withValues(alpha: 0.2),
+            width: 1,
+          ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

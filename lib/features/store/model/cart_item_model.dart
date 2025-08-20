@@ -20,8 +20,15 @@ class CartItemModel {
       id: (map['id'] ?? '').toString(),
       productName: (map['product_name'] ?? 'İsimsiz').toString(),
       brands: map['brands'] != null ? map['brands'].toString() : null,
-      imageThumbUrl: map['image_thumb_url'] != null
-          ? map['image_thumb_url'].toString()
+      imageThumbUrl:
+          (map['image_url'] ??
+                  map['image_small_url'] ??
+                  map['image_thumb_url']) !=
+              null
+          ? (map['image_url'] ??
+                    map['image_small_url'] ??
+                    map['image_thumb_url'])
+                .toString()
           : null,
       quantity: (map['quantity'] as num?)?.toInt() ?? 1,
       nutriments: map['nutriments'] is Map
@@ -35,6 +42,8 @@ class CartItemModel {
       'id': id,
       'product_name': productName,
       'brands': brands,
+      // Yüksek çözünürlük için image_url'e de aynı değeri koyuyoruz
+      // (liste/detay widget'ları image_url'i öncelediği için net görüntü alacağız)
       'image_thumb_url': imageThumbUrl,
       'image_url': imageThumbUrl,
       'quantity': quantity,

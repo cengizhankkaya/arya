@@ -1,11 +1,11 @@
+import 'package:arya/features/index.dart';
 import 'package:openfoodfacts/openfoodfacts.dart' as off;
 import 'package:http/http.dart' as http;
 import 'dart:io';
-import '../model/product_model.dart';
 
 abstract class IProductRepository {
   Future<off.Status> saveProduct(
-    ProductModel product,
+    AddProductModel product,
     String username,
     String password, {
     File? imageFile,
@@ -18,7 +18,7 @@ class ProductRepository implements IProductRepository {
 
   @override
   Future<off.Status> saveProduct(
-    ProductModel product,
+    AddProductModel product,
     String username,
     String password, {
     File? imageFile,
@@ -93,7 +93,6 @@ class ProductRepository implements IProductRepository {
         );
       }
     } catch (e) {
-      print('DEBUG: Exception occurred: $e');
       return off.Status(status: -1, statusVerbose: 'Network error: $e');
     }
   }
@@ -112,21 +111,13 @@ class ProductRepository implements IProductRepository {
             'Redirect error: ${response.statusCode} - no location header',
       );
     }
-
-    print('DEBUG: Following redirect to: $location');
-
     try {
       final redirectUri = Uri.parse(location);
       final redirectRequest = http.Request('POST', redirectUri);
       redirectRequest.headers.addAll(headers);
       redirectRequest.bodyFields = body;
-
       final redirectResponse = await client.send(redirectRequest);
       final finalResponse = await http.Response.fromStream(redirectResponse);
-
-      print('DEBUG: Redirect response status: ${finalResponse.statusCode}');
-      print('DEBUG: Redirect response body: ${finalResponse.body}');
-
       if (finalResponse.statusCode == 200) {
         return _parseResponse(finalResponse.body);
       } else {
@@ -184,7 +175,7 @@ class ProductRepository implements IProductRepository {
         await http.MultipartFile.fromPath('imgupload_front', imageFile.path),
       );
     } catch (e) {
-      print('DEBUG: Image upload failed: $e');
+      throw Exception('Image upload failed: $e');
     }
   }
 }

@@ -24,8 +24,6 @@ class ImageService implements IImageService {
   Future<File?> pickImageFromGallery() async {
     try {
       _setImageUploading(true);
-      print('DEBUG: Galeriden resim seçme başlatılıyor...');
-
       final XFile? image = await _imagePicker.pickImage(
         source: ImageSource.gallery,
         maxWidth: 1024,
@@ -39,7 +37,6 @@ class ImageService implements IImageService {
       }
       return null;
     } catch (e) {
-      print('DEBUG: Galeri hatası: $e');
       return null;
     } finally {
       _setImageUploading(false);
@@ -50,8 +47,6 @@ class ImageService implements IImageService {
   Future<File?> takePhotoWithCamera() async {
     try {
       _setImageUploading(true);
-      print('DEBUG: Kamera ile fotoğraf çekme başlatılıyor...');
-
       final XFile? image = await _imagePicker.pickImage(
         source: ImageSource.camera,
         maxWidth: 1024,
@@ -65,7 +60,6 @@ class ImageService implements IImageService {
       }
       return null;
     } catch (e) {
-      print('DEBUG: Kamera hatası: $e');
       return null;
     } finally {
       _setImageUploading(false);

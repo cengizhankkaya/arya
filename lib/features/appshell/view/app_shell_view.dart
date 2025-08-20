@@ -3,18 +3,26 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../view_model/app_shell_view_model.dart';
 
 @RoutePage()
-class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+class AppShellView extends StatefulWidget implements AutoRouteWrapper {
+  const AppShellView({super.key});
 
   @override
-  State<MainPage> createState() => _MainPageState();
+  Widget wrappedRoute(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => AppShellViewModel(),
+      child: this,
+    );
+  }
+
+  @override
+  State<AppShellView> createState() => _AppShellViewState();
 }
 
-class _MainPageState extends State<MainPage> {
-  int _selectedIndex = 0;
-
+class _AppShellViewState extends State<AppShellView> {
   final List<Widget> _pages = [
     CategoryScreen(),
     ProductsPage(),
@@ -22,21 +30,18 @@ class _MainPageState extends State<MainPage> {
     ProfileScreen(),
   ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final vm = context.watch<AppShellViewModel>();
     return Scaffold(
-      body: IndexedStack(index: _selectedIndex, children: _pages),
+      body: IndexedStack(index: vm.selectedIndex, children: _pages),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Theme.of(context).colorScheme.shadow.withOpacity(0.1),
+              color: Theme.of(
+                context,
+              ).colorScheme.shadow.withValues(alpha: 0.1),
               blurRadius: 10,
               offset: const Offset(0, -2),
             ),
@@ -55,8 +60,8 @@ class _MainPageState extends State<MainPage> {
           unselectedLabelStyle: Theme.of(
             context,
           ).textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w400),
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
+          currentIndex: vm.selectedIndex,
+          onTap: vm.onItemTapped,
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined),

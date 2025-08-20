@@ -71,9 +71,12 @@ class ProductDetailViewModel extends ChangeNotifier {
     print('  image_thumb_url: ${product['image_thumb_url']}');
     print('  image_url: ${product['image_url']}');
 
-    // Önce image_thumb_url'i kontrol et, yoksa image_url'i kullan
-    final url = (product['image_thumb_url'] ?? product['image_url'])
-        ?.toString();
+    // Yüksek çözünürlük için önce image_url, yoksa küçük boyutlara düş
+    final url =
+        (product['image_url'] ??
+                product['image_small_url'] ??
+                product['image_thumb_url'])
+            ?.toString();
     print('  Final URL: $url');
     return url;
   }
@@ -106,9 +109,14 @@ class ProductDetailViewModel extends ChangeNotifier {
       setLoading(true);
       setError(null);
 
-      final imageUrl = (product['image_thumb_url'] ?? product['image_url'])
-          ?.toString();
-      print('  Product image URL: ${product['image_thumb_url']}');
+      final imageUrl =
+          (product['image_url'] ??
+                  product['image_small_url'] ??
+                  product['image_thumb_url'])
+              ?.toString();
+      print('  Product image_url: ${product['image_url']}');
+      print('  Product image_small_url: ${product['image_small_url']}');
+      print('  Product image_thumb_url: ${product['image_thumb_url']}');
       print('  Final image URL: $imageUrl');
 
       final cartItem = CartItemModel(

@@ -1,6 +1,6 @@
 // removed unused Flutter material import
 
-class ProductModel {
+class AddProductModel {
   final String? id;
   final String barcode;
   final String name;
@@ -19,7 +19,7 @@ class ProductModel {
   final String description;
   final String tags;
 
-  ProductModel({
+  AddProductModel({
     this.id,
     required this.barcode,
     required this.name,
@@ -89,7 +89,7 @@ class ProductModel {
   }
 
   // Factory constructor from form data
-  factory ProductModel.fromForm({
+  factory AddProductModel.fromForm({
     required String barcode,
     required String name,
     required String brands,
@@ -107,7 +107,7 @@ class ProductModel {
     String description = '',
     String tags = '',
   }) {
-    return ProductModel(
+    return AddProductModel(
       barcode: barcode.trim(),
       name: name.trim(),
       brands: brands.trim(),
@@ -148,7 +148,7 @@ class ProductModel {
   }
 
   // Copy with method
-  ProductModel copyWith({
+  AddProductModel copyWith({
     String? id,
     String? barcode,
     String? name,
@@ -167,7 +167,7 @@ class ProductModel {
     String? description,
     String? tags,
   }) {
-    return ProductModel(
+    return AddProductModel(
       id: id ?? this.id,
       barcode: barcode ?? this.barcode,
       name: name ?? this.name,

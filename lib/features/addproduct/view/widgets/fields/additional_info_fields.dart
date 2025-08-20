@@ -1,36 +1,34 @@
+import 'package:arya/features/addproduct/index.dart';
 import 'package:flutter/material.dart';
-import 'package:arya/features/addproduct/view_model/add_product_viewmodel.dart';
-import 'package:arya/features/addproduct/view/widgets/common/section_title.dart';
-import 'package:arya/features/addproduct/view/widgets/common/form_field.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AdditionalInfoFields extends StatelessWidget {
   final AddProductViewModel viewModel;
 
-  const AdditionalInfoFields({Key? key, required this.viewModel})
-    : super(key: key);
+  const AdditionalInfoFields({super.key, required this.viewModel});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionTitle(title: "Diğer Bilgiler"),
+        SectionTitle(title: "add_product.sections.additional_info".tr()),
         const SizedBox(height: 15),
         CustomFormField(
           controller: viewModel.allergensController,
-          labelText: "Allerjenler (virgülle ayırın)",
+          labelText: "add_product.fields.allergens".tr(),
           maxLines: 2,
         ),
         const SizedBox(height: 15),
         CustomFormField(
           controller: viewModel.descriptionController,
-          labelText: "Ürün Açıklaması",
+          labelText: "add_product.fields.description".tr(),
           maxLines: 3,
         ),
         const SizedBox(height: 15),
         CustomFormField(
           controller: viewModel.tagsController,
-          labelText: "Etiketler (vegan, organik, vb.)",
+          labelText: "add_product.fields.tags".tr(),
           maxLines: 2,
         ),
       ],

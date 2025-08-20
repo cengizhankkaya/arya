@@ -1,3 +1,2 @@
-export 'model/index.dart';
 export 'view/index.dart';
 export 'view_model/index.dart';

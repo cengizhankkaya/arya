@@ -152,17 +152,15 @@ class StoreViewModel extends ChangeNotifier {
     BuildContext context,
     Map<String, dynamic> product,
   ) async {
-    // Debug: Ürün verilerini kontrol et
-    print('Adding product to cart:');
-    print('  ID: ${product['id']}');
-    print('  Name: ${product['product_name']}');
-    print('  Brands: ${product['brands']}');
-    print('  Image thumb URL: ${product['image_thumb_url']}');
-    print('  Image URL: ${product['image_url']}');
-
-    final imageUrl = (product['image_thumb_url'] ?? product['image_url'])
-        ?.toString();
-    print('  Final image URL: $imageUrl');
+    String? imageUrl =
+        (product['image_url'] ??
+                product['image_small_url'] ??
+                product['image_thumb_url'])
+            ?.toString();
+    if (imageUrl != null && imageUrl.startsWith('http://')) {
+      imageUrl = imageUrl.replaceFirst('http://', 'https://');
+    }
+    print('  Final image URL (hi-res preferred): $imageUrl');
 
     final cartItem = CartItemModel(
       id: product['id']?.toString() ?? '',
@@ -172,8 +170,6 @@ class StoreViewModel extends ChangeNotifier {
       quantity: 1,
       nutriments: (product['nutriments'] as Map<String, dynamic>?) ?? const {},
     );
-
-    print('  Cart item image URL: ${cartItem.imageThumbUrl}');
     await context.read<CartViewModel>().addToCart(cartItem);
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:arya/features/addproduct/view_model/add_product_viewmodel.dart';
 import 'package:arya/features/addproduct/view/widgets/common/section_title.dart';
 import 'package:arya/features/addproduct/view/widgets/common/form_field.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class NutritionFields extends StatelessWidget {
   final AddProductViewModel viewModel;
@@ -13,17 +14,17 @@ class NutritionFields extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionTitle(title: "Besin Değerleri"),
+        SectionTitle(title: "add_product.sections.nutrition".tr()),
         const SizedBox(height: 15),
         _buildNutritionRow([
           CustomFormField(
             controller: viewModel.energyController,
-            labelText: "Enerji (kcal)",
+            labelText: "add_product.fields.energy".tr(),
             keyboardType: TextInputType.number,
           ),
           CustomFormField(
             controller: viewModel.fatController,
-            labelText: "Yağ (g)",
+            labelText: "add_product.fields.fat".tr(),
             keyboardType: TextInputType.number,
           ),
         ]),
@@ -31,12 +32,12 @@ class NutritionFields extends StatelessWidget {
         _buildNutritionRow([
           CustomFormField(
             controller: viewModel.carbsController,
-            labelText: "Karbonhidrat (g)",
+            labelText: "add_product.fields.carbs".tr(),
             keyboardType: TextInputType.number,
           ),
           CustomFormField(
             controller: viewModel.proteinController,
-            labelText: "Protein (g)",
+            labelText: "add_product.fields.protein".tr(),
             keyboardType: TextInputType.number,
           ),
         ]),
@@ -44,19 +45,19 @@ class NutritionFields extends StatelessWidget {
         _buildNutritionRow([
           CustomFormField(
             controller: viewModel.sodiumController,
-            labelText: "Sodyum (mg)",
+            labelText: "add_product.fields.sodium".tr(),
             keyboardType: TextInputType.number,
           ),
           CustomFormField(
             controller: viewModel.fiberController,
-            labelText: "Lif (g)",
+            labelText: "add_product.fields.fiber".tr(),
             keyboardType: TextInputType.number,
           ),
         ]),
         const SizedBox(height: 15),
         CustomFormField(
           controller: viewModel.sugarController,
-          labelText: "Şeker (g)",
+          labelText: "add_product.fields.sugar".tr(),
           keyboardType: TextInputType.number,
         ),
       ],

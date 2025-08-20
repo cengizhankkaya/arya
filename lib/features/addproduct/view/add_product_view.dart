@@ -1,13 +1,14 @@
 import 'package:arya/features/addproduct/view_model/add_product_viewmodel.dart';
 import 'package:arya/features/addproduct/view/widgets/index.dart';
 import 'package:arya/product/index.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 
-@RoutePage()
+@RoutePage(name: 'AddProductRoute')
 class AddProductScreen extends StatelessWidget {
-  const AddProductScreen({Key? key}) : super(key: key);
+  const AddProductScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +28,9 @@ class AddProductScreen extends StatelessWidget {
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     final colors = Theme.of(context).extension<AppColors>()!;
     return AppBar(
-      title: const Text(
-        "Ürün Ekle",
-        style: TextStyle(fontWeight: FontWeight.bold),
+      title: Text(
+        "add_product.title".tr(),
+        style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       backgroundColor: colors.addbakground,
       foregroundColor: Theme.of(context).colorScheme.onPrimary,

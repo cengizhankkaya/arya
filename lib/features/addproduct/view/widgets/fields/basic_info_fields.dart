@@ -2,51 +2,54 @@ import 'package:flutter/material.dart';
 import 'package:arya/features/addproduct/view_model/add_product_viewmodel.dart';
 import 'package:arya/features/addproduct/view/widgets/common/section_title.dart';
 import 'package:arya/features/addproduct/view/widgets/common/form_field.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class BasicInfoFields extends StatelessWidget {
   final AddProductViewModel viewModel;
 
-  const BasicInfoFields({Key? key, required this.viewModel}) : super(key: key);
+  const BasicInfoFields({super.key, required this.viewModel});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SectionTitle(title: "Temel Bilgiler"),
+        SectionTitle(title: "add_product.sections.basic_info".tr()),
         const SizedBox(height: 15),
         CustomFormField(
           controller: viewModel.barcodeController,
-          labelText: "Barkod",
-          validator: (value) =>
-              value == null || value.isEmpty ? "Barkod zorunlu" : null,
+          labelText: "add_product.fields.barcode".tr(),
+          validator: (value) => value == null || value.isEmpty
+              ? "add_product.fields.barcode_required".tr()
+              : null,
         ),
         const SizedBox(height: 15),
         CustomFormField(
           controller: viewModel.nameController,
-          labelText: "Ürün Adı",
-          validator: (value) =>
-              value == null || value.isEmpty ? "Ürün adı zorunlu" : null,
+          labelText: "add_product.fields.product_name".tr(),
+          validator: (value) => value == null || value.isEmpty
+              ? "add_product.fields.product_name_required".tr()
+              : null,
         ),
         const SizedBox(height: 15),
         CustomFormField(
           controller: viewModel.brandsController,
-          labelText: "Marka",
+          labelText: "add_product.fields.brand".tr(),
         ),
         const SizedBox(height: 15),
         CustomFormField(
           controller: viewModel.categoriesController,
-          labelText: "Kategoriler",
+          labelText: "add_product.fields.categories".tr(),
         ),
         const SizedBox(height: 15),
         CustomFormField(
           controller: viewModel.quantityController,
-          labelText: "Miktar",
+          labelText: "add_product.fields.quantity".tr(),
         ),
         const SizedBox(height: 15),
         CustomFormField(
           controller: viewModel.ingredientsController,
-          labelText: "İçindekiler",
+          labelText: "add_product.fields.ingredients".tr(),
           maxLines: 3,
         ),
       ],

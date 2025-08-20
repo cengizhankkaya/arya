@@ -5,7 +5,7 @@ import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-@RoutePage()
+@RoutePage(name: 'ProfileRoute')
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 

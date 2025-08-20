@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:arya/features/store/model/cart_item_model.dart';
 import 'package:arya/features/store/view_model/cart_view_model.dart';
-import 'package:arya/features/store/view/product_detail_view.dart';
 import 'package:arya/product/index.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_route/auto_route.dart';
@@ -21,7 +20,7 @@ class CartItemWidget extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         color: scheme.surface,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: ProjectRadius.xxLarge,
         boxShadow: [
           BoxShadow(
             color: (Theme.of(context).brightness == Brightness.light)
@@ -33,8 +32,8 @@ class CartItemWidget extends StatelessWidget {
         ],
       ),
       child: ListTile(
-        contentPadding: const EdgeInsets.all(16),
-        leading: _buildProductImage(scheme),
+        contentPadding: ProjectPadding.allLarge(),
+        leading: _buildProductImage(context, scheme),
         title: Text(
           product.productName,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
@@ -54,7 +53,9 @@ class CartItemWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildProductImage(ColorScheme scheme) {
+  Widget _buildProductImage(BuildContext context, ColorScheme scheme) {
+    final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
+    final targetCacheSize = (60 * devicePixelRatio).round();
     return Container(
       width: 60,
       height: 60,
@@ -66,10 +67,17 @@ class CartItemWidget extends StatelessWidget {
           ? ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.network(
-                product.imageThumbUrl!,
+                product.imageThumbUrl!.startsWith('http://')
+                    ? product.imageThumbUrl!.replaceFirst('http://', 'https://')
+                    : product.imageThumbUrl!,
                 fit: BoxFit.cover,
                 width: 60,
                 height: 60,
+                cacheWidth: targetCacheSize,
+                cacheHeight: targetCacheSize,
+                filterQuality: FilterQuality.high,
+                gaplessPlayback: true,
+                headers: const {'User-Agent': 'AryaApp/1.0'},
                 errorBuilder: (context, error, stackTrace) {
                   return Container(
                     width: 60,
@@ -86,7 +94,7 @@ class CartItemWidget extends StatelessWidget {
                   );
                 },
                 loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return Container();
+                  if (loadingProgress == null) return child;
                   return Container(
                     width: 60,
                     height: 60,
