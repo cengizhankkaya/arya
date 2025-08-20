@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:arya/product/theme/app_typography.dart';
 
 class EmptyCartWidget extends StatelessWidget {
   const EmptyCartWidget({super.key});
@@ -21,7 +22,7 @@ class EmptyCartWidget extends StatelessWidget {
           Text(
             'store.empty_cart_title'.tr(),
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w600,
+              fontWeight: AppTypography.labelWeight,
               color: scheme.onSurfaceVariant,
             ),
           ),

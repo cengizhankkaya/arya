@@ -19,7 +19,7 @@ class CartView extends StatelessWidget {
       appBar: AppBar(
         title: Text('appbar.cart'.tr()),
         backgroundColor: scheme.primary,
-        foregroundColor: scheme.onSurface,
+        foregroundColor: scheme.onPrimary,
         elevation: 0,
       ),
       backgroundColor: appColors?.surfaceMuted ?? scheme.surface,
@@ -57,7 +57,6 @@ class CartView extends StatelessWidget {
         builder: (context, cart, child) {
           final items = cart.cartItems;
           if (items.isEmpty) return const SizedBox.shrink();
-
           return FloatingActionButton(
             backgroundColor: scheme.primary,
             foregroundColor: scheme.onPrimary,

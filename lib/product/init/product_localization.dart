@@ -11,6 +11,7 @@ final class ProductLocalization extends EasyLocalization {
         supportedLocales: _supportedLocales,
         path: _translationPath,
         useOnlyLangCode: true,
+        startLocale: Locales.tr.locale,
       );
 
   static final List<Locale> _supportedLocales = [

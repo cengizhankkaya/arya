@@ -14,12 +14,12 @@ class ProfileCompletionStatus extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     final appColors = Theme.of(context).extension<AppColors>();
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: ProjectPadding.allLarge(),
       decoration: BoxDecoration(
         color: isComplete
             ? scheme.primaryContainer
             : scheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: ProjectRadius.xxLarge,
         border: Border.all(
           color: scheme.outline.withValues(alpha: 0.08),
           width: 1,
@@ -27,7 +27,7 @@ class ProfileCompletionStatus extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: (Theme.of(context).brightness == Brightness.light)
-                ? Colors.black12
+                ? appColors!.dividerAlt
                 : scheme.shadow.withValues(alpha: 0.25),
             blurRadius: 10,
             offset: const Offset(0, 6),
@@ -38,7 +38,7 @@ class ProfileCompletionStatus extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: const EdgeInsets.all(8),
+            padding: ProjectPadding.allSmall(),
             decoration: BoxDecoration(
               color: isComplete ? scheme.primary : scheme.secondary,
               shape: BoxShape.circle,
@@ -59,7 +59,7 @@ class ProfileCompletionStatus extends StatelessWidget {
                       ? 'profile.status.completed'.tr()
                       : 'profile.status.incomplete'.tr(),
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
+                    fontWeight: AppTypography.displayWeight,
                     color: isComplete
                         ? scheme.onPrimaryContainer
                         : appColors?.textStrong ?? scheme.onSurface,

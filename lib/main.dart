@@ -1,14 +1,14 @@
+import 'package:arya/features/index.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
-import 'features/index.dart';
-import 'product/index.dart';
 import 'package:auto_route/auto_route.dart';
-import 'product/navigation/app_router.dart';
+import 'product/index.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
   await ApplicationInitialize.init();
-  await ApplicationInitialize.localization();
   runApp(ProductLocalization(child: const MyApp()));
 }
 
@@ -27,8 +27,6 @@ class MyApp extends StatelessWidget {
         theme: CustomLightTheme().themeData,
         darkTheme: CustomDarkTheme().themeData,
         routerConfig: appRouter.config(
-          // auth durumları için guard'ların reevaluate edilebilmesi
-          // için stream'i dinletiyoruz
           reevaluateListenable: ReevaluateListenable.stream(
             FirebaseAuthService().authStateChanges,
           ),

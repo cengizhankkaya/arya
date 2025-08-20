@@ -12,13 +12,7 @@ class ProductDetailViewModel extends ChangeNotifier {
   bool _isLoading = false;
   String? _errorMessage;
 
-  ProductDetailViewModel({required this.product}) {
-    print('ProductDetailViewModel: Constructor called');
-    print('  Product keys: ${product.keys.toList()}');
-    print('  image_thumb_url: ${product['image_thumb_url']}');
-    print('  image_url: ${product['image_url']}');
-    print('  product_name: ${product['product_name']}');
-  }
+  ProductDetailViewModel({required this.product});
 
   // Getters
   int get quantity => _quantity;
@@ -114,10 +108,6 @@ class ProductDetailViewModel extends ChangeNotifier {
                   product['image_small_url'] ??
                   product['image_thumb_url'])
               ?.toString();
-      print('  Product image_url: ${product['image_url']}');
-      print('  Product image_small_url: ${product['image_small_url']}');
-      print('  Product image_thumb_url: ${product['image_thumb_url']}');
-      print('  Final image URL: $imageUrl');
 
       final cartItem = CartItemModel(
         id: product['id']?.toString() ?? '',
@@ -129,7 +119,6 @@ class ProductDetailViewModel extends ChangeNotifier {
             (product['nutriments'] as Map<String, dynamic>?) ?? const {},
       );
 
-      print('  Cart item image URL: ${cartItem.imageThumbUrl}');
       await context.read<CartViewModel>().addToCart(cartItem);
 
       setLoading(false);

@@ -82,28 +82,38 @@ class ImageSection extends StatelessWidget {
   }
 
   Widget _buildImagePreview() {
-    return Container(
-      width: 150,
-      height: 150,
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
-        borderRadius: ProjectRadius.medium,
-      ),
-      child: ClipRRect(
-        borderRadius: ProjectRadius.medium,
-        child: Image.file(viewModel.selectedImage!, fit: BoxFit.cover),
-      ),
+    return Builder(
+      builder: (context) {
+        final appColors = Theme.of(context).extension<AppColors>()!;
+        return Container(
+          width: 150,
+          height: 150,
+          decoration: BoxDecoration(
+            border: Border.all(color: appColors.grey),
+            borderRadius: ProjectRadius.medium,
+          ),
+          child: ClipRRect(
+            borderRadius: ProjectRadius.medium,
+            child: Image.file(viewModel.selectedImage!, fit: BoxFit.cover),
+          ),
+        );
+      },
     );
   }
 
   Widget _buildRemoveImageButton() {
-    return TextButton.icon(
-      onPressed: () => viewModel.removeSelectedImage(),
-      icon: const Icon(Icons.delete, color: Colors.red),
-      label: Text(
-        'add_product.remove_image'.tr(),
-        style: const TextStyle(color: Colors.red),
-      ),
+    return Builder(
+      builder: (context) {
+        final appColors = Theme.of(context).extension<AppColors>()!;
+        return TextButton.icon(
+          onPressed: () => viewModel.removeSelectedImage(),
+          icon: Icon(Icons.delete, color: appColors.red),
+          label: Text(
+            'add_product.remove_image'.tr(),
+            style: TextStyle(color: appColors.red),
+          ),
+        );
+      },
     );
   }
 }

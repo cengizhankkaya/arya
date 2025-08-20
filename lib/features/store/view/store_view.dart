@@ -4,7 +4,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:arya/product/navigation/app_router.dart';
 
 @RoutePage(name: 'ProductsRoute')
 class ProductsPage extends StatelessWidget {
@@ -51,13 +50,7 @@ class ProductsPage extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  CountryDropdown(),
-                  const SizedBox(height: 16),
-                  SearchStoreBar(),
-                ],
-              ),
+              child: Column(children: [SearchStoreBar()]),
             ),
             Expanded(
               child: Consumer<StoreViewModel>(

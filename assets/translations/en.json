@@ -80,7 +80,10 @@
             "completed_desc": "All required information is present.",
             "incomplete_desc": "For a better experience, add your name, surname and username."
         },
-        "no_user_data": "User data not found."
+        "no_user_data": "User data not found.",
+        "section": {
+            "personal_info": "Personal Information"
+        }
     },
     "off": {
         "saved": "Open Food Facts information saved.",
@@ -118,7 +121,8 @@
         "totals": {
             "total_kcal": "Total Calories",
             "total_protein": "Total Protein"
-        }
+        },
+        "items": "items"
     },
     "bottom": {
         "home": "Home",

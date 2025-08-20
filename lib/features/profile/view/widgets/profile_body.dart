@@ -2,6 +2,7 @@ import 'package:arya/features/index.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:arya/product/theme/app_colors.dart';
 
 class ProfileBody extends StatelessWidget {
   const ProfileBody({super.key});
@@ -20,7 +21,9 @@ class ProfileBody extends StatelessWidget {
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.06),
+                    color: Theme.of(
+                      context,
+                    ).extension<AppColors>()!.black.withValues(alpha: 0.06),
                     blurRadius: 12,
                     offset: const Offset(0, 6),
                   ),
@@ -55,34 +58,37 @@ class ProfileBody extends StatelessWidget {
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: viewModel.fetchUser,
-                  child: Text('general.button.try_again'.tr()),
+                  child: Text('Tekrar Dene'),
                 ),
               ],
             ),
           );
         }
-
         if (!viewModel.hasUser) {
           return Center(child: Text('profile.no_user_data'.tr()));
         }
-
         final user = viewModel.user!;
-
-        return SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ProfileHeader(user: user),
-              const SizedBox(height: 20),
-              viewModel.isEditing
-                  ? const EditProfileForm()
-                  : UserInfoSection(user: user),
-              if (!viewModel.isUserComplete) ...[
-                const SizedBox(height: 16),
-                const ProfileCompletionStatus(),
+        return Container(
+          color: Theme.of(context).colorScheme.surface,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 12.0,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ProfileHeader(user: user),
+                const SizedBox(height: 20),
+                viewModel.isEditing
+                    ? const EditProfileForm()
+                    : UserInfoSection(user: user),
+                if (!viewModel.isUserComplete) ...[
+                  const SizedBox(height: 16),
+                  const ProfileCompletionStatus(),
+                ],
               ],
-            ],
+            ),
           ),
         );
       },

@@ -11,9 +11,9 @@ IconButton addButton(
   Map<String, dynamic> product,
 ) {
   return IconButton(
-    icon: const Icon(
+    icon: Icon(
       Icons.add, // sadece artı işareti
-      color: Colors.white,
+      color: Theme.of(context).extension<AppColors>()!.white,
     ),
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.all(

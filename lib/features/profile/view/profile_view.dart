@@ -41,7 +41,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           foregroundColor: Theme.of(context).colorScheme.onSurface,
           elevation: 0,
           scrolledUnderElevation: 0,
-          surfaceTintColor: Colors.transparent,
+          surfaceTintColor: Theme.of(
+            context,
+          ).extension<AppColors>()!.transparent,
           toolbarHeight: 64,
           actions: const [ProfileActionsConsumer()],
         ),

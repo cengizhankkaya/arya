@@ -39,9 +39,9 @@ class ProductFormActions extends StatelessWidget {
               ),
               child: Text(
                 "add_product.buttons.add_product".tr(),
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+                style: TextStyle(
+                  fontSize: AppTypography.bodyLargeSize,
+                  fontWeight: AppTypography.boldWeight,
                 ),
               ),
             ),
@@ -49,62 +49,67 @@ class ProductFormActions extends StatelessWidget {
   }
 
   Widget _buildMessages() {
-    return Column(
-      children: [
-        if (viewModel.errorMessage != null) ...[
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.red.shade50,
-              border: Border.all(color: Colors.red.shade200),
-              borderRadius: ProjectRadius.xLarge,
-            ),
-            child: Row(
-              children: [
-                Icon(Icons.error_outline, color: Colors.red.shade600),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    viewModel.errorMessage!,
-                    style: TextStyle(
-                      color: Colors.red.shade700,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+    return Builder(
+      builder: (context) {
+        final colors = Theme.of(context).extension<AppColors>()!;
+        return Column(
+          children: [
+            if (viewModel.errorMessage != null) ...[
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: colors.red50,
+                  border: Border.all(color: colors.red200),
+                  borderRadius: ProjectRadius.xLarge,
                 ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 10),
-        ],
-        if (viewModel.successMessage != null) ...[
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.green.shade50,
-              border: Border.all(color: Colors.green.shade200),
-              borderRadius: ProjectRadius.xLarge,
-            ),
-            child: Row(
-              children: [
-                Icon(Icons.check_circle_outline, color: Colors.green.shade600),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(
-                    viewModel.successMessage!,
-                    style: TextStyle(
-                      color: Colors.green.shade700,
-                      fontWeight: FontWeight.w500,
+                child: Row(
+                  children: [
+                    Icon(Icons.error_outline, color: colors.red600),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        viewModel.errorMessage!,
+                        style: TextStyle(
+                          color: colors.red700,
+                          fontWeight: AppTypography.bodyLargeWeight,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-        ],
-      ],
+              ),
+              const SizedBox(height: 10),
+            ],
+            if (viewModel.successMessage != null) ...[
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: colors.green50,
+                  border: Border.all(color: colors.green200),
+                  borderRadius: ProjectRadius.xLarge,
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.check_circle_outline, color: colors.green600),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        viewModel.successMessage!,
+                        style: TextStyle(
+                          color: colors.green700,
+                          fontWeight: AppTypography.bodyLargeWeight,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ],
+        );
+      },
     );
   }
 }

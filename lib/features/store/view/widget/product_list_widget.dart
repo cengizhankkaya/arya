@@ -64,7 +64,7 @@ class ProductList extends StatelessWidget {
                       BoxShadow(
                         color:
                             (Theme.of(context).brightness == Brightness.light)
-                            ? Colors.black12
+                            ? appColors!.dividerAlt
                             : scheme.shadow.withOpacity(0.2),
                         blurRadius: 6,
                         offset: const Offset(0, 4),

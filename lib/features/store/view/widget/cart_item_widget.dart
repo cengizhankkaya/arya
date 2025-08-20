@@ -5,6 +5,7 @@ import 'package:arya/product/index.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:arya/product/navigation/app_router.dart';
+import 'package:arya/product/theme/app_typography.dart';
 
 class CartItemWidget extends StatelessWidget {
   final CartItemModel product;
@@ -21,15 +22,10 @@ class CartItemWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: scheme.surface,
         borderRadius: ProjectRadius.xxLarge,
-        boxShadow: [
-          BoxShadow(
-            color: (Theme.of(context).brightness == Brightness.light)
-                ? Colors.black12
-                : scheme.shadow.withValues(alpha: 0.2),
-            blurRadius: 6,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        border: Border.all(
+          color: scheme.outline.withValues(alpha: 0.08),
+          width: 1,
+        ),
       ),
       child: ListTile(
         contentPadding: ProjectPadding.allLarge(),
@@ -37,7 +33,7 @@ class CartItemWidget extends StatelessWidget {
         title: Text(
           product.productName,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            fontWeight: FontWeight.w600,
+            fontWeight: AppTypography.labelWeight,
             color: appColors?.textStrong ?? scheme.onSurface,
           ),
         ),
@@ -151,7 +147,7 @@ class CartItemWidget extends StatelessWidget {
             product.quantity.toString(),
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
               color: appColors?.textStrong ?? scheme.onSurface,
-              fontWeight: FontWeight.w700,
+              fontWeight: AppTypography.displayWeight,
             ),
           ),
         ),

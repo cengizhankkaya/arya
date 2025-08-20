@@ -54,12 +54,11 @@ class _AppShellViewState extends State<AppShellView> {
               Theme.of(context).extension<AppColors>()?.textMuted ??
               Theme.of(context).colorScheme.primary,
           unselectedItemColor: Theme.of(context).colorScheme.onSurfaceVariant,
-          selectedLabelStyle: Theme.of(
-            context,
-          ).textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w600),
-          unselectedLabelStyle: Theme.of(
-            context,
-          ).textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w400),
+          selectedLabelStyle: Theme.of(context).textTheme.labelMedium?.copyWith(
+            fontWeight: AppTypography.labelWeight,
+          ),
+          unselectedLabelStyle: Theme.of(context).textTheme.labelMedium
+              ?.copyWith(fontWeight: AppTypography.bodyWeight),
           currentIndex: vm.selectedIndex,
           onTap: vm.onItemTapped,
           items: [

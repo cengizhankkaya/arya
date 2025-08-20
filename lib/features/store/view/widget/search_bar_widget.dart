@@ -23,7 +23,7 @@ class _SearchStoreBarState extends State<SearchStoreBar> {
         boxShadow: [
           BoxShadow(
             color: (Theme.of(context).brightness == Brightness.light)
-                ? Colors.black12
+                ? appColors!.dividerAlt
                 : scheme.error,
             blurRadius: 6,
             offset: const Offset(0, 4),

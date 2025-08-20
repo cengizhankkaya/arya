@@ -80,7 +80,10 @@
             "completed_desc": "Tüm zorunlu bilgiler mevcut.",
             "incomplete_desc": "Daha iyi deneyim için ad, soyad ve kullanıcı adı ekleyin."
         },
-        "no_user_data": "Kullanıcı verisi bulunamadı."
+        "no_user_data": "Kullanıcı verisi bulunamadı.",
+        "section": {
+            "personal_info": "Kişisel Bilgiler"
+        }
     },
     "off": {
         "saved": "Open Food Facts bilgileri kaydedildi.",
@@ -118,7 +121,8 @@
         "totals": {
             "total_kcal": "Toplam Kalori",
             "total_protein": "Toplam Protein"
-        }
+        },
+        "items": "ürün"
     },
     "bottom": {
         "home": "Ana Sayfa",

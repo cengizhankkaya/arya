@@ -1,6 +1,10 @@
-export 'country_dropdown_widget.dart';
 export 'product_list_widget.dart';
 export 'search_bar_widget.dart';
 export 'cart_item_widget.dart';
 export 'cart_summary_widget.dart';
 export 'empty_cart_widget.dart';
+export 'product_detail_app_bar.dart';
+export 'product_detail_error_banner.dart';
+export 'product_detail_detail_card.dart';
+export 'product_detail_nutrition_grid.dart';
+export 'product_detail_bottom_bar.dart';

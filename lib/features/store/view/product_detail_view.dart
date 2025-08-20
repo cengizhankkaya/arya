@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../view_model/product_detail_view_model.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:auto_route/auto_route.dart';
+import 'widget/index.dart';
 
 @RoutePage()
 class ProductDetailView extends StatelessWidget {
@@ -31,142 +32,7 @@ class _ProductDetailViewBody extends StatelessWidget {
         children: [
           CustomScrollView(
             slivers: [
-              // Custom App Bar with Hero Image
-              SliverAppBar(
-                expandedHeight: 400,
-                floating: false,
-                pinned: true,
-                backgroundColor: scheme.primary,
-                elevation: 0,
-                leading: Container(
-                  margin: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
-                    borderRadius: ProjectRadius.xxLarge,
-                  ),
-                  child: IconButton(
-                    icon: const Icon(Icons.arrow_back, color: Colors.white),
-                    onPressed: () => context.router.pop(),
-                  ),
-                ),
-                actions: [
-                  Container(
-                    margin: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.2),
-                      borderRadius: ProjectRadius.xxLarge,
-                    ),
-                    child: IconButton(
-                      icon: Icon(
-                        viewModel.isFavorite
-                            ? Icons.favorite
-                            : Icons.favorite_border,
-                        color: viewModel.isFavorite ? Colors.red : Colors.white,
-                      ),
-                      onPressed: () => viewModel.toggleFavorite(),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.2),
-                      borderRadius: ProjectRadius.xxLarge,
-                    ),
-                    child: IconButton(
-                      icon: const Icon(Icons.share, color: Colors.white),
-                      onPressed: () => viewModel.shareProduct(),
-                    ),
-                  ),
-                ],
-                flexibleSpace: FlexibleSpaceBar(
-                  background: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      if (viewModel.imageUrl != null)
-                        Image.network(
-                          viewModel.imageUrl!,
-                          fit: BoxFit.cover,
-                          headers: const {'User-Agent': 'AryaApp/1.0'},
-                          filterQuality: FilterQuality.high,
-                          errorBuilder: (context, error, stackTrace) {
-                            print('ProductDetailView: Image error: $error');
-                            return Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    scheme.primary,
-                                    scheme.primaryContainer,
-                                  ],
-                                ),
-                              ),
-                              child: Icon(
-                                Icons.image_not_supported,
-                                size: 80,
-                                color: Colors.white.withValues(alpha: 0.7),
-                              ),
-                            );
-                          },
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return Container(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    scheme.primary,
-                                    scheme.primaryContainer,
-                                  ],
-                                ),
-                              ),
-                              child: Center(
-                                child: CircularProgressIndicator(
-                                  value:
-                                      loadingProgress.expectedTotalBytes != null
-                                      ? loadingProgress.cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                      : null,
-                                  strokeWidth: 3,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            );
-                          },
-                        )
-                      else
-                        Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [scheme.primary, scheme.primaryContainer],
-                            ),
-                          ),
-                          child: Icon(
-                            Icons.image_not_supported,
-                            size: 80,
-                            color: Colors.white.withValues(alpha: 0.7),
-                          ),
-                        ),
-                      // Gradient overlay
-                      Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Colors.transparent,
-                              Colors.black.withValues(alpha: 0.3),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              ProductDetailAppBar(viewModel: viewModel, scheme: scheme),
               // Content
               SliverToBoxAdapter(
                 child: Container(
@@ -179,48 +45,12 @@ class _ProductDetailViewBody extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Error Message Display
                         if (viewModel.errorMessage != null)
-                          Container(
-                            width: double.infinity,
-                            margin: ProjectMargin.medium,
-                            padding: ProjectPadding.allLarge(),
-                            decoration: BoxDecoration(
-                              color: scheme.errorContainer,
-                              borderRadius: ProjectRadius.xxLarge,
-                              border: Border.all(color: scheme.error),
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.error_outline,
-                                  color: scheme.error,
-                                  size: 20,
-                                ),
-                                const SizedBox(width: 12),
-                                Expanded(
-                                  child: Text(
-                                    viewModel.errorMessage!,
-                                    style: AppTypography
-                                        .lightTextTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                          color: scheme.onErrorContainer,
-                                        ),
-                                  ),
-                                ),
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.close,
-                                    color: scheme.error,
-                                    size: 20,
-                                  ),
-                                  onPressed: () => viewModel.clearError(),
-                                ),
-                              ],
-                            ),
+                          ProductDetailErrorBanner(
+                            errorMessage: viewModel.errorMessage!,
+                            onClose: () => viewModel.clearError(),
+                            scheme: scheme,
                           ),
-
                         // Product Title Section
                         Container(
                           padding: const EdgeInsets.all(20),
@@ -229,7 +59,10 @@ class _ProductDetailViewBody extends StatelessWidget {
                             borderRadius: ProjectRadius.xxLarge,
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.05),
+                                color: Theme.of(context)
+                                    .extension<AppColors>()!
+                                    .black
+                                    .withValues(alpha: 0.05),
                                 blurRadius: 10,
                                 offset: const Offset(0, 2),
                               ),
@@ -249,7 +82,8 @@ class _ProductDetailViewBody extends StatelessWidget {
                                           .lightTextTheme
                                           .headlineLarge
                                           ?.copyWith(
-                                            fontWeight: FontWeight.bold,
+                                            fontWeight:
+                                                AppTypography.boldWeight,
                                             color: scheme.onSurface,
                                           ),
                                     ),
@@ -276,10 +110,19 @@ class _ProductDetailViewBody extends StatelessWidget {
                                     ),
                                 ],
                               ),
-
+                              const SizedBox(height: 24),
+                              ProductDetailCard(
+                                scheme: scheme,
+                                titleKey: 'detail.nutrition_facts',
+                                icon: Icons.monitor_heart_outlined,
+                                child: ProductDetailNutritionGrid(
+                                  nutriments: viewModel.nutriments,
+                                  nutritionData: viewModel.nutritionData,
+                                  scheme: scheme,
+                                ),
+                              ),
+                              const SizedBox(height: 32),
                               const SizedBox(height: 16),
-
-                              // Product Details in compact horizontal layout
                               if (viewModel.ingredients != null ||
                                   viewModel.quantityText != null ||
                                   viewModel.categories != null)
@@ -288,37 +131,22 @@ class _ProductDetailViewBody extends StatelessWidget {
                                   runSpacing: 12,
                                   children: [
                                     if (viewModel.ingredients != null)
-                                      _buildCompactDetailItem(
-                                        'detail.ingredients'.tr(),
-                                        viewModel.ingredients!,
-                                        scheme,
+                                      _CompactDetailChip(
+                                        label: 'detail.ingredients'.tr(),
+                                        value: viewModel.ingredients!,
+                                        scheme: scheme,
                                       ),
                                     if (viewModel.quantityText != null)
-                                      _buildCompactDetailItem(
-                                        'detail.quantity'.tr(),
-                                        viewModel.quantityText!,
-                                        scheme,
+                                      _CompactDetailChip(
+                                        label: 'detail.quantity'.tr(),
+                                        value: viewModel.quantityText!,
+                                        scheme: scheme,
                                       ),
                                   ],
                                 ),
                             ],
                           ),
                         ),
-
-                        const SizedBox(height: 24),
-                        // Nutrition Section
-                        _buildDetailCard(
-                          context,
-                          scheme,
-                          'detail.nutrition_facts'.tr(),
-                          Icons.monitor_heart_outlined,
-                          _buildNutritionItems(
-                            viewModel.nutriments,
-                            viewModel.nutritionData,
-                            scheme,
-                          ),
-                        ),
-                        const SizedBox(height: 32),
                       ],
                     ),
                   ),
@@ -326,139 +154,44 @@ class _ProductDetailViewBody extends StatelessWidget {
               ),
             ],
           ),
-
           // Loading Overlay
           if (viewModel.isLoading)
             Container(
-              color: Colors.black.withValues(alpha: 0.3),
+              color: Theme.of(
+                context,
+              ).extension<AppColors>()!.black.withValues(alpha: 0.3),
               child: const Center(child: CircularProgressIndicator()),
             ),
         ],
       ),
-
-      // Bottom Action Bar
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: scheme.surface,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 20,
-              offset: const Offset(0, -5),
-            ),
-          ],
-        ),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      onPressed: viewModel.isLoading
-                          ? null
-                          : () => viewModel.decrementQuantity(),
-                      icon: const Icon(Icons.remove_circle_outline),
-                    ),
-                    Text(
-                      viewModel.quantity.toString(),
-                      style: AppTypography.lightTextTheme.titleLarge,
-                    ),
-                    IconButton(
-                      onPressed: viewModel.isLoading
-                          ? null
-                          : () => viewModel.incrementQuantity(),
-                      icon: const Icon(Icons.add_circle_outline),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                SizedBox(
-                  width: double.infinity,
-                  child: AddToCartButton(viewModel: viewModel, scheme: scheme),
-                ),
-              ],
-            ),
-          ),
-        ),
+      bottomNavigationBar: ProductDetailBottomBar(
+        viewModel: viewModel,
+        scheme: scheme,
       ),
     );
   }
+}
 
-  Widget _buildDetailCard(
-    BuildContext context,
-    ColorScheme scheme,
-    String title,
-    IconData icon,
-    List<Widget> children,
-  ) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: scheme.surfaceContainerHighest,
-        borderRadius: ProjectRadius.xxLarge,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: scheme.primaryContainer,
-                  borderRadius: ProjectRadius.xxLarge,
-                ),
-                child: Icon(icon, color: scheme.onPrimaryContainer, size: 20),
-              ),
-              const SizedBox(width: 12),
-              Text(
-                title,
-                style: AppTypography.lightTextTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: scheme.onSurface,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          ...children,
-          // Product info subtitle
-          Text(
-            'detail.data_disclaimer'.tr(),
-            style: AppTypography.lightTextTheme.bodySmall?.copyWith(
-              color: scheme.onSurfaceVariant,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+class _CompactDetailChip extends StatelessWidget {
+  const _CompactDetailChip({
+    required this.label,
+    required this.value,
+    required this.scheme,
+  });
 
-  Widget _buildCompactDetailItem(
-    String label,
-    String value,
-    ColorScheme scheme,
-  ) {
+  final String label;
+  final String value;
+  final ColorScheme scheme;
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: scheme.surface,
+        color: scheme.surfaceContainerHighest,
         borderRadius: ProjectRadius.xxLarge,
         border: Border.all(
-          color: scheme.outline.withValues(alpha: 0.2),
+          color: scheme.outline.withValues(alpha: 0.16),
           width: 1,
         ),
       ),
@@ -466,58 +199,9 @@ class _ProductDetailViewBody extends StatelessWidget {
         "$label: $value",
         style: AppTypography.lightTextTheme.bodySmall?.copyWith(
           color: scheme.onSurface,
-          fontWeight: FontWeight.w500,
+          fontWeight: AppTypography.bodyLargeWeight,
         ),
       ),
     );
-  }
-
-  List<Widget> _buildNutritionItems(
-    Map<String, dynamic> nutriments,
-    List<Map<String, String>> nutritionData,
-    ColorScheme scheme,
-  ) {
-    return nutritionData.map((item) {
-      final raw = nutriments[item['key']];
-      double? value;
-      if (raw is num) {
-        value = raw.toDouble();
-      } else if (raw is String) {
-        value = double.tryParse(raw.replaceAll(',', '.'));
-      }
-      if (value == null) return const SizedBox.shrink();
-
-      return Container(
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: scheme.surface,
-          borderRadius: ProjectRadius.xxLarge,
-          border: Border.all(
-            color: scheme.outline.withValues(alpha: 0.2),
-            width: 1,
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              (item['label']!).tr(),
-              style: AppTypography.lightTextTheme.bodyLarge?.copyWith(
-                color: scheme.onSurface,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            Text(
-              "${value.toStringAsFixed(1)} ${item['unit']}",
-              style: AppTypography.lightTextTheme.bodyLarge?.copyWith(
-                color: scheme.primary,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      );
-    }).toList();
   }
 }

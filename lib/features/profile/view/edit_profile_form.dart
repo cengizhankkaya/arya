@@ -2,6 +2,7 @@ import 'package:arya/features/index.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:arya/product/theme/app_colors.dart';
 
 class EditProfileForm extends StatelessWidget {
   const EditProfileForm({super.key});
@@ -22,7 +23,7 @@ class EditProfileForm extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: (Theme.of(context).brightness == Brightness.light)
-                ? Colors.black12
+                ? Theme.of(context).extension<AppColors>()!.dividerAlt
                 : scheme.shadow.withValues(alpha: 0.25),
             blurRadius: 10,
             offset: const Offset(0, 6),
@@ -50,7 +51,6 @@ class EditProfileForm extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          const SizedBox(height: 20),
           Row(
             children: [
               Expanded(

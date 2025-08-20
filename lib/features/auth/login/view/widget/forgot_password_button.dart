@@ -16,7 +16,7 @@ class ForgotPasswordButton extends StatelessWidget {
           AuthConstants.forgotPasswordText,
           style: TextStyle(
             color: Theme.of(context).primaryColor,
-            fontWeight: FontWeight.w600,
+            fontWeight: AppTypography.labelWeight,
           ),
         ),
       ),

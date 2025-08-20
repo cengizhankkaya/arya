@@ -1,8 +1,8 @@
-import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/features/store/view_model/cart_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:arya/product/theme/app_typography.dart';
 
 class CartSummaryWidget extends StatelessWidget {
   const CartSummaryWidget({super.key});
@@ -11,17 +11,18 @@ class CartSummaryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final cart = Provider.of<CartViewModel>(context);
+    final numberFormat = NumberFormat.decimalPattern();
+    final proteinFormat = NumberFormat("#,##0.0");
 
     return Container(
       decoration: BoxDecoration(
         color: scheme.surface,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
-            blurRadius: 12,
-            offset: const Offset(0, -4),
+        border: Border(
+          top: BorderSide(
+            color: scheme.outline.withValues(alpha: 0.12),
+            width: 1,
           ),
-        ],
+        ),
       ),
       child: SafeArea(
         top: false,
@@ -30,18 +31,20 @@ class CartSummaryWidget extends StatelessWidget {
           child: Row(
             children: [
               Expanded(
-                child: _TotalTile(
+                child: _Metric(
                   label: 'store.totals.total_kcal'.tr(),
-                  value: '${cart.totalKcal.toStringAsFixed(0)} kcal',
-                  scheme: scheme,
+                  value: '${numberFormat.format(cart.totalKcal.round())} kcal',
+                  icon: Icons.local_fire_department,
+                  accentColor: scheme.tertiary,
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: _TotalTile(
+                child: _Metric(
                   label: 'store.totals.total_protein'.tr(),
-                  value: '${cart.totalProtein.toStringAsFixed(1)} g',
-                  scheme: scheme,
+                  value: '${proteinFormat.format(cart.totalProtein)} g',
+                  icon: Icons.fitness_center,
+                  accentColor: scheme.secondary,
                 ),
               ),
             ],
@@ -52,50 +55,50 @@ class CartSummaryWidget extends StatelessWidget {
   }
 }
 
-class _TotalTile extends StatelessWidget {
+class _Metric extends StatelessWidget {
   final String label;
   final String value;
-  final ColorScheme scheme;
+  final IconData icon;
+  final Color? accentColor;
 
-  const _TotalTile({
+  const _Metric({
     required this.label,
     required this.value,
-    required this.scheme,
+    required this.icon,
+    this.accentColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: ProjectPadding.allLarge(),
-      decoration: BoxDecoration(
-        color: scheme.surfaceContainerHighest,
-        borderRadius: ProjectRadius.xxLarge,
-        border: Border.all(
-          color: scheme.outline.withValues(alpha: 0.15),
-          width: 1,
+    final scheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          label,
+          style: textTheme.labelMedium?.copyWith(
+            color: scheme.onSurfaceVariant,
+            fontWeight: AppTypography.bodyLargeWeight,
+          ),
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            label,
-            style: Theme.of(context).textTheme.labelLarge?.copyWith(
-              color: scheme.onSurfaceVariant,
-              fontWeight: FontWeight.w600,
+        const SizedBox(height: 4),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 18, color: accentColor ?? scheme.primary),
+            const SizedBox(width: 6),
+            Text(
+              value,
+              style: textTheme.titleSmall?.copyWith(
+                color: scheme.onSurface,
+                fontWeight: AppTypography.displayWeight,
+              ),
             ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            value,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: scheme.onSurface,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ],
-      ),
+          ],
+        ),
+      ],
     );
   }
 }

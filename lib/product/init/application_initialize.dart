@@ -1,11 +1,10 @@
-import 'package:easy_localization/easy_localization.dart';
+import 'package:arya/features/index.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 class ApplicationInitialize {
   static Future<void> init() async {
     try {
-      WidgetsFlutterBinding.ensureInitialized();
       await _initFirebase();
       debugPrint('✅ ApplicationInitialize başarıyla tamamlandı');
     } catch (e) {
@@ -22,9 +21,5 @@ class ApplicationInitialize {
       debugPrint('❌ Firebase başlatma hatası: $e');
       rethrow;
     }
-  }
-
-  static Future<void> localization() async {
-    await EasyLocalization.ensureInitialized();
   }
 }

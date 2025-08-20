@@ -30,7 +30,7 @@ class AddProductScreen extends StatelessWidget {
     return AppBar(
       title: Text(
         "add_product.title".tr(),
-        style: const TextStyle(fontWeight: FontWeight.bold),
+        style: TextStyle(fontWeight: AppTypography.boldWeight),
       ),
       backgroundColor: colors.addbakground,
       foregroundColor: Theme.of(context).colorScheme.onPrimary,

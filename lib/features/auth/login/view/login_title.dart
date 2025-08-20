@@ -17,7 +17,7 @@ class LoginTitle extends StatelessWidget {
         Text(
           AuthConstants.welcomeMessage,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-            fontWeight: FontWeight.bold,
+            fontWeight: AppTypography.boldWeight,
             color: Theme.of(context).colorScheme.onSurface,
           ),
           textAlign: TextAlign.center,

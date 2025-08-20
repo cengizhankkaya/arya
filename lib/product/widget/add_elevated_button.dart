@@ -43,7 +43,7 @@ class AddToCartButton extends StatelessWidget {
                   'detail.adding_to_cart'.tr(),
                   style: AppTypography.lightTextTheme.titleMedium?.copyWith(
                     color: scheme.onPrimary,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: AppTypography.labelWeight,
                   ),
                 ),
               ],
@@ -57,7 +57,7 @@ class AddToCartButton extends StatelessWidget {
                   '${'detail.add_to_cart'.tr()} (${viewModel.quantity})',
                   style: AppTypography.lightTextTheme.titleMedium?.copyWith(
                     color: scheme.onPrimary,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: AppTypography.labelWeight,
                   ),
                 ),
               ],
