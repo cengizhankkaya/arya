@@ -8,12 +8,7 @@ class LoginTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Icon(
-          Icons.lock_outline,
-          size: 80,
-          color: Theme.of(context).colorScheme.primary,
-        ),
-        const SizedBox(height: 24),
+        LottieLoader(path: LottiePaths.onLogin, width: 120, height: 120),
         Text(
           AuthConstants.welcomeMessage,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(

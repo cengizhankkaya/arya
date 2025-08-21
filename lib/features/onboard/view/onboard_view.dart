@@ -4,7 +4,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kartal/kartal.dart';
 
 @RoutePage()
 class OnBoardView extends StatefulWidget {
@@ -37,7 +36,7 @@ class _OnBoardViewState extends State<OnBoardView> {
         return Scaffold(
           appBar: _buildAppBar(),
           body: Padding(
-            padding: context.padding.medium,
+            padding: ProjectPadding.allSmall(),
             child: Column(
               children: [
                 Expanded(child: _buildPageView()),
