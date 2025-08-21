@@ -5,11 +5,23 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'widgets/add_product_shimmer_widget.dart';
 
 @RoutePage(name: 'AddProductRoute')
-class AddProductScreen extends StatelessWidget {
+class AddProductScreen extends StatefulWidget {
   const AddProductScreen({super.key});
+
+  @override
+  State<AddProductScreen> createState() => _AddProductScreenState();
+}
+
+class _AddProductScreenState extends State<AddProductScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showWelcomeDialog(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +36,36 @@ class AddProductScreen extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Future<void> _showWelcomeDialog(BuildContext context) async {
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: Text('OpenFood Bilgileri Gerekli'),
+        content: Text(
+          'Ürün ekleyebilmek için önce OpenFood hesap bilgilerinizi girmeniz gerekmektedir.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text('Daha Sonra'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              _navigateToOffCredentials(context);
+            },
+            child: Text('Bilgileri Gir'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _navigateToOffCredentials(BuildContext context) {
+    context.router.push(const OffCredentialsRoute());
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {

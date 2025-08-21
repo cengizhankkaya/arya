@@ -28,7 +28,7 @@ class ProductFormActions extends StatelessWidget {
       child: viewModel.isLoading
           ? const Center(child: CircularProgressIndicator())
           : ElevatedButton(
-              onPressed: () => viewModel.addProduct(),
+              onPressed: () => _showAddProductDialog(context, viewModel),
               style: ElevatedButton.styleFrom(
                 backgroundColor: colors.addbackground,
                 foregroundColor: Theme.of(context).colorScheme.onPrimary,
@@ -110,5 +110,38 @@ class ProductFormActions extends StatelessWidget {
         );
       },
     );
+  }
+
+  Future<void> _showAddProductDialog(
+    BuildContext context,
+    AddProductViewModel viewModel,
+  ) async {
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Ürün Ekle'),
+        content: Text('Bu ürünü eklemek istediğinizden emin misiniz?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text('İptal'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(
+                context,
+              ).extension<AppColors>()!.addbackground,
+              foregroundColor: Theme.of(context).colorScheme.onPrimary,
+            ),
+            child: Text('Ekle'),
+          ),
+        ],
+      ),
+    );
+
+    if (result == true) {
+      await viewModel.addProduct();
+    }
   }
 }

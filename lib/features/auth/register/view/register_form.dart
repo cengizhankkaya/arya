@@ -18,10 +18,10 @@ class RegisterForm extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Icon(
-                  Icons.person_add,
-                  size: 80,
-                  color: Theme.of(context).colorScheme.primary,
+                LottieLoader(
+                  path: LottiePaths.onRegister,
+                  width: 120,
+                  height: 120,
                 ),
                 const SizedBox(height: 32),
 
