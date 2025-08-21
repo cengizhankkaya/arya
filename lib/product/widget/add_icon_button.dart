@@ -16,10 +16,10 @@ IconButton addButton(
       color: Theme.of(context).extension<AppColors>()!.white,
     ),
     style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.all(
+      backgroundColor: WidgetStateProperty.all(
         appColors?.primary ?? scheme.primary,
       ),
-      shape: MaterialStateProperty.all(const CircleBorder()),
+      shape: WidgetStateProperty.all(const CircleBorder()),
     ),
     onPressed: () async {
       await context.read<StoreViewModel>().addProductToCart(context, product);

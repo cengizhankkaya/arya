@@ -4,24 +4,23 @@ import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:arya/product/navigation/app_router.dart';
 
 class ProductList extends StatelessWidget {
+  const ProductList({super.key});
+
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColors>()!;
     return Consumer<StoreViewModel>(
       builder: (context, model, child) {
         final scheme = Theme.of(context).colorScheme;
         final appColors = Theme.of(context).extension<AppColors>();
-
         if (model.isLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return const ProductShimmerWidget();
         }
-
         if (model.products.isEmpty) {
           return Center(child: Text('store.no_products'.tr()));
         }
-
         return NotificationListener<ScrollNotification>(
           onNotification: (ScrollNotification scrollInfo) {
             if (scrollInfo.metrics.pixels ==
@@ -43,11 +42,9 @@ class ProductList extends StatelessWidget {
             itemCount: model.products.length + (model.isLoadingMore ? 1 : 0),
             itemBuilder: (context, index) {
               if (index == model.products.length) {
-                return const Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: CircularProgressIndicator(),
-                  ),
+                return const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: SingleProductShimmerCard(),
                 );
               }
 
@@ -58,7 +55,7 @@ class ProductList extends StatelessWidget {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    color: scheme.surface,
+                    color: Color(0xFFE8F5E9),
                     borderRadius: ProjectRadius.xxLarge,
                   ),
                   padding: const EdgeInsets.all(12),

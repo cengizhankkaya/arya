@@ -4,8 +4,6 @@ import 'package:arya/features/store/view_model/cart_view_model.dart';
 import 'package:arya/product/index.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:arya/product/navigation/app_router.dart';
-import 'package:arya/product/theme/app_typography.dart';
 
 class CartItemWidget extends StatelessWidget {
   final CartItemModel product;

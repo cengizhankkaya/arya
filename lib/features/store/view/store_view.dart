@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 class ProductsPage extends StatelessWidget {
   final String? initialCategory;
 
-  ProductsPage({this.initialCategory});
+  const ProductsPage({super.key, this.initialCategory});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class ProductsPage extends StatelessWidget {
                 : 'store.search_products'.tr(),
           ),
           backgroundColor: scheme.primary,
-          foregroundColor: scheme.onSurface,
+          foregroundColor: scheme.surface,
           elevation: 0,
           actions: [
             IconButton(

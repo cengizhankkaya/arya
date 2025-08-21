@@ -2,7 +2,6 @@ import 'package:arya/features/store/view_model/product_detail_view_model.dart';
 import 'package:arya/product/theme/app_typography.dart';
 import 'package:arya/product/widget/add_elevated_button.dart';
 import 'package:flutter/material.dart';
-import 'package:arya/product/theme/app_colors.dart';
 
 class ProductDetailBottomBar extends StatelessWidget {
   const ProductDetailBottomBar({

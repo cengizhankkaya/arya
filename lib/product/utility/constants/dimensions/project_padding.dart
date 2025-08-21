@@ -1,8 +1,6 @@
 import 'package:flutter/widgets.dart';
 
 final class ProjectPadding extends EdgeInsets {
-  const ProjectPadding._() : super.all(0);
-
   const ProjectPadding.allVerySmall() : super.all(12);
   const ProjectPadding.allSmall() : super.all(16);
   const ProjectPadding.allNormal() : super.all(18);

@@ -17,9 +17,6 @@ class ProfileActionsConsumer extends StatelessWidget {
         return PopupMenuButton<String>(
           onSelected: (value) async {
             switch (value) {
-              case 'edit':
-                viewModel.toggleEditMode();
-                break;
               case 'off':
                 context.router.push(const OffCredentialsRoute());
                 break;
@@ -53,25 +50,12 @@ class ProfileActionsConsumer extends StatelessWidget {
                   ),
                 );
                 break;
-              case 'logout':
-                await showLogoutDialog(context, viewModel);
-                break;
               case 'delete':
                 await showDeleteAccountDialog(context, viewModel);
                 break;
             }
           },
           itemBuilder: (context) => [
-            PopupMenuItem(
-              value: 'edit',
-              child: Row(
-                children: [
-                  Icon(Icons.edit),
-                  SizedBox(width: 8),
-                  Text('general.button.edit'.tr()),
-                ],
-              ),
-            ),
             PopupMenuItem(
               value: 'language',
               child: Row(
@@ -92,16 +76,7 @@ class ProfileActionsConsumer extends StatelessWidget {
                 ],
               ),
             ),
-            PopupMenuItem(
-              value: 'logout',
-              child: Row(
-                children: [
-                  Icon(Icons.logout),
-                  SizedBox(width: 8),
-                  Text('general.button.logout'.tr()),
-                ],
-              ),
-            ),
+
             PopupMenuItem(
               value: 'delete',
               child: Row(

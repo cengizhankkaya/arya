@@ -8,3 +8,5 @@ export 'product_detail_error_banner.dart';
 export 'product_detail_detail_card.dart';
 export 'product_detail_nutrition_grid.dart';
 export 'product_detail_bottom_bar.dart';
+export 'product_shimmer_widget.dart';
+export 'cart_shimmer_widget.dart';

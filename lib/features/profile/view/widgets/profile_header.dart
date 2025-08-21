@@ -86,18 +86,13 @@ class ProfileHeader extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(
-                          Icons.email,
-                          size: 16,
-                          color: appColors?.textStrong ?? scheme.onSurface,
-                        ),
+                        Icon(Icons.email, size: 16, color: scheme.onSurface),
                         const SizedBox(width: 8),
                         Text(
                           user.email!,
                           style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(
-                                color:
-                                    appColors?.textStrong ?? scheme.onSurface,
+                                color: scheme.onSurface,
                                 fontWeight: AppTypography.bodyLargeWeight,
                               ),
                           overflow: TextOverflow.ellipsis,

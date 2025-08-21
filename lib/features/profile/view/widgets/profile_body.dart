@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:arya/product/theme/app_colors.dart';
+import 'profile_shimmer_widget.dart';
 
 class ProfileBody extends StatelessWidget {
   const ProfileBody({super.key});
@@ -12,29 +13,7 @@ class ProfileBody extends StatelessWidget {
     return Consumer<ProfileViewModel>(
       builder: (context, viewModel, child) {
         if (viewModel.isLoading) {
-          return Center(
-            child: Container(
-              width: 56,
-              height: 56,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: Theme.of(
-                      context,
-                    ).extension<AppColors>()!.black.withValues(alpha: 0.06),
-                    blurRadius: 12,
-                    offset: const Offset(0, 6),
-                  ),
-                ],
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(12.0),
-                child: CircularProgressIndicator(strokeWidth: 3),
-              ),
-            ),
-          );
+          return const ProfileShimmerWidget();
         }
 
         if (viewModel.errorMessage != null) {
@@ -77,16 +56,54 @@ class ProfileBody extends StatelessWidget {
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ProfileHeader(user: user),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ProfileHeader(user: user),
+                    const SizedBox(height: 20),
+                    viewModel.isEditing
+                        ? const EditProfileForm()
+                        : UserInfoSection(user: user),
+                    if (!viewModel.isUserComplete) ...[
+                      const SizedBox(height: 16),
+                      const ProfileCompletionStatus(),
+                    ],
+                  ],
+                ),
                 const SizedBox(height: 20),
-                viewModel.isEditing
-                    ? const EditProfileForm()
-                    : UserInfoSection(user: user),
-                if (!viewModel.isUserComplete) ...[
-                  const SizedBox(height: 16),
-                  const ProfileCompletionStatus(),
-                ],
+                ElevatedButton(
+                  onPressed: () async {
+                    final shouldLogout = await showDialog<bool>(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text('dialogs.logout.title'.tr()),
+                        content: Text('dialogs.logout.content'.tr()),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(false),
+                            child: Text('general.button.cancel'.tr()),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(true),
+                            child: Text('general.button.ok'.tr()),
+                          ),
+                        ],
+                      ),
+                    );
+
+                    if (shouldLogout == true) {
+                      viewModel.signOut();
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.error,
+                    foregroundColor: Theme.of(context).colorScheme.onError,
+                    minimumSize: const Size(double.infinity, 48),
+                  ),
+                  child: Text('general.button.logout'.tr()),
+                ),
               ],
             ),
           ),

@@ -2,7 +2,6 @@ import 'package:arya/features/index.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:arya/product/theme/app_colors.dart';
 
 class EditProfileForm extends StatelessWidget {
   const EditProfileForm({super.key});

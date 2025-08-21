@@ -135,9 +135,4 @@ class AddProductViewModel extends ChangeNotifier
     removeSelectedImage();
     clearMessages();
   }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
 }

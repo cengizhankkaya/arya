@@ -5,6 +5,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'widgets/add_product_shimmer_widget.dart';
 
 @RoutePage(name: 'AddProductRoute')
 class AddProductScreen extends StatelessWidget {
@@ -32,13 +33,17 @@ class AddProductScreen extends StatelessWidget {
         "add_product.title".tr(),
         style: TextStyle(fontWeight: AppTypography.boldWeight),
       ),
-      backgroundColor: colors.addbakground,
+      backgroundColor: colors.addbackground,
       foregroundColor: Theme.of(context).colorScheme.onPrimary,
       elevation: 0,
     );
   }
 
   Widget _buildBody(AddProductViewModel viewModel) {
+    if (viewModel.isLoading) {
+      return const AddProductShimmerWidget();
+    }
+
     return SingleChildScrollView(
       padding: const ProjectPadding.allSmall(),
       child: Form(

@@ -7,7 +7,7 @@ import 'package:easy_localization/easy_localization.dart';
 class NutritionFields extends StatelessWidget {
   final AddProductViewModel viewModel;
 
-  const NutritionFields({Key? key, required this.viewModel}) : super(key: key);
+  const NutritionFields({super.key, required this.viewModel});
 
   @override
   Widget build(BuildContext context) {

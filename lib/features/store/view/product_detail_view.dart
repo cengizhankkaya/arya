@@ -10,7 +10,7 @@ import 'widget/index.dart';
 class ProductDetailView extends StatelessWidget {
   final Map<String, dynamic> product;
 
-  const ProductDetailView({Key? key, required this.product}) : super(key: key);
+  const ProductDetailView({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {

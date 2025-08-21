@@ -22,7 +22,6 @@ class ProductFormActions extends StatelessWidget {
 
   Widget _buildSubmitButton(BuildContext context) {
     final colors = Theme.of(context).extension<AppColors>()!;
-
     return SizedBox(
       width: double.infinity,
       height: 50,
@@ -31,7 +30,7 @@ class ProductFormActions extends StatelessWidget {
           : ElevatedButton(
               onPressed: () => viewModel.addProduct(),
               style: ElevatedButton.styleFrom(
-                backgroundColor: colors.addbakground,
+                backgroundColor: colors.addbackground,
                 foregroundColor: Theme.of(context).colorScheme.onPrimary,
                 shape: RoundedRectangleBorder(
                   borderRadius: ProjectRadius.medium,

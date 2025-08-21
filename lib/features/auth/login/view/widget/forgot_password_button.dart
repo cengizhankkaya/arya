@@ -9,9 +9,7 @@ class ForgotPasswordButton extends StatelessWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: TextButton(
-        onPressed: () {
-          // TODO: Şifre sıfırlama eklenecek
-        },
+        onPressed: () {},
         child: Text(
           AuthConstants.forgotPasswordText,
           style: TextStyle(

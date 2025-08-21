@@ -19,17 +19,10 @@ class CartItemModel {
     return CartItemModel(
       id: (map['id'] ?? '').toString(),
       productName: (map['product_name'] ?? 'İsimsiz').toString(),
-      brands: map['brands'] != null ? map['brands'].toString() : null,
+      brands: map['brands']?.toString(),
       imageThumbUrl:
-          (map['image_url'] ??
-                  map['image_small_url'] ??
-                  map['image_thumb_url']) !=
-              null
-          ? (map['image_url'] ??
-                    map['image_small_url'] ??
-                    map['image_thumb_url'])
-                .toString()
-          : null,
+          (map['image_url'] ?? map['image_small_url'] ?? map['image_thumb_url'])
+              ?.toString(),
       quantity: (map['quantity'] as num?)?.toInt() ?? 1,
       nutriments: map['nutriments'] is Map
           ? Map<String, dynamic>.from(map['nutriments'] as Map)

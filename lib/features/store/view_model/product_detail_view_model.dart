@@ -57,31 +57,20 @@ class ProductDetailViewModel extends ChangeNotifier {
   // Product related methods
   String get productName =>
       (product['product_name'] ?? 'Product Name').toString();
-  String? get brand =>
-      product['brands'] != null ? product['brands'].toString() : null;
+  String? get brand => product['brands']?.toString();
   String? get imageUrl {
-    // Debug bilgisi ekle
-    print('ProductDetailViewModel: Getting image URL');
-    print('  image_thumb_url: ${product['image_thumb_url']}');
-    print('  image_url: ${product['image_url']}');
-
     // Yüksek çözünürlük için önce image_url, yoksa küçük boyutlara düş
     final url =
         (product['image_url'] ??
                 product['image_small_url'] ??
                 product['image_thumb_url'])
             ?.toString();
-    print('  Final URL: $url');
     return url;
   }
 
-  String? get ingredients => product['ingredients_text'] != null
-      ? product['ingredients_text'].toString()
-      : null;
-  String? get quantityText =>
-      product['quantity'] != null ? product['quantity'].toString() : null;
-  String? get categories =>
-      product['categories'] != null ? product['categories'].toString() : null;
+  String? get ingredients => product['ingredients_text']?.toString();
+  String? get quantityText => product['quantity']?.toString();
+  String? get categories => product['categories']?.toString();
   Map<String, dynamic> get nutriments => product['nutriments'] is Map
       ? Map<String, dynamic>.from(product['nutriments'] as Map)
       : const {};
@@ -129,7 +118,6 @@ class ProductDetailViewModel extends ChangeNotifier {
   }
 
   void shareProduct() {
-    // TODO: Implement share functionality
     // This could use url_launcher or share_plus package
   }
 
@@ -145,10 +133,5 @@ class ProductDetailViewModel extends ChangeNotifier {
   void clearError() {
     _errorMessage = null;
     notifyListeners();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

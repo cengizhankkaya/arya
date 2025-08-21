@@ -160,7 +160,6 @@ class StoreViewModel extends ChangeNotifier {
     if (imageUrl != null && imageUrl.startsWith('http://')) {
       imageUrl = imageUrl.replaceFirst('http://', 'https://');
     }
-    print('  Final image URL (hi-res preferred): $imageUrl');
 
     final cartItem = CartItemModel(
       id: product['id']?.toString() ?? '',

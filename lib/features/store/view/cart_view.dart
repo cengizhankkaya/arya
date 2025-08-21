@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
+import 'widget/cart_shimmer_widget.dart';
 
 @RoutePage()
 class CartView extends StatelessWidget {
@@ -29,18 +30,42 @@ class CartView extends StatelessWidget {
           final cartItems = snapshot.data ?? [];
           if (snapshot.connectionState == ConnectionState.waiting &&
               !snapshot.hasData) {
-            return const Center(child: CircularProgressIndicator());
+            return const CartShimmerWidget();
           }
           if (cartItems.isEmpty) {
             return const EmptyCartWidget();
           }
           return Padding(
             padding: const EdgeInsets.all(16.0),
-            child: ListView.builder(
-              itemCount: cartItems.length,
-              itemBuilder: (context, index) {
-                return CartItemWidget(product: cartItems[index]);
-              },
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    const Expanded(child: CartSummaryWidget()),
+                    const SizedBox(width: 16),
+                    Consumer<CartViewModel>(
+                      builder: (context, cart, child) {
+                        return FloatingActionButton(
+                          backgroundColor: scheme.error,
+                          foregroundColor: scheme.onError,
+                          onPressed: () => cart.clearCart(),
+                          tooltip: 'general.tooltip.clear_cart'.tr(),
+                          child: const Icon(Icons.delete),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: cartItems.length,
+                    itemBuilder: (context, index) {
+                      return CartItemWidget(product: cartItems[index]);
+                    },
+                  ),
+                ),
+              ],
             ),
           );
         },
@@ -50,20 +75,7 @@ class CartView extends StatelessWidget {
           final items = cart.cartItems;
           if (items.isEmpty) return const SizedBox.shrink();
 
-          return const CartSummaryWidget();
-        },
-      ),
-      floatingActionButton: Consumer<CartViewModel>(
-        builder: (context, cart, child) {
-          final items = cart.cartItems;
-          if (items.isEmpty) return const SizedBox.shrink();
-          return FloatingActionButton(
-            backgroundColor: scheme.primary,
-            foregroundColor: scheme.onPrimary,
-            onPressed: () => cart.clearCart(),
-            tooltip: 'general.tooltip.clear_cart'.tr(),
-            child: const Icon(Icons.delete),
-          );
+          return const SizedBox.shrink();
         },
       ),
     );

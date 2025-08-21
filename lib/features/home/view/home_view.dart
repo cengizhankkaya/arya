@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'widget/category_shimmer_widget.dart';
 
 @RoutePage(name: 'CategoryRoute')
 class CategoryScreen extends StatelessWidget {
@@ -19,7 +20,7 @@ class CategoryScreen extends StatelessWidget {
           title: Text('appbar.categories'.tr()),
           centerTitle: true,
           backgroundColor: scheme.primary,
-          foregroundColor: scheme.onSurface,
+          foregroundColor: scheme.surface,
           elevation: 0,
         ),
         backgroundColor: appColors.surfaceMuted,

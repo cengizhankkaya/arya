@@ -2,6 +2,7 @@ import 'package:arya/features/index.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class UserInfoSection extends StatelessWidget {
   final UserModel user;
@@ -35,12 +36,23 @@ class UserInfoSection extends StatelessWidget {
               children: [
                 Icon(Icons.person, color: appColors.white, size: 20),
                 const SizedBox(width: 12),
-                Text(
-                  'profile.section.personal_info'.tr(),
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: appColors.white,
-                    fontWeight: AppTypography.labelWeight,
+                Expanded(
+                  child: Text(
+                    'profile.section.personal_info'.tr(),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: appColors.white,
+                      fontWeight: AppTypography.labelWeight,
+                    ),
                   ),
+                ),
+                Consumer<ProfileViewModel>(
+                  builder: (context, viewModel, child) {
+                    return IconButton(
+                      onPressed: () => viewModel.toggleEditMode(),
+                      icon: Icon(Icons.edit, color: appColors.white, size: 20),
+                      tooltip: 'general.button.edit'.tr(),
+                    );
+                  },
                 ),
               ],
             ),

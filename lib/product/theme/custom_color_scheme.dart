@@ -7,7 +7,7 @@ final class CustomColorScheme {
   /// Light color scheme set
   static const lightColorScheme = ColorScheme(
     brightness: Brightness.light,
-    primary: Color.fromARGB(255, 28, 226, 1),
+    primary: Color(0xFF00C853),
     onPrimary: Color(0xFFFFFFFF),
     primaryContainer: Color(0xFFEADDFF),
     onPrimaryContainer: Color(0xFF21005D),
