@@ -21,9 +21,11 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color addbackground;
   final Color textStrong;
   final Color textMuted;
-  final Color surfaceMuted;
   final Color dividerAlt;
   final Color openfoodfacts;
+  // Shimmer colors
+  final Color shimmerBase;
+  final Color shimmerHighlight;
   // Category card soft colors
   final Color categorySoftGreenBg;
   final Color categorySoftGreenBorder;
@@ -69,9 +71,10 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.addbackground,
     required this.textStrong,
     required this.textMuted,
-    required this.surfaceMuted,
     required this.dividerAlt,
     required this.openfoodfacts,
+    required this.shimmerBase,
+    required this.shimmerHighlight,
     required this.categorySoftGreenBg,
     required this.categorySoftGreenBorder,
     required this.categorySoftPurpleBg,
@@ -116,9 +119,10 @@ class AppColors extends ThemeExtension<AppColors> {
     addbackground: Color.fromARGB(255, 4, 65, 114),
     textStrong: Color(0xFF333333),
     textMuted: Color(0xFF7C7C7C),
-    surfaceMuted: Color(0xFFF8F8F8),
     dividerAlt: Colors.black12,
     openfoodfacts: Color(0xFFFFCC80),
+    shimmerBase: Color(0xFFE0E0E0),
+    shimmerHighlight: Color(0xFFF5F5F5),
     categorySoftGreenBg: Color(0xFFE8F7EE),
     categorySoftGreenBorder: Color(0xFFB7E4C7),
     categorySoftPurpleBg: Color(0xFFF0E6FF),
@@ -163,9 +167,10 @@ class AppColors extends ThemeExtension<AppColors> {
     addbackground: Color.fromARGB(255, 204, 132, 0),
     textStrong: Color(0xFFE6E1E5),
     textMuted: Color(0xFFCAC4D0),
-    surfaceMuted: Color(0xFF1E1E1E),
     dividerAlt: Color(0xFF49454F),
     openfoodfacts: Color(0xFFEF6C00),
+    shimmerBase: Color(0xFF333333),
+    shimmerHighlight: Color(0xFF49454F),
     categorySoftGreenBg: Color(0xFF284236),
     categorySoftPurpleBg: Color(0xFF2E2946),
     categorySoftPurpleBorder: Color(0xFF574A8A),
@@ -215,6 +220,8 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? textMuted,
     Color? surfaceMuted,
     Color? dividerAlt,
+    Color? shimmerBase,
+    Color? shimmerHighlight,
     Color? categorySoftGreenBg,
     Color? categorySoftGreenBorder,
     Color? categorySoftPurpleBg,
@@ -258,9 +265,10 @@ class AppColors extends ThemeExtension<AppColors> {
       addbackground: addbackground,
       textStrong: textStrong ?? this.textStrong,
       textMuted: textMuted ?? this.textMuted,
-      surfaceMuted: surfaceMuted ?? this.surfaceMuted,
       dividerAlt: dividerAlt ?? this.dividerAlt,
       openfoodfacts: openfoodfacts,
+      shimmerBase: shimmerBase ?? this.shimmerBase,
+      shimmerHighlight: shimmerHighlight ?? this.shimmerHighlight,
       categorySoftGreenBg: categorySoftGreenBg ?? this.categorySoftGreenBg,
       categorySoftGreenBorder:
           categorySoftGreenBorder ?? this.categorySoftGreenBorder,
@@ -321,9 +329,14 @@ class AppColors extends ThemeExtension<AppColors> {
       addbackground: Color.lerp(addbackground, other.addbackground, t)!,
       textStrong: Color.lerp(textStrong, other.textStrong, t)!,
       textMuted: Color.lerp(textMuted, other.textMuted, t)!,
-      surfaceMuted: Color.lerp(surfaceMuted, other.surfaceMuted, t)!,
       dividerAlt: Color.lerp(dividerAlt, other.dividerAlt, t)!,
       openfoodfacts: openfoodfacts,
+      shimmerBase: Color.lerp(shimmerBase, other.shimmerBase, t)!,
+      shimmerHighlight: Color.lerp(
+        shimmerHighlight,
+        other.shimmerHighlight,
+        t,
+      )!,
       categorySoftGreenBg: Color.lerp(
         categorySoftGreenBg,
         other.categorySoftGreenBg,

@@ -120,7 +120,10 @@
         "empty_cart_subtitle": "Henüz ürün eklenmemiş",
         "totals": {
             "total_kcal": "Toplam Kalori",
-            "total_protein": "Toplam Protein"
+            "total_protein": "Toplam Protein",
+            "total_fat": "Toplam Yağ",
+            "total_carbs": "Toplam Karbonhidrat",
+            "total_vitamins": "Toplam Vitamin"
         },
         "items": "ürün"
     },

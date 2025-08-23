@@ -23,7 +23,7 @@ class ProfileBody extends StatelessWidget {
                 Icon(
                   Icons.error_outline,
                   size: 64,
-                  color: Theme.of(context).colorScheme.errorContainer,
+                  color: Theme.of(context).colorScheme.error,
                 ),
                 const SizedBox(height: 16),
                 Text(
@@ -58,6 +58,7 @@ class ProfileBody extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ProfileHeader(user: user),
+                    // Profil bilgileri ile logout butonu arasında boşluk
                     const SizedBox(height: 20),
                     viewModel.isEditing
                         ? const EditProfileForm()

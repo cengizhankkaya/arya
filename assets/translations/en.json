@@ -120,7 +120,10 @@
         "empty_cart_subtitle": "No items added yet",
         "totals": {
             "total_kcal": "Total Calories",
-            "total_protein": "Total Protein"
+            "total_protein": "Total Protein",
+            "total_fat": "Total Fat",
+            "total_carbs": "Total Carbohydrates",
+            "total_vitamins": "Total Vitamins"
         },
         "items": "items"
     },

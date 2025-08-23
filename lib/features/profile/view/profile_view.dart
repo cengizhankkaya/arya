@@ -38,18 +38,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
           centerTitle: true,
           title: Text('appbar.profile'.tr()),
           backgroundColor: Theme.of(context).colorScheme.primary,
-          foregroundColor: Theme.of(context).colorScheme.surface,
+          foregroundColor: Theme.of(context).colorScheme.onSecondary,
           elevation: 0,
           scrolledUnderElevation: 0,
-          surfaceTintColor: Theme.of(
-            context,
-          ).extension<AppColors>()!.transparent,
+          surfaceTintColor: Theme.of(context).colorScheme.surface,
           toolbarHeight: 64,
           actions: const [ProfileActionsConsumer()],
         ),
-        backgroundColor:
-            Theme.of(context).extension<AppColors>()?.surfaceMuted ??
-            Theme.of(context).colorScheme.surface,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         body: const ProfileBody(),
       ),
     );

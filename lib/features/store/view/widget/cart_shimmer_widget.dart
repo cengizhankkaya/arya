@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:arya/product/index.dart';
 
 class CartShimmerWidget extends StatelessWidget {
   const CartShimmerWidget({super.key});
@@ -7,19 +8,19 @@ class CartShimmerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: ProjectPadding.allSmall(),
       child: Column(
         children: [
           // Sepet özeti shimmer
-          _buildCartSummaryShimmer(),
-          const SizedBox(height: 16),
+          _buildCartSummaryShimmer(context),
+          SizedBox(height: ProjectMargin.medium.top),
 
           // Sepet öğeleri shimmer
           Expanded(
             child: ListView.builder(
               itemCount: 5, // Yükleme sırasında gösterilecek placeholder sayısı
               itemBuilder: (context, index) {
-                return _buildCartItemShimmer();
+                return _buildCartItemShimmer(context);
               },
             ),
           ),
@@ -28,21 +29,25 @@ class CartShimmerWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildCartSummaryShimmer() {
+  Widget _buildCartSummaryShimmer(BuildContext context) {
+    final appColors = AppColors.of(context);
+
     return Row(
       children: [
         // İlk sepet özeti shimmer
         Expanded(
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: ProjectPadding.allSmall(),
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
+              color: Theme.of(context).colorScheme.onPrimary,
+              borderRadius: ProjectRadius.normal,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.1),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.outline.withValues(alpha: 0.1),
                   spreadRadius: 1,
-                  blurRadius: 4,
+                  blurRadius: ProjectMargin.verySmall.top,
                   offset: const Offset(0, 2),
                 ),
               ],
@@ -52,29 +57,28 @@ class CartShimmerWidget extends StatelessWidget {
               children: [
                 // Başlık shimmer
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[300]!,
-                  highlightColor: Colors.grey[100]!,
+                  baseColor: appColors.shimmerBase,
+                  highlightColor: appColors.shimmerHighlight,
                   child: Container(
-                    height: 20,
+                    height: ProjectMargin.large.top,
                     width: 100,
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(4),
+                      color: appColors.shimmerBase,
+                      borderRadius: ProjectRadius.small,
                     ),
                   ),
                 ),
-                const SizedBox(height: 12),
-
+                SizedBox(height: ProjectMargin.normal.top),
                 // Toplam fiyat shimmer
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[300]!,
-                  highlightColor: Colors.grey[100]!,
+                  baseColor: appColors.shimmerBase,
+                  highlightColor: appColors.shimmerHighlight,
                   child: Container(
-                    height: 24,
+                    height: ProjectMargin.large.top,
                     width: 120,
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(4),
+                      color: appColors.shimmerBase,
+                      borderRadius: ProjectRadius.small,
                     ),
                   ),
                 ),
@@ -82,20 +86,22 @@ class CartShimmerWidget extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(width: 16),
+        SizedBox(width: ProjectMargin.medium.top),
 
         // İkinci sepet özeti shimmer
         Expanded(
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: ProjectPadding.allSmall(),
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
+              color: Theme.of(context).colorScheme.onPrimary,
+              borderRadius: ProjectRadius.normal,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.1),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.outline.withValues(alpha: 0.1),
                   spreadRadius: 1,
-                  blurRadius: 4,
+                  blurRadius: ProjectMargin.verySmall.top,
                   offset: const Offset(0, 2),
                 ),
               ],
@@ -105,29 +111,29 @@ class CartShimmerWidget extends StatelessWidget {
               children: [
                 // Başlık shimmer
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[300]!,
-                  highlightColor: Colors.grey[100]!,
+                  baseColor: appColors.shimmerBase,
+                  highlightColor: appColors.shimmerHighlight,
                   child: Container(
-                    height: 20,
+                    height: ProjectMargin.large.top,
                     width: 100,
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(4),
+                      color: appColors.shimmerBase,
+                      borderRadius: ProjectRadius.small,
                     ),
                   ),
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: ProjectMargin.normal.top),
 
                 // Toplam fiyat shimmer
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[300]!,
-                  highlightColor: Colors.grey[100]!,
+                  baseColor: appColors.shimmerBase,
+                  highlightColor: appColors.shimmerHighlight,
                   child: Container(
-                    height: 24,
+                    height: ProjectMargin.large.top,
                     width: 120,
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(4),
+                      color: appColors.shimmerBase,
+                      borderRadius: ProjectRadius.small,
                     ),
                   ),
                 ),
@@ -135,17 +141,17 @@ class CartShimmerWidget extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(width: 16),
+        SizedBox(width: ProjectMargin.medium.top),
 
         // Temizle butonu shimmer
         Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[100]!,
+          baseColor: appColors.shimmerBase,
+          highlightColor: appColors.shimmerHighlight,
           child: Container(
-            width: 56,
-            height: 56,
-            decoration: const BoxDecoration(
-              color: Colors.white,
+            width: ProjectMargin.large.top,
+            height: ProjectMargin.large.top,
+            decoration: BoxDecoration(
+              color: appColors.shimmerBase,
               shape: BoxShape.circle,
             ),
           ),
@@ -154,18 +160,20 @@ class CartShimmerWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildCartItemShimmer() {
+  Widget _buildCartItemShimmer(BuildContext context) {
+    final appColors = AppColors.of(context);
+
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
+      margin: EdgeInsets.only(bottom: ProjectMargin.normal.top),
+      padding: ProjectPadding.allNormal(),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        color: Theme.of(context).colorScheme.onPrimary,
+        borderRadius: ProjectRadius.normal,
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.1),
             spreadRadius: 1,
-            blurRadius: 4,
+            blurRadius: ProjectMargin.verySmall.top,
             offset: const Offset(0, 2),
           ),
         ],
@@ -174,18 +182,18 @@ class CartShimmerWidget extends StatelessWidget {
         children: [
           // Ürün resmi shimmer
           Shimmer.fromColors(
-            baseColor: Colors.grey[300]!,
-            highlightColor: Colors.grey[100]!,
+            baseColor: appColors.shimmerBase,
+            highlightColor: appColors.shimmerHighlight,
             child: Container(
               width: 60,
               height: 60,
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
+                color: appColors.shimmerBase,
+                borderRadius: ProjectRadius.medium,
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: ProjectMargin.normal.top),
 
           // Ürün bilgileri shimmer
           Expanded(
@@ -194,95 +202,95 @@ class CartShimmerWidget extends StatelessWidget {
               children: [
                 // Ürün adı shimmer
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[300]!,
-                  highlightColor: Colors.grey[100]!,
+                  baseColor: appColors.shimmerBase,
+                  highlightColor: appColors.shimmerHighlight,
                   child: Container(
-                    height: 18,
+                    height: ProjectMargin.normal.top,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(4),
+                      color: appColors.shimmerBase,
+                      borderRadius: ProjectRadius.small,
                     ),
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: ProjectMargin.medium.top),
 
                 // Marka shimmer
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[300]!,
-                  highlightColor: Colors.grey[100]!,
+                  baseColor: appColors.shimmerBase,
+                  highlightColor: appColors.shimmerHighlight,
                   child: Container(
-                    height: 14,
+                    height: ProjectMargin.normal.top,
                     width: 80,
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(4),
+                      color: appColors.shimmerBase,
+                      borderRadius: ProjectRadius.small,
                     ),
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: ProjectMargin.medium.top),
 
                 // Fiyat shimmer
                 Shimmer.fromColors(
-                  baseColor: Colors.grey[300]!,
-                  highlightColor: Colors.grey[100]!,
+                  baseColor: appColors.shimmerBase,
+                  highlightColor: appColors.shimmerHighlight,
                   child: Container(
-                    height: 16,
+                    height: ProjectMargin.medium.top,
                     width: 60,
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(4),
+                      color: appColors.shimmerBase,
+                      borderRadius: ProjectRadius.small,
                     ),
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: ProjectMargin.normal.top),
 
           // Miktar kontrolleri shimmer
           Column(
             children: [
               // Artır butonu shimmer
               Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
+                baseColor: appColors.shimmerBase,
+                highlightColor: appColors.shimmerHighlight,
                 child: Container(
-                  width: 24,
-                  height: 24,
+                  width: ProjectMargin.large.top,
+                  height: ProjectMargin.large.top,
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
+                    color: appColors.shimmerBase,
+                    borderRadius: ProjectRadius.large,
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: ProjectMargin.medium.top),
 
               // Miktar shimmer
               Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
+                baseColor: appColors.shimmerBase,
+                highlightColor: appColors.shimmerHighlight,
                 child: Container(
-                  height: 20,
+                  height: ProjectMargin.large.top,
                   width: 30,
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(4),
+                    color: appColors.shimmerBase,
+                    borderRadius: ProjectRadius.small,
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: ProjectMargin.medium.top),
 
               // Azalt butonu shimmer
               Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
+                baseColor: appColors.shimmerBase,
+                highlightColor: appColors.shimmerHighlight,
                 child: Container(
-                  width: 24,
-                  height: 24,
+                  width: ProjectMargin.large.top,
+                  height: ProjectMargin.large.top,
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
+                    color: appColors.shimmerBase,
+                    borderRadius: ProjectRadius.large,
                   ),
                 ),
               ),

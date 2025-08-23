@@ -11,7 +11,6 @@ class CategoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final appColors = Theme.of(context).extension<AppColors>()!;
     return ChangeNotifierProvider(
       create: (_) => HomeViewModel(),
       child: Scaffold(
@@ -19,10 +18,10 @@ class CategoryScreen extends StatelessWidget {
           title: Text('appbar.categories'.tr()),
           centerTitle: true,
           backgroundColor: scheme.primary,
-          foregroundColor: scheme.surface,
+          foregroundColor: scheme.onSecondary,
           elevation: 0,
         ),
-        backgroundColor: appColors.surfaceMuted,
+        backgroundColor: scheme.surface,
         body: Padding(
           padding: ProjectPadding.allSmall(),
           child: Consumer<HomeViewModel>(

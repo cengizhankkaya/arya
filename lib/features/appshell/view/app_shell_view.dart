@@ -134,7 +134,7 @@ class _AppShellViewState extends State<AppShellView> {
     required VoidCallback onTap,
   }) {
     return Material(
-      color: Colors.transparent,
+      color: Theme.of(context).colorScheme.primary,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
@@ -152,7 +152,9 @@ class _AppShellViewState extends State<AppShellView> {
                 size: 28,
                 color: isSelected
                     ? Theme.of(context).colorScheme.onSurface
-                    : Theme.of(context).colorScheme.surface.withOpacity(0.6),
+                    : Theme.of(
+                        context,
+                      ).colorScheme.surface.withValues(alpha: 0.6),
               ),
               const SizedBox(height: 4),
               if (isSelected)

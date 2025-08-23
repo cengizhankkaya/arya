@@ -23,6 +23,8 @@ class ProductShimmerWidget extends StatelessWidget {
   }
 
   Widget _buildShimmerCard(BuildContext context) {
+    final appColors = AppColors.of(context);
+
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.onPrimary,
@@ -31,7 +33,7 @@ class ProductShimmerWidget extends StatelessWidget {
           BoxShadow(
             color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.1),
             spreadRadius: 1,
-            blurRadius: 4,
+            blurRadius: ProjectMargin.verySmall.top,
             offset: const Offset(0, 2),
           ),
         ],
@@ -43,11 +45,11 @@ class ProductShimmerWidget extends StatelessWidget {
           // Resim placeholder'ı
           Expanded(
             child: Shimmer.fromColors(
-              baseColor: Theme.of(context).colorScheme.onPrimary,
-              highlightColor: Theme.of(context).colorScheme.onPrimary,
+              baseColor: appColors.shimmerBase,
+              highlightColor: appColors.shimmerHighlight,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.onPrimary,
+                  color: appColors.shimmerBase,
                   borderRadius: ProjectRadius.large,
                 ),
               ),
@@ -57,13 +59,13 @@ class ProductShimmerWidget extends StatelessWidget {
 
           // Ürün adı placeholder'ı
           Shimmer.fromColors(
-            baseColor: Theme.of(context).colorScheme.onPrimary,
-            highlightColor: Theme.of(context).colorScheme.onPrimary,
+            baseColor: appColors.shimmerBase,
+            highlightColor: appColors.shimmerHighlight,
             child: Container(
-              height: 16,
+              height: ProjectMargin.medium.top,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: appColors.shimmerBase,
                 borderRadius: ProjectRadius.small,
               ),
             ),
@@ -72,13 +74,13 @@ class ProductShimmerWidget extends StatelessWidget {
 
           // İkinci satır placeholder'ı
           Shimmer.fromColors(
-            baseColor: Theme.of(context).colorScheme.onPrimary,
-            highlightColor: Theme.of(context).colorScheme.onPrimary,
+            baseColor: appColors.shimmerBase,
+            highlightColor: appColors.shimmerHighlight,
             child: Container(
-              height: 14,
+              height: ProjectMargin.normal.top,
               width: 60,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: appColors.shimmerBase,
                 borderRadius: ProjectRadius.small,
               ),
             ),
@@ -91,12 +93,12 @@ class ProductShimmerWidget extends StatelessWidget {
               // Marka placeholder'ı
               Expanded(
                 child: Shimmer.fromColors(
-                  baseColor: Theme.of(context).colorScheme.onPrimary,
-                  highlightColor: Theme.of(context).colorScheme.onPrimary,
+                  baseColor: appColors.shimmerBase,
+                  highlightColor: appColors.shimmerHighlight,
                   child: Container(
-                    height: 12,
+                    height: ProjectMargin.normal.top,
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.onPrimary,
+                      color: appColors.shimmerBase,
                       borderRadius: ProjectRadius.small,
                     ),
                   ),
@@ -106,13 +108,13 @@ class ProductShimmerWidget extends StatelessWidget {
 
               // Buton placeholder'ı
               Shimmer.fromColors(
-                baseColor: Theme.of(context).colorScheme.onPrimary,
-                highlightColor: Theme.of(context).colorScheme.onPrimary,
+                baseColor: appColors.shimmerBase,
+                highlightColor: appColors.shimmerHighlight,
                 child: Container(
-                  width: 24,
-                  height: 24,
+                  width: ProjectMargin.large.top,
+                  height: ProjectMargin.large.top,
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.onPrimary,
+                    color: appColors.shimmerBase,
                     borderRadius: ProjectRadius.large,
                   ),
                 ),
@@ -135,6 +137,8 @@ class SingleProductShimmerCard extends StatelessWidget {
   }
 
   Widget _buildShimmerCard(BuildContext context) {
+    final appColors = AppColors.of(context);
+
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.onPrimary,
@@ -143,7 +147,7 @@ class SingleProductShimmerCard extends StatelessWidget {
           BoxShadow(
             color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.1),
             spreadRadius: 1,
-            blurRadius: 4,
+            blurRadius: ProjectMargin.verySmall.top,
             offset: const Offset(0, 2),
           ),
         ],
@@ -155,11 +159,11 @@ class SingleProductShimmerCard extends StatelessWidget {
           // Resim placeholder'ı
           Expanded(
             child: Shimmer.fromColors(
-              baseColor: Theme.of(context).colorScheme.onPrimary,
-              highlightColor: Theme.of(context).colorScheme.onPrimary,
+              baseColor: appColors.shimmerBase,
+              highlightColor: appColors.shimmerHighlight,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.onPrimary,
+                  color: appColors.shimmerBase,
                   borderRadius: ProjectRadius.large,
                 ),
               ),
@@ -169,13 +173,13 @@ class SingleProductShimmerCard extends StatelessWidget {
 
           // Ürün adı placeholder'ı
           Shimmer.fromColors(
-            baseColor: Theme.of(context).colorScheme.onPrimary,
-            highlightColor: Theme.of(context).colorScheme.onPrimary,
+            baseColor: appColors.shimmerBase,
+            highlightColor: appColors.shimmerHighlight,
             child: Container(
-              height: 16,
+              height: ProjectMargin.medium.top,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.onPrimary,
+                color: appColors.shimmerBase,
                 borderRadius: ProjectRadius.small,
               ),
             ),
@@ -184,13 +188,13 @@ class SingleProductShimmerCard extends StatelessWidget {
 
           // İkinci satır placeholder'ı
           Shimmer.fromColors(
-            baseColor: Theme.of(context).colorScheme.onPrimary,
-            highlightColor: Theme.of(context).colorScheme.onPrimary,
+            baseColor: appColors.shimmerBase,
+            highlightColor: appColors.shimmerHighlight,
             child: Container(
-              height: 14,
+              height: ProjectMargin.normal.top,
               width: 60,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: appColors.shimmerBase,
                 borderRadius: ProjectRadius.small,
               ),
             ),
@@ -203,12 +207,12 @@ class SingleProductShimmerCard extends StatelessWidget {
               // Marka placeholder'ı
               Expanded(
                 child: Shimmer.fromColors(
-                  baseColor: Theme.of(context).colorScheme.onPrimary,
-                  highlightColor: Theme.of(context).colorScheme.onPrimary,
+                  baseColor: appColors.shimmerBase,
+                  highlightColor: appColors.shimmerHighlight,
                   child: Container(
-                    height: 12,
+                    height: ProjectMargin.normal.top,
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.onPrimary,
+                      color: appColors.shimmerBase,
                       borderRadius: ProjectRadius.small,
                     ),
                   ),
@@ -218,13 +222,13 @@ class SingleProductShimmerCard extends StatelessWidget {
 
               // Buton placeholder'ı
               Shimmer.fromColors(
-                baseColor: Theme.of(context).colorScheme.onPrimary,
-                highlightColor: Theme.of(context).colorScheme.onPrimary,
+                baseColor: appColors.shimmerBase,
+                highlightColor: appColors.shimmerHighlight,
                 child: Container(
-                  width: 24,
-                  height: 24,
+                  width: ProjectMargin.large.top,
+                  height: ProjectMargin.large.top,
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.onPrimary,
+                    color: appColors.shimmerBase,
                     borderRadius: ProjectRadius.large,
                   ),
                 ),
