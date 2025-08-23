@@ -4,7 +4,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'widget/category_shimmer_widget.dart';
 
 @RoutePage(name: 'CategoryRoute')
 class CategoryScreen extends StatelessWidget {
@@ -35,7 +34,7 @@ class CategoryScreen extends StatelessWidget {
                   crossAxisCount: 2,
                   mainAxisSpacing: 16,
                   crossAxisSpacing: 16,
-                  childAspectRatio: 0.95,
+                  childAspectRatio: 0.85, // Kartları biraz daha geniş yapıyorum
                 ),
                 itemBuilder: (context, index) {
                   return CategoryCard(category: categories[index]);

@@ -9,9 +9,11 @@
         "language": {
             "title": "Choose Language",
             "turkish": "Turkish",
-            "english": "English"
-        }
-    ,
+            "english": "English",
+            "current_language": "Current language: {0}",
+            "changed_to_turkish": "Language changed to Turkish",
+            "changed_to_english": "Language changed to English"
+        },
         "logout": {
             "title": "Log Out",
             "content": "Are you sure you want to log out?"
@@ -92,17 +94,15 @@
         "username": "Username",
         "password": "Password",
         "required_username": "Username is required",
-        "required_password": "Password is required"
-    },
-    "dialogs": {
-        "logout": {
-            "title": "Log Out",
-            "content": "Are you sure you want to log out?"
-        },
-        "delete_account": {
-            "title": "Delete Account",
-            "content": "Are you sure you want to delete your account? This action cannot be undone!"
-        }
+        "required_password": "Password is required",
+        "account_required": "OpenFoodFacts Account Required",
+        "account_required_desc": "You need to create a free account on OpenFoodFacts to use this feature.",
+        "go_to_off": "Go to OpenFoodFacts",
+        "account_info": "Account Information",
+        "account_info_desc": "Enter the information from your OpenFoodFacts account",
+        "username_hint": "Enter your username",
+        "password_hint": "Enter your password",
+        "help_text": "After creating an account, enter your username and password here to view more detailed product information."
     },
     "store": {
         "search_hint": "Search product...",
@@ -181,7 +181,12 @@
         "beverages": "Beverages",
         "meat_fish": "Meat & Fish",
         "snacks": "Snacks",
-        "dairy": "Dairy"
+        "dairy": "Dairy",
+        "high_protein": "Protein",
+        "high_carbohydrate": "Carbs",
+        "high_fat": "Fat",
+        "high_vitamins_minerals": "Vitamins/Minerals",
+        "high_fiber": "Fiber"
     },
     "onboard": {
         "skip": "Skip",
@@ -230,5 +235,11 @@
             "confirm_password_required": "Confirm password is required",
             "passwords_not_match": "Passwords do not match"
         }
+    },
+    "welcome_dialog": {
+        "title": "OpenFood Credentials Required",
+        "content": "To add products, you need to enter your OpenFood account credentials first.",
+        "later": "Later",
+        "enter_credentials": "Enter Credentials"
     }
 }

@@ -42,24 +42,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
     await showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: Text('OpenFood Bilgileri Gerekli'),
-        content: Text(
-          'Ürün ekleyebilmek için önce OpenFood hesap bilgilerinizi girmeniz gerekmektedir.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text('Daha Sonra'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              _navigateToOffCredentials(context);
-            },
-            child: Text('Bilgileri Gir'),
-          ),
-        ],
+      builder: (context) => WelcomeDialog(
+        onNavigateToCredentials: () => _navigateToOffCredentials(context),
       ),
     );
   }

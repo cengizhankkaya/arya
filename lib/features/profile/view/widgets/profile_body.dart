@@ -2,8 +2,7 @@ import 'package:arya/features/index.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:arya/product/theme/app_colors.dart';
-import 'profile_shimmer_widget.dart';
+import 'package:arya/product/index.dart';
 
 class ProfileBody extends StatelessWidget {
   const ProfileBody({super.key});
@@ -37,7 +36,7 @@ class ProfileBody extends StatelessWidget {
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: viewModel.fetchUser,
-                  child: Text('Tekrar Dene'),
+                  child: Text('general.button.retry'.tr()),
                 ),
               ],
             ),
@@ -50,10 +49,7 @@ class ProfileBody extends StatelessWidget {
         return Container(
           color: Theme.of(context).colorScheme.surface,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 12.0,
-            ),
+            padding: ProjectPadding.symmetricSmall,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

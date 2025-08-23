@@ -9,9 +9,11 @@
         "language": {
             "title": "Dil Seçin",
             "turkish": "Türkçe",
-            "english": "İngilizce"
-        }
-    ,
+            "english": "İngilizce",
+            "current_language": "Mevcut dil: {0}",
+            "changed_to_turkish": "Dil Türkçe olarak değiştirildi",
+            "changed_to_english": "Dil İngilizce olarak değiştirildi"
+        },
         "logout": {
             "title": "Çıkış Yap",
             "content": "Çıkış yapmak istediğinizden emin misiniz?"
@@ -92,17 +94,15 @@
         "username": "Kullanıcı Adı",
         "password": "Şifre",
         "required_username": "Kullanıcı adı zorunlu",
-        "required_password": "Şifre zorunlu"
-    },
-    "dialogs": {
-        "logout": {
-            "title": "Çıkış Yap",
-            "content": "Çıkış yapmak istediğinizden emin misiniz?"
-        },
-        "delete_account": {
-            "title": "Hesabı Sil",
-            "content": "Hesabınızı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!"
-        }
+        "required_password": "Şifre zorunlu",
+        "account_required": "OpenFoodFacts Hesabı Gerekli",
+        "account_required_desc": "Bu özelliği kullanabilmek için OpenFoodFacts'ta ücretsiz hesap oluşturmanız gerekmektedir.",
+        "go_to_off": "OpenFoodFacts'a Git",
+        "account_info": "Hesap Bilgileri",
+        "account_info_desc": "OpenFoodFacts hesabınızdan aldığınız bilgileri girin",
+        "username_hint": "Kullanıcı adınızı girin",
+        "password_hint": "Şifrenizi girin",
+        "help_text": "Hesap oluşturduktan sonra kullanıcı adı ve şifrenizi buraya girerek ürün bilgilerini daha detaylı görüntüleyebilirsiniz."
     },
     "store": {
         "search_hint": "Ürün ara...",
@@ -181,7 +181,12 @@
         "beverages": "İçecekler",
         "meat_fish": "Et & Balık",
         "snacks": "Atıştırmalıklar",
-        "dairy": "Süt Ürünleri"
+        "dairy": "Süt Ürünleri",
+        "high_protein": "Protein",
+        "high_carbohydrate": "Karbonhidrat",
+        "high_fat": "Yağ",
+        "high_vitamins_minerals": "Vitamin/Mineral",
+        "high_fiber": "Lif"
     },
     "onboard": {
         "skip": "Geç",
@@ -230,5 +235,11 @@
             "confirm_password_required": "Şifre tekrarı gereklidir",
             "passwords_not_match": "Şifreler eşleşmiyor"
         }
+    },
+    "welcome_dialog": {
+        "title": "OpenFood Bilgileri Gerekli",
+        "content": "Ürün ekleyebilmek için önce OpenFood hesap bilgilerinizi girmeniz gerekmektedir.",
+        "later": "Daha Sonra",
+        "enter_credentials": "Bilgileri Gir"
     }
 }
