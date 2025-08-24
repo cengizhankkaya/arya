@@ -67,6 +67,23 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color primaryGreen;
   final Color transparent;
 
+  // Nutrition value colors
+  final Color nutritionProteinHigh;
+  final Color nutritionProteinMedium;
+  final Color nutritionProteinLow;
+  final Color nutritionCarbohydrateHigh;
+  final Color nutritionCarbohydrateMedium;
+  final Color nutritionCarbohydrateLow;
+  final Color nutritionFatHigh;
+  final Color nutritionFatMedium;
+  final Color nutritionFatLow;
+  final Color nutritionVitaminMineralHigh;
+  final Color nutritionVitaminMineralMedium;
+  final Color nutritionVitaminMineralLow;
+  final Color nutritionFiberHigh;
+  final Color nutritionFiberMedium;
+  final Color nutritionFiberLow;
+
   const AppColors({
     required this.addbackground,
     required this.textStrong,
@@ -113,12 +130,27 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.lightGreen,
     required this.primaryGreen,
     required this.transparent,
+    required this.nutritionProteinHigh,
+    required this.nutritionProteinMedium,
+    required this.nutritionProteinLow,
+    required this.nutritionCarbohydrateHigh,
+    required this.nutritionCarbohydrateMedium,
+    required this.nutritionCarbohydrateLow,
+    required this.nutritionFatHigh,
+    required this.nutritionFatMedium,
+    required this.nutritionFatLow,
+    required this.nutritionVitaminMineralHigh,
+    required this.nutritionVitaminMineralMedium,
+    required this.nutritionVitaminMineralLow,
+    required this.nutritionFiberHigh,
+    required this.nutritionFiberMedium,
+    required this.nutritionFiberLow,
   });
 
   static const AppColors light = AppColors(
     addbackground: Color.fromARGB(255, 4, 65, 114),
-    textStrong: Color(0xFF333333),
-    textMuted: Color(0xFF7C7C7C),
+    textStrong: Color(0xFF000000), // Daha keskin siyah
+    textMuted: Color(0xFF424242), // Daha keskin gri
     dividerAlt: Colors.black12,
     openfoodfacts: Color(0xFFFFCC80),
     shimmerBase: Color(0xFFE0E0E0),
@@ -151,22 +183,38 @@ class AppColors extends ThemeExtension<AppColors> {
     red: Colors.red,
     red50: Color(0xFFFFEBEE),
     red200: Color(0xFFEF9A9A),
-    red600: Color(0xFFE53935),
-    red700: Color(0xFFD32F2F),
-    redAccent: Color(0xFFFF5252),
+    red600: Color(0xFFD32F2F), // Daha keskin kırmızı
+    red700: Color(0xFFB71C1C), // Daha keskin koyu kırmızı
+    redAccent: Color(0xFFFF1744), // Daha keskin accent kırmızı
     green50: Color(0xFFE8F5E8),
     green200: Color(0xFFA5D6A7),
-    green600: Color(0xFF43A047),
-    green700: Color(0xFF388E3C),
+    green600: Color(0xFF2E7D32), // Daha keskin yeşil
+    green700: Color(0xFF1B5E20), // Daha keskin koyu yeşil
     lightGreen: Color(0xFFE8F7EE),
     primaryGreen: Color(0xFF4CAF50),
     transparent: Colors.transparent,
+    // Nutrition colors - Rich saturated tones
+    nutritionProteinHigh: Color(0xFFE53935), // Rich red
+    nutritionProteinMedium: Color(0xFFFF9800), // Rich orange
+    nutritionProteinLow: Color(0xFF4CAF50), // Rich green
+    nutritionCarbohydrateHigh: Color(0xFF9C27B0), // Rich purple
+    nutritionCarbohydrateMedium: Color(0xFF3F51B5), // Rich indigo
+    nutritionCarbohydrateLow: Color(0xFF00BCD4), // Rich cyan
+    nutritionFatHigh: Color(0xFF8D6E63), // Rich brown
+    nutritionFatMedium: Color(0xFFFF5722), // Rich deep orange
+    nutritionFatLow: Color(0xFFFF9800), // Rich amber
+    nutritionVitaminMineralHigh: Color(0xFF4CAF50), // Rich green
+    nutritionVitaminMineralMedium: Color(0xFF009688), // Rich teal
+    nutritionVitaminMineralLow: Color(0xFF00BCD4), // Rich cyan
+    nutritionFiberHigh: Color(0xFF8BC34A), // Rich lime
+    nutritionFiberMedium: Color(0xFF66BB6A), // Rich light green
+    nutritionFiberLow: Color(0xFF4CAF50), // Rich green
   );
 
   static const AppColors dark = AppColors(
     addbackground: Color.fromARGB(255, 204, 132, 0),
-    textStrong: Color(0xFFE6E1E5),
-    textMuted: Color(0xFFCAC4D0),
+    textStrong: Color(0xFFFFFFFF), // Daha keskin beyaz
+    textMuted: Color(0xFFE0E0E0), // Daha keskin açık gri
     dividerAlt: Color(0xFF49454F),
     openfoodfacts: Color(0xFFEF6C00),
     shimmerBase: Color(0xFF333333),
@@ -209,6 +257,27 @@ class AppColors extends ThemeExtension<AppColors> {
     lightGreen: Color(0xFF284236),
     primaryGreen: Color(0xFF4CAF50),
     transparent: Colors.transparent,
+    // Nutrition colors - Deep opaque dark tones
+    nutritionProteinHigh: Color(0xFF3D1E1E), // Deep opaque dark red
+    nutritionProteinMedium: Color(0xFF3D2A1E), // Deep opaque dark orange
+    nutritionProteinLow: Color(0xFF1E3D1E), // Deep opaque dark green
+    nutritionCarbohydrateHigh: Color(0xFF2A1E3D), // Deep opaque dark purple
+    nutritionCarbohydrateMedium: Color(0xFF1E2A3D), // Deep opaque dark indigo
+    nutritionCarbohydrateLow: Color(0xFF1E3D3D), // Deep opaque dark cyan
+    nutritionFatHigh: Color(0xFF3D2A2A), // Deep opaque dark brown
+    nutritionFatMedium: Color(0xFF3D2A1E), // Deep opaque dark deep orange
+    nutritionFatLow: Color(0xFF3D2A1E), // Deep opaque dark amber
+    nutritionVitaminMineralHigh: Color(0xFF1E3D1E), // Deep opaque dark green
+    nutritionVitaminMineralMedium: Color.fromARGB(
+      255,
+      24,
+      48,
+      48,
+    ), // Deep opaque dark teal
+    nutritionVitaminMineralLow: Color(0xFF1E3D3D), // Deep opaque dark cyan
+    nutritionFiberHigh: Color(0xFF2A3D1E), // Deep opaque dark lime
+    nutritionFiberMedium: Color(0xFF1E3D1E), // Deep opaque dark light green
+    nutritionFiberLow: Color(0xFF1E3D1E), // Deep opaque dark green
   );
 
   get primary => null;
@@ -260,6 +329,21 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? lightGreen,
     Color? primaryGreen,
     Color? transparent,
+    Color? nutritionProteinHigh,
+    Color? nutritionProteinMedium,
+    Color? nutritionProteinLow,
+    Color? nutritionCarbohydrateHigh,
+    Color? nutritionCarbohydrateMedium,
+    Color? nutritionCarbohydrateLow,
+    Color? nutritionFatHigh,
+    Color? nutritionFatMedium,
+    Color? nutritionFatLow,
+    Color? nutritionVitaminMineralHigh,
+    Color? nutritionVitaminMineralMedium,
+    Color? nutritionVitaminMineralLow,
+    Color? nutritionFiberHigh,
+    Color? nutritionFiberMedium,
+    Color? nutritionFiberLow,
   }) {
     return AppColors(
       addbackground: addbackground,
@@ -319,6 +403,28 @@ class AppColors extends ThemeExtension<AppColors> {
       categorySoftLimeBg: categorySoftLimeBg ?? this.categorySoftLimeBg,
       categorySoftLimeBorder:
           categorySoftLimeBorder ?? this.categorySoftLimeBorder,
+      nutritionProteinHigh: nutritionProteinHigh ?? this.nutritionProteinHigh,
+      nutritionProteinMedium:
+          nutritionProteinMedium ?? this.nutritionProteinMedium,
+      nutritionProteinLow: nutritionProteinLow ?? this.nutritionProteinLow,
+      nutritionCarbohydrateHigh:
+          nutritionCarbohydrateHigh ?? this.nutritionCarbohydrateHigh,
+      nutritionCarbohydrateMedium:
+          nutritionCarbohydrateMedium ?? this.nutritionCarbohydrateMedium,
+      nutritionCarbohydrateLow:
+          nutritionCarbohydrateLow ?? this.nutritionCarbohydrateLow,
+      nutritionFatHigh: nutritionFatHigh ?? this.nutritionFatHigh,
+      nutritionFatMedium: nutritionFatMedium ?? this.nutritionFatMedium,
+      nutritionFatLow: nutritionFatLow ?? this.nutritionFatLow,
+      nutritionVitaminMineralHigh:
+          nutritionVitaminMineralHigh ?? this.nutritionVitaminMineralHigh,
+      nutritionVitaminMineralMedium:
+          nutritionVitaminMineralMedium ?? this.nutritionVitaminMineralMedium,
+      nutritionVitaminMineralLow:
+          nutritionVitaminMineralLow ?? this.nutritionVitaminMineralLow,
+      nutritionFiberHigh: nutritionFiberHigh ?? this.nutritionFiberHigh,
+      nutritionFiberMedium: nutritionFiberMedium ?? this.nutritionFiberMedium,
+      nutritionFiberLow: nutritionFiberLow ?? this.nutritionFiberLow,
     );
   }
 
@@ -463,6 +569,77 @@ class AppColors extends ThemeExtension<AppColors> {
       lightGreen: Color.lerp(lightGreen, other.lightGreen, t)!,
       primaryGreen: Color.lerp(primaryGreen, other.primaryGreen, t)!,
       transparent: Color.lerp(transparent, other.transparent, t)!,
+      nutritionProteinHigh: Color.lerp(
+        nutritionProteinHigh,
+        other.nutritionProteinHigh,
+        t,
+      )!,
+      nutritionProteinMedium: Color.lerp(
+        nutritionProteinMedium,
+        other.nutritionProteinMedium,
+        t,
+      )!,
+      nutritionProteinLow: Color.lerp(
+        nutritionProteinLow,
+        other.nutritionProteinLow,
+        t,
+      )!,
+      nutritionCarbohydrateHigh: Color.lerp(
+        nutritionCarbohydrateHigh,
+        other.nutritionCarbohydrateHigh,
+        t,
+      )!,
+      nutritionCarbohydrateMedium: Color.lerp(
+        nutritionCarbohydrateMedium,
+        other.nutritionCarbohydrateMedium,
+        t,
+      )!,
+      nutritionCarbohydrateLow: Color.lerp(
+        nutritionCarbohydrateLow,
+        other.nutritionCarbohydrateLow,
+        t,
+      )!,
+      nutritionFatHigh: Color.lerp(
+        nutritionFatHigh,
+        other.nutritionFatHigh,
+        t,
+      )!,
+      nutritionFatMedium: Color.lerp(
+        nutritionFatMedium,
+        other.nutritionFatMedium,
+        t,
+      )!,
+      nutritionFatLow: Color.lerp(nutritionFatLow, other.nutritionFatLow, t)!,
+      nutritionVitaminMineralHigh: Color.lerp(
+        nutritionVitaminMineralHigh,
+        other.nutritionVitaminMineralHigh,
+        t,
+      )!,
+      nutritionVitaminMineralMedium: Color.lerp(
+        nutritionVitaminMineralMedium,
+        other.nutritionVitaminMineralMedium,
+        t,
+      )!,
+      nutritionVitaminMineralLow: Color.lerp(
+        nutritionVitaminMineralLow,
+        other.nutritionVitaminMineralLow,
+        t,
+      )!,
+      nutritionFiberHigh: Color.lerp(
+        nutritionFiberHigh,
+        other.nutritionFiberHigh,
+        t,
+      )!,
+      nutritionFiberMedium: Color.lerp(
+        nutritionFiberMedium,
+        other.nutritionFiberMedium,
+        t,
+      )!,
+      nutritionFiberLow: Color.lerp(
+        nutritionFiberLow,
+        other.nutritionFiberLow,
+        t,
+      )!,
     );
   }
 

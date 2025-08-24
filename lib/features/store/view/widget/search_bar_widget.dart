@@ -23,9 +23,9 @@ class _SearchStoreBarState extends State<SearchStoreBar> {
         borderRadius: BorderRadius.circular(18),
       ),
       child: TextField(
-        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-          color: appColors?.textStrong ?? scheme.onSurface,
-        ),
+        style: Theme.of(
+          context,
+        ).textTheme.bodyMedium?.copyWith(color: scheme.onSurface),
         controller: _controller,
         decoration: InputDecoration(
           hintText: 'store.search_hint'.tr(),

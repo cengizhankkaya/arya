@@ -1,4 +1,5 @@
 import 'package:arya/features/index.dart';
+import 'package:arya/product/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -262,10 +263,14 @@ class StoreViewModel extends ChangeNotifier {
   }
 
   // Besin değeri renk hesaplama metodları
-  Color getProductCardColor(Map<String, dynamic> product) {
+  Color getProductCardColor(
+    Map<String, dynamic> product,
+    BuildContext context,
+  ) {
     try {
       final nutriments = product['nutriments'] as Map<String, dynamic>?;
-      if (nutriments == null) return const Color(0xFFE8F5E9);
+      if (nutriments == null)
+        return AppColors.of(context).green50.withValues(alpha: 0.25);
 
       // Protein oranına göre renk belirle
       final proteinValue = NutritionCalculatorService.getProteinValue(
@@ -273,13 +278,21 @@ class StoreViewModel extends ChangeNotifier {
       );
       if (proteinValue > 0) {
         if (proteinValue >= 20.0) {
-          return Colors.red.shade50; // Çok yüksek protein
+          return AppColors.of(
+            context,
+          ).nutritionProteinHigh.withValues(alpha: 0.25); // Çok yüksek protein
         } else if (proteinValue >= 15.0) {
-          return Colors.orange.shade50; // Yüksek protein
+          return AppColors.of(
+            context,
+          ).nutritionProteinMedium.withValues(alpha: 0.25); // Yüksek protein
         } else if (proteinValue >= 10.0) {
-          return Colors.amber.shade50; // Orta protein
+          return AppColors.of(
+            context,
+          ).nutritionProteinMedium.withValues(alpha: 0.25); // Orta protein
         } else {
-          return Colors.green.shade50; // Düşük protein
+          return AppColors.of(
+            context,
+          ).nutritionProteinLow.withValues(alpha: 0.25); // Düşük protein
         }
       }
 
@@ -289,13 +302,21 @@ class StoreViewModel extends ChangeNotifier {
       );
       if (carbohydrateValue > 0) {
         if (carbohydrateValue >= 50.0) {
-          return Colors.purple.shade50; // Çok yüksek karbonhidrat
+          return AppColors.of(context).nutritionCarbohydrateHigh.withValues(
+            alpha: 0.25,
+          ); // Çok yüksek karbonhidrat
         } else if (carbohydrateValue >= 30.0) {
-          return Colors.indigo.shade50; // Yüksek karbonhidrat
+          return AppColors.of(
+            context,
+          ).nutritionCarbohydrateHigh.withValues(alpha: 0.25);
         } else if (carbohydrateValue >= 15.0) {
-          return Colors.blue.shade50; // Orta karbonhidrat
+          return AppColors.of(
+            context,
+          ).nutritionCarbohydrateMedium.withValues(alpha: 0.25);
         } else {
-          return Colors.cyan.shade50; // Düşük karbonhidrat
+          return AppColors.of(
+            context,
+          ).nutritionCarbohydrateLow.withValues(alpha: 0.25);
         }
       }
 
@@ -303,13 +324,21 @@ class StoreViewModel extends ChangeNotifier {
       final fatValue = NutritionCalculatorService.getFatValue(nutriments);
       if (fatValue > 0) {
         if (fatValue >= 30.0) {
-          return Colors.brown.shade50; // Çok yüksek yağ
+          return AppColors.of(
+            context,
+          ).nutritionFatHigh.withValues(alpha: 0.25); // Çok yüksek yağ
         } else if (fatValue >= 20.0) {
-          return Colors.deepOrange.shade50; // Yüksek yağ
+          return AppColors.of(
+            context,
+          ).nutritionFatHigh.withValues(alpha: 0.25); // Yüksek yağ
         } else if (fatValue >= 15.0) {
-          return Colors.orange.shade50; // Orta yağ
+          return AppColors.of(
+            context,
+          ).nutritionFatMedium.withValues(alpha: 0.25); // Orta yağ
         } else {
-          return Colors.amber.shade50; // Düşük yağ
+          return AppColors.of(
+            context,
+          ).nutritionFatLow.withValues(alpha: 0.25); // Düşük yağ
         }
       }
 
@@ -327,13 +356,20 @@ class StoreViewModel extends ChangeNotifier {
 
         if (maxValue > 0) {
           if (maxValue >= 100.0) {
-            return Colors.green.shade50; // Çok yüksek vitamin/mineral
+            return AppColors.of(context).nutritionVitaminMineralHigh.withValues(
+              alpha: 0.25,
+            ); // Çok yüksek vitamin/mineral
           } else if (maxValue >= 50.0) {
-            return Colors.teal.shade50; // Yüksek vitamin/mineral
+            return AppColors.of(context).nutritionVitaminMineralHigh.withValues(
+              alpha: 0.25,
+            ); // Yüksek vitamin/mineral
           } else if (maxValue >= 10.0) {
-            return Colors.cyan.shade50; // Orta vitamin/mineral
+            return AppColors.of(context).nutritionVitaminMineralMedium
+                .withValues(alpha: 0.25); // Orta vitamin/mineral
           } else {
-            return Colors.blue.shade50; // Düşük vitamin/mineral
+            return AppColors.of(context).nutritionVitaminMineralLow.withValues(
+              alpha: 0.25,
+            ); // Düşük vitamin/mineral
           }
         }
       }
@@ -342,30 +378,28 @@ class StoreViewModel extends ChangeNotifier {
       final fiberValue = NutritionCalculatorService.getFiberValue(nutriments);
       if (fiberValue > 0) {
         if (fiberValue >= 10.0) {
-          return Colors.lime.shade50; // Çok yüksek lif
+          return AppColors.of(
+            context,
+          ).nutritionFiberHigh.withValues(alpha: 0.25); // Çok yüksek lif
         } else if (fiberValue >= 6.0) {
-          return Colors.lightGreen.shade50; // Yüksek lif
+          return AppColors.of(
+            context,
+          ).nutritionFiberHigh.withValues(alpha: 0.25); // Yüksek lif
         } else if (fiberValue >= 3.0) {
-          return Colors.green.shade50; // Orta lif
+          return AppColors.of(
+            context,
+          ).nutritionFiberMedium.withValues(alpha: 0.25); // Orta lif
         } else {
-          return Colors.teal.shade50; // Düşük lif
+          return AppColors.of(
+            context,
+          ).nutritionFiberLow.withValues(alpha: 0.25); // Düşük lif
         }
       }
     } catch (_) {
       // Hata durumunda varsayılan renk
     }
-    return const Color(0xFFE8F5E9); // Varsayılan yeşil renk
+    return AppColors.of(
+      context,
+    ).green50.withValues(alpha: 0.25); // Varsayılan yeşil renk
   }
-
-  // Besin değeri renk getter'ları - NutritionCalculatorService kullanarak
-  Color getProteinColor(double value) =>
-      NutritionCalculatorService.getProteinColor(value);
-  Color getCarbohydrateColor(double value) =>
-      NutritionCalculatorService.getCarbohydrateColor(value);
-  Color getFatColor(double value) =>
-      NutritionCalculatorService.getFatColor(value);
-  Color getVitaminMineralColor(double value) =>
-      NutritionCalculatorService.getVitaminMineralColor(value);
-  Color getFiberColor(double value) =>
-      NutritionCalculatorService.getFiberColor(value);
 }

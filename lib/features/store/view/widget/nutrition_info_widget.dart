@@ -48,7 +48,10 @@ class NutritionInfoWidget extends StatelessWidget {
                 child: _buildCompactNutritionBadge(
                   '${proteinValue.toStringAsFixed(1)}g',
                   'Protein',
-                  NutritionCalculatorService.getProteinColor(proteinValue),
+                  NutritionCalculatorService.getProteinColor(
+                    proteinValue,
+                    context,
+                  ),
                   context,
                 ),
               ),
@@ -62,6 +65,7 @@ class NutritionInfoWidget extends StatelessWidget {
                   'Karb',
                   NutritionCalculatorService.getCarbohydrateColor(
                     carbohydrateValue,
+                    context,
                   ),
                   context,
                 ),
@@ -74,7 +78,7 @@ class NutritionInfoWidget extends StatelessWidget {
                 child: _buildCompactNutritionBadge(
                   '${fatValue.toStringAsFixed(1)}g',
                   'Yağ',
-                  NutritionCalculatorService.getFatColor(fatValue),
+                  NutritionCalculatorService.getFatColor(fatValue, context),
                   context,
                 ),
               ),
@@ -90,6 +94,7 @@ class NutritionInfoWidget extends StatelessWidget {
                   'Vit/Min',
                   NutritionCalculatorService.getVitaminMineralColor(
                     vitaminCValue > calciumValue ? vitaminCValue : calciumValue,
+                    context,
                   ),
                   context,
                 ),
@@ -102,7 +107,7 @@ class NutritionInfoWidget extends StatelessWidget {
                 child: _buildCompactNutritionBadge(
                   '${fiberValue.toStringAsFixed(1)}g',
                   'Lif',
-                  NutritionCalculatorService.getFiberColor(fiberValue),
+                  NutritionCalculatorService.getFiberColor(fiberValue, context),
                   context,
                 ),
               ),

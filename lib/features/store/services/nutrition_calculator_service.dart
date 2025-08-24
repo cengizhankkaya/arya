@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../product/theme/app_colors.dart';
 
 class NutritionCalculatorService {
   static double getProteinValue(Map<String, dynamic> nutriments) {
@@ -7,7 +8,8 @@ class NutritionCalculatorService {
   }
 
   static double getCarbohydrateValue(Map<String, dynamic> nutriments) {
-    final carbohydrates = nutriments['carbohydrates'] ?? nutriments['carbohydrates_100g'];
+    final carbohydrates =
+        nutriments['carbohydrates'] ?? nutriments['carbohydrates_100g'];
     return double.tryParse(carbohydrates?.toString() ?? '0') ?? 0.0;
   }
 
@@ -49,43 +51,70 @@ class NutritionCalculatorService {
       (getCalciumValue(nutriments), 'Kalsiyum'),
       (getFiberValue(nutriments), 'Lif'),
     ];
-    
+
     values.sort((a, b) => b.$1.compareTo(a.$1));
     return values.first.$2;
   }
 
-  static Color getProteinColor(double value) {
-    if (value >= 20.0) return Colors.red.shade700;
-    if (value >= 15.0) return Colors.orange.shade700;
-    if (value >= 10.0) return Colors.amber.shade700;
-    return Colors.green.shade700;
+  static Color getProteinColor(double value, BuildContext context) {
+    if (value >= 20.0)
+      return Theme.of(context).extension<AppColors>()!.nutritionProteinHigh;
+    if (value >= 15.0)
+      return Theme.of(context).extension<AppColors>()!.nutritionProteinMedium;
+    if (value >= 10.0)
+      return Theme.of(context).extension<AppColors>()!.nutritionProteinMedium;
+    return Theme.of(context).extension<AppColors>()!.nutritionProteinLow;
   }
 
-  static Color getCarbohydrateColor(double value) {
-    if (value >= 50.0) return Colors.purple.shade700;
-    if (value >= 30.0) return Colors.indigo.shade700;
-    if (value >= 15.0) return Colors.blue.shade700;
-    return Colors.cyan.shade700;
+  static Color getCarbohydrateColor(double value, BuildContext context) {
+    if (value >= 50.0)
+      return Theme.of(
+        context,
+      ).extension<AppColors>()!.nutritionCarbohydrateHigh;
+    if (value >= 30.0)
+      return Theme.of(
+        context,
+      ).extension<AppColors>()!.nutritionCarbohydrateMedium;
+    if (value >= 15.0)
+      return Theme.of(
+        context,
+      ).extension<AppColors>()!.nutritionCarbohydrateMedium;
+    return Theme.of(context).extension<AppColors>()!.nutritionCarbohydrateLow;
   }
 
-  static Color getFatColor(double value) {
-    if (value >= 30.0) return Colors.brown.shade700;
-    if (value >= 20.0) return Colors.deepOrange.shade700;
-    if (value >= 15.0) return Colors.orange.shade700;
-    return Colors.amber.shade700;
+  static Color getFatColor(double value, BuildContext context) {
+    if (value >= 30.0)
+      return Theme.of(context).extension<AppColors>()!.nutritionFatHigh;
+    if (value >= 20.0)
+      return Theme.of(context).extension<AppColors>()!.nutritionFatMedium;
+    if (value >= 15.0)
+      return Theme.of(context).extension<AppColors>()!.nutritionFatMedium;
+    return Theme.of(context).extension<AppColors>()!.nutritionFatLow;
   }
 
-  static Color getVitaminMineralColor(double value) {
-    if (value >= 100.0) return Colors.green.shade700;
-    if (value >= 50.0) return Colors.teal.shade700;
-    if (value >= 10.0) return Colors.cyan.shade700;
-    return Colors.blue.shade700;
+  static Color getVitaminMineralColor(double value, BuildContext context) {
+    if (value >= 100.0)
+      return Theme.of(
+        context,
+      ).extension<AppColors>()!.nutritionVitaminMineralHigh;
+    if (value >= 50.0)
+      return Theme.of(
+        context,
+      ).extension<AppColors>()!.nutritionVitaminMineralMedium;
+    if (value >= 10.0)
+      return Theme.of(
+        context,
+      ).extension<AppColors>()!.nutritionVitaminMineralMedium;
+    return Theme.of(context).extension<AppColors>()!.nutritionVitaminMineralLow;
   }
 
-  static Color getFiberColor(double value) {
-    if (value >= 10.0) return Colors.lime.shade700;
-    if (value >= 6.0) return Colors.lightGreen.shade700;
-    if (value >= 3.0) return Colors.green.shade700;
-    return Colors.teal.shade700;
+  static Color getFiberColor(double value, BuildContext context) {
+    if (value >= 10.0)
+      return Theme.of(context).extension<AppColors>()!.nutritionFiberHigh;
+    if (value >= 6.0)
+      return Theme.of(context).extension<AppColors>()!.nutritionFiberMedium;
+    if (value >= 3.0)
+      return Theme.of(context).extension<AppColors>()!.nutritionFiberMedium;
+    return Theme.of(context).extension<AppColors>()!.nutritionFiberLow;
   }
 }

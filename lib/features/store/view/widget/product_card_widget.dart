@@ -28,7 +28,7 @@ class ProductCard extends StatelessWidget {
           onTap: onTap,
           child: Container(
             decoration: BoxDecoration(
-              color: viewModel.getProductCardColor(product),
+              color: viewModel.getProductCardColor(product, context),
               borderRadius: ProjectRadius.xxLarge,
             ),
             padding: const EdgeInsets.all(8),
