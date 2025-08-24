@@ -12,7 +12,7 @@ class UserInfoSection extends StatelessWidget {
     final appColors = Theme.of(context).extension<AppColors>()!;
     return Container(
       decoration: BoxDecoration(
-        color: appColors.white,
+        color: appColors.primaryGreen,
         borderRadius: ProjectRadius.xxLarge,
         boxShadow: [
           BoxShadow(

@@ -38,7 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           centerTitle: true,
           title: Text('appbar.profile'.tr()),
           backgroundColor: Theme.of(context).colorScheme.primary,
-          foregroundColor: Theme.of(context).colorScheme.onSecondary,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
           elevation: 0,
           scrolledUnderElevation: 0,
           surfaceTintColor: Theme.of(context).colorScheme.surface,

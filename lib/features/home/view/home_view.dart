@@ -18,7 +18,7 @@ class CategoryScreen extends StatelessWidget {
           title: Text('appbar.categories'.tr()),
           centerTitle: true,
           backgroundColor: scheme.primary,
-          foregroundColor: scheme.onSecondary,
+          foregroundColor: scheme.onPrimary,
           elevation: 0,
         ),
         backgroundColor: scheme.surface,
