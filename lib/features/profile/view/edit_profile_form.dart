@@ -2,6 +2,7 @@ import 'package:arya/features/index.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:arya/product/index.dart';
 
 class EditProfileForm extends StatelessWidget {
   const EditProfileForm({super.key});
@@ -20,7 +21,7 @@ class EditProfileForm extends StatelessWidget {
           width: 1,
         ),
       ),
-      padding: const EdgeInsets.all(16),
+      padding: ProjectPadding.allSmall(),
       child: Column(
         children: [
           TextField(

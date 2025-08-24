@@ -57,5 +57,34 @@
 	<!-- Mikrofon izni (kamera ile birlikte gerekebilir) -->
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Bu uygulama video çekimi sırasında mikrofon erişimi istiyor.</string>
+	
+	<!-- URL Launcher için gerekli URL şemaları -->
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>http</string>
+		<string>https</string>
+		<string>tel</string>
+		<string>mailto</string>
+		<string>sms</string>
+	</array>
+	
+	<!-- HTTP bağlantılarına izin ver (iOS 9+ için gerekli) -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>openfoodfacts.org</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<false/>
+				<key>NSExceptionMinimumTLSVersion</key>
+				<string>TLSv1.2</string>
+				<key>NSExceptionRequiresForwardSecrecy</key>
+				<false/>
+			</dict>
+		</dict>
+	</dict>
 </dict>
 </plist>

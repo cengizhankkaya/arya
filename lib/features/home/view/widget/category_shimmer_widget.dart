@@ -17,17 +17,20 @@ class CategoryShimmerWidget extends StatelessWidget {
         childAspectRatio: 0.95,
       ),
       itemBuilder: (context, index) {
-        return _buildShimmerCard();
+        return _buildShimmerCard(context);
       },
     );
   }
 
-  Widget _buildShimmerCard() {
+  Widget _buildShimmerCard(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.onPrimary,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.grey[200]!, width: 1),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.outline,
+          width: 1,
+        ),
       ),
       padding: ProjectPadding.allVerySmall(),
       child: Column(
@@ -36,11 +39,11 @@ class CategoryShimmerWidget extends StatelessWidget {
           // Resim placeholder'ı
           Expanded(
             child: Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,
+              baseColor: Theme.of(context).colorScheme.outline,
+              highlightColor: Theme.of(context).colorScheme.outline,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.onPrimary,
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
@@ -50,13 +53,13 @@ class CategoryShimmerWidget extends StatelessWidget {
 
           // Kategori adı placeholder'ı
           Shimmer.fromColors(
-            baseColor: Colors.grey[300]!,
-            highlightColor: Colors.grey[100]!,
+            baseColor: Theme.of(context).colorScheme.outline,
+            highlightColor: Theme.of(context).colorScheme.outline,
             child: Container(
               height: 20,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onPrimary,
                 borderRadius: BorderRadius.circular(4),
               ),
             ),

@@ -17,73 +17,75 @@ class ProductShimmerWidget extends StatelessWidget {
       ),
       itemCount: 6, // Yükleme sırasında gösterilecek placeholder sayısı
       itemBuilder: (context, index) {
-        return _buildShimmerCard();
+        return _buildShimmerCard(context);
       },
     );
   }
 
-  Widget _buildShimmerCard() {
+  Widget _buildShimmerCard(BuildContext context) {
+    final appColors = AppColors.of(context);
+
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.onPrimary,
         borderRadius: ProjectRadius.xxLarge,
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.1),
             spreadRadius: 1,
-            blurRadius: 4,
+            blurRadius: ProjectMargin.verySmall.top,
             offset: const Offset(0, 2),
           ),
         ],
       ),
-      padding: const EdgeInsets.all(12),
+      padding: ProjectPadding.allVerySmall(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // Resim placeholder'ı
           Expanded(
             child: Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,
+              baseColor: appColors.shimmerBase,
+              highlightColor: appColors.shimmerHighlight,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
+                  color: appColors.shimmerBase,
+                  borderRadius: ProjectRadius.large,
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: ProjectMargin.small.top),
 
           // Ürün adı placeholder'ı
           Shimmer.fromColors(
-            baseColor: Colors.grey[300]!,
-            highlightColor: Colors.grey[100]!,
+            baseColor: appColors.shimmerBase,
+            highlightColor: appColors.shimmerHighlight,
             child: Container(
-              height: 16,
+              height: ProjectMargin.medium.top,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(4),
+                color: appColors.shimmerBase,
+                borderRadius: ProjectRadius.small,
               ),
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: ProjectMargin.small.top),
 
           // İkinci satır placeholder'ı
           Shimmer.fromColors(
-            baseColor: Colors.grey[300]!,
-            highlightColor: Colors.grey[100]!,
+            baseColor: appColors.shimmerBase,
+            highlightColor: appColors.shimmerHighlight,
             child: Container(
-              height: 14,
+              height: ProjectMargin.normal.top,
               width: 60,
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(4),
+                color: appColors.shimmerBase,
+                borderRadius: ProjectRadius.small,
               ),
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: ProjectMargin.verySmall.top),
 
           // Alt kısım
           Row(
@@ -91,29 +93,29 @@ class ProductShimmerWidget extends StatelessWidget {
               // Marka placeholder'ı
               Expanded(
                 child: Shimmer.fromColors(
-                  baseColor: Colors.grey[300]!,
-                  highlightColor: Colors.grey[100]!,
+                  baseColor: appColors.shimmerBase,
+                  highlightColor: appColors.shimmerHighlight,
                   child: Container(
-                    height: 12,
+                    height: ProjectMargin.normal.top,
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(4),
+                      color: appColors.shimmerBase,
+                      borderRadius: ProjectRadius.small,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: ProjectMargin.small.top),
 
               // Buton placeholder'ı
               Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
+                baseColor: appColors.shimmerBase,
+                highlightColor: appColors.shimmerHighlight,
                 child: Container(
-                  width: 24,
-                  height: 24,
+                  width: ProjectMargin.large.top,
+                  height: ProjectMargin.large.top,
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
+                    color: appColors.shimmerBase,
+                    borderRadius: ProjectRadius.large,
                   ),
                 ),
               ),
@@ -131,71 +133,73 @@ class SingleProductShimmerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildShimmerCard();
+    return _buildShimmerCard(context);
   }
 
-  Widget _buildShimmerCard() {
+  Widget _buildShimmerCard(BuildContext context) {
+    final appColors = AppColors.of(context);
+
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.onPrimary,
         borderRadius: ProjectRadius.xxLarge,
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.1),
             spreadRadius: 1,
-            blurRadius: 4,
+            blurRadius: ProjectMargin.verySmall.top,
             offset: const Offset(0, 2),
           ),
         ],
       ),
-      padding: const EdgeInsets.all(12),
+      padding: ProjectPadding.allVerySmall(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // Resim placeholder'ı
           Expanded(
             child: Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,
+              baseColor: appColors.shimmerBase,
+              highlightColor: appColors.shimmerHighlight,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
+                  color: appColors.shimmerBase,
+                  borderRadius: ProjectRadius.large,
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: ProjectMargin.small.top),
 
           // Ürün adı placeholder'ı
           Shimmer.fromColors(
-            baseColor: Colors.grey[300]!,
-            highlightColor: Colors.grey[100]!,
+            baseColor: appColors.shimmerBase,
+            highlightColor: appColors.shimmerHighlight,
             child: Container(
-              height: 16,
+              height: ProjectMargin.medium.top,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(4),
+                color: appColors.shimmerBase,
+                borderRadius: ProjectRadius.small,
               ),
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: ProjectMargin.small.top),
 
           // İkinci satır placeholder'ı
           Shimmer.fromColors(
-            baseColor: Colors.grey[300]!,
-            highlightColor: Colors.grey[100]!,
+            baseColor: appColors.shimmerBase,
+            highlightColor: appColors.shimmerHighlight,
             child: Container(
-              height: 14,
+              height: ProjectMargin.normal.top,
               width: 60,
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(4),
+                color: appColors.shimmerBase,
+                borderRadius: ProjectRadius.small,
               ),
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: ProjectMargin.verySmall.top),
 
           // Alt kısım
           Row(
@@ -203,29 +207,29 @@ class SingleProductShimmerCard extends StatelessWidget {
               // Marka placeholder'ı
               Expanded(
                 child: Shimmer.fromColors(
-                  baseColor: Colors.grey[300]!,
-                  highlightColor: Colors.grey[100]!,
+                  baseColor: appColors.shimmerBase,
+                  highlightColor: appColors.shimmerHighlight,
                   child: Container(
-                    height: 12,
+                    height: ProjectMargin.normal.top,
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(4),
+                      color: appColors.shimmerBase,
+                      borderRadius: ProjectRadius.small,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: ProjectMargin.small.top),
 
               // Buton placeholder'ı
               Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
+                baseColor: appColors.shimmerBase,
+                highlightColor: appColors.shimmerHighlight,
                 child: Container(
-                  width: 24,
-                  height: 24,
+                  width: ProjectMargin.large.top,
+                  height: ProjectMargin.large.top,
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
+                    color: appColors.shimmerBase,
+                    borderRadius: ProjectRadius.large,
                   ),
                 ),
               ),

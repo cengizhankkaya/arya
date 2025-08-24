@@ -160,6 +160,42 @@ class CartViewModel extends ChangeNotifier {
     return total;
   }
 
+  double get totalFat {
+    double total = 0;
+    for (final item in _cartItems) {
+      final fat = _parseNumber(item.nutriments['fat_100g']);
+      total += fat * item.quantity;
+    }
+    return total;
+  }
+
+  double get totalCarbs {
+    double total = 0;
+    for (final item in _cartItems) {
+      final carbs = _parseNumber(item.nutriments['carbohydrates_100g']);
+      total += carbs * item.quantity;
+    }
+    return total;
+  }
+
+  double get totalVitamins {
+    double total = 0;
+    for (final item in _cartItems) {
+      // Vitamin C, A, D, E, B6, B12 gibi vitaminleri topla
+      final vitaminC = _parseNumber(item.nutriments['vitamin-c_100g']);
+      final vitaminA = _parseNumber(item.nutriments['vitamin-a_100g']);
+      final vitaminD = _parseNumber(item.nutriments['vitamin-d_100g']);
+      final vitaminE = _parseNumber(item.nutriments['vitamin-e_100g']);
+      final vitaminB6 = _parseNumber(item.nutriments['vitamin-b6_100g']);
+      final vitaminB12 = _parseNumber(item.nutriments['vitamin-b12_100g']);
+
+      total +=
+          (vitaminC + vitaminA + vitaminD + vitaminE + vitaminB6 + vitaminB12) *
+          item.quantity;
+    }
+    return total;
+  }
+
   double _parseNumber(dynamic value) {
     if (value is num) return value.toDouble();
     if (value is String) {

@@ -20,10 +20,7 @@ class CartItemWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: scheme.surface,
         borderRadius: ProjectRadius.xxLarge,
-        border: Border.all(
-          color: scheme.outline.withValues(alpha: 0.08),
-          width: 1,
-        ),
+        border: Border.all(color: scheme.onSurface, width: 1.5),
       ),
       child: ListTile(
         contentPadding: ProjectPadding.allLarge(),
@@ -39,7 +36,7 @@ class CartItemWidget extends StatelessWidget {
           product.brands ?? '',
           style: Theme.of(
             context,
-          ).textTheme.bodyMedium?.copyWith(color: scheme.onSurfaceVariant),
+          ).textTheme.bodyMedium?.copyWith(color: appColors?.textMuted),
         ),
         trailing: _buildQuantityControls(cart, appColors, scheme),
         onTap: () => _navigateToProductDetail(context, product),
@@ -134,17 +131,14 @@ class CartItemWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         IconButton(
-          icon: Icon(
-            Icons.remove_circle_outline,
-            color: appColors?.textMuted ?? scheme.outline,
-          ),
+          icon: Icon(Icons.remove_circle_outline, color: appColors?.textMuted),
           onPressed: () => cart.decreaseQuantity(product.id),
         ),
         Builder(
           builder: (context) => Text(
             product.quantity.toString(),
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: appColors?.textStrong ?? scheme.onSurface,
+              color: appColors?.textStrong,
               fontWeight: AppTypography.displayWeight,
             ),
           ),

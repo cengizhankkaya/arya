@@ -13,6 +13,31 @@ class HomeViewModel extends ChangeNotifier {
   List<HomeCategory> _buildCategories() {
     return const [
       HomeCategory(
+        titleKey: 'categories.high_protein',
+        imageUrl: HomeConstants.catHighProtein,
+        palette: CategoryPalette.highProtein,
+      ),
+      HomeCategory(
+        titleKey: 'categories.high_carbohydrate',
+        imageUrl: HomeConstants.catHighCarbohydrate,
+        palette: CategoryPalette.highCarbohydrate,
+      ),
+      HomeCategory(
+        titleKey: 'categories.high_fat',
+        imageUrl: HomeConstants.catHighFat,
+        palette: CategoryPalette.highFat,
+      ),
+      HomeCategory(
+        titleKey: 'categories.high_vitamins_minerals',
+        imageUrl: HomeConstants.catHighVitaminsMinerals,
+        palette: CategoryPalette.highVitaminsMinerals,
+      ),
+      HomeCategory(
+        titleKey: 'categories.high_fiber',
+        imageUrl: HomeConstants.catHighFiber,
+        palette: CategoryPalette.highFiber,
+      ),
+      HomeCategory(
         titleKey: 'categories.fruits_vegetables',
         imageUrl: HomeConstants.catFruitsVegetables,
         palette: CategoryPalette.fruitsVegetables,

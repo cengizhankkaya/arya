@@ -14,7 +14,6 @@ class ProductsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final appColors = Theme.of(context).extension<AppColors>();
     return ChangeNotifierProvider(
       create: (_) {
         final vm = StoreViewModel();
@@ -45,7 +44,7 @@ class ProductsPage extends StatelessWidget {
             ),
           ],
         ),
-        backgroundColor: appColors?.surfaceMuted ?? scheme.surface,
+        backgroundColor: scheme.surface,
         body: Column(
           children: [
             Padding(

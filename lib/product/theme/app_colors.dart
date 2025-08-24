@@ -8,6 +8,11 @@ enum CategoryPalette {
   meatFish,
   snacks,
   dairy,
+  highProtein,
+  highCarbohydrate,
+  highFat,
+  highVitaminsMinerals,
+  highFiber,
 }
 
 /// App-specific semantic colors that are not covered by Material ColorScheme
@@ -16,8 +21,11 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color addbackground;
   final Color textStrong;
   final Color textMuted;
-  final Color surfaceMuted;
   final Color dividerAlt;
+  final Color openfoodfacts;
+  // Shimmer colors
+  final Color shimmerBase;
+  final Color shimmerHighlight;
   // Category card soft colors
   final Color categorySoftGreenBg;
   final Color categorySoftGreenBorder;
@@ -31,6 +39,16 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color categorySoftPeachBorder;
   final Color categorySoftYellowBg;
   final Color categorySoftYellowBorder;
+  final Color categorySoftOrangeBg;
+  final Color categorySoftOrangeBorder;
+  final Color categorySoftTealBg;
+  final Color categorySoftTealBorder;
+  final Color categorySoftBrownBg;
+  final Color categorySoftBrownBorder;
+  final Color categorySoftEmeraldBg;
+  final Color categorySoftEmeraldBorder;
+  final Color categorySoftLimeBg;
+  final Color categorySoftLimeBorder;
   // Additional colors for hardcoded replacements
   final Color white;
   final Color black;
@@ -49,12 +67,31 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color primaryGreen;
   final Color transparent;
 
+  // Nutrition value colors
+  final Color nutritionProteinHigh;
+  final Color nutritionProteinMedium;
+  final Color nutritionProteinLow;
+  final Color nutritionCarbohydrateHigh;
+  final Color nutritionCarbohydrateMedium;
+  final Color nutritionCarbohydrateLow;
+  final Color nutritionFatHigh;
+  final Color nutritionFatMedium;
+  final Color nutritionFatLow;
+  final Color nutritionVitaminMineralHigh;
+  final Color nutritionVitaminMineralMedium;
+  final Color nutritionVitaminMineralLow;
+  final Color nutritionFiberHigh;
+  final Color nutritionFiberMedium;
+  final Color nutritionFiberLow;
+
   const AppColors({
     required this.addbackground,
     required this.textStrong,
     required this.textMuted,
-    required this.surfaceMuted,
     required this.dividerAlt,
+    required this.openfoodfacts,
+    required this.shimmerBase,
+    required this.shimmerHighlight,
     required this.categorySoftGreenBg,
     required this.categorySoftGreenBorder,
     required this.categorySoftPurpleBg,
@@ -67,6 +104,16 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.categorySoftPeachBorder,
     required this.categorySoftYellowBg,
     required this.categorySoftYellowBorder,
+    required this.categorySoftOrangeBg,
+    required this.categorySoftOrangeBorder,
+    required this.categorySoftTealBg,
+    required this.categorySoftTealBorder,
+    required this.categorySoftBrownBg,
+    required this.categorySoftBrownBorder,
+    required this.categorySoftEmeraldBg,
+    required this.categorySoftEmeraldBorder,
+    required this.categorySoftLimeBg,
+    required this.categorySoftLimeBorder,
     required this.white,
     required this.black,
     required this.grey,
@@ -83,14 +130,31 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.lightGreen,
     required this.primaryGreen,
     required this.transparent,
+    required this.nutritionProteinHigh,
+    required this.nutritionProteinMedium,
+    required this.nutritionProteinLow,
+    required this.nutritionCarbohydrateHigh,
+    required this.nutritionCarbohydrateMedium,
+    required this.nutritionCarbohydrateLow,
+    required this.nutritionFatHigh,
+    required this.nutritionFatMedium,
+    required this.nutritionFatLow,
+    required this.nutritionVitaminMineralHigh,
+    required this.nutritionVitaminMineralMedium,
+    required this.nutritionVitaminMineralLow,
+    required this.nutritionFiberHigh,
+    required this.nutritionFiberMedium,
+    required this.nutritionFiberLow,
   });
 
   static const AppColors light = AppColors(
     addbackground: Color.fromARGB(255, 4, 65, 114),
-    textStrong: Color(0xFF333333),
-    textMuted: Color(0xFF7C7C7C),
-    surfaceMuted: Color(0xFFF8F8F8),
+    textStrong: Color(0xFF000000), // Daha keskin siyah
+    textMuted: Color(0xFF424242), // Daha keskin gri
     dividerAlt: Colors.black12,
+    openfoodfacts: Color(0xFFFFCC80),
+    shimmerBase: Color(0xFFE0E0E0),
+    shimmerHighlight: Color(0xFFF5F5F5),
     categorySoftGreenBg: Color(0xFFE8F7EE),
     categorySoftGreenBorder: Color(0xFFB7E4C7),
     categorySoftPurpleBg: Color(0xFFF0E6FF),
@@ -103,30 +167,58 @@ class AppColors extends ThemeExtension<AppColors> {
     categorySoftPeachBorder: Color(0xFFFFD4B3),
     categorySoftYellowBg: Color(0xFFFFF6DD),
     categorySoftYellowBorder: Color(0xFFFFE9A9),
+    categorySoftOrangeBg: Color(0xFFFFF3E0),
+    categorySoftOrangeBorder: Color(0xFFFFCC80),
+    categorySoftTealBg: Color(0xFFE0F2F1),
+    categorySoftTealBorder: Color(0xFF80CBC4),
+    categorySoftBrownBg: Color(0xFFEFEBE9),
+    categorySoftBrownBorder: Color(0xFFBCAAA4),
+    categorySoftEmeraldBg: Color(0xFFE8F5E8),
+    categorySoftEmeraldBorder: Color(0xFFA5D6A7),
+    categorySoftLimeBg: Color(0xFFF1F8E9),
+    categorySoftLimeBorder: Color(0xFFC5E1A5),
     white: Colors.white,
     black: Colors.black,
     grey: Colors.grey,
     red: Colors.red,
     red50: Color(0xFFFFEBEE),
     red200: Color(0xFFEF9A9A),
-    red600: Color(0xFFE53935),
-    red700: Color(0xFFD32F2F),
-    redAccent: Color(0xFFFF5252),
+    red600: Color(0xFFD32F2F), // Daha keskin kırmızı
+    red700: Color(0xFFB71C1C), // Daha keskin koyu kırmızı
+    redAccent: Color(0xFFFF1744), // Daha keskin accent kırmızı
     green50: Color(0xFFE8F5E8),
     green200: Color(0xFFA5D6A7),
-    green600: Color(0xFF43A047),
-    green700: Color(0xFF388E3C),
+    green600: Color(0xFF2E7D32), // Daha keskin yeşil
+    green700: Color(0xFF1B5E20), // Daha keskin koyu yeşil
     lightGreen: Color(0xFFE8F7EE),
     primaryGreen: Color(0xFF4CAF50),
     transparent: Colors.transparent,
+    // Nutrition colors - Rich saturated tones
+    nutritionProteinHigh: Color(0xFFE53935), // Rich red
+    nutritionProteinMedium: Color(0xFFFF9800), // Rich orange
+    nutritionProteinLow: Color(0xFF4CAF50), // Rich green
+    nutritionCarbohydrateHigh: Color(0xFF9C27B0), // Rich purple
+    nutritionCarbohydrateMedium: Color(0xFF3F51B5), // Rich indigo
+    nutritionCarbohydrateLow: Color(0xFF00BCD4), // Rich cyan
+    nutritionFatHigh: Color(0xFF8D6E63), // Rich brown
+    nutritionFatMedium: Color(0xFFFF5722), // Rich deep orange
+    nutritionFatLow: Color(0xFFFF9800), // Rich amber
+    nutritionVitaminMineralHigh: Color(0xFF4CAF50), // Rich green
+    nutritionVitaminMineralMedium: Color(0xFF009688), // Rich teal
+    nutritionVitaminMineralLow: Color(0xFF00BCD4), // Rich cyan
+    nutritionFiberHigh: Color(0xFF8BC34A), // Rich lime
+    nutritionFiberMedium: Color(0xFF66BB6A), // Rich light green
+    nutritionFiberLow: Color(0xFF4CAF50), // Rich green
   );
 
   static const AppColors dark = AppColors(
     addbackground: Color.fromARGB(255, 204, 132, 0),
-    textStrong: Color(0xFFE6E1E5),
-    textMuted: Color(0xFFCAC4D0),
-    surfaceMuted: Color(0xFF1E1E1E),
+    textStrong: Color(0xFFFFFFFF), // Daha keskin beyaz
+    textMuted: Color(0xFFE0E0E0), // Daha keskin açık gri
     dividerAlt: Color(0xFF49454F),
+    openfoodfacts: Color(0xFFEF6C00),
+    shimmerBase: Color(0xFF333333),
+    shimmerHighlight: Color(0xFF49454F),
     categorySoftGreenBg: Color(0xFF284236),
     categorySoftPurpleBg: Color(0xFF2E2946),
     categorySoftPurpleBorder: Color(0xFF574A8A),
@@ -138,6 +230,16 @@ class AppColors extends ThemeExtension<AppColors> {
     categorySoftPeachBorder: Color(0xFF8A6244),
     categorySoftYellowBg: Color(0xFF4A4325),
     categorySoftYellowBorder: Color(0xFF8A7A3C),
+    categorySoftOrangeBg: Color(0xFF4A3A29),
+    categorySoftOrangeBorder: Color(0xFF8A6A44),
+    categorySoftTealBg: Color(0xFF2A3A39),
+    categorySoftTealBorder: Color(0xFF4A6A64),
+    categorySoftBrownBg: Color(0xFF3A2A29),
+    categorySoftBrownBorder: Color(0xFF6A4A44),
+    categorySoftEmeraldBg: Color(0xFF2A3A29),
+    categorySoftEmeraldBorder: Color(0xFF4A6A44),
+    categorySoftLimeBg: Color(0xFF2A3A29),
+    categorySoftLimeBorder: Color(0xFF4A6A44),
     categorySoftGreenBorder: Color(0xFF3F6B56),
     white: Colors.white,
     black: Colors.black,
@@ -155,6 +257,27 @@ class AppColors extends ThemeExtension<AppColors> {
     lightGreen: Color(0xFF284236),
     primaryGreen: Color(0xFF4CAF50),
     transparent: Colors.transparent,
+    // Nutrition colors - Deep opaque dark tones
+    nutritionProteinHigh: Color(0xFF3D1E1E), // Deep opaque dark red
+    nutritionProteinMedium: Color(0xFF3D2A1E), // Deep opaque dark orange
+    nutritionProteinLow: Color(0xFF1E3D1E), // Deep opaque dark green
+    nutritionCarbohydrateHigh: Color(0xFF2A1E3D), // Deep opaque dark purple
+    nutritionCarbohydrateMedium: Color(0xFF1E2A3D), // Deep opaque dark indigo
+    nutritionCarbohydrateLow: Color(0xFF1E3D3D), // Deep opaque dark cyan
+    nutritionFatHigh: Color(0xFF3D2A2A), // Deep opaque dark brown
+    nutritionFatMedium: Color(0xFF3D2A1E), // Deep opaque dark deep orange
+    nutritionFatLow: Color(0xFF3D2A1E), // Deep opaque dark amber
+    nutritionVitaminMineralHigh: Color(0xFF1E3D1E), // Deep opaque dark green
+    nutritionVitaminMineralMedium: Color.fromARGB(
+      255,
+      24,
+      48,
+      48,
+    ), // Deep opaque dark teal
+    nutritionVitaminMineralLow: Color(0xFF1E3D3D), // Deep opaque dark cyan
+    nutritionFiberHigh: Color(0xFF2A3D1E), // Deep opaque dark lime
+    nutritionFiberMedium: Color(0xFF1E3D1E), // Deep opaque dark light green
+    nutritionFiberLow: Color(0xFF1E3D1E), // Deep opaque dark green
   );
 
   get primary => null;
@@ -166,6 +289,8 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? textMuted,
     Color? surfaceMuted,
     Color? dividerAlt,
+    Color? shimmerBase,
+    Color? shimmerHighlight,
     Color? categorySoftGreenBg,
     Color? categorySoftGreenBorder,
     Color? categorySoftPurpleBg,
@@ -178,6 +303,16 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? categorySoftPeachBorder,
     Color? categorySoftYellowBg,
     Color? categorySoftYellowBorder,
+    Color? categorySoftOrangeBg,
+    Color? categorySoftOrangeBorder,
+    Color? categorySoftTealBg,
+    Color? categorySoftTealBorder,
+    Color? categorySoftBrownBg,
+    Color? categorySoftBrownBorder,
+    Color? categorySoftEmeraldBg,
+    Color? categorySoftEmeraldBorder,
+    Color? categorySoftLimeBg,
+    Color? categorySoftLimeBorder,
     Color? white,
     Color? black,
     Color? grey,
@@ -194,13 +329,30 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? lightGreen,
     Color? primaryGreen,
     Color? transparent,
+    Color? nutritionProteinHigh,
+    Color? nutritionProteinMedium,
+    Color? nutritionProteinLow,
+    Color? nutritionCarbohydrateHigh,
+    Color? nutritionCarbohydrateMedium,
+    Color? nutritionCarbohydrateLow,
+    Color? nutritionFatHigh,
+    Color? nutritionFatMedium,
+    Color? nutritionFatLow,
+    Color? nutritionVitaminMineralHigh,
+    Color? nutritionVitaminMineralMedium,
+    Color? nutritionVitaminMineralLow,
+    Color? nutritionFiberHigh,
+    Color? nutritionFiberMedium,
+    Color? nutritionFiberLow,
   }) {
     return AppColors(
-      addbackground: addbackground ?? this.addbackground,
+      addbackground: addbackground,
       textStrong: textStrong ?? this.textStrong,
       textMuted: textMuted ?? this.textMuted,
-      surfaceMuted: surfaceMuted ?? this.surfaceMuted,
       dividerAlt: dividerAlt ?? this.dividerAlt,
+      openfoodfacts: openfoodfacts,
+      shimmerBase: shimmerBase ?? this.shimmerBase,
+      shimmerHighlight: shimmerHighlight ?? this.shimmerHighlight,
       categorySoftGreenBg: categorySoftGreenBg ?? this.categorySoftGreenBg,
       categorySoftGreenBorder:
           categorySoftGreenBorder ?? this.categorySoftGreenBorder,
@@ -235,6 +387,44 @@ class AppColors extends ThemeExtension<AppColors> {
       lightGreen: lightGreen ?? this.lightGreen,
       primaryGreen: primaryGreen ?? this.primaryGreen,
       transparent: transparent ?? this.transparent,
+      categorySoftOrangeBg: categorySoftOrangeBg ?? this.categorySoftOrangeBg,
+      categorySoftOrangeBorder:
+          categorySoftOrangeBorder ?? this.categorySoftOrangeBorder,
+      categorySoftTealBg: categorySoftTealBg ?? this.categorySoftTealBg,
+      categorySoftTealBorder:
+          categorySoftTealBorder ?? this.categorySoftTealBorder,
+      categorySoftBrownBg: categorySoftBrownBg ?? this.categorySoftBrownBg,
+      categorySoftBrownBorder:
+          categorySoftBrownBorder ?? this.categorySoftBrownBorder,
+      categorySoftEmeraldBg:
+          categorySoftEmeraldBg ?? this.categorySoftEmeraldBg,
+      categorySoftEmeraldBorder:
+          categorySoftEmeraldBorder ?? this.categorySoftEmeraldBorder,
+      categorySoftLimeBg: categorySoftLimeBg ?? this.categorySoftLimeBg,
+      categorySoftLimeBorder:
+          categorySoftLimeBorder ?? this.categorySoftLimeBorder,
+      nutritionProteinHigh: nutritionProteinHigh ?? this.nutritionProteinHigh,
+      nutritionProteinMedium:
+          nutritionProteinMedium ?? this.nutritionProteinMedium,
+      nutritionProteinLow: nutritionProteinLow ?? this.nutritionProteinLow,
+      nutritionCarbohydrateHigh:
+          nutritionCarbohydrateHigh ?? this.nutritionCarbohydrateHigh,
+      nutritionCarbohydrateMedium:
+          nutritionCarbohydrateMedium ?? this.nutritionCarbohydrateMedium,
+      nutritionCarbohydrateLow:
+          nutritionCarbohydrateLow ?? this.nutritionCarbohydrateLow,
+      nutritionFatHigh: nutritionFatHigh ?? this.nutritionFatHigh,
+      nutritionFatMedium: nutritionFatMedium ?? this.nutritionFatMedium,
+      nutritionFatLow: nutritionFatLow ?? this.nutritionFatLow,
+      nutritionVitaminMineralHigh:
+          nutritionVitaminMineralHigh ?? this.nutritionVitaminMineralHigh,
+      nutritionVitaminMineralMedium:
+          nutritionVitaminMineralMedium ?? this.nutritionVitaminMineralMedium,
+      nutritionVitaminMineralLow:
+          nutritionVitaminMineralLow ?? this.nutritionVitaminMineralLow,
+      nutritionFiberHigh: nutritionFiberHigh ?? this.nutritionFiberHigh,
+      nutritionFiberMedium: nutritionFiberMedium ?? this.nutritionFiberMedium,
+      nutritionFiberLow: nutritionFiberLow ?? this.nutritionFiberLow,
     );
   }
 
@@ -245,8 +435,14 @@ class AppColors extends ThemeExtension<AppColors> {
       addbackground: Color.lerp(addbackground, other.addbackground, t)!,
       textStrong: Color.lerp(textStrong, other.textStrong, t)!,
       textMuted: Color.lerp(textMuted, other.textMuted, t)!,
-      surfaceMuted: Color.lerp(surfaceMuted, other.surfaceMuted, t)!,
       dividerAlt: Color.lerp(dividerAlt, other.dividerAlt, t)!,
+      openfoodfacts: openfoodfacts,
+      shimmerBase: Color.lerp(shimmerBase, other.shimmerBase, t)!,
+      shimmerHighlight: Color.lerp(
+        shimmerHighlight,
+        other.shimmerHighlight,
+        t,
+      )!,
       categorySoftGreenBg: Color.lerp(
         categorySoftGreenBg,
         other.categorySoftGreenBg,
@@ -307,6 +503,56 @@ class AppColors extends ThemeExtension<AppColors> {
         other.categorySoftYellowBorder,
         t,
       )!,
+      categorySoftOrangeBg: Color.lerp(
+        categorySoftOrangeBg,
+        other.categorySoftOrangeBg,
+        t,
+      )!,
+      categorySoftOrangeBorder: Color.lerp(
+        categorySoftOrangeBorder,
+        other.categorySoftOrangeBorder,
+        t,
+      )!,
+      categorySoftTealBg: Color.lerp(
+        categorySoftTealBg,
+        other.categorySoftTealBg,
+        t,
+      )!,
+      categorySoftTealBorder: Color.lerp(
+        categorySoftTealBorder,
+        other.categorySoftTealBorder,
+        t,
+      )!,
+      categorySoftBrownBg: Color.lerp(
+        categorySoftBrownBg,
+        other.categorySoftBrownBg,
+        t,
+      )!,
+      categorySoftBrownBorder: Color.lerp(
+        categorySoftBrownBorder,
+        other.categorySoftBrownBorder,
+        t,
+      )!,
+      categorySoftEmeraldBg: Color.lerp(
+        categorySoftEmeraldBg,
+        other.categorySoftEmeraldBg,
+        t,
+      )!,
+      categorySoftEmeraldBorder: Color.lerp(
+        categorySoftEmeraldBorder,
+        other.categorySoftEmeraldBorder,
+        t,
+      )!,
+      categorySoftLimeBg: Color.lerp(
+        categorySoftLimeBg,
+        other.categorySoftLimeBg,
+        t,
+      )!,
+      categorySoftLimeBorder: Color.lerp(
+        categorySoftLimeBorder,
+        other.categorySoftLimeBorder,
+        t,
+      )!,
       white: Color.lerp(white, other.white, t)!,
       black: Color.lerp(black, other.black, t)!,
       grey: Color.lerp(grey, other.grey, t)!,
@@ -323,6 +569,77 @@ class AppColors extends ThemeExtension<AppColors> {
       lightGreen: Color.lerp(lightGreen, other.lightGreen, t)!,
       primaryGreen: Color.lerp(primaryGreen, other.primaryGreen, t)!,
       transparent: Color.lerp(transparent, other.transparent, t)!,
+      nutritionProteinHigh: Color.lerp(
+        nutritionProteinHigh,
+        other.nutritionProteinHigh,
+        t,
+      )!,
+      nutritionProteinMedium: Color.lerp(
+        nutritionProteinMedium,
+        other.nutritionProteinMedium,
+        t,
+      )!,
+      nutritionProteinLow: Color.lerp(
+        nutritionProteinLow,
+        other.nutritionProteinLow,
+        t,
+      )!,
+      nutritionCarbohydrateHigh: Color.lerp(
+        nutritionCarbohydrateHigh,
+        other.nutritionCarbohydrateHigh,
+        t,
+      )!,
+      nutritionCarbohydrateMedium: Color.lerp(
+        nutritionCarbohydrateMedium,
+        other.nutritionCarbohydrateMedium,
+        t,
+      )!,
+      nutritionCarbohydrateLow: Color.lerp(
+        nutritionCarbohydrateLow,
+        other.nutritionCarbohydrateLow,
+        t,
+      )!,
+      nutritionFatHigh: Color.lerp(
+        nutritionFatHigh,
+        other.nutritionFatHigh,
+        t,
+      )!,
+      nutritionFatMedium: Color.lerp(
+        nutritionFatMedium,
+        other.nutritionFatMedium,
+        t,
+      )!,
+      nutritionFatLow: Color.lerp(nutritionFatLow, other.nutritionFatLow, t)!,
+      nutritionVitaminMineralHigh: Color.lerp(
+        nutritionVitaminMineralHigh,
+        other.nutritionVitaminMineralHigh,
+        t,
+      )!,
+      nutritionVitaminMineralMedium: Color.lerp(
+        nutritionVitaminMineralMedium,
+        other.nutritionVitaminMineralMedium,
+        t,
+      )!,
+      nutritionVitaminMineralLow: Color.lerp(
+        nutritionVitaminMineralLow,
+        other.nutritionVitaminMineralLow,
+        t,
+      )!,
+      nutritionFiberHigh: Color.lerp(
+        nutritionFiberHigh,
+        other.nutritionFiberHigh,
+        t,
+      )!,
+      nutritionFiberMedium: Color.lerp(
+        nutritionFiberMedium,
+        other.nutritionFiberMedium,
+        t,
+      )!,
+      nutritionFiberLow: Color.lerp(
+        nutritionFiberLow,
+        other.nutritionFiberLow,
+        t,
+      )!,
     );
   }
 
@@ -341,6 +658,16 @@ class AppColors extends ThemeExtension<AppColors> {
         return categorySoftPeachBg;
       case CategoryPalette.dairy:
         return categorySoftYellowBg;
+      case CategoryPalette.highProtein:
+        return categorySoftOrangeBg;
+      case CategoryPalette.highCarbohydrate:
+        return categorySoftTealBg;
+      case CategoryPalette.highFat:
+        return categorySoftBrownBg;
+      case CategoryPalette.highVitaminsMinerals:
+        return categorySoftEmeraldBg;
+      case CategoryPalette.highFiber:
+        return categorySoftLimeBg;
     }
   }
 
@@ -358,6 +685,27 @@ class AppColors extends ThemeExtension<AppColors> {
         return categorySoftPeachBorder;
       case CategoryPalette.dairy:
         return categorySoftYellowBorder;
+      case CategoryPalette.highProtein:
+        return categorySoftOrangeBorder;
+      case CategoryPalette.highCarbohydrate:
+        return categorySoftTealBorder;
+      case CategoryPalette.highFat:
+        return categorySoftBrownBorder;
+      case CategoryPalette.highVitaminsMinerals:
+        return categorySoftEmeraldBorder;
+      case CategoryPalette.highFiber:
+        return categorySoftLimeBorder;
     }
+  }
+
+  // Static method for easier access
+  static AppColors of(BuildContext context) {
+    final colors = Theme.of(context).extension<AppColors>();
+    if (colors == null) {
+      throw FlutterError(
+        'AppColors extension not found. Make sure to add AppColors to your theme.',
+      );
+    }
+    return colors;
   }
 }

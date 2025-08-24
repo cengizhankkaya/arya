@@ -1,4 +1,7 @@
 export 'product_list_widget.dart';
+export 'product_card_widget.dart';
+export 'product_grid_image_widget.dart';
+export 'nutrition_info_widget.dart';
 export 'search_bar_widget.dart';
 export 'cart_item_widget.dart';
 export 'cart_summary_widget.dart';

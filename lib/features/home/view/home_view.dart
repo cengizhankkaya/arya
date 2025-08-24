@@ -4,7 +4,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'widget/category_shimmer_widget.dart';
 
 @RoutePage(name: 'CategoryRoute')
 class CategoryScreen extends StatelessWidget {
@@ -12,7 +11,6 @@ class CategoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final appColors = Theme.of(context).extension<AppColors>()!;
     return ChangeNotifierProvider(
       create: (_) => HomeViewModel(),
       child: Scaffold(
@@ -20,10 +18,10 @@ class CategoryScreen extends StatelessWidget {
           title: Text('appbar.categories'.tr()),
           centerTitle: true,
           backgroundColor: scheme.primary,
-          foregroundColor: scheme.surface,
+          foregroundColor: scheme.onSecondary,
           elevation: 0,
         ),
-        backgroundColor: appColors.surfaceMuted,
+        backgroundColor: scheme.surface,
         body: Padding(
           padding: ProjectPadding.allSmall(),
           child: Consumer<HomeViewModel>(
@@ -35,7 +33,7 @@ class CategoryScreen extends StatelessWidget {
                   crossAxisCount: 2,
                   mainAxisSpacing: 16,
                   crossAxisSpacing: 16,
-                  childAspectRatio: 0.95,
+                  childAspectRatio: 0.85, // Kartları biraz daha geniş yapıyorum
                 ),
                 itemBuilder: (context, index) {
                   return CategoryCard(category: categories[index]);

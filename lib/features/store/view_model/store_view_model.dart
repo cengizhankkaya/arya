@@ -1,4 +1,5 @@
 import 'package:arya/features/index.dart';
+import 'package:arya/product/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -83,12 +84,54 @@ class StoreViewModel extends ChangeNotifier {
 
       if (selectedCategory.isNotEmpty) {
         // Kategori aramaları için
-        newProducts = await _service.searchProductsByCategory(
-          selectedCategory,
-          country: selectedCountry,
-          page: currentPage,
-          pageSize: 20,
-        );
+        if (selectedCategory.toLowerCase().contains('protein') ||
+            selectedCategory.toLowerCase().contains('yüksek')) {
+          newProducts = await _service.searchProductsByCategory(
+            'Protein Oranı Yüksek',
+            country: selectedCountry,
+            page: currentPage,
+            pageSize: 20,
+          );
+        } else if (selectedCategory.toLowerCase().contains('karbonhidrat') ||
+            selectedCategory.toLowerCase().contains('carbohydrate')) {
+          newProducts = await _service.searchProductsByCategory(
+            'Karbonhidrat Oranı Yüksek',
+            country: selectedCountry,
+            page: currentPage,
+            pageSize: 20,
+          );
+        } else if (selectedCategory.toLowerCase().contains('yağ') ||
+            selectedCategory.toLowerCase().contains('fat')) {
+          newProducts = await _service.searchProductsByCategory(
+            'Yağ Oranı Yüksek',
+            country: selectedCountry,
+            page: currentPage,
+            pageSize: 20,
+          );
+        } else if (selectedCategory.toLowerCase().contains('vitamin') ||
+            selectedCategory.toLowerCase().contains('mineral')) {
+          newProducts = await _service.searchProductsByCategory(
+            'Vitamin / Mineral Oranı Yüksek',
+            country: selectedCountry,
+            page: currentPage,
+            pageSize: 20,
+          );
+        } else if (selectedCategory.toLowerCase().contains('lif') ||
+            selectedCategory.toLowerCase().contains('fiber')) {
+          newProducts = await _service.searchProductsByCategory(
+            'Lif Oranı Yüksek',
+            country: selectedCountry,
+            page: currentPage,
+            pageSize: 20,
+          );
+        } else {
+          newProducts = await _service.searchProductsByCategory(
+            selectedCategory,
+            country: selectedCountry,
+            page: currentPage,
+            pageSize: 20,
+          );
+        }
       } else if (currentQuery.trim().isEmpty) {
         // Rastgele ürünler için
         final allProducts = await _service.searchProducts(
@@ -135,12 +178,59 @@ class StoreViewModel extends ChangeNotifier {
     currentQuery = '';
     safeNotify();
     try {
-      products = await _service.searchProductsByCategory(
-        category,
-        country: selectedCountry,
-        page: currentPage,
-        pageSize: 20,
-      );
+      // Protein oranı yüksek kategorisi için özel işlem
+      if (category.toLowerCase().contains('protein') ||
+          category.toLowerCase().contains('yüksek')) {
+        products = await _service.searchProductsByCategory(
+          'Protein Oranı Yüksek',
+          country: selectedCountry,
+          page: currentPage,
+          pageSize: 20,
+        );
+      } else if (category.toLowerCase().contains('karbonhidrat') ||
+          category.toLowerCase().contains('carbohydrate')) {
+        // Karbonhidrat oranı yüksek kategorisi için özel işlem
+        products = await _service.searchProductsByCategory(
+          'Karbonhidrat Oranı Yüksek',
+          country: selectedCountry,
+          page: currentPage,
+          pageSize: 20,
+        );
+      } else if (category.toLowerCase().contains('yağ') ||
+          category.toLowerCase().contains('fat')) {
+        // Yağ oranı yüksek kategorisi için özel işlem
+        products = await _service.searchProductsByCategory(
+          'Yağ Oranı Yüksek',
+          country: selectedCountry,
+          page: currentPage,
+          pageSize: 20,
+        );
+      } else if (category.toLowerCase().contains('vitamin') ||
+          category.toLowerCase().contains('mineral')) {
+        // Vitamin/mineral oranı yüksek kategorisi için özel işlem
+        products = await _service.searchProductsByCategory(
+          'Vitamin / Mineral Oranı Yüksek',
+          country: selectedCountry,
+          page: currentPage,
+          pageSize: 20,
+        );
+      } else if (category.toLowerCase().contains('lif') ||
+          category.toLowerCase().contains('fiber')) {
+        // Lif oranı yüksek kategorisi için özel işlem
+        products = await _service.searchProductsByCategory(
+          'Lif Oranı Yüksek',
+          country: selectedCountry,
+          page: currentPage,
+          pageSize: 20,
+        );
+      } else {
+        products = await _service.searchProductsByCategory(
+          category,
+          country: selectedCountry,
+          page: currentPage,
+          pageSize: 20,
+        );
+      }
     } catch (e) {
       products = [];
     }
@@ -170,5 +260,146 @@ class StoreViewModel extends ChangeNotifier {
       nutriments: (product['nutriments'] as Map<String, dynamic>?) ?? const {},
     );
     await context.read<CartViewModel>().addToCart(cartItem);
+  }
+
+  // Besin değeri renk hesaplama metodları
+  Color getProductCardColor(
+    Map<String, dynamic> product,
+    BuildContext context,
+  ) {
+    try {
+      final nutriments = product['nutriments'] as Map<String, dynamic>?;
+      if (nutriments == null)
+        return AppColors.of(context).green50.withValues(alpha: 0.25);
+
+      // Protein oranına göre renk belirle
+      final proteinValue = NutritionCalculatorService.getProteinValue(
+        nutriments,
+      );
+      if (proteinValue > 0) {
+        if (proteinValue >= 20.0) {
+          return AppColors.of(
+            context,
+          ).nutritionProteinHigh.withValues(alpha: 0.25); // Çok yüksek protein
+        } else if (proteinValue >= 15.0) {
+          return AppColors.of(
+            context,
+          ).nutritionProteinMedium.withValues(alpha: 0.25); // Yüksek protein
+        } else if (proteinValue >= 10.0) {
+          return AppColors.of(
+            context,
+          ).nutritionProteinMedium.withValues(alpha: 0.25); // Orta protein
+        } else {
+          return AppColors.of(
+            context,
+          ).nutritionProteinLow.withValues(alpha: 0.25); // Düşük protein
+        }
+      }
+
+      // Karbonhidrat oranına göre renk belirle (protein yoksa)
+      final carbohydrateValue = NutritionCalculatorService.getCarbohydrateValue(
+        nutriments,
+      );
+      if (carbohydrateValue > 0) {
+        if (carbohydrateValue >= 50.0) {
+          return AppColors.of(context).nutritionCarbohydrateHigh.withValues(
+            alpha: 0.25,
+          ); // Çok yüksek karbonhidrat
+        } else if (carbohydrateValue >= 30.0) {
+          return AppColors.of(
+            context,
+          ).nutritionCarbohydrateHigh.withValues(alpha: 0.25);
+        } else if (carbohydrateValue >= 15.0) {
+          return AppColors.of(
+            context,
+          ).nutritionCarbohydrateMedium.withValues(alpha: 0.25);
+        } else {
+          return AppColors.of(
+            context,
+          ).nutritionCarbohydrateLow.withValues(alpha: 0.25);
+        }
+      }
+
+      // Yağ oranına göre renk belirle (protein ve karbonhidrat yoksa)
+      final fatValue = NutritionCalculatorService.getFatValue(nutriments);
+      if (fatValue > 0) {
+        if (fatValue >= 30.0) {
+          return AppColors.of(
+            context,
+          ).nutritionFatHigh.withValues(alpha: 0.25); // Çok yüksek yağ
+        } else if (fatValue >= 20.0) {
+          return AppColors.of(
+            context,
+          ).nutritionFatHigh.withValues(alpha: 0.25); // Yüksek yağ
+        } else if (fatValue >= 15.0) {
+          return AppColors.of(
+            context,
+          ).nutritionFatMedium.withValues(alpha: 0.25); // Orta yağ
+        } else {
+          return AppColors.of(
+            context,
+          ).nutritionFatLow.withValues(alpha: 0.25); // Düşük yağ
+        }
+      }
+
+      // Vitamin/mineral oranına göre renk belirle (diğerleri yoksa)
+      final vitaminCValue = NutritionCalculatorService.getVitaminCValue(
+        nutriments,
+      );
+      final calciumValue = NutritionCalculatorService.getCalciumValue(
+        nutriments,
+      );
+      if (vitaminCValue > 0 || calciumValue > 0) {
+        final maxValue = vitaminCValue > calciumValue
+            ? vitaminCValue
+            : calciumValue;
+
+        if (maxValue > 0) {
+          if (maxValue >= 100.0) {
+            return AppColors.of(context).nutritionVitaminMineralHigh.withValues(
+              alpha: 0.25,
+            ); // Çok yüksek vitamin/mineral
+          } else if (maxValue >= 50.0) {
+            return AppColors.of(context).nutritionVitaminMineralHigh.withValues(
+              alpha: 0.25,
+            ); // Yüksek vitamin/mineral
+          } else if (maxValue >= 10.0) {
+            return AppColors.of(context).nutritionVitaminMineralMedium
+                .withValues(alpha: 0.25); // Orta vitamin/mineral
+          } else {
+            return AppColors.of(context).nutritionVitaminMineralLow.withValues(
+              alpha: 0.25,
+            ); // Düşük vitamin/mineral
+          }
+        }
+      }
+
+      // Lif oranına göre renk belirle (diğerleri yoksa)
+      final fiberValue = NutritionCalculatorService.getFiberValue(nutriments);
+      if (fiberValue > 0) {
+        if (fiberValue >= 10.0) {
+          return AppColors.of(
+            context,
+          ).nutritionFiberHigh.withValues(alpha: 0.25); // Çok yüksek lif
+        } else if (fiberValue >= 6.0) {
+          return AppColors.of(
+            context,
+          ).nutritionFiberHigh.withValues(alpha: 0.25); // Yüksek lif
+        } else if (fiberValue >= 3.0) {
+          return AppColors.of(
+            context,
+          ).nutritionFiberMedium.withValues(alpha: 0.25); // Orta lif
+        } else {
+          return AppColors.of(
+            context,
+          ).nutritionFiberLow.withValues(alpha: 0.25); // Düşük lif
+        }
+      }
+    } catch (_) {
+      // Hata durumunda varsayılan renk
+    }
+    return AppColors.of(
+      context,
+    ).green50.withValues(alpha: 0.25); // Varsayılan yeşil renk
   }
 }

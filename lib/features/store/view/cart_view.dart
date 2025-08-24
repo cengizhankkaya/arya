@@ -1,10 +1,8 @@
 import 'package:arya/features/index.dart';
-import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
-import 'widget/cart_shimmer_widget.dart';
 
 @RoutePage()
 class CartView extends StatelessWidget {
@@ -13,7 +11,6 @@ class CartView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final appColors = Theme.of(context).extension<AppColors>();
     final cart = Provider.of<CartViewModel>(context);
 
     return Scaffold(
@@ -23,7 +20,7 @@ class CartView extends StatelessWidget {
         foregroundColor: scheme.onPrimary,
         elevation: 0,
       ),
-      backgroundColor: appColors?.surfaceMuted ?? scheme.surface,
+      backgroundColor: scheme.surface,
       body: StreamBuilder<List<CartItemModel>>(
         stream: cart.cartStream,
         builder: (context, snapshot) {

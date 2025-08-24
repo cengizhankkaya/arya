@@ -10,17 +10,19 @@ class ProductList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).extension<AppColors>()!;
     return Consumer<StoreViewModel>(
       builder: (context, model, child) {
         final scheme = Theme.of(context).colorScheme;
         final appColors = Theme.of(context).extension<AppColors>();
+
         if (model.isLoading) {
           return const ProductShimmerWidget();
         }
+
         if (model.products.isEmpty) {
           return Center(child: Text('store.no_products'.tr()));
         }
+
         return NotificationListener<ScrollNotification>(
           onNotification: (ScrollNotification scrollInfo) {
             if (scrollInfo.metrics.pixels ==
@@ -37,9 +39,9 @@ class ProductList extends StatelessWidget {
               crossAxisCount: 2,
               mainAxisSpacing: 16,
               crossAxisSpacing: 16,
-              childAspectRatio: 0.95,
+              childAspectRatio: 0.85,
             ),
-            itemCount: model.products.length + (model.isLoadingMore ? 1 : 0),
+            itemCount: model.products.length + (model.isLoadingMore ? 2 : 0),
             itemBuilder: (context, index) {
               if (index == model.products.length) {
                 return const Padding(
@@ -47,93 +49,29 @@ class ProductList extends StatelessWidget {
                   child: SingleProductShimmerCard(),
                 );
               }
+              if (index == model.products.length + 1) {
+                return const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: SingleProductShimmerCard(),
+                );
+              }
 
               final product = model.products[index];
-              return GestureDetector(
+              return ProductCard(
+                product: product,
+                scheme: scheme,
+                appColors: appColors,
                 onTap: () {
                   context.router.push(ProductDetailRoute(product: product));
                 },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Color(0xFFE8F5E9),
-                    borderRadius: ProjectRadius.xxLarge,
-                  ),
-                  padding: const EdgeInsets.all(12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(child: _ProductGridImage(product: product)),
-                      const SizedBox(height: 10),
-                      Column(
-                        children: [
-                          Text(
-                            product['product_name'] ??
-                                'store.product_name_missing'.tr(),
-                            textAlign: TextAlign.center,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.labelLarge
-                                ?.copyWith(
-                                  color:
-                                      appColors?.textStrong ?? scheme.onSurface,
-                                ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 4),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              product['brands'] ?? '',
-                              style: Theme.of(context).textTheme.bodySmall
-                                  ?.copyWith(color: scheme.onSurfaceVariant),
-                            ),
-                          ),
-                          addButton(appColors, scheme, context, product),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                onAddToCart: () async {
+                  await model.addProductToCart(context, product);
+                },
               );
             },
           ),
         );
       },
-    );
-  }
-}
-
-class _ProductGridImage extends StatelessWidget {
-  final Map<String, dynamic> product;
-  const _ProductGridImage({required this.product});
-
-  @override
-  Widget build(BuildContext context) {
-    String? imageUrl =
-        (product['image_url'] ??
-                product['image_small_url'] ??
-                product['image_thumb_url'])
-            ?.toString();
-
-    // http'yi https'e çevir
-    if (imageUrl != null && imageUrl.startsWith('http://')) {
-      imageUrl = imageUrl.replaceFirst('http://', 'https://');
-    }
-
-    if (imageUrl == null || imageUrl.isEmpty) {
-      return const Icon(Icons.image_not_supported, size: 48);
-    }
-
-    return Image.network(
-      imageUrl,
-      fit: BoxFit.contain,
-      cacheWidth: 600,
-      cacheHeight: 600,
-      headers: const {'User-Agent': 'AryaApp/1.0'},
-      errorBuilder: (context, error, stackTrace) =>
-          const Icon(Icons.image_not_supported, size: 48),
     );
   }
 }
