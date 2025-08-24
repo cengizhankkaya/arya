@@ -53,7 +53,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    final colors = Theme.of(context).extension<AppColors>()!;
+    final colors = AppColors.of(context);
     return AppBar(
       title: Text(
         "add_product.title".tr(),

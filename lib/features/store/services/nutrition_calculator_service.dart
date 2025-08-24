@@ -57,64 +57,67 @@ class NutritionCalculatorService {
   }
 
   static Color getProteinColor(double value, BuildContext context) {
-    if (value >= 20.0)
-      return Theme.of(context).extension<AppColors>()!.nutritionProteinHigh;
-    if (value >= 15.0)
-      return Theme.of(context).extension<AppColors>()!.nutritionProteinMedium;
-    if (value >= 10.0)
-      return Theme.of(context).extension<AppColors>()!.nutritionProteinMedium;
-    return Theme.of(context).extension<AppColors>()!.nutritionProteinLow;
+    if (value >= 20.0) {
+      return AppColors.of(context).nutritionProteinHigh;
+    }
+    if (value >= 15.0) {
+      return AppColors.of(context).nutritionProteinMedium;
+    }
+    if (value >= 10.0) {
+      return AppColors.of(context).nutritionProteinMedium;
+    }
+    return AppColors.of(context).nutritionProteinLow;
   }
 
   static Color getCarbohydrateColor(double value, BuildContext context) {
-    if (value >= 50.0)
-      return Theme.of(
-        context,
-      ).extension<AppColors>()!.nutritionCarbohydrateHigh;
-    if (value >= 30.0)
-      return Theme.of(
-        context,
-      ).extension<AppColors>()!.nutritionCarbohydrateMedium;
-    if (value >= 15.0)
-      return Theme.of(
-        context,
-      ).extension<AppColors>()!.nutritionCarbohydrateMedium;
-    return Theme.of(context).extension<AppColors>()!.nutritionCarbohydrateLow;
+    if (value >= 50.0) {
+      return AppColors.of(context).nutritionCarbohydrateHigh;
+    }
+    if (value >= 30.0) {
+      return AppColors.of(context).nutritionCarbohydrateMedium;
+    }
+    if (value >= 15.0) {
+      return AppColors.of(context).nutritionCarbohydrateMedium;
+    }
+    return AppColors.of(context).nutritionCarbohydrateLow;
   }
 
   static Color getFatColor(double value, BuildContext context) {
-    if (value >= 30.0)
-      return Theme.of(context).extension<AppColors>()!.nutritionFatHigh;
-    if (value >= 20.0)
-      return Theme.of(context).extension<AppColors>()!.nutritionFatMedium;
-    if (value >= 15.0)
-      return Theme.of(context).extension<AppColors>()!.nutritionFatMedium;
-    return Theme.of(context).extension<AppColors>()!.nutritionFatLow;
+    if (value >= 30.0) {
+      return AppColors.of(context).nutritionFatHigh;
+    }
+    if (value >= 20.0) {
+      return AppColors.of(context).nutritionFatMedium;
+    }
+    if (value >= 15.0) {
+      return AppColors.of(context).nutritionFatMedium;
+    }
+    return AppColors.of(context).nutritionFatLow;
   }
 
   static Color getVitaminMineralColor(double value, BuildContext context) {
-    if (value >= 100.0)
-      return Theme.of(
-        context,
-      ).extension<AppColors>()!.nutritionVitaminMineralHigh;
-    if (value >= 50.0)
-      return Theme.of(
-        context,
-      ).extension<AppColors>()!.nutritionVitaminMineralMedium;
-    if (value >= 10.0)
-      return Theme.of(
-        context,
-      ).extension<AppColors>()!.nutritionVitaminMineralMedium;
-    return Theme.of(context).extension<AppColors>()!.nutritionVitaminMineralLow;
+    if (value >= 100.0) {
+      return AppColors.of(context).nutritionVitaminMineralHigh;
+    }
+    if (value >= 50.0) {
+      return AppColors.of(context).nutritionVitaminMineralMedium;
+    }
+    if (value >= 10.0) {
+      return AppColors.of(context).nutritionVitaminMineralMedium;
+    }
+    return AppColors.of(context).nutritionVitaminMineralLow;
   }
 
   static Color getFiberColor(double value, BuildContext context) {
-    if (value >= 10.0)
-      return Theme.of(context).extension<AppColors>()!.nutritionFiberHigh;
-    if (value >= 6.0)
-      return Theme.of(context).extension<AppColors>()!.nutritionFiberMedium;
-    if (value >= 3.0)
-      return Theme.of(context).extension<AppColors>()!.nutritionFiberMedium;
-    return Theme.of(context).extension<AppColors>()!.nutritionFiberLow;
+    if (value >= 10.0) {
+      return AppColors.of(context).nutritionFiberHigh;
+    }
+    if (value >= 6.0) {
+      return AppColors.of(context).nutritionFiberMedium;
+    }
+    if (value >= 3.0) {
+      return AppColors.of(context).nutritionFiberMedium;
+    }
+    return AppColors.of(context).nutritionFiberLow;
   }
 }

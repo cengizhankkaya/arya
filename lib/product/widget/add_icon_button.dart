@@ -13,7 +13,7 @@ IconButton addButton(
   return IconButton(
     icon: Icon(
       Icons.add, // sadece artı işareti
-      color: Theme.of(context).extension<AppColors>()!.white,
+      color: AppColors.of(context).white,
     ),
     style: ButtonStyle(
       backgroundColor: WidgetStateProperty.all(

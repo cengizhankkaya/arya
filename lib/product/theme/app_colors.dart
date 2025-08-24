@@ -26,6 +26,7 @@ class AppColors extends ThemeExtension<AppColors> {
   // Shimmer colors
   final Color shimmerBase;
   final Color shimmerHighlight;
+  final Color shimmerBorder;
   // Category card soft colors
   final Color categorySoftGreenBg;
   final Color categorySoftGreenBorder;
@@ -53,6 +54,7 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color white;
   final Color black;
   final Color grey;
+  final Color grey200;
   final Color red;
   final Color red50;
   final Color red200;
@@ -66,6 +68,8 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color lightGreen;
   final Color primaryGreen;
   final Color transparent;
+  final Color formFieldBorder;
+  final Color cardBackground;
 
   // Nutrition value colors
   final Color nutritionProteinHigh;
@@ -92,6 +96,10 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.openfoodfacts,
     required this.shimmerBase,
     required this.shimmerHighlight,
+    required this.shimmerBorder,
+    required this.grey200,
+    required this.formFieldBorder,
+    required this.cardBackground,
     required this.categorySoftGreenBg,
     required this.categorySoftGreenBorder,
     required this.categorySoftPurpleBg,
@@ -155,6 +163,7 @@ class AppColors extends ThemeExtension<AppColors> {
     openfoodfacts: Color(0xFFFFCC80),
     shimmerBase: Color(0xFFE0E0E0),
     shimmerHighlight: Color(0xFFF5F5F5),
+    shimmerBorder: Color(0xFFE0E0E0),
     categorySoftGreenBg: Color(0xFFE8F7EE),
     categorySoftGreenBorder: Color(0xFFB7E4C7),
     categorySoftPurpleBg: Color(0xFFF0E6FF),
@@ -193,6 +202,9 @@ class AppColors extends ThemeExtension<AppColors> {
     lightGreen: Color(0xFFE8F7EE),
     primaryGreen: Color(0xFF4CAF50),
     transparent: Colors.transparent,
+    grey200: Color(0xFFEEEEEE),
+    formFieldBorder: Color(0xFFE0E0E0),
+    cardBackground: Color(0xFFFFFFFF),
     // Nutrition colors - Rich saturated tones
     nutritionProteinHigh: Color(0xFFE53935), // Rich red
     nutritionProteinMedium: Color(0xFFFF9800), // Rich orange
@@ -219,6 +231,7 @@ class AppColors extends ThemeExtension<AppColors> {
     openfoodfacts: Color(0xFFEF6C00),
     shimmerBase: Color(0xFF333333),
     shimmerHighlight: Color(0xFF49454F),
+    shimmerBorder: Color(0xFF49454F),
     categorySoftGreenBg: Color(0xFF284236),
     categorySoftPurpleBg: Color(0xFF2E2946),
     categorySoftPurpleBorder: Color(0xFF574A8A),
@@ -257,6 +270,9 @@ class AppColors extends ThemeExtension<AppColors> {
     lightGreen: Color(0xFF284236),
     primaryGreen: Color(0xFF4CAF50),
     transparent: Colors.transparent,
+    grey200: Color(0xFF424242),
+    formFieldBorder: Color(0xFF49454F),
+    cardBackground: Color(0xFF1C1B1F),
     // Nutrition colors - Deep opaque dark tones
     nutritionProteinHigh: Color(0xFF3D1E1E), // Deep opaque dark red
     nutritionProteinMedium: Color(0xFF3D2A1E), // Deep opaque dark orange
@@ -291,6 +307,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? dividerAlt,
     Color? shimmerBase,
     Color? shimmerHighlight,
+    Color? shimmerBorder,
     Color? categorySoftGreenBg,
     Color? categorySoftGreenBorder,
     Color? categorySoftPurpleBg,
@@ -329,6 +346,9 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? lightGreen,
     Color? primaryGreen,
     Color? transparent,
+    Color? grey200,
+    Color? formFieldBorder,
+    Color? cardBackground,
     Color? nutritionProteinHigh,
     Color? nutritionProteinMedium,
     Color? nutritionProteinLow,
@@ -353,6 +373,7 @@ class AppColors extends ThemeExtension<AppColors> {
       openfoodfacts: openfoodfacts,
       shimmerBase: shimmerBase ?? this.shimmerBase,
       shimmerHighlight: shimmerHighlight ?? this.shimmerHighlight,
+      shimmerBorder: shimmerBorder ?? this.shimmerBorder,
       categorySoftGreenBg: categorySoftGreenBg ?? this.categorySoftGreenBg,
       categorySoftGreenBorder:
           categorySoftGreenBorder ?? this.categorySoftGreenBorder,
@@ -387,6 +408,9 @@ class AppColors extends ThemeExtension<AppColors> {
       lightGreen: lightGreen ?? this.lightGreen,
       primaryGreen: primaryGreen ?? this.primaryGreen,
       transparent: transparent ?? this.transparent,
+      grey200: grey200 ?? this.grey200,
+      formFieldBorder: formFieldBorder ?? this.formFieldBorder,
+      cardBackground: cardBackground ?? this.cardBackground,
       categorySoftOrangeBg: categorySoftOrangeBg ?? this.categorySoftOrangeBg,
       categorySoftOrangeBorder:
           categorySoftOrangeBorder ?? this.categorySoftOrangeBorder,
@@ -443,6 +467,7 @@ class AppColors extends ThemeExtension<AppColors> {
         other.shimmerHighlight,
         t,
       )!,
+      shimmerBorder: Color.lerp(shimmerBorder, other.shimmerBorder, t)!,
       categorySoftGreenBg: Color.lerp(
         categorySoftGreenBg,
         other.categorySoftGreenBg,
@@ -640,6 +665,9 @@ class AppColors extends ThemeExtension<AppColors> {
         other.nutritionFiberLow,
         t,
       )!,
+      grey200: Color.lerp(grey200, other.grey200, t)!,
+      formFieldBorder: Color.lerp(formFieldBorder, other.formFieldBorder, t)!,
+      cardBackground: Color.lerp(cardBackground, other.cardBackground, t)!,
     );
   }
 

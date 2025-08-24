@@ -11,6 +11,12 @@ class OffCredentialsViewModel extends BaseViewModel {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  // Rate limiting için
+  static const int _maxSaveAttempts = 5;
+  static const Duration _saveCooldown = Duration(minutes: 1);
+  int _saveAttempts = 0;
+  DateTime? _lastSaveAttempt;
+
   OffCredentialsModel? _credentials;
   OffCredentialsModel? get credentials => _credentials;
 
@@ -38,7 +44,9 @@ class OffCredentialsViewModel extends BaseViewModel {
 
       notifyListeners();
     } catch (e) {
-      debugPrint('Credentials yüklenirken hata: $e');
+      // Güvenli hata mesajı - sensitive bilgi sızıntısını önle
+      debugPrint('Credentials yüklenirken hata oluştu');
+      _handleSecureError(e);
     } finally {
       setLoading(false);
     }
@@ -47,21 +55,41 @@ class OffCredentialsViewModel extends BaseViewModel {
   Future<bool> save() async {
     if (!_formKey.currentState!.validate()) return false;
 
+    // Rate limiting kontrolü
+    if (!_checkRateLimit()) {
+      return false;
+    }
+
     return await withLoading(() async {
       try {
+        // Input sanitization
+        final sanitizedUsername = _sanitizeInput(usernameController.text);
+        final sanitizedPassword = _sanitizeInput(passwordController.text);
+
+        // Güvenlik validasyonu
+        if (!_validateSecurityRequirements(
+          sanitizedUsername,
+          sanitizedPassword,
+        )) {
+          return false;
+        }
+
         final newCredentials = OffCredentialsModel(
-          username: usernameController.text.trim(),
-          password: passwordController.text.trim(),
+          username: sanitizedUsername,
+          password: sanitizedPassword,
         );
 
         final success = await _repository.saveCredentials(newCredentials);
         if (success) {
           _credentials = newCredentials;
+          _updateRateLimit();
           notifyListeners();
         }
         return success;
       } catch (e) {
-        debugPrint('Credentials kaydedilirken hata: $e');
+        // Güvenli hata mesajı
+        debugPrint('Credentials kaydedilirken hata oluştu');
+        _handleSecureError(e);
         return false;
       }
     });
@@ -76,7 +104,9 @@ class OffCredentialsViewModel extends BaseViewModel {
       passwordController.clear();
       notifyListeners();
     } catch (e) {
-      debugPrint('Credentials temizlenirken hata: $e');
+      // Güvenli hata mesajı
+      debugPrint('Credentials temizlenirken hata oluştu');
+      _handleSecureError(e);
     } finally {
       setLoading(false);
     }
@@ -90,7 +120,11 @@ class OffCredentialsViewModel extends BaseViewModel {
       showSuccess(context, 'off.saved'.tr());
       context.router.pop();
     } else {
-      showError(context, 'off.save_failed'.tr());
+      if (!_checkRateLimit()) {
+        showError(context, 'off.rate_limit_exceeded'.tr());
+      } else {
+        showError(context, 'off.save_failed'.tr());
+      }
     }
   }
 
@@ -103,6 +137,22 @@ class OffCredentialsViewModel extends BaseViewModel {
     if (value == null || value.trim().isEmpty) {
       return 'off.required_username'.tr();
     }
+
+    // Güvenlik validasyonu
+    final sanitizedValue = _sanitizeInput(value);
+    if (sanitizedValue.length < 3) {
+      return 'off.username_too_short'.tr();
+    }
+
+    if (sanitizedValue.length > 50) {
+      return 'off.username_too_long'.tr();
+    }
+
+    // Sadece alfanumerik karakterler ve alt çizgi
+    if (!RegExp(r'^[a-zA-Z0-9_]+$').hasMatch(sanitizedValue)) {
+      return 'off.username_invalid_chars'.tr();
+    }
+
     return null;
   }
 
@@ -110,7 +160,110 @@ class OffCredentialsViewModel extends BaseViewModel {
     if (value == null || value.trim().isEmpty) {
       return 'off.required_password'.tr();
     }
+
+    // Güvenlik validasyonu
+    final sanitizedValue = _sanitizeInput(value);
+    if (sanitizedValue.length < 8) {
+      return 'off.password_too_short'.tr();
+    }
+
+    if (sanitizedValue.length > 128) {
+      return 'off.password_too_long'.tr();
+    }
+
+    // Güçlü şifre kontrolü
+    if (!_isStrongPassword(sanitizedValue)) {
+      return 'off.password_weak'.tr();
+    }
+
     return null;
+  }
+
+  // Güvenlik metodları
+  String _sanitizeInput(String input) {
+    if (input.isEmpty) return input;
+
+    // HTML tag'leri ve script'leri temizle
+    String sanitized = input
+        .replaceAll(RegExp(r'<[^>]*>'), '')
+        .replaceAll(RegExp(r'javascript:', caseSensitive: false), '')
+        .replaceAll(RegExp(r'data:', caseSensitive: false), '')
+        .replaceAll(RegExp(r'vbscript:', caseSensitive: false), '')
+        .trim();
+
+    // SQL injection önleme
+    sanitized = sanitized.replaceAll("'", "''");
+    sanitized = sanitized.replaceAll('"', '""');
+
+    return sanitized;
+  }
+
+  bool _validateSecurityRequirements(String username, String password) {
+    // Username ve password aynı olamaz
+    if (username.toLowerCase() == password.toLowerCase()) {
+      return false;
+    }
+
+    // Username password içinde geçemez
+    if (password.toLowerCase().contains(username.toLowerCase())) {
+      return false;
+    }
+
+    return true;
+  }
+
+  bool _isStrongPassword(String password) {
+    // En az 8 karakter
+    if (password.length < 8) return false;
+
+    // En az bir büyük harf
+    if (!RegExp(r'[A-Z]').hasMatch(password)) return false;
+
+    // En az bir küçük harf
+    if (!RegExp(r'[a-z]').hasMatch(password)) return false;
+
+    // En az bir rakam
+    if (!RegExp(r'[0-9]').hasMatch(password)) return false;
+
+    // En az bir özel karakter
+    if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(password)) return false;
+
+    return true;
+  }
+
+  // Rate limiting metodları
+  bool _checkRateLimit() {
+    final now = DateTime.now();
+
+    // Cooldown süresi geçtiyse reset
+    if (_lastSaveAttempt != null &&
+        now.difference(_lastSaveAttempt!) > _saveCooldown) {
+      _saveAttempts = 0;
+      _lastSaveAttempt = null;
+    }
+
+    // Maksimum deneme sayısı kontrolü
+    if (_saveAttempts >= _maxSaveAttempts) {
+      return false;
+    }
+
+    return true;
+  }
+
+  void _updateRateLimit() {
+    _saveAttempts++;
+    _lastSaveAttempt = DateTime.now();
+  }
+
+  // Güvenli hata işleme
+  void _handleSecureError(dynamic error) {
+    // Production'da sensitive bilgileri loglama
+    if (const bool.fromEnvironment('dart.vm.product')) {
+      debugPrint('Güvenlik hatası: İşlem başarısız');
+    } else {
+      // Development'ta detaylı hata
+      debugPrint('Hata detayı: $error');
+    }
   }
 
   // State getters
@@ -118,4 +271,8 @@ class OffCredentialsViewModel extends BaseViewModel {
   bool get isFormValid =>
       usernameController.text.trim().isNotEmpty &&
       passwordController.text.trim().isNotEmpty;
+
+  // Rate limiting bilgisi
+  bool get isRateLimited => !_checkRateLimit();
+  int get remainingAttempts => _maxSaveAttempts - _saveAttempts;
 }

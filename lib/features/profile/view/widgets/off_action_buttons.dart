@@ -27,12 +27,12 @@ class OffActionButtons extends StatelessWidget {
               elevation: 2,
             ),
             child: viewModel.loading
-                ? const SizedBox(
+                ? SizedBox(
                     height: 20,
                     width: 20,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      valueColor: AlwaysStoppedAnimation<Color>(AppColors.of(context).white),
                     ),
                   )
                 : Row(
