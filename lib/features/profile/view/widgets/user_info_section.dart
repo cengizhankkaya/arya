@@ -9,10 +9,10 @@ class UserInfoSection extends StatelessWidget {
   const UserInfoSection({super.key, required this.user});
   @override
   Widget build(BuildContext context) {
-    final appColors = Theme.of(context).extension<AppColors>()!;
+    final appColors = AppColors.of(context);
     return Container(
       decoration: BoxDecoration(
-        color: appColors.white,
+        color: appColors.primaryGreen,
         borderRadius: ProjectRadius.xxLarge,
         boxShadow: [
           BoxShadow(
@@ -96,7 +96,7 @@ class UserInfoSection extends StatelessWidget {
     String label,
     String value,
   ) {
-    final appColors = Theme.of(context).extension<AppColors>()!;
+    final appColors = AppColors.of(context);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

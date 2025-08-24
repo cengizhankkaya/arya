@@ -1,7 +1,6 @@
 import 'package:arya/features/index.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -38,7 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           centerTitle: true,
           title: Text('appbar.profile'.tr()),
           backgroundColor: Theme.of(context).colorScheme.primary,
-          foregroundColor: Theme.of(context).colorScheme.onSecondary,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
           elevation: 0,
           scrolledUnderElevation: 0,
           surfaceTintColor: Theme.of(context).colorScheme.surface,

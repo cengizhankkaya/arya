@@ -13,7 +13,7 @@ class ProfileHeader extends StatelessWidget {
     // Tema renk şemasını al
     final scheme = Theme.of(context).colorScheme;
     // Uygulama özel renklerini al
-    final appColors = Theme.of(context).extension<AppColors>()!;
+    final appColors = AppColors.of(context);
 
     return Container(
       // Ana container dekorasyonu - yeşil arka plan, yuvarlatılmış köşeler ve gölge

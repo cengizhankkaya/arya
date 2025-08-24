@@ -22,6 +22,11 @@ dependencies:
   provider: ^6.1.5
   cloud_firestore: ^6.0.0
 
+  
+  
+  # Assets cleaner
+  assets_cleaner: ^0.1.5+12
+
   # Shared Preferences
   shared_preferences: ^2.5.3
   dio: ^5.9.0
@@ -38,7 +43,6 @@ dependencies:
   # Translation and localization
   localization: ^2.1.1
   easy_localization: ^3.0.8
-  intl: ^0.20.2
 
   #Navigation
   auto_route: ^10.1.2

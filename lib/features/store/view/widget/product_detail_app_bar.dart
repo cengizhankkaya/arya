@@ -18,7 +18,7 @@ class ProductDetailAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appColors = Theme.of(context).extension<AppColors>()!;
+    final appColors = AppColors.of(context);
     return SliverAppBar(
       expandedHeight: 360,
       floating: false,

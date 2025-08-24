@@ -11,7 +11,7 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appColors = Theme.of(context).extension<AppColors>()!;
+    final appColors = AppColors.of(context);
     final isNutritionCategory = _isNutritionCategory(category.titleKey);
 
     return InkWell(
@@ -92,13 +92,21 @@ class CategoryCard extends StatelessWidget {
   }
 
   IconData _getNutritionIcon(String titleKey) {
-    if (titleKey.contains('protein')) return Icons.fitness_center;
-    if (titleKey.contains('carbohydrate') || titleKey.contains('carbs'))
+    if (titleKey.contains('protein')) {
+      return Icons.fitness_center;
+    }
+    if (titleKey.contains('carbohydrate') || titleKey.contains('carbs')) {
       return Icons.grain;
-    if (titleKey.contains('fat')) return Icons.water_drop;
-    if (titleKey.contains('vitamins') || titleKey.contains('minerals'))
+    }
+    if (titleKey.contains('fat')) {
+      return Icons.water_drop;
+    }
+    if (titleKey.contains('vitamins') || titleKey.contains('minerals')) {
       return Icons.eco;
-    if (titleKey.contains('fiber')) return Icons.forest;
+    }
+    if (titleKey.contains('fiber')) {
+      return Icons.forest;
+    }
     return Icons.category;
   }
 }

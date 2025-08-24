@@ -15,7 +15,7 @@ class ProfileActionsConsumer extends StatelessWidget {
         if (!viewModel.hasUser) return const SizedBox.shrink();
 
         return PopupMenuButton<String>(
-          color: Theme.of(context).colorScheme.surface,
+          color: AppColors.of(context).addbackground,
           onSelected: (value) async {
             switch (value) {
               case 'off':

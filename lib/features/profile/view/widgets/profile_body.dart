@@ -19,6 +19,7 @@ class ProfileBody extends StatelessWidget {
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+
               children: [
                 Icon(
                   Icons.error_outline,

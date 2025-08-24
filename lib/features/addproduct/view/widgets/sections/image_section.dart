@@ -84,7 +84,7 @@ class ImageSection extends StatelessWidget {
   Widget _buildImagePreview() {
     return Builder(
       builder: (context) {
-        final appColors = Theme.of(context).extension<AppColors>()!;
+        final appColors = AppColors.of(context);
         return Container(
           width: 150,
           height: 150,
@@ -104,7 +104,7 @@ class ImageSection extends StatelessWidget {
   Widget _buildRemoveImageButton() {
     return Builder(
       builder: (context) {
-        final appColors = Theme.of(context).extension<AppColors>()!;
+        final appColors = AppColors.of(context);
         return TextButton.icon(
           onPressed: () => viewModel.removeSelectedImage(),
           icon: Icon(Icons.delete, color: appColors.red),

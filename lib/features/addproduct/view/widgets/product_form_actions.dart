@@ -21,7 +21,7 @@ class ProductFormActions extends StatelessWidget {
   }
 
   Widget _buildSubmitButton(BuildContext context) {
-    final colors = Theme.of(context).extension<AppColors>()!;
+    final colors = AppColors.of(context);
     return SizedBox(
       width: double.infinity,
       height: 50,
@@ -50,7 +50,7 @@ class ProductFormActions extends StatelessWidget {
   Widget _buildMessages() {
     return Builder(
       builder: (context) {
-        final colors = Theme.of(context).extension<AppColors>()!;
+        final colors = AppColors.of(context);
         return Column(
           children: [
             if (viewModel.errorMessage != null) ...[
