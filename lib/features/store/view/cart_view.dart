@@ -1,4 +1,5 @@
 import 'package:arya/features/index.dart';
+import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -39,7 +40,7 @@ class CartView extends StatelessWidget {
                 Row(
                   children: [
                     const Expanded(child: CartSummaryWidget()),
-                    const SizedBox(width: 16),
+                    16.width, // Extension kullanımı - 16px genişlik
                     Consumer<CartViewModel>(
                       builder: (context, cart, child) {
                         return FloatingActionButton(
@@ -53,7 +54,7 @@ class CartView extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                ProjectSizedBox.heightMedium, // 16px boşluk
                 Expanded(
                   child: ListView.builder(
                     itemCount: cartItems.length,
@@ -70,9 +71,9 @@ class CartView extends StatelessWidget {
       bottomNavigationBar: Consumer<CartViewModel>(
         builder: (context, cart, child) {
           final items = cart.cartItems;
-          if (items.isEmpty) return const SizedBox.shrink();
+          if (items.isEmpty) return ProjectSizedBox.shrink;
 
-          return const SizedBox.shrink();
+          return ProjectSizedBox.shrink;
         },
       ),
     );

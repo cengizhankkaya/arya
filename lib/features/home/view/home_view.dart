@@ -27,17 +27,24 @@ class CategoryScreen extends StatelessWidget {
           child: Consumer<HomeViewModel>(
             builder: (context, vm, _) {
               final categories = vm.categories;
-              return GridView.builder(
-                itemCount: categories.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
-                  childAspectRatio: 0.85, // Kartları biraz daha geniş yapıyorum
-                ),
-                itemBuilder: (context, index) {
-                  return CategoryCard(category: categories[index]);
-                },
+              return Column(
+                children: [
+                  Expanded(
+                    child: GridView.builder(
+                      itemCount: categories.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 16,
+                            crossAxisSpacing: 16,
+                            childAspectRatio: 0.85,
+                          ),
+                      itemBuilder: (context, index) {
+                        return CategoryCard(category: categories[index]);
+                      },
+                    ),
+                  ),
+                ],
               );
             },
           ),

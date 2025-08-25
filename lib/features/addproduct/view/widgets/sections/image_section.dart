@@ -15,12 +15,12 @@ class ImageSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title: 'add_product.image_section_title'.tr()),
-        const SizedBox(height: 15),
+        ProjectSizedBox.widthNormalMedium,
         _buildImageButtons(),
         if (viewModel.selectedImage != null) ...[
-          const SizedBox(height: 15),
+          ProjectSizedBox.widthNormalMedium,
           _buildImagePreview(),
-          const SizedBox(height: 10),
+          ProjectSizedBox.widthSmallMedium,
           _buildRemoveImageButton(),
         ],
       ],

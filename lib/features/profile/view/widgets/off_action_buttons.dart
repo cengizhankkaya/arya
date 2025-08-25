@@ -21,9 +21,7 @@ class OffActionButtons extends StatelessWidget {
               backgroundColor: AppColors.of(context).openfoodfacts,
               foregroundColor: AppColors.of(context).textStrong,
               padding: ProjectPadding.verticalNormal,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
+              shape: RoundedRectangleBorder(borderRadius: ProjectRadius.large),
               elevation: 2,
             ),
             child: viewModel.loading
@@ -32,23 +30,25 @@ class OffActionButtons extends StatelessWidget {
                     width: 20,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(AppColors.of(context).white),
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        AppColors.of(context).white,
+                      ),
                     ),
                   )
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.save, size: 20),
-                      const SizedBox(width: 8),
+                      Icon(Icons.save, size: 20),
+                      ProjectSizedBox.widthSmall,
                       Text(
                         'general.button.save'.tr(),
-                        style: const TextStyle(fontSize: 16),
+                        style: Theme.of(context).textTheme.labelLarge,
                       ),
                     ],
                   ),
           ),
         ),
-        const SizedBox(width: 16),
+        ProjectSizedBox.widthNormal,
         Expanded(
           child: OutlinedButton(
             onPressed: viewModel.loading
@@ -56,19 +56,17 @@ class OffActionButtons extends StatelessWidget {
                 : () => viewModel.handleClear(context),
             style: OutlinedButton.styleFrom(
               padding: ProjectPadding.verticalNormal,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
+              shape: RoundedRectangleBorder(borderRadius: ProjectRadius.large),
               side: BorderSide(color: Theme.of(context).colorScheme.outline),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.clear, size: 20),
-                const SizedBox(width: 8),
+                Icon(Icons.clear, size: 20),
+                ProjectSizedBox.widthSmall,
                 Text(
                   'general.button.clear'.tr(),
-                  style: const TextStyle(fontSize: 16),
+                  style: Theme.of(context).textTheme.labelLarge,
                 ),
               ],
             ),

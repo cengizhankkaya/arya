@@ -12,9 +12,9 @@ class ProductFormActions extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 30),
+        ProjectSizedBox.heightXXLarge,
         _buildSubmitButton(context),
-        const SizedBox(height: 20),
+        ProjectSizedBox.heightLarge,
         _buildMessages(),
       ],
     );
@@ -56,7 +56,7 @@ class ProductFormActions extends StatelessWidget {
             if (viewModel.errorMessage != null) ...[
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(16),
+                padding: ProjectPadding.allSmall(),
                 decoration: BoxDecoration(
                   color: colors.red50,
                   border: Border.all(color: colors.red200),
@@ -65,7 +65,7 @@ class ProductFormActions extends StatelessWidget {
                 child: Row(
                   children: [
                     Icon(Icons.error_outline, color: colors.red600),
-                    const SizedBox(width: 12),
+                    ProjectSizedBox.widthNormal,
                     Expanded(
                       child: Text(
                         viewModel.errorMessage!,
@@ -78,12 +78,12 @@ class ProductFormActions extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 10),
+              ProjectSizedBox.heightSmallMedium,
             ],
             if (viewModel.successMessage != null) ...[
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(16),
+                padding: ProjectPadding.allSmall(),
                 decoration: BoxDecoration(
                   color: colors.green50,
                   border: Border.all(color: colors.green200),
@@ -92,7 +92,7 @@ class ProductFormActions extends StatelessWidget {
                 child: Row(
                   children: [
                     Icon(Icons.check_circle_outline, color: colors.green600),
-                    const SizedBox(width: 12),
+                    ProjectSizedBox.widthNormal,
                     Expanded(
                       child: Text(
                         viewModel.successMessage!,
@@ -119,12 +119,12 @@ class ProductFormActions extends StatelessWidget {
     final result = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Ürün Ekle'),
-        content: Text('Bu ürünü eklemek istediğinizden emin misiniz?'),
+        title: Text('dialogs.add_product.title'.tr()),
+        content: Text('dialogs.add_product.content'.tr()),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: Text('İptal'),
+            child: Text('general.button.cancel'.tr()),
           ),
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(true),
@@ -134,7 +134,7 @@ class ProductFormActions extends StatelessWidget {
               ).extension<AppColors>()!.addbackground,
               foregroundColor: Theme.of(context).colorScheme.onPrimary,
             ),
-            child: Text('Ekle'),
+            child: Text('dialogs.add_product.add'.tr()),
           ),
         ],
       ),

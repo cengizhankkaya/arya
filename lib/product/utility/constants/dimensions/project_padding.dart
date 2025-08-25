@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
 
 final class ProjectPadding extends EdgeInsets {
+  const ProjectPadding.xVerySmall() : super.all(4);
+  const ProjectPadding.verySmall() : super.all(8);
   const ProjectPadding.allVerySmall() : super.all(12);
   const ProjectPadding.allSmall() : super.all(16);
   const ProjectPadding.allNormal() : super.all(18);
@@ -20,15 +22,57 @@ final class ProjectPadding extends EdgeInsets {
   static const EdgeInsets bottomLarge = EdgeInsets.only(bottom: 24);
   static const EdgeInsets bottomXLarge = EdgeInsets.only(bottom: 32);
 
+  // Horizontal Right Padding
+  static const EdgeInsets rightSmall = EdgeInsets.only(right: 8);
+  static const EdgeInsets rightMedium = EdgeInsets.only(right: 12);
+  static const EdgeInsets rightLarge = EdgeInsets.only(right: 24);
+  static const EdgeInsets rightXLarge = EdgeInsets.only(right: 32);
+
+  // Horizontal Left Padding
+  static const EdgeInsets leftSmall = EdgeInsets.only(left: 8);
+  static const EdgeInsets leftMedium = EdgeInsets.only(left: 12);
+  static const EdgeInsets leftLarge = EdgeInsets.only(left: 24);
+  static const EdgeInsets leftXLarge = EdgeInsets.only(left: 32);
+
   // Vertical Padding
+  static const EdgeInsets verticalVerySmall = EdgeInsets.symmetric(vertical: 4);
   static const EdgeInsets verticalSmall = EdgeInsets.symmetric(vertical: 8);
   static const EdgeInsets verticalMedium = EdgeInsets.symmetric(vertical: 12);
   static const EdgeInsets verticalNormal = EdgeInsets.symmetric(vertical: 16);
   static const EdgeInsets verticalLarge = EdgeInsets.symmetric(vertical: 24);
   static const EdgeInsets verticalXLarge = EdgeInsets.symmetric(vertical: 32);
 
+  static const EdgeInsets symmetricVerySmall = EdgeInsets.symmetric(
+    horizontal: 12,
+    vertical: 16,
+  );
+
   static const EdgeInsets symmetricSmall = EdgeInsets.symmetric(
+    horizontal: 12,
+    vertical: 8,
+  );
+
+  static const EdgeInsets symmetricNormal = EdgeInsets.symmetric(
+    horizontal: 16,
+    vertical: 16,
+  );
+
+  static const EdgeInsets symmetricVeryLarge = EdgeInsets.symmetric(
+    horizontal: 20,
+    vertical: 12,
+  );
+
+  static const EdgeInsets symmetricLarge = EdgeInsets.symmetric(
     horizontal: 20,
     vertical: 24,
+  );
+  static const EdgeInsets symmetricMedium = EdgeInsets.symmetric(
+    horizontal: 24,
+    vertical: 28,
+  );
+
+  static const EdgeInsets symmetricPrivate = EdgeInsets.symmetric(
+    horizontal: 20,
+    vertical: 16,
   );
 }

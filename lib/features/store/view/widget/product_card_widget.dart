@@ -36,7 +36,7 @@ class ProductCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(child: ProductGridImage(product: product)),
-                const SizedBox(height: 8),
+                ProjectSizedBox.heightSmall, // 8px boşluk
                 Text(
                   product['product_name'] ?? 'store.product_name_missing'.tr(),
                   textAlign: TextAlign.center,
@@ -47,9 +47,9 @@ class ProductCard extends StatelessWidget {
                     fontSize: 12,
                   ),
                 ),
-                const SizedBox(height: 6),
+                ProjectSizedBox.customHeight(6), // 6px özel boyut
                 NutritionInfoWidget(product: product),
-                const SizedBox(height: 6),
+                ProjectSizedBox.customHeight(6), // 6px özel boyut
                 Row(
                   children: [
                     Expanded(

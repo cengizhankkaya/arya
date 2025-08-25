@@ -16,7 +16,7 @@ class OffInfoCard extends StatelessWidget {
         color: Theme.of(
           context,
         ).colorScheme.primaryContainer.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: ProjectRadius.xLarge,
         border: Border.all(
           color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
           width: 1,
@@ -27,20 +27,24 @@ class OffInfoCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.info_outline, color: Colors.red, size: 24),
-              const SizedBox(width: 12),
+              Icon(
+                Icons.info_outline,
+                color: AppColors.of(context).red,
+                size: 24,
+              ),
+              ProjectSizedBox.widthNormal,
               Expanded(
                 child: Text(
                   'off.account_required'.tr(),
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: Colors.red,
+                    color: AppColors.of(context).red,
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          ProjectSizedBox.heightMedium,
           Text(
             'off.account_required_desc'.tr(),
             style: Theme.of(context).textTheme.bodyMedium,
@@ -53,10 +57,8 @@ class OffInfoCard extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.of(context).openfoodfacts,
               foregroundColor: AppColors.of(context).textStrong,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
+              padding: ProjectPadding.symmetricVeryLarge,
+              shape: RoundedRectangleBorder(borderRadius: ProjectRadius.medium),
             ),
           ),
         ],

@@ -26,7 +26,7 @@ class CategoryShimmerWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.onPrimary,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: ProjectRadius.xxLarge,
         border: Border.all(
           color: Theme.of(context).colorScheme.outline,
           width: 1,
@@ -44,14 +44,12 @@ class CategoryShimmerWidget extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.onPrimary,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: ProjectRadius.xxLarge,
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 10),
-
-          // Kategori adı placeholder'ı
+          ProjectSizedBox.heightNormal,
           Shimmer.fromColors(
             baseColor: Theme.of(context).colorScheme.outline,
             highlightColor: Theme.of(context).colorScheme.outline,
@@ -60,7 +58,7 @@ class CategoryShimmerWidget extends StatelessWidget {
               width: double.infinity,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.onPrimary,
-                borderRadius: BorderRadius.circular(4),
+                borderRadius: ProjectRadius.small,
               ),
             ),
           ),

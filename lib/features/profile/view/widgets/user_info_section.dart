@@ -27,7 +27,7 @@ class UserInfoSection extends StatelessWidget {
         children: [
           // Yeşil header bar
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            padding: ProjectPadding.symmetricPrivate,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary,
               borderRadius: ProjectRadius.xxLarge,
@@ -35,7 +35,7 @@ class UserInfoSection extends StatelessWidget {
             child: Row(
               children: [
                 Icon(Icons.person, color: appColors.white, size: 20),
-                const SizedBox(width: 12),
+                ProjectSizedBox.widthNormal,
                 Expanded(
                   child: Text(
                     'profile.section.personal_info'.tr(),
@@ -68,14 +68,14 @@ class UserInfoSection extends StatelessWidget {
                   'profile.labels.name'.tr(),
                   user.name ?? 'general.not_specified'.tr(),
                 ),
-                const SizedBox(height: 20),
+                ProjectSizedBox.heightLarge,
                 _buildInfoRow(
                   context,
                   Icons.person,
                   'profile.labels.surname'.tr(),
                   user.surname ?? 'general.not_specified'.tr(),
                 ),
-                const SizedBox(height: 20),
+                ProjectSizedBox.heightLarge,
                 _buildInfoRow(
                   context,
                   Icons.email,
@@ -114,7 +114,7 @@ class UserInfoSection extends StatelessWidget {
             size: 20,
           ),
         ),
-        const SizedBox(width: 16),
+        ProjectSizedBox.widthMedium,
         // Sağ taraftaki label ve value
         Expanded(
           child: Column(
@@ -127,7 +127,7 @@ class UserInfoSection extends StatelessWidget {
                   color: appColors.black,
                 ),
               ),
-              const SizedBox(height: 4),
+              ProjectSizedBox.heightVerySmall,
               Text(
                 value,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(

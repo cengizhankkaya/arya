@@ -22,23 +22,16 @@ class AddToCartButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: scheme.primary,
         foregroundColor: scheme.onPrimary,
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        padding: ProjectPadding.verticalNormal,
+        shape: RoundedRectangleBorder(borderRadius: ProjectRadius.large),
         elevation: 2,
       ),
       child: viewModel.isLoading
           ? Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    valueColor: AlwaysStoppedAnimation<Color>(scheme.onPrimary),
-                  ),
-                ),
-                const SizedBox(width: 12),
+                ProjectSizedBox.customSize(width: 20, height: 20),
+                ProjectSizedBox.widthNormal,
                 Text(
                   'detail.adding_to_cart'.tr(),
                   style: AppTypography.lightTextTheme.titleMedium?.copyWith(
@@ -52,7 +45,7 @@ class AddToCartButton extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.shopping_cart, color: scheme.onPrimary, size: 24),
-                const SizedBox(width: 12),
+                ProjectSizedBox.widthNormal,
                 Text(
                   '${'detail.add_to_cart'.tr()} (${viewModel.quantity})',
                   style: AppTypography.lightTextTheme.titleMedium?.copyWith(

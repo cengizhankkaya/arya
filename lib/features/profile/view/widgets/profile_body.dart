@@ -26,18 +26,21 @@ class ProfileBody extends StatelessWidget {
                   size: 64,
                   color: Theme.of(context).colorScheme.error,
                 ),
-                const SizedBox(height: 16),
+                ProjectSizedBox.heightMedium,
                 Text(
                   viewModel.errorMessage!,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Theme.of(context).colorScheme.onErrorContainer,
                   ),
                 ),
-                const SizedBox(height: 16),
+                ProjectSizedBox.heightMedium,
                 ElevatedButton(
                   onPressed: viewModel.fetchUser,
-                  child: Text('general.button.retry'.tr()),
+                  child: Text(
+                    'general.button.retry'.tr(),
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
                 ),
               ],
             ),
@@ -60,17 +63,17 @@ class ProfileBody extends StatelessWidget {
                   children: [
                     ProfileHeader(user: user),
                     // Profil bilgileri ile logout butonu arasında boşluk
-                    const SizedBox(height: 20),
+                    ProjectSizedBox.heightLarge,
                     viewModel.isEditing
                         ? const EditProfileForm()
                         : UserInfoSection(user: user),
                     if (!viewModel.isUserComplete) ...[
-                      const SizedBox(height: 16),
+                      ProjectSizedBox.heightMedium,
                       const ProfileCompletionStatus(),
                     ],
                   ],
                 ),
-                const SizedBox(height: 20),
+                ProjectSizedBox.heightLarge,
                 ElevatedButton(
                   onPressed: () async {
                     final shouldLogout = await showDialog<bool>(
@@ -100,7 +103,10 @@ class ProfileBody extends StatelessWidget {
                     foregroundColor: Theme.of(context).colorScheme.onError,
                     minimumSize: const Size(double.infinity, 48),
                   ),
-                  child: Text('general.button.logout'.tr()),
+                  child: Text(
+                    'general.button.logout'.tr(),
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
                 ),
               ],
             ),

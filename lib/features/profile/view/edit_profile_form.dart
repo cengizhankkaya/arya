@@ -15,7 +15,7 @@ class EditProfileForm extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: scheme.surface,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: ProjectRadius.big,
         border: Border.all(
           color: scheme.outline.withValues(alpha: 0.08),
           width: 1,
@@ -32,7 +32,7 @@ class EditProfileForm extends StatelessWidget {
               prefixIcon: const Icon(Icons.badge_outlined),
             ),
           ),
-          const SizedBox(height: 12),
+          ProjectSizedBox.heightNormal,
           TextField(
             controller: viewModel.surnameController,
             textInputAction: TextInputAction.next,
@@ -41,7 +41,7 @@ class EditProfileForm extends StatelessWidget {
               prefixIcon: const Icon(Icons.badge),
             ),
           ),
-          const SizedBox(height: 12),
+          ProjectSizedBox.heightNormal,
           Row(
             children: [
               Expanded(
@@ -51,7 +51,7 @@ class EditProfileForm extends StatelessWidget {
                   label: Text('general.button.cancel'.tr()),
                 ),
               ),
-              const SizedBox(width: 12),
+              ProjectSizedBox.widthNormal,
               Expanded(
                 child: ElevatedButton.icon(
                   onPressed: () => viewModel.updateUserFromControllers(),

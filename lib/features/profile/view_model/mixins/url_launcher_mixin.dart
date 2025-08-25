@@ -11,7 +11,6 @@ mixin UrlLauncherMixin<T extends StatefulWidget> on State<T> {
       if (await canLaunchUrl(uri)) {
         await launchUrl(uri, mode: LaunchMode.externalApplication);
       } else {
-        // URL açılamazsa kullanıcıya bilgi ver
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -22,12 +21,11 @@ mixin UrlLauncherMixin<T extends StatefulWidget> on State<T> {
         }
       }
     } catch (e) {
-      // Hata durumunda kullanıcıya bilgi ver
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Bir hata oluştu: $e'),
-            backgroundColor: Colors.red,
+            backgroundColor: AppColors.of(context).red,
           ),
         );
       }

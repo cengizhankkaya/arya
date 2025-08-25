@@ -12,7 +12,7 @@ class OffPasswordField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: ProjectRadius.large,
         boxShadow: [
           BoxShadow(
             color: AppColors.of(context).black.withValues(alpha: 0.05),

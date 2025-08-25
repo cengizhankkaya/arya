@@ -23,7 +23,7 @@ class RegisterForm extends StatelessWidget {
                   width: 120,
                   height: 120,
                 ),
-                const SizedBox(height: 32),
+                ProjectSizedBox.heightXXLarge,
 
                 RegisterTextField(
                   controller: vm.nameController,
@@ -31,7 +31,7 @@ class RegisterForm extends StatelessWidget {
                   icon: Icons.person,
                   validator: vm.validateName,
                 ),
-                const SizedBox(height: 16),
+                ProjectSizedBox.heightMedium,
 
                 RegisterTextField(
                   controller: vm.surnameController,
@@ -39,7 +39,7 @@ class RegisterForm extends StatelessWidget {
                   icon: Icons.person_outline,
                   validator: vm.validateSurname,
                 ),
-                const SizedBox(height: 16),
+                ProjectSizedBox.heightMedium,
 
                 RegisterTextField(
                   controller: vm.emailController,
@@ -48,7 +48,7 @@ class RegisterForm extends StatelessWidget {
                   keyboardType: TextInputType.emailAddress,
                   validator: vm.validateEmail,
                 ),
-                const SizedBox(height: 16),
+                ProjectSizedBox.heightMedium,
 
                 RegisterPasswordField(
                   controller: vm.passwordController,
@@ -57,7 +57,7 @@ class RegisterForm extends StatelessWidget {
                   onToggle: vm.togglePasswordVisibility,
                   validator: vm.validatePassword,
                 ),
-                const SizedBox(height: 16),
+                ProjectSizedBox.heightMedium,
 
                 RegisterPasswordField(
                   controller: vm.confirmPasswordController,
@@ -66,13 +66,13 @@ class RegisterForm extends StatelessWidget {
                   onToggle: vm.toggleConfirmPasswordVisibility,
                   validator: vm.validateConfirmPassword,
                 ),
-                const SizedBox(height: 24),
+                ProjectSizedBox.heightXLarge,
 
                 if (vm.errorMessage != null)
                   RegisterErrorBox(message: vm.errorMessage!),
-                const SizedBox(height: 16),
+                ProjectSizedBox.heightMedium,
                 const RegisterButton(),
-                const SizedBox(height: 16),
+                ProjectSizedBox.heightMedium,
                 const RegisterFooter(),
               ],
             ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/features/store/view_model/cart_view_model.dart';
+import 'package:arya/product/index.dart';
 import 'package:provider/provider.dart';
-import 'package:arya/product/theme/app_typography.dart';
 
 class CartSummaryWidget extends StatelessWidget {
   const CartSummaryWidget({super.key});
@@ -41,7 +41,7 @@ class CartSummaryWidget extends StatelessWidget {
                       accentColor: scheme.tertiary,
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  ProjectSizedBox.widthSmall,
                   Expanded(
                     child: _Metric(
                       label: 'store.totals.total_protein'.tr(),
@@ -52,7 +52,7 @@ class CartSummaryWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              ProjectSizedBox.heightNormal,
               Row(
                 children: [
                   Expanded(
@@ -63,7 +63,7 @@ class CartSummaryWidget extends StatelessWidget {
                       accentColor: scheme.error,
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  ProjectSizedBox.widthSmall,
                   Expanded(
                     child: _Metric(
                       label: 'store.totals.total_carbs'.tr(),
@@ -74,7 +74,7 @@ class CartSummaryWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              ProjectSizedBox.heightNormal,
               Row(
                 children: [
                   Expanded(
@@ -124,12 +124,12 @@ class _Metric extends StatelessWidget {
             fontWeight: AppTypography.bodyLargeWeight,
           ),
         ),
-        const SizedBox(height: 2),
+        ProjectSizedBox.heightVerySmall,
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(icon, size: 14, color: accentColor ?? scheme.primary),
-            const SizedBox(width: 4),
+            ProjectSizedBox.widthVerySmall,
             Text(
               value,
               style: textTheme.bodyMedium?.copyWith(

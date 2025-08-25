@@ -32,7 +32,7 @@ class RegisterButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: Theme.of(context).colorScheme.surface,
           foregroundColor: Theme.of(context).colorScheme.primary,
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          padding: ProjectPadding.verticalNormal,
           shape: RoundedRectangleBorder(borderRadius: ProjectRadius.large),
           elevation: 2,
         ),

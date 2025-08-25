@@ -9,7 +9,6 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<LoginViewModel>(context);
-    final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
@@ -20,20 +19,20 @@ class LoginForm extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(height: size.height * 0.1),
+                ProjectSizedBox.heightXLarge,
                 const LoginTitle(),
-                SizedBox(height: size.height * 0.08),
+                ProjectSizedBox.heightXLarge,
                 const EmailField(),
-                const SizedBox(height: 20),
+                ProjectSizedBox.heightLarge,
                 const PasswordField(),
                 const ForgotPasswordButton(),
                 if (viewModel.errorMessage != null)
                   ErrorMessage(message: viewModel.errorMessage!),
-                const SizedBox(height: 24),
+                ProjectSizedBox.heightXLarge,
                 const LoginButton(),
-                const SizedBox(height: 24),
+                ProjectSizedBox.heightXLarge,
                 _buildDivider(context),
-                const SizedBox(height: 24),
+                ProjectSizedBox.heightXLarge,
                 const SignUpRow(),
               ],
             ),
@@ -49,7 +48,9 @@ class LoginForm extends StatelessWidget {
       children: [
         Expanded(child: Divider(color: scheme.outlineVariant)),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: EdgeInsets.symmetric(
+            horizontal: ProjectSizedBox.customWidth(16).width!,
+          ),
           child: Text(
             'veya',
             style: Theme.of(

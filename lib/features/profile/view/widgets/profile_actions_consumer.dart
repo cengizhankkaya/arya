@@ -35,7 +35,7 @@ class ProfileActionsConsumer extends StatelessWidget {
                             'dialogs.language.title'.tr(),
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
-                          SizedBox(height: 16),
+                          ProjectSizedBox.heightMedium,
                           Text(
                             'dialogs.language.current_language'.tr(
                               args: [
@@ -46,13 +46,13 @@ class ProfileActionsConsumer extends StatelessWidget {
                             ),
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
-                          SizedBox(height: 24),
+                          ProjectSizedBox.heightXLarge,
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Expanded(
                                 child: Padding(
-                                  padding: EdgeInsets.only(right: 8),
+                                  padding: ProjectPadding.rightSmall,
                                   child: ElevatedButton(
                                     onPressed: () async {
                                       await ProductLocalization.updateLanguage(
@@ -97,7 +97,7 @@ class ProfileActionsConsumer extends StatelessWidget {
                               ),
                               Expanded(
                                 child: Padding(
-                                  padding: EdgeInsets.only(left: 8),
+                                  padding: ProjectPadding.leftSmall,
                                   child: ElevatedButton(
                                     onPressed: () async {
                                       await ProductLocalization.updateLanguage(
@@ -135,7 +135,9 @@ class ProfileActionsConsumer extends StatelessWidget {
                                     ),
                                     child: Text(
                                       'dialogs.language.english'.tr(),
-                                      style: TextStyle(fontSize: 14),
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.labelLarge,
                                     ),
                                   ),
                                 ),
