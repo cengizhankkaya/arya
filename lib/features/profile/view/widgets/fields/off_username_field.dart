@@ -12,7 +12,7 @@ class OffUsernameField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: ProjectRadius.large,
         boxShadow: [
           BoxShadow(
             color: AppColors.of(context).black.withValues(alpha: 0.05),
@@ -28,15 +28,12 @@ class OffUsernameField extends StatelessWidget {
           hintText: 'off.username_hint'.tr(),
           prefixIcon: const Icon(Icons.person_outline),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: ProjectRadius.large,
             borderSide: BorderSide.none,
           ),
           filled: true,
           fillColor: Theme.of(context).colorScheme.surface,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 16,
-          ),
+          contentPadding: ProjectPadding.symmetricNormal,
         ),
         validator: validator,
       ),

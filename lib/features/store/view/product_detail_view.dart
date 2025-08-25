@@ -33,7 +33,6 @@ class _ProductDetailViewBody extends StatelessWidget {
           CustomScrollView(
             slivers: [
               ProductDetailAppBar(viewModel: viewModel, scheme: scheme),
-              // Content
               SliverToBoxAdapter(
                 child: Container(
                   decoration: BoxDecoration(
@@ -51,7 +50,6 @@ class _ProductDetailViewBody extends StatelessWidget {
                             onClose: () => viewModel.clearError(),
                             scheme: scheme,
                           ),
-                        // Product Title Section
                         Container(
                           padding: ProjectPadding.allLarge(),
                           decoration: BoxDecoration(
@@ -99,7 +97,7 @@ class _ProductDetailViewBody extends StatelessWidget {
                                     ),
                                 ],
                               ),
-                              const SizedBox(height: 24),
+                              ProjectSizedBox.heightXLarge,
                               ProductDetailCard(
                                 scheme: scheme,
                                 titleKey: 'detail.nutrition_facts',
@@ -110,8 +108,8 @@ class _ProductDetailViewBody extends StatelessWidget {
                                   scheme: scheme,
                                 ),
                               ),
-                              const SizedBox(height: 32),
-                              const SizedBox(height: 16),
+                              ProjectSizedBox.heightXXLarge,
+                              ProjectSizedBox.heightMedium,
                               if (viewModel.ingredients != null ||
                                   viewModel.quantityText != null ||
                                   viewModel.categories != null)
@@ -143,7 +141,6 @@ class _ProductDetailViewBody extends StatelessWidget {
               ),
             ],
           ),
-          // Loading Overlay
           if (viewModel.isLoading)
             Container(
               color: Theme.of(

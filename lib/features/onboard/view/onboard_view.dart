@@ -98,22 +98,18 @@ class _OnBoardViewState extends State<OnBoardView> {
   }
 
   Widget _buildNextButton() {
-    return SizedBox(
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20), // köşe yuvarlama
-          ),
-          elevation: 0,
-        ),
-        onPressed: _controller.isLastPage
-            ? _onStartPressed
-            : _controller.nextPage,
-        child: Text(
-          _controller.isLastPage ? 'onboard.start'.tr() : 'onboard.next'.tr(),
-          style: Theme.of(context).textTheme.labelLarge,
-        ),
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        shape: RoundedRectangleBorder(borderRadius: ProjectRadius.big),
+        elevation: 0,
+      ),
+      onPressed: _controller.isLastPage
+          ? _onStartPressed
+          : _controller.nextPage,
+      child: Text(
+        _controller.isLastPage ? 'onboard.start'.tr() : 'onboard.next'.tr(),
+        style: Theme.of(context).textTheme.labelLarge,
       ),
     );
   }

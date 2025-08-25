@@ -1,5 +1,6 @@
 import 'package:arya/product/utility/constants/animations/lottie_loader.dart';
 import 'package:arya/product/utility/constants/animations/lottie_view_model.dart';
+import 'package:arya/product/utility/constants/dimensions/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,7 +11,7 @@ class AppLottie extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<LottieViewModel>(
       builder: (context, vm, _) {
-        if (!vm.visible) return const SizedBox.shrink();
+        if (!vm.visible) return ProjectSizedBox.shrink;
         return LottieLoader(path: vm.path, repeat: vm.repeat);
       },
     );

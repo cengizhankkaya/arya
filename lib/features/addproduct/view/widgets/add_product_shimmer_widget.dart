@@ -11,19 +11,12 @@ class AddProductShimmerWidget extends StatelessWidget {
       padding: const ProjectPadding.allSmall(),
       child: Column(
         children: [
-          // Resim bölümü shimmer
           _buildImageSectionShimmer(context),
-          const SizedBox(height: 24),
-
-          // Temel bilgiler shimmer
+          ProjectSizedBox.heightXLarge,
           _buildBasicInfoSectionShimmer(context),
-          const SizedBox(height: 24),
-
-          // Ek bilgiler shimmer
+          ProjectSizedBox.heightXLarge,
           _buildAdditionalInfoSectionShimmer(context),
-          const SizedBox(height: 24),
-
-          // Butonlar shimmer
+          ProjectSizedBox.heightXLarge,
           _buildButtonsShimmer(context),
         ],
       ),
@@ -41,7 +34,6 @@ class AddProductShimmerWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Başlık shimmer
           Shimmer.fromColors(
             baseColor: AppColors.of(context).shimmerBase,
             highlightColor: AppColors.of(context).shimmerHighlight,
@@ -54,9 +46,8 @@ class AddProductShimmerWidget extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          ProjectSizedBox.heightMedium,
 
-          // Resim placeholder shimmer
           Shimmer.fromColors(
             baseColor: AppColors.of(context).shimmerBase,
             highlightColor: AppColors.of(context).shimmerHighlight,
@@ -85,7 +76,7 @@ class AddProductShimmerWidget extends StatelessWidget {
 
   Widget _buildBasicInfoSectionShimmer(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: ProjectPadding.allSmall(),
       decoration: BoxDecoration(
         color: AppColors.of(context).cardBackground,
         borderRadius: ProjectRadius.large,
@@ -107,7 +98,7 @@ class AddProductShimmerWidget extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          ProjectSizedBox.heightMedium,
 
           // Form alanları shimmer
           for (int i = 0; i < 3; i++) ...[
@@ -127,7 +118,7 @@ class AddProductShimmerWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 8),
+                ProjectSizedBox.heightSmall,
 
                 // Input field shimmer
                 Shimmer.fromColors(
@@ -145,7 +136,7 @@ class AddProductShimmerWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (i < 2) const SizedBox(height: 16),
+                if (i < 2) ProjectSizedBox.heightMedium,
               ],
             ),
           ],
@@ -156,7 +147,7 @@ class AddProductShimmerWidget extends StatelessWidget {
 
   Widget _buildAdditionalInfoSectionShimmer(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: ProjectPadding.allSmall(),
       decoration: BoxDecoration(
         color: AppColors.of(context).cardBackground,
         borderRadius: ProjectRadius.large,
@@ -178,7 +169,7 @@ class AddProductShimmerWidget extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          ProjectSizedBox.heightMedium,
 
           // Text area shimmer
           Shimmer.fromColors(
@@ -194,7 +185,7 @@ class AddProductShimmerWidget extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          ProjectSizedBox.heightMedium,
 
           // Checkbox shimmer
           Row(
@@ -211,7 +202,7 @@ class AddProductShimmerWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              ProjectSizedBox.widthNormal,
               Shimmer.fromColors(
                 baseColor: AppColors.of(context).shimmerBase,
                 highlightColor: AppColors.of(context).shimmerHighlight,
@@ -247,7 +238,7 @@ class AddProductShimmerWidget extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 12),
+        ProjectSizedBox.heightNormal,
 
         // İptal butonu shimmer
         Shimmer.fromColors(

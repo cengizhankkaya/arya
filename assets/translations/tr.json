@@ -21,6 +21,11 @@
         "delete_account": {
             "title": "Hesabı Sil",
             "content": "Hesabınızı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!"
+        },
+        "add_product": {
+            "title": "Ürün Ekle",
+            "content": "Bu ürünü eklemek istediğinizden emin misiniz?",
+            "add": "Ekle"
         }
     },
     "detail": {

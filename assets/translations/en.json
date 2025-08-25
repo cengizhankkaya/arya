@@ -21,6 +21,11 @@
         "delete_account": {
             "title": "Delete Account",
             "content": "Are you sure you want to delete your account? This action cannot be undone!"
+        },
+        "add_product": {
+            "title": "Add Product",
+            "content": "Are you sure you want to add this product?",
+            "add": "Add"
         }
     },
     "detail": {

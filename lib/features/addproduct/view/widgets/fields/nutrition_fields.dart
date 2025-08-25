@@ -1,3 +1,4 @@
+import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:arya/features/addproduct/view_model/add_product_viewmodel.dart';
 import 'package:arya/features/addproduct/view/widgets/common/section_title.dart';
@@ -15,7 +16,7 @@ class NutritionFields extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(title: "add_product.sections.nutrition".tr()),
-        const SizedBox(height: 15),
+        ProjectSizedBox.widthNormalMedium,
         _buildNutritionRow([
           CustomFormField(
             controller: viewModel.energyController,
@@ -28,7 +29,7 @@ class NutritionFields extends StatelessWidget {
             keyboardType: TextInputType.number,
           ),
         ]),
-        const SizedBox(height: 15),
+        ProjectSizedBox.widthNormalMedium,
         _buildNutritionRow([
           CustomFormField(
             controller: viewModel.carbsController,
@@ -41,7 +42,7 @@ class NutritionFields extends StatelessWidget {
             keyboardType: TextInputType.number,
           ),
         ]),
-        const SizedBox(height: 15),
+        ProjectSizedBox.widthNormalMedium,
         _buildNutritionRow([
           CustomFormField(
             controller: viewModel.sodiumController,
@@ -54,7 +55,7 @@ class NutritionFields extends StatelessWidget {
             keyboardType: TextInputType.number,
           ),
         ]),
-        const SizedBox(height: 15),
+        ProjectSizedBox.widthNormalMedium,
         CustomFormField(
           controller: viewModel.sugarController,
           labelText: "add_product.fields.sugar".tr(),
@@ -69,7 +70,7 @@ class NutritionFields extends StatelessWidget {
       children: [
         for (int i = 0; i < children.length; i++) ...[
           Expanded(child: children[i]),
-          if (i < children.length - 1) const SizedBox(width: 10),
+          if (i < children.length - 1) ProjectSizedBox.widthSmallMedium,
         ],
       ],
     );

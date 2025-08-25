@@ -1,4 +1,5 @@
 import 'package:arya/features/index.dart';
+import 'package:arya/product/index.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -48,7 +49,7 @@ class _AppShellViewState extends State<AppShellView> {
               bottom: 50,
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: ProjectRadius.xBig,
                   boxShadow: [
                     BoxShadow(
                       color: Theme.of(
@@ -69,13 +70,13 @@ class _AppShellViewState extends State<AppShellView> {
                   ],
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: ProjectRadius.xBig,
                   child: BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.primary,
-                        borderRadius: BorderRadius.circular(24),
+                        borderRadius: ProjectRadius.xBig,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -156,18 +157,18 @@ class _AppShellViewState extends State<AppShellView> {
                         context,
                       ).colorScheme.surface.withValues(alpha: 0.6),
               ),
-              const SizedBox(height: 4),
+              ProjectSizedBox.heightVerySmall, // 4px boşluk
               if (isSelected)
                 Container(
                   width: 20,
                   height: 3,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(2),
+                    borderRadius: ProjectRadius.verySmall,
                     color: Theme.of(context).colorScheme.surface,
                   ),
                 )
               else
-                const SizedBox(height: 3),
+                ProjectSizedBox.customHeight(3), // 3px özel boyut
             ],
           ),
         ),

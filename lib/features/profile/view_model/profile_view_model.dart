@@ -11,10 +11,8 @@ class ProfileViewModel extends ChangeNotifier {
   bool _isEditing = false;
   bool _isDisposed = false;
 
-  // TextEditingController'lar
   final nameController = TextEditingController();
   final surnameController = TextEditingController();
-  // Username kaldırıldı
 
   // Getters
   UserModel? get user => _user;
@@ -24,7 +22,6 @@ class ProfileViewModel extends ChangeNotifier {
   bool get hasUser => _user != null;
   bool get isUserComplete => _user?.isComplete ?? false;
 
-  /// Kullanıcı verisini Firestore'dan çek
   Future<void> fetchUser() async {
     if (_isDisposed) return;
     _setLoading(true);
@@ -50,14 +47,12 @@ class ProfileViewModel extends ChangeNotifier {
     }
   }
 
-  /// Controller'lara veriyi yükle
   void _initializeControllers() {
     if (_isDisposed) return;
     nameController.text = _user?.name ?? '';
     surnameController.text = _user?.surname ?? '';
   }
 
-  /// Kullanıcı verilerini controller'lardan güncelle
   Future<void> updateUserFromControllers() async {
     if (_isDisposed) return;
     await updateUser(
@@ -66,7 +61,6 @@ class ProfileViewModel extends ChangeNotifier {
     );
   }
 
-  /// Kullanıcı verilerini parametrelerle güncelle
   Future<void> updateUser({String? name, String? surname}) async {
     if (_isDisposed) return;
     if (_user == null) {
@@ -83,7 +77,7 @@ class ProfileViewModel extends ChangeNotifier {
       await _userService.updateUserData(updatedUser);
       _user = updatedUser;
       _isEditing = false;
-      _initializeControllers(); // güncellenmiş verileri tekrar yükle
+      _initializeControllers();
       _notifySafely();
     } catch (e) {
       _setError("Kullanıcı verisi güncellenirken hata oluştu: ${e.toString()}");
@@ -164,7 +158,6 @@ class ProfileViewModel extends ChangeNotifier {
     _isDisposed = true;
     nameController.dispose();
     surnameController.dispose();
-    // username controller kaldırıldı
     super.dispose();
   }
 

@@ -17,7 +17,7 @@ class LoginTitle extends StatelessWidget {
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 8),
+        ProjectSizedBox.heightSmall, // 8px boşluk
         Text(
           AuthConstants.loginInstructions,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(

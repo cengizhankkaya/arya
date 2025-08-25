@@ -14,12 +14,12 @@ class OffHelpText extends StatelessWidget {
         color: Theme.of(
           context,
         ).colorScheme.secondaryContainer.withValues(alpha: 0.3),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: ProjectRadius.large,
       ),
       child: Row(
         children: [
-          Icon(Icons.help_outline, color: Colors.red, size: 20),
-          const SizedBox(width: 12),
+          Icon(Icons.help_outline, color: AppColors.of(context).red, size: 20),
+          ProjectSizedBox.widthNormal,
           Expanded(
             child: Text(
               'off.help_text'.tr(),

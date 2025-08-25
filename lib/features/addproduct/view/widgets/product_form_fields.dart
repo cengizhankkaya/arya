@@ -1,4 +1,5 @@
 import 'package:arya/features/index.dart';
+import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 
 class ProductFormFields extends StatelessWidget {
@@ -11,11 +12,11 @@ class ProductFormFields extends StatelessWidget {
     return Column(
       children: [
         BasicInfoFields(viewModel: viewModel),
-        const SizedBox(height: 20),
+        ProjectSizedBox.heightLarge,
         ImageSection(viewModel: viewModel),
-        const SizedBox(height: 20),
+        ProjectSizedBox.heightLarge,
         NutritionFields(viewModel: viewModel),
-        const SizedBox(height: 20),
+        ProjectSizedBox.heightLarge,
         AdditionalInfoFields(viewModel: viewModel),
       ],
     );

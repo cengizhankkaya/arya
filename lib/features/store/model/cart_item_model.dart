@@ -35,8 +35,6 @@ class CartItemModel {
       'id': id,
       'product_name': productName,
       'brands': brands,
-      // Yüksek çözünürlük için image_url'e de aynı değeri koyuyoruz
-      // (liste/detay widget'ları image_url'i öncelediği için net görüntü alacağız)
       'image_thumb_url': imageThumbUrl,
       'image_url': imageThumbUrl,
       'quantity': quantity,

@@ -14,19 +14,12 @@ class ProfileShimmerWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Profil header shimmer
             _buildProfileHeaderShimmer(context),
-            const SizedBox(height: 20),
-
-            // Kullanıcı bilgileri shimmer
+            ProjectSizedBox.heightLarge,
             _buildUserInfoShimmer(context),
-            const SizedBox(height: 20),
-
-            // Profil tamamlama durumu shimmer
+            ProjectSizedBox.heightLarge,
             _buildProfileCompletionShimmer(context),
-            const SizedBox(height: 20),
-
-            // Butonlar shimmer
+            ProjectSizedBox.heightLarge,
             _buildButtonsShimmer(context),
           ],
         ),
@@ -37,7 +30,6 @@ class ProfileShimmerWidget extends StatelessWidget {
   Widget _buildProfileHeaderShimmer(BuildContext context) {
     return Row(
       children: [
-        // Profil resmi shimmer
         Shimmer.fromColors(
           baseColor: Theme.of(context).colorScheme.surface,
           highlightColor: Theme.of(context).colorScheme.surface,
@@ -50,9 +42,7 @@ class ProfileShimmerWidget extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(width: 16),
-
-        // İsim ve email shimmer
+        ProjectSizedBox.widthMedium,
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,11 +55,11 @@ class ProfileShimmerWidget extends StatelessWidget {
                   width: 150,
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.surface,
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: ProjectRadius.small,
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
+              ProjectSizedBox.heightSmall,
               Shimmer.fromColors(
                 baseColor: Theme.of(context).colorScheme.surface,
                 highlightColor: Theme.of(context).colorScheme.surface,
@@ -78,7 +68,7 @@ class ProfileShimmerWidget extends StatelessWidget {
                   width: 200,
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.surface,
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: ProjectRadius.small,
                   ),
                 ),
               ),
@@ -93,7 +83,6 @@ class ProfileShimmerWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Başlık shimmer
         Shimmer.fromColors(
           baseColor: Theme.of(context).colorScheme.surface,
           highlightColor: Theme.of(context).colorScheme.surface,
@@ -102,13 +91,11 @@ class ProfileShimmerWidget extends StatelessWidget {
             width: 100,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surface,
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: ProjectRadius.small,
             ),
           ),
         ),
-        const SizedBox(height: 16),
-
-        // Bilgi satırları shimmer
+        ProjectSizedBox.heightMedium,
         for (int i = 0; i < 4; i++) ...[
           Row(
             children: [
@@ -120,11 +107,11 @@ class ProfileShimmerWidget extends StatelessWidget {
                   width: 80,
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.surface,
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: ProjectRadius.small,
                   ),
                 ),
               ),
-              const SizedBox(width: 16),
+              ProjectSizedBox.widthMedium,
               Expanded(
                 child: Shimmer.fromColors(
                   baseColor: Theme.of(context).colorScheme.surface,
@@ -133,14 +120,14 @@ class ProfileShimmerWidget extends StatelessWidget {
                     height: 16,
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.surface,
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: ProjectRadius.small,
                     ),
                   ),
                 ),
               ),
             ],
           ),
-          if (i < 3) const SizedBox(height: 12),
+          if (i < 3) ProjectSizedBox.heightNormal,
         ],
       ],
     );
@@ -150,7 +137,6 @@ class ProfileShimmerWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Başlık shimmer
         Shimmer.fromColors(
           baseColor: Theme.of(context).colorScheme.surface,
           highlightColor: Theme.of(context).colorScheme.surface,
@@ -159,13 +145,11 @@ class ProfileShimmerWidget extends StatelessWidget {
             width: 120,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surface,
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: ProjectRadius.small,
             ),
           ),
         ),
-        const SizedBox(height: 12),
-
-        // Progress bar shimmer
+        ProjectSizedBox.heightNormal,
         Shimmer.fromColors(
           baseColor: Theme.of(context).colorScheme.surface,
           highlightColor: Theme.of(context).colorScheme.surface,
@@ -173,13 +157,11 @@ class ProfileShimmerWidget extends StatelessWidget {
             height: 8,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surface,
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: ProjectRadius.small,
             ),
           ),
         ),
-        const SizedBox(height: 8),
-
-        // Yüzde shimmer
+        ProjectSizedBox.heightSmall,
         Shimmer.fromColors(
           baseColor: Theme.of(context).colorScheme.surface,
           highlightColor: Theme.of(context).colorScheme.surface,
@@ -188,7 +170,7 @@ class ProfileShimmerWidget extends StatelessWidget {
             width: 60,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surface,
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: ProjectRadius.small,
             ),
           ),
         ),
@@ -199,7 +181,6 @@ class ProfileShimmerWidget extends StatelessWidget {
   Widget _buildButtonsShimmer(BuildContext context) {
     return Column(
       children: [
-        // Düzenle butonu shimmer
         Shimmer.fromColors(
           baseColor: Theme.of(context).colorScheme.surface,
           highlightColor: Theme.of(context).colorScheme.surface,
@@ -208,13 +189,11 @@ class ProfileShimmerWidget extends StatelessWidget {
             width: double.infinity,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surface,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: ProjectRadius.large,
             ),
           ),
         ),
-        const SizedBox(height: 12),
-
-        // Çıkış yap butonu shimmer
+        ProjectSizedBox.heightNormal,
         Shimmer.fromColors(
           baseColor: Theme.of(context).colorScheme.surface,
           highlightColor: Theme.of(context).colorScheme.surface,
@@ -223,7 +202,7 @@ class ProfileShimmerWidget extends StatelessWidget {
             width: double.infinity,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surface,
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: ProjectRadius.large,
             ),
           ),
         ),

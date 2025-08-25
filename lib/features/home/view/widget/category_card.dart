@@ -23,7 +23,7 @@ class CategoryCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: appColors.categoryBg(category.palette),
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: ProjectRadius.xxLarge,
           border: Border.all(
             color: appColors.categoryBorder(category.palette),
             width: 1,
@@ -40,12 +40,12 @@ class CategoryCard extends StatelessWidget {
                   Image.asset(category.imageUrl, fit: BoxFit.contain),
                   if (isNutritionCategory)
                     Container(
-                      padding: const EdgeInsets.all(8),
+                      padding: ProjectPadding.verySmall(),
                       decoration: BoxDecoration(
                         color: appColors
                             .categoryBg(category.palette)
                             .withValues(alpha: 0.8),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: ProjectRadius.large,
                       ),
                       child: Icon(
                         _getNutritionIcon(category.titleKey),
@@ -56,21 +56,17 @@ class CategoryCard extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 8), // Biraz daha az boşluk
+            ProjectSizedBox.heightSmall,
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 4,
-              ), // Yatay padding ekliyorum
+              padding: ProjectPadding.verticalVerySmall,
               child: Text(
                 category.titleKey.tr(),
                 textAlign: TextAlign.center,
-                maxLines: 1, // Tüm kategoriler için tek satır
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   color: Theme.of(context).colorScheme.onSurface,
-                  fontSize: isNutritionCategory
-                      ? 13
-                      : 14, // Besin değeri kategorileri için biraz daha küçük
+                  fontSize: isNutritionCategory ? 13 : 14,
                   fontWeight: FontWeight.w600,
                   height: 1.1,
                 ),

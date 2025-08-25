@@ -26,7 +26,7 @@ class OnBoardCard extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           softWrap: true,
         ),
-        const SizedBox(height: 8),
+        ProjectSizedBox.heightSmall,
         Text(
           onboardModel.description,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
@@ -35,7 +35,7 @@ class OnBoardCard extends StatelessWidget {
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 24),
+        ProjectSizedBox.heightXLarge,
         if (onboardModel.lottiePath != null)
           LottieLoader(path: onboardModel.lottiePath!, width: 500)
         else
