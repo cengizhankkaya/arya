@@ -232,6 +232,19 @@
         "login_success": "Successfully signed in",
         "register_success": "Successfully signed up",
         "logout_success": "Successfully signed out",
+        "forgot_password_dialog": {
+            "title": "Forgot Password",
+            "description": "Enter your email address to reset your password. We will send you a password reset link.",
+            "email_example": "example@email.com",
+            "helper_text": "No overflow in long email addresses",
+            "cancel": "Cancel",
+            "send": "Send",
+            "sending": "Sending...",
+            "reset_email_sent": "Password reset email sent",
+            "reset_email_sent_description": "Check your email and click the link to reset your password",
+            "unexpected_error": "An unexpected error occurred: {error}",
+            "general_error": "An error occurred"
+        },
         "validators": {
             "email_required": "Email is required",
             "email_invalid": "Please enter a valid email address",

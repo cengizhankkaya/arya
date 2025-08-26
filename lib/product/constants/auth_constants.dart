@@ -52,11 +52,15 @@ class AuthConstants {
   static const String loggingIn = 'Giriş yapılıyor...';
   static const String registering = 'Kayıt olunuyor...';
   static const String signingOut = 'Çıkış yapılıyor...';
+  static const String sendingResetEmail = 'Gönder...';
 
   // Başarı mesajları
   static const String loginSuccess = 'Başarıyla giriş yapıldı';
   static const String registerSuccess = 'Başarıyla kayıt olundu';
   static const String logoutSuccess = 'Başarıyla çıkış yapıldı';
+  static const String resetEmailSent = 'Şifre sıfırlama e-postası gönderildi';
+  static const String resetEmailSentDescription =
+      'E-posta adresinizi kontrol edin ve şifrenizi sıfırlamak için linke tıklayın';
 
   // Regex patterns
   static final RegExp emailRegex = RegExp(

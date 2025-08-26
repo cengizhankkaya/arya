@@ -1,5 +1,6 @@
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
+import 'email_display_widget.dart';
 
 /// Kullanıcı profil bilgilerini gösteren header widget'ı
 /// Bu widget, kullanıcının avatar'ını, adını ve email bilgilerini içerir
@@ -81,23 +82,15 @@ class ProfileHeader extends StatelessWidget {
                         color: appColors.primaryGreen.withValues(alpha: 0.3),
                       ),
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        // Email ikonu
-                        Icon(Icons.email, size: 16, color: scheme.onSurface),
-                        const SizedBox(width: 8),
-                        // Email metni
-                        Text(
-                          user.email!,
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(
-                                color: scheme.onSurface,
-                                fontWeight: AppTypography.bodyLargeWeight,
-                              ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                    child: EmailDisplayWidget(
+                      email: user.email!,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: scheme.onSurface,
+                        fontWeight: AppTypography.bodyLargeWeight,
+                      ),
+                      icon: Icons.email,
+                      iconSize: 16,
+                      iconColor: scheme.onSurface,
                     ),
                   ),
                 ],
