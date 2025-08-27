@@ -3,6 +3,7 @@ import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class LoginButton extends StatelessWidget {
   const LoginButton({super.key});
@@ -18,7 +19,7 @@ class LoginButton extends StatelessWidget {
               final success = await viewModel.login();
               if (success && context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text(AuthConstants.loginSuccess)),
+                  SnackBar(content: Text('auth.login_success'.tr())),
                 );
                 context.router.replaceAll([const AppShellRoute()]);
               }
@@ -39,7 +40,7 @@ class LoginButton extends StatelessWidget {
               ),
             )
           : Text(
-              AuthConstants.loginButtonText,
+              'auth.login_button'.tr(),
               style: Theme.of(context).textTheme.labelLarge,
             ),
     );

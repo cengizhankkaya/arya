@@ -2,6 +2,7 @@ import 'package:arya/features/index.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RegisterForm extends StatelessWidget {
   const RegisterForm({super.key});
@@ -27,7 +28,7 @@ class RegisterForm extends StatelessWidget {
 
                 RegisterTextField(
                   controller: vm.nameController,
-                  label: AuthConstants.nameHint,
+                  label: 'auth.name_hint'.tr(),
                   icon: Icons.person,
                   validator: vm.validateName,
                 ),
@@ -35,7 +36,7 @@ class RegisterForm extends StatelessWidget {
 
                 RegisterTextField(
                   controller: vm.surnameController,
-                  label: AuthConstants.surnameHint,
+                  label: 'auth.surname_hint'.tr(),
                   icon: Icons.person_outline,
                   validator: vm.validateSurname,
                 ),
@@ -43,7 +44,7 @@ class RegisterForm extends StatelessWidget {
 
                 RegisterTextField(
                   controller: vm.emailController,
-                  label: AuthConstants.emailHint,
+                  label: 'auth.email_hint'.tr(),
                   icon: Icons.email,
                   keyboardType: TextInputType.emailAddress,
                   validator: vm.validateEmail,
@@ -52,7 +53,7 @@ class RegisterForm extends StatelessWidget {
 
                 RegisterPasswordField(
                   controller: vm.passwordController,
-                  label: AuthConstants.passwordHint,
+                  label: 'auth.password_hint'.tr(),
                   obscureText: vm.obscurePassword,
                   onToggle: vm.togglePasswordVisibility,
                   validator: vm.validatePassword,
@@ -61,7 +62,7 @@ class RegisterForm extends StatelessWidget {
 
                 RegisterPasswordField(
                   controller: vm.confirmPasswordController,
-                  label: AuthConstants.confirmPasswordHint,
+                  label: 'auth.confirm_password_hint'.tr(),
                   obscureText: vm.obscureConfirmPassword,
                   onToggle: vm.toggleConfirmPasswordVisibility,
                   validator: vm.validateConfirmPassword,

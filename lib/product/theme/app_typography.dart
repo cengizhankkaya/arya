@@ -40,6 +40,8 @@ final class AppTypography {
         fontWeight: _headlineWeight,
         height: 1.2,
         color: baseColor,
+        letterSpacing: 1.2,
+        wordSpacing: 2.0,
       ),
       titleLarge: TextStyle(
         fontSize: _titleSize,
@@ -56,7 +58,7 @@ final class AppTypography {
       bodyLarge: TextStyle(
         fontSize: _bodyLargeSize,
         fontWeight: _bodyLargeWeight,
-        height: 1.4,
+        height: 1.5,
         color: baseColor,
       ),
       bodyMedium: TextStyle(
@@ -109,4 +111,8 @@ final class AppTypography {
   static FontWeight get bodyWeight => _bodyWeight;
   static FontWeight get labelWeight => _labelWeight;
   static FontWeight get boldWeight => _boldWeight;
+
+  // Animation durations
+  static const Duration pageTransitionDuration = Duration(milliseconds: 300);
+  static const Curve pageTransitionCurve = Curves.easeInOut;
 }

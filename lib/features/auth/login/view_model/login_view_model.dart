@@ -1,6 +1,7 @@
 import 'package:arya/features/index.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class LoginViewModel extends ChangeNotifier {
   final FirebaseAuthService _authService = FirebaseAuthService();
@@ -32,20 +33,20 @@ class LoginViewModel extends ChangeNotifier {
   // Form validation
   String? validateEmail(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return AuthConstants.emailRequired;
+      return 'auth.validators.email_required'.tr();
     }
     if (!AuthConstants.emailRegex.hasMatch(value.trim())) {
-      return AuthConstants.emailInvalid;
+      return 'auth.validators.email_invalid'.tr();
     }
     return null;
   }
 
   String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
-      return AuthConstants.passwordRequired;
+      return 'auth.validators.password_required'.tr();
     }
     if (value.length < AuthConstants.minPasswordLength) {
-      return AuthConstants.passwordMinLength;
+      return 'auth.validators.password_min_length'.tr(args: [AuthConstants.minPasswordLength.toString()]);
     }
     return null;
   }

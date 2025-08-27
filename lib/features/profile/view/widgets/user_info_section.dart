@@ -76,12 +76,7 @@ class UserInfoSection extends StatelessWidget {
                   user.surname ?? 'general.not_specified'.tr(),
                 ),
                 ProjectSizedBox.heightLarge,
-                _buildInfoRow(
-                  context,
-                  Icons.email,
-                  'profile.labels.email'.tr(),
-                  user.email ?? 'general.not_specified'.tr(),
-                ),
+                _buildEmailRow(context),
               ],
             ),
           ),
@@ -130,6 +125,59 @@ class UserInfoSection extends StatelessWidget {
               ProjectSizedBox.heightVerySmall,
               Text(
                 value,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: appColors.black,
+                  fontWeight: AppTypography.bodyLargeWeight,
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// E-posta satırı için özel widget
+  Widget _buildEmailRow(BuildContext context) {
+    final appColors = AppColors.of(context);
+    final email = user.email ?? 'general.not_specified'.tr();
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Sol taraftaki yeşil ikon
+        Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            color: appColors.lightGreen,
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            Icons.email,
+            color: Theme.of(context).colorScheme.primary,
+            size: 20,
+          ),
+        ),
+        ProjectSizedBox.widthMedium,
+        // Sağ taraftaki label ve email
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'profile.labels.email'.tr(),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontWeight: AppTypography.labelWeight,
+                  color: appColors.black,
+                ),
+              ),
+              ProjectSizedBox.heightVerySmall,
+              // E-posta için özel widget kullan
+              EmailDisplayWidget(
+                email: email,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                   color: appColors.black,
                   fontWeight: AppTypography.bodyLargeWeight,

@@ -232,6 +232,19 @@
         "login_success": "Başarıyla giriş yapıldı",
         "register_success": "Başarıyla kayıt olundu",
         "logout_success": "Başarıyla çıkış yapıldı",
+        "forgot_password_dialog": {
+            "title": "Şifremi Unuttum",
+            "description": "Şifrenizi sıfırlamak için e-posta adresinizi girin. Size şifre sıfırlama linki göndereceğiz.",
+            "email_example": "ornek@email.com",
+            "helper_text": "Uzun e-posta adreslerinde taşma olmayacak",
+            "cancel": "İptal",
+            "send": "Gönder",
+            "sending": "Gönderiliyor...",
+            "reset_email_sent": "Şifre sıfırlama e-postası gönderildi",
+            "reset_email_sent_description": "E-posta adresinizi kontrol edin ve şifrenizi sıfırlamak için linke tıklayın",
+            "unexpected_error": "Beklenmeyen bir hata oluştu: {error}",
+            "general_error": "Bir hata oluştu"
+        },
         "validators": {
             "email_required": "E-posta adresi gereklidir",
             "email_invalid": "Geçerli bir e-posta adresi giriniz",
@@ -240,6 +253,10 @@
             "password_max_length": "Şifre en fazla {max} karakter olmalıdır",
             "name_required": "Ad gereklidir",
             "name_min_length": "Ad en az {min} karakter olmalıdır",
+            "name_max_length": "Ad en fazla {max} karakter olmalıdır",
+            "surname_required": "Soyad gereklidir",
+            "surname_min_length": "Soyad en az {min} karakter olmalıdır",
+            "surname_max_length": "Soyad en fazla {max} karakter olmalıdır",
             "confirm_password_required": "Şifre tekrarı gereklidir",
             "passwords_not_match": "Şifreler eşleşmiyor"
         }

@@ -1,6 +1,7 @@
 import 'package:arya/features/index.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RegisterViewModel extends ChangeNotifier {
   final FirebaseAuthService _authService = FirebaseAuthService();
@@ -29,7 +30,7 @@ class RegisterViewModel extends ChangeNotifier {
   bool get obscurePassword => _obscurePassword;
   bool get obscureConfirmPassword => _obscureConfirmPassword;
 
-  // Password visibility toggle
+  // Password visibility toggles
   void togglePasswordVisibility() {
     _obscurePassword = !_obscurePassword;
     notifyListeners();
@@ -40,62 +41,74 @@ class RegisterViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Form validation
+  // Form validation methods
   String? validateName(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return AuthConstants.nameRequired;
+      return 'auth.validators.name_required'.tr();
     }
     if (value.trim().length < AuthConstants.minNameLength) {
-      return AuthConstants.nameMinLength;
+      return 'auth.validators.name_min_length'.tr(
+        args: [AuthConstants.minNameLength.toString()],
+      );
     }
     if (value.trim().length > AuthConstants.maxNameLength) {
-      return 'Ad en fazla ${AuthConstants.maxNameLength} karakter olmalıdır';
+      return 'auth.validators.name_max_length'.tr(
+        args: [AuthConstants.maxNameLength.toString()],
+      );
     }
     return null;
   }
 
   String? validateSurname(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return 'Soyad gereklidir';
+      return 'auth.validators.surname_required'.tr();
     }
     if (value.trim().length < AuthConstants.minNameLength) {
-      return 'Soyad en az ${AuthConstants.minNameLength} karakter olmalıdır';
+      return 'auth.validators.surname_min_length'.tr(
+        args: [AuthConstants.minNameLength.toString()],
+      );
     }
     if (value.trim().length > AuthConstants.maxNameLength) {
-      return 'Soyad en fazla ${AuthConstants.maxNameLength} karakter olmalıdır';
+      return 'auth.validators.surname_max_length'.tr(
+        args: [AuthConstants.maxNameLength.toString()],
+      );
     }
     return null;
   }
 
   String? validateEmail(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return AuthConstants.emailRequired;
+      return 'auth.validators.email_required'.tr();
     }
     if (!AuthConstants.emailRegex.hasMatch(value.trim())) {
-      return AuthConstants.emailInvalid;
+      return 'auth.validators.email_invalid'.tr();
     }
     return null;
   }
 
   String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
-      return AuthConstants.passwordRequired;
+      return 'auth.validators.password_required'.tr();
     }
     if (value.length < AuthConstants.minPasswordLength) {
-      return AuthConstants.passwordMinLength;
+      return 'auth.validators.password_min_length'.tr(
+        args: [AuthConstants.minPasswordLength.toString()],
+      );
     }
     if (value.length > AuthConstants.maxPasswordLength) {
-      return AuthConstants.passwordMaxLength;
+      return 'auth.validators.password_max_length'.tr(
+        args: [AuthConstants.maxPasswordLength.toString()],
+      );
     }
     return null;
   }
 
   String? validateConfirmPassword(String? value) {
     if (value == null || value.isEmpty) {
-      return AuthConstants.confirmPasswordRequired;
+      return 'auth.validators.confirm_password_required'.tr();
     }
     if (value != passwordController.text) {
-      return AuthConstants.passwordsNotMatch;
+      return 'auth.validators.passwords_not_match'.tr();
     }
     return null;
   }
@@ -142,8 +155,6 @@ class RegisterViewModel extends ChangeNotifier {
       return false;
     }
   }
-
-  // Kullanıcı adı oluşturma kaldırıldı: kayıt sırasında username üretilmiyor
 
   // State management methods
   void _setLoading(bool loading) {

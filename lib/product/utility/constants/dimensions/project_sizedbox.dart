@@ -57,6 +57,11 @@ class ProjectSizedBox {
     final screenWidth = MediaQuery.of(context).size.width;
     return SizedBox(width: screenWidth * factor);
   }
+
+  // Responsive width değeri döndüren metod (SizedBox değil, double)
+  static double responsiveWidthValue(BuildContext context, double factor) {
+    return MediaQuery.of(context).size.width * factor;
+  }
 }
 
 // Kullanım kolaylığı için extension

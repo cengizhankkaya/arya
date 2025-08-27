@@ -9,38 +9,46 @@ class OnBoardCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          onboardModel.title,
-          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-            color: Theme.of(context).colorScheme.onSurface,
-            fontStyle: FontStyle.italic,
-            letterSpacing: 1.2,
-            wordSpacing: 2.0,
-            height: 1.5,
-          ),
-          textAlign: TextAlign.center,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          softWrap: true,
+    return SingleChildScrollView(
+      child: Padding(
+        padding: ProjectPadding.topOnboardCard(context),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              onboardModel.title,
+              style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
+                fontStyle: FontStyle.italic,
+              ),
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
+            ),
+            ProjectSizedBox.heightSmall,
+            Text(
+              onboardModel.description,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            ProjectSizedBox.heightXLarge,
+            if (onboardModel.lottiePath != null)
+              LottieLoader(
+                path: onboardModel.lottiePath!,
+                width: ProjectSizedBox.responsiveWidthValue(context, 0.9),
+              )
+            else
+              LottieLoader(
+                path: LottiePaths.onShoppingGreen,
+                width: ProjectSizedBox.responsiveWidthValue(context, 0.9),
+              ),
+          ],
         ),
-        ProjectSizedBox.heightSmall,
-        Text(
-          onboardModel.description,
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-            height: 1.5,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        ProjectSizedBox.heightXLarge,
-        if (onboardModel.lottiePath != null)
-          LottieLoader(path: onboardModel.lottiePath!, width: 500)
-        else
-          const LottieLoader(path: LottiePaths.onShoppingGreen, width: 500),
-      ],
+      ),
     );
   }
 }

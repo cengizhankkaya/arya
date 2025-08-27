@@ -1,5 +1,6 @@
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class LoginTitle extends StatelessWidget {
   const LoginTitle({super.key});
@@ -10,7 +11,7 @@ class LoginTitle extends StatelessWidget {
       children: [
         LottieLoader(path: LottiePaths.onLogin, width: 120, height: 120),
         Text(
-          AuthConstants.welcomeMessage,
+          'auth.welcome'.tr(),
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
             fontWeight: AppTypography.boldWeight,
             color: Theme.of(context).colorScheme.onSurface,
@@ -19,7 +20,7 @@ class LoginTitle extends StatelessWidget {
         ),
         ProjectSizedBox.heightSmall, // 8px boşluk
         Text(
-          AuthConstants.loginInstructions,
+          'auth.login_instructions'.tr(),
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
             color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),

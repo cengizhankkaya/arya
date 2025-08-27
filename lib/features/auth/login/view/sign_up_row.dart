@@ -1,6 +1,7 @@
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SignUpRow extends StatelessWidget {
   const SignUpRow({super.key});
@@ -11,7 +12,7 @@ class SignUpRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          AuthConstants.noAccountText,
+          'auth.no_account'.tr(),
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
             color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
@@ -22,7 +23,7 @@ class SignUpRow extends StatelessWidget {
             context.router.push(const RegisterRoute());
           },
           child: Text(
-            AuthConstants.signUpText,
+            'auth.sign_up'.tr(),
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
               color: Theme.of(context).colorScheme.primary,
             ),

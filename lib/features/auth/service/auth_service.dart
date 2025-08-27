@@ -122,6 +122,30 @@ class FirebaseAuthService {
     await _auth.signOut();
   }
 
+  /// Sends a password reset email to the specified email address.
+  /// This method triggers Firebase's password reset flow, which sends
+  /// an email with a link to reset the user's password.
+  ///
+  /// Parameters:
+  /// - email: Email address to send the password reset email to
+  ///
+  /// Returns:
+  /// - AuthResult.success if email was sent successfully
+  /// - AuthResult.error with localized error message on failure
+  ///
+  /// Note: This method will always return success even if the email
+  /// doesn't exist in the system (for security reasons)
+  Future<AuthResult> sendPasswordResetEmail({required String email}) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email.trim());
+      return AuthResult.success(null);
+    } on FirebaseAuthException catch (e) {
+      return AuthResult.error(_getPasswordResetErrorMessage(e.code));
+    } catch (e) {
+      return AuthResult.error('Beklenmeyen bir hata oluştu: $e');
+    }
+  }
+
   /// Maps Firebase authentication error codes to user-friendly Turkish messages.
   /// This method centralizes error message localization and provides consistent
   /// error messaging across the application.
@@ -168,6 +192,36 @@ class FirebaseAuthService {
         return 'Bu işlem şu anda etkin değil';
       default:
         return 'Bir hata oluştu';
+    }
+  }
+
+  /// Maps Firebase password reset error codes to user-friendly Turkish messages.
+  /// This method provides localized error messages specifically for password reset operations.
+  ///
+  /// Parameters:
+  /// - code: Firebase authentication error code
+  ///
+  /// Returns:
+  /// - Localized Turkish error message for the given error code
+  /// - Generic error message for unknown error codes
+  ///
+  /// Supported error codes:
+  /// - invalidEmail: Malformed email address
+  /// - userNotFound: User account doesn't exist
+  /// - tooManyRequests: Rate limiting exceeded
+  /// - networkRequestFailed: Network connectivity issues
+  String _getPasswordResetErrorMessage(String code) {
+    switch (code) {
+      case AuthConstants.invalidEmail:
+        return 'Geçersiz e-posta adresi';
+      case AuthConstants.userNotFound:
+        return 'Bu e-posta adresi ile kayıtlı kullanıcı bulunamadı';
+      case AuthConstants.tooManyRequests:
+        return 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin';
+      case AuthConstants.networkRequestFailed:
+        return 'İnternet bağlantınızı kontrol edin';
+      default:
+        return 'Şifre sıfırlama e-postası gönderilemedi';
     }
   }
 }
