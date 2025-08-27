@@ -78,6 +78,9 @@ class _OnBoardViewState extends State<OnBoardView> {
       actions: [
         if (!_controller.isBackEnabled)
           TextButton(
+            style: TextButton.styleFrom(
+              foregroundColor: Theme.of(context).colorScheme.onSurface,
+            ),
             onPressed: _controller.skipToLastPage,
             child: Text(
               'onboard.skip'.tr(),

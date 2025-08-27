@@ -14,7 +14,7 @@ class EmailField extends StatelessWidget {
       controller: viewModel.emailController,
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
-        labelText: AuthConstants.emailHint,
+        labelText: 'auth.email_hint'.tr(),
         hintText: 'auth.email_hint_example'.tr(),
         prefixIcon: const Icon(Icons.email_outlined),
         border: OutlineInputBorder(borderRadius: ProjectRadius.large),

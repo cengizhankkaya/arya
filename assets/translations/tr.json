@@ -253,6 +253,10 @@
             "password_max_length": "Şifre en fazla {max} karakter olmalıdır",
             "name_required": "Ad gereklidir",
             "name_min_length": "Ad en az {min} karakter olmalıdır",
+            "name_max_length": "Ad en fazla {max} karakter olmalıdır",
+            "surname_required": "Soyad gereklidir",
+            "surname_min_length": "Soyad en az {min} karakter olmalıdır",
+            "surname_max_length": "Soyad en fazla {max} karakter olmalıdır",
             "confirm_password_required": "Şifre tekrarı gereklidir",
             "passwords_not_match": "Şifreler eşleşmiyor"
         }

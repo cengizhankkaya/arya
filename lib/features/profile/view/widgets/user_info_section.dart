@@ -3,7 +3,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'email_display_widget.dart';
 
 class UserInfoSection extends StatelessWidget {
   final UserModel user;

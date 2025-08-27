@@ -61,8 +61,8 @@ class OnboardController extends ChangeNotifier {
   void _animateToPage(int pageIndex) {
     pageController.animateToPage(
       pageIndex,
-      duration: OnboardConstants.pageTransitionDuration,
-      curve: OnboardConstants.pageTransitionCurve,
+      duration: AppTypography.pageTransitionDuration,
+      curve: AppTypography.pageTransitionCurve,
     );
   }
 

@@ -3,6 +3,7 @@ import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RegisterButton extends StatelessWidget {
   const RegisterButton({super.key});
@@ -21,7 +22,7 @@ class RegisterButton extends StatelessWidget {
                 if (success && context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: const Text(AuthConstants.registerSuccess),
+                      content: Text('auth.register_success'.tr()),
                       backgroundColor: Theme.of(context).colorScheme.primary,
                     ),
                   );
@@ -43,7 +44,7 @@ class RegisterButton extends StatelessWidget {
                 child: CircularProgressIndicator(strokeWidth: 2),
               )
             : Text(
-                AuthConstants.registerButtonText,
+                'auth.register_button'.tr(),
                 style: Theme.of(context).textTheme.labelLarge,
               ),
       ),

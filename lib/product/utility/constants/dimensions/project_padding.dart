@@ -16,6 +16,10 @@ final class ProjectPadding extends EdgeInsets {
   static const EdgeInsets topLarge = EdgeInsets.only(top: 24);
   static const EdgeInsets topXLarge = EdgeInsets.only(top: 32);
 
+  // Responsive Top Padding for Onboard Card
+  static EdgeInsets topOnboardCard(BuildContext context) =>
+      EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1);
+
   // Vertical Bottom Padding
   static const EdgeInsets bottomSmall = EdgeInsets.only(bottom: 8);
   static const EdgeInsets bottomMedium = EdgeInsets.only(bottom: 12);

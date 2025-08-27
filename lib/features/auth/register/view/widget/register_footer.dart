@@ -1,6 +1,7 @@
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RegisterFooter extends StatelessWidget {
   const RegisterFooter({super.key});
@@ -10,10 +11,10 @@ class RegisterFooter extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(AuthConstants.haveAccountText),
+        Text('auth.have_account'.tr()),
         TextButton(
           onPressed: () => context.router.pop(),
-          child: const Text(AuthConstants.signInText),
+          child: Text('auth.sign_in'.tr()),
         ),
       ],
     );

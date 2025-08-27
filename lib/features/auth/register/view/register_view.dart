@@ -1,8 +1,8 @@
 import 'package:arya/features/index.dart';
-import 'package:arya/product/index.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 @RoutePage()
 class RegisterView extends StatelessWidget {
@@ -14,7 +14,7 @@ class RegisterView extends StatelessWidget {
       create: (_) => RegisterViewModel(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(AuthConstants.registerTitle),
+          title: Text('auth.register_title'.tr()),
           centerTitle: true,
         ),
         body: const RegisterForm(),
