@@ -6,8 +6,6 @@ import 'package:auto_route/auto_route.dart';
 import 'product/index.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await EasyLocalization.ensureInitialized();
   await ApplicationInitialize.init();
   runApp(ProductLocalization(child: const MyApp()));
 }

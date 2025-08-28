@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class LoginViewModel extends ChangeNotifier {
-  final FirebaseAuthService _authService = FirebaseAuthService();
+  final FirebaseAuthService _authService;
+
+  LoginViewModel({FirebaseAuthService? authService})
+    : _authService = authService ?? FirebaseAuthService();
 
   // Form controllers
   final TextEditingController emailController = TextEditingController();
@@ -46,14 +49,18 @@ class LoginViewModel extends ChangeNotifier {
       return 'auth.validators.password_required'.tr();
     }
     if (value.length < AuthConstants.minPasswordLength) {
-      return 'auth.validators.password_min_length'.tr(args: [AuthConstants.minPasswordLength.toString()]);
+      return 'auth.validators.password_min_length'.tr(
+        args: [AuthConstants.minPasswordLength.toString()],
+      );
     }
     return null;
   }
 
   // Login işlemi
   Future<bool> login() async {
-    if (!formKey.currentState!.validate()) {
+    // Form validation'ı güvenli şekilde kontrol et
+    final formState = formKey.currentState;
+    if (formState != null && !formState.validate()) {
       return false;
     }
 
