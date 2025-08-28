@@ -4,8 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class RegisterViewModel extends ChangeNotifier {
-  final FirebaseAuthService _authService = FirebaseAuthService();
-  final UserService _userService = UserService();
+  final FirebaseAuthService _authService;
+  final UserService _userService;
+
+  RegisterViewModel({
+    FirebaseAuthService? authService,
+    UserService? userService,
+  }) : _authService = authService ?? FirebaseAuthService(),
+       _userService = userService ?? UserService();
 
   // Form controllers
   final TextEditingController nameController = TextEditingController();

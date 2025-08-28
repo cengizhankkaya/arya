@@ -28,7 +28,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 /// ```
 class FirebaseAuthService {
   /// Firebase Auth instance for performing authentication operations
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth;
+
+  /// Creates a new FirebaseAuthService instance.
+  ///
+  /// Parameters:
+  /// - auth: FirebaseAuth instance to use for authentication operations
+  ///         If not provided, defaults to FirebaseAuth.instance
+  FirebaseAuthService({FirebaseAuth? auth})
+    : _auth = auth ?? FirebaseAuth.instance;
 
   /// Returns the currently signed-in user, or null if no user is signed in.
   /// This getter provides immediate access to the current user's authentication state

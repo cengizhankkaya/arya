@@ -3,9 +3,11 @@ import 'package:arya/features/index.dart';
 import 'package:arya/product/index.dart';
 
 class OnboardController extends ChangeNotifier {
-  final PageController pageController = PageController();
+  PageController? _pageController;
   int _selectedIndex = 0;
   bool _isBackEnabled = false;
+
+  PageController get pageController => _pageController ??= PageController();
 
   int get selectedIndex => _selectedIndex;
   bool get isBackEnabled => _isBackEnabled;
@@ -16,7 +18,7 @@ class OnboardController extends ChangeNotifier {
   int get totalPages => OnBoardModels.onboardModels.length;
 
   void updateSelectedIndex(int index) {
-    if (_selectedIndex != index) {
+    if (index >= 0 && index < totalPages && _selectedIndex != index) {
       _selectedIndex = index;
       _updateBackEnabled();
       notifyListeners();
@@ -59,16 +61,19 @@ class OnboardController extends ChangeNotifier {
   }
 
   void _animateToPage(int pageIndex) {
-    pageController.animateToPage(
-      pageIndex,
-      duration: AppTypography.pageTransitionDuration,
-      curve: AppTypography.pageTransitionCurve,
-    );
+    if (_pageController != null && _pageController!.hasClients) {
+      _pageController!.animateToPage(
+        pageIndex,
+        duration: AppTypography.pageTransitionDuration,
+        curve: AppTypography.pageTransitionCurve,
+      );
+    }
   }
 
   @override
   void dispose() {
-    pageController.dispose();
+    _pageController?.dispose();
+    _pageController = null;
     super.dispose();
   }
 }
