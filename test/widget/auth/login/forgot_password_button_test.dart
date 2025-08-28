@@ -76,7 +76,7 @@ void main() {
         expect(find.byType(TextButton), findsOneWidget);
         expect(find.text('Şifremi Unuttum'), findsOneWidget);
       });
-
+f
       testWidgets('Button metni doğru gösteriliyor', (tester) async {
         await tester.pumpWidget(testWidget);
 
