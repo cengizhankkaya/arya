@@ -3,10 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 
-// Generated mocks
-@GenerateMocks([FirebaseAuth, User, UserCredential, AuthResult])
-import 'auth_service_test.mocks.dart';
-
 // Mock classes
 class MockFirebaseAuth extends Mock implements FirebaseAuth {}
 
