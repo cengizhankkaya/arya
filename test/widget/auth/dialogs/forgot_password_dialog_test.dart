@@ -113,7 +113,8 @@ void main() {
                   showDialog(
                     context: context,
                     barrierDismissible: true,
-                    builder: (context) => ForgotPasswordDialog(),
+                    builder: (context) =>
+                        ForgotPasswordDialog(authService: mockAuthService),
                   );
                 },
                 child: const Text('Show Dialog'),

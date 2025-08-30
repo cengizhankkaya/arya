@@ -124,6 +124,6 @@ class _OnBoardViewState extends State<OnBoardView> {
   Future<void> _completeOnboardingAndNavigate() async {
     await AppPrefs.setHasOnboarded(true);
     if (!mounted) return;
-    context.router.replaceAll([const LoginRoute()]);
+    context.router.replaceAll([LoginRoute()]);
   }
 }

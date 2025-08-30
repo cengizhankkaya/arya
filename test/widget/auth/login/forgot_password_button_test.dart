@@ -1,328 +1,328 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 
-// /// --------- Mock Dialog ---------
-// class MockForgotPasswordDialog extends StatelessWidget {
-//   const MockForgotPasswordDialog({super.key});
+/// --------- Mock Dialog ---------
+class MockForgotPasswordDialog extends StatelessWidget {
+  const MockForgotPasswordDialog({super.key});
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return AlertDialog(
-//       title: const Text('Şifremi Unuttum'),
-//       content: const Text('Şifre sıfırlama dialog\'u'),
-//       actions: [
-//         TextButton(
-//           onPressed: () => Navigator.of(context).pop(),
-//           child: const Text('Kapat'),
-//         ),
-//       ],
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Şifremi Unuttum'),
+      content: const Text('Şifre sıfırlama dialog\'u'),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('Kapat'),
+        ),
+      ],
+    );
+  }
+}
 
-// /// --------- Test Widget ---------
-// class TestForgotPasswordButton extends StatelessWidget {
-//   const TestForgotPasswordButton({super.key});
+/// --------- Test Widget ---------
+class TestForgotPasswordButton extends StatelessWidget {
+  const TestForgotPasswordButton({super.key});
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Align(
-//       alignment: Alignment.centerRight,
-//       child: TextButton(
-//         onPressed: () {
-//           showDialog(
-//             context: context,
-//             builder: (context) => const MockForgotPasswordDialog(),
-//           );
-//         },
-//         child: Text(
-//           'Şifremi Unuttum',
-//           style: TextStyle(
-//             color: Theme.of(context).primaryColor,
-//             fontWeight: FontWeight.w500,
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: TextButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) => const MockForgotPasswordDialog(),
+          );
+        },
+        child: Text(
+          'Şifremi Unuttum',
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+    );
+  }
+}
 
-// void main() {
-//   group('ForgotPasswordButton Widget Tests', () {
-//     late Widget testWidget;
+void main() {
+  group('ForgotPasswordButton Widget Tests', () {
+    late Widget testWidget;
 
-//     Widget createTestWidget() {
-//       return MaterialApp(
-//         home: Scaffold(body: const TestForgotPasswordButton()),
-//         theme: ThemeData(
-//           primaryColor: Colors.blue,
-//           textTheme: const TextTheme(
-//             labelLarge: TextStyle(fontWeight: FontWeight.w500),
-//           ),
-//         ),
-//       );
-//     }
+    Widget createTestWidget() {
+      return MaterialApp(
+        home: Scaffold(body: const TestForgotPasswordButton()),
+        theme: ThemeData(
+          primaryColor: Colors.blue,
+          textTheme: const TextTheme(
+            labelLarge: TextStyle(fontWeight: FontWeight.w500),
+          ),
+        ),
+      );
+    }
 
-//     setUp(() {
-//       testWidget = createTestWidget();
-//     });
+    setUp(() {
+      testWidget = createTestWidget();
+    });
 
-//     group('Basic Rendering Tests', () {
-//       testWidgets('ForgotPasswordButton widget render ediliyor', (
-//         tester,
-//       ) async {
-//         await tester.pumpWidget(testWidget);
+    group('Basic Rendering Tests', () {
+      testWidgets('ForgotPasswordButton widget render ediliyor', (
+        tester,
+      ) async {
+        await tester.pumpWidget(testWidget);
 
-//         expect(find.byType(TextButton), findsOneWidget);
-//         expect(find.text('Şifremi Unuttum'), findsOneWidget);
-//       });
-// f
-//       testWidgets('Button metni doğru gösteriliyor', (tester) async {
-//         await tester.pumpWidget(testWidget);
+        expect(find.byType(TextButton), findsOneWidget);
+        expect(find.text('Şifremi Unuttum'), findsOneWidget);
+      });
 
-//         final textWidget = tester.widget<Text>(find.byType(Text));
-//         expect(textWidget.data, equals('Şifremi Unuttum'));
-//       });
+      testWidgets('Button metni doğru gösteriliyor', (tester) async {
+        await tester.pumpWidget(testWidget);
 
-//       testWidgets('Button alignment doğru ayarlanıyor', (tester) async {
-//         await tester.pumpWidget(testWidget);
+        final textWidget = tester.widget<Text>(find.byType(Text));
+        expect(textWidget.data, equals('Şifremi Unuttum'));
+      });
 
-//         final alignWidget = tester.widget<Align>(find.byType(Align).first);
-//         expect(alignWidget.alignment, equals(Alignment.centerRight));
-//       });
-//     });
+      testWidgets('Button alignment doğru ayarlanıyor', (tester) async {
+        await tester.pumpWidget(testWidget);
 
-//     group('Styling Tests', () {
-//       testWidgets('Button text rengi doğru ayarlanıyor', (tester) async {
-//         await tester.pumpWidget(testWidget);
+        final alignWidget = tester.widget<Align>(find.byType(Align).first);
+        expect(alignWidget.alignment, equals(Alignment.centerRight));
+      });
+    });
 
-//         final textWidget = tester.widget<Text>(find.byType(Text));
-//         expect(textWidget.style?.color, equals(Colors.blue));
-//       });
+    group('Styling Tests', () {
+      testWidgets('Button text rengi doğru ayarlanıyor', (tester) async {
+        await tester.pumpWidget(testWidget);
 
-//       testWidgets('Button text font weight doğru ayarlanıyor', (tester) async {
-//         await tester.pumpWidget(testWidget);
+        final textWidget = tester.widget<Text>(find.byType(Text));
+        expect(textWidget.style?.color, equals(Colors.blue));
+      });
 
-//         final textWidget = tester.widget<Text>(find.byType(Text));
-//         expect(textWidget.style?.fontWeight, equals(FontWeight.w500));
-//       });
+      testWidgets('Button text font weight doğru ayarlanıyor', (tester) async {
+        await tester.pumpWidget(testWidget);
 
-//       testWidgets('Farklı tema renkleri kullanılıyor', (tester) async {
-//         await tester.pumpWidget(
-//           MaterialApp(
-//             home: Scaffold(body: const TestForgotPasswordButton()),
-//             theme: ThemeData(primaryColor: Colors.purple),
-//           ),
-//         );
+        final textWidget = tester.widget<Text>(find.byType(Text));
+        expect(textWidget.style?.fontWeight, equals(FontWeight.w500));
+      });
 
-//         final textWidget = tester.widget<Text>(find.byType(Text).first);
-//         expect(textWidget.style?.color, equals(Colors.purple));
-//       });
-//     });
+      testWidgets('Farklı tema renkleri kullanılıyor', (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(body: const TestForgotPasswordButton()),
+            theme: ThemeData(primaryColor: Colors.purple),
+          ),
+        );
 
-//     group('Interaction Tests', () {
-//       testWidgets('Button tıklanabilir', (tester) async {
-//         await tester.pumpWidget(testWidget);
+        final textWidget = tester.widget<Text>(find.byType(Text).first);
+        expect(textWidget.style?.color, equals(Colors.purple));
+      });
+    });
 
-//         final button = find.byType(TextButton);
-//         expect(button, findsOneWidget);
+    group('Interaction Tests', () {
+      testWidgets('Button tıklanabilir', (tester) async {
+        await tester.pumpWidget(testWidget);
 
-//         // Button'ın tıklanabilir olduğunu kontrol et
-//         final textButton = tester.widget<TextButton>(button);
-//         expect(textButton.onPressed, isNotNull);
-//       });
+        final button = find.byType(TextButton);
+        expect(button, findsOneWidget);
 
-//       testWidgets('Button tıklandığında dialog açılıyor', (tester) async {
-//         await tester.pumpWidget(testWidget);
+        // Button'ın tıklanabilir olduğunu kontrol et
+        final textButton = tester.widget<TextButton>(button);
+        expect(textButton.onPressed, isNotNull);
+      });
 
-//         // Button'ı tıkla
-//         await tester.tap(find.byType(TextButton));
-//         await tester.pumpAndSettle();
+      testWidgets('Button tıklandığında dialog açılıyor', (tester) async {
+        await tester.pumpWidget(testWidget);
 
-//         // Dialog açıldığını kontrol et
-//         expect(find.byType(AlertDialog), findsOneWidget);
-//         expect(
-//           find.text('Şifremi Unuttum'),
-//           findsNWidgets(2),
-//         ); // Button + Dialog title
-//         expect(find.text('Şifre sıfırlama dialog\'u'), findsOneWidget);
-//       });
+        // Button'ı tıkla
+        await tester.tap(find.byType(TextButton));
+        await tester.pumpAndSettle();
 
-//       testWidgets('Dialog kapatılabiliyor', (tester) async {
-//         await tester.pumpWidget(testWidget);
+        // Dialog açıldığını kontrol et
+        expect(find.byType(AlertDialog), findsOneWidget);
+        expect(
+          find.text('Şifremi Unuttum'),
+          findsNWidgets(2),
+        ); // Button + Dialog title
+        expect(find.text('Şifre sıfırlama dialog\'u'), findsOneWidget);
+      });
 
-//         // Button'ı tıkla ve dialog'u aç
-//         await tester.tap(find.byType(TextButton));
-//         await tester.pumpAndSettle();
+      testWidgets('Dialog kapatılabiliyor', (tester) async {
+        await tester.pumpWidget(testWidget);
 
-//         // Dialog açıldığını kontrol et
-//         expect(find.byType(AlertDialog), findsOneWidget);
+        // Button'ı tıkla ve dialog'u aç
+        await tester.tap(find.byType(TextButton));
+        await tester.pumpAndSettle();
 
-//         // Kapat butonunu tıkla
-//         await tester.tap(find.text('Kapat'));
-//         await tester.pumpAndSettle();
+        // Dialog açıldığını kontrol et
+        expect(find.byType(AlertDialog), findsOneWidget);
 
-//         // Dialog kapandığını kontrol et
-//         expect(find.byType(AlertDialog), findsNothing);
-//       });
-//     });
+        // Kapat butonunu tıkla
+        await tester.tap(find.text('Kapat'));
+        await tester.pumpAndSettle();
 
-//     group('Layout Tests', () {
-//       testWidgets('Button sağa hizalanıyor', (tester) async {
-//         await tester.pumpWidget(testWidget);
+        // Dialog kapandığını kontrol et
+        expect(find.byType(AlertDialog), findsNothing);
+      });
+    });
 
-//         final alignWidget = tester.widget<Align>(find.byType(Align).first);
-//         expect(alignWidget.alignment, equals(Alignment.centerRight));
-//       });
+    group('Layout Tests', () {
+      testWidgets('Button sağa hizalanıyor', (tester) async {
+        await tester.pumpWidget(testWidget);
 
-//       testWidgets('Button boyutları doğru', (tester) async {
-//         await tester.pumpWidget(testWidget);
+        final alignWidget = tester.widget<Align>(find.byType(Align).first);
+        expect(alignWidget.alignment, equals(Alignment.centerRight));
+      });
 
-//         final button = find.byType(TextButton);
-//         expect(button, findsOneWidget);
+      testWidgets('Button boyutları doğru', (tester) async {
+        await tester.pumpWidget(testWidget);
 
-//         // Button'ın minimum boyutları var mı kontrol et
-//         final buttonWidget = tester.widget<TextButton>(button);
-//         expect(buttonWidget, isNotNull);
-//       });
-//     });
+        final button = find.byType(TextButton);
+        expect(button, findsOneWidget);
 
-//     group('Accessibility Tests', () {
-//       testWidgets('Button semantic label\'ı var', (tester) async {
-//         await tester.pumpWidget(testWidget);
+        // Button'ın minimum boyutları var mı kontrol et
+        final buttonWidget = tester.widget<TextButton>(button);
+        expect(buttonWidget, isNotNull);
+      });
+    });
 
-//         final button = find.byType(TextButton);
-//         expect(button, findsOneWidget);
+    group('Accessibility Tests', () {
+      testWidgets('Button semantic label\'ı var', (tester) async {
+        await tester.pumpWidget(testWidget);
 
-//         // Accessibility için semantic label kontrolü
-//         expect(find.bySemanticsLabel('Şifremi Unuttum'), findsOneWidget);
-//       });
+        final button = find.byType(TextButton);
+        expect(button, findsOneWidget);
 
-//       testWidgets('Button tıklanabilir semantic property\'si var', (
-//         tester,
-//       ) async {
-//         await tester.pumpWidget(testWidget);
+        // Accessibility için semantic label kontrolü
+        expect(find.bySemanticsLabel('Şifremi Unuttum'), findsOneWidget);
+      });
 
-//         final button = find.byType(TextButton);
-//         expect(button, findsOneWidget);
+      testWidgets('Button tıklanabilir semantic property\'si var', (
+        tester,
+      ) async {
+        await tester.pumpWidget(testWidget);
 
-//         // Button'ın tıklanabilir olduğunu semantic olarak kontrol et
-//         final semantics = tester.getSemantics(find.byType(TextButton));
-//         expect(semantics, isNotNull);
-//       });
-//     });
+        final button = find.byType(TextButton);
+        expect(button, findsOneWidget);
 
-//     group('Edge Case Tests', () {
-//       testWidgets('Çok uzun text ile button render ediliyor', (tester) async {
-//         const longText =
-//             'Çok uzun bir şifremi unuttum metni burada yer alıyor ve button genişliğini aşabilir';
+        // Button'ın tıklanabilir olduğunu semantic olarak kontrol et
+        final semantics = tester.getSemantics(find.byType(TextButton));
+        expect(semantics, isNotNull);
+      });
+    });
 
-//         await tester.pumpWidget(
-//           MaterialApp(
-//             home: Scaffold(
-//               body: Align(
-//                 alignment: Alignment.centerRight,
-//                 child: TextButton(onPressed: () {}, child: Text(longText)),
-//               ),
-//             ),
-//           ),
-//         );
+    group('Edge Case Tests', () {
+      testWidgets('Çok uzun text ile button render ediliyor', (tester) async {
+        const longText =
+            'Çok uzun bir şifremi unuttum metni burada yer alıyor ve button genişliğini aşabilir';
 
-//         expect(find.text(longText), findsOneWidget);
-//       });
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(onPressed: () {}, child: Text(longText)),
+              ),
+            ),
+          ),
+        );
 
-//       testWidgets('Boş text ile button render ediliyor', (tester) async {
-//         await tester.pumpWidget(
-//           MaterialApp(
-//             home: Scaffold(
-//               body: Align(
-//                 alignment: Alignment.centerRight,
-//                 child: TextButton(onPressed: () {}, child: const Text('')),
-//               ),
-//             ),
-//           ),
-//         );
+        expect(find.text(longText), findsOneWidget);
+      });
 
-//         expect(find.byType(TextButton), findsOneWidget);
-//       });
+      testWidgets('Boş text ile button render ediliyor', (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(onPressed: () {}, child: const Text('')),
+              ),
+            ),
+          ),
+        );
 
-//       testWidgets('Null onPressed ile button render ediliyor', (tester) async {
-//         await tester.pumpWidget(
-//           MaterialApp(
-//             home: Scaffold(
-//               body: Align(
-//                 alignment: Alignment.centerRight,
-//                 child: TextButton(
-//                   onPressed: null,
-//                   child: const Text('Şifremi Unuttum'),
-//                 ),
-//               ),
-//             ),
-//           ),
-//         );
+        expect(find.byType(TextButton), findsOneWidget);
+      });
 
-//         expect(find.byType(TextButton), findsOneWidget);
-//         expect(find.text('Şifremi Unuttum'), findsOneWidget);
-//       });
-//     });
+      testWidgets('Null onPressed ile button render ediliyor', (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  onPressed: null,
+                  child: const Text('Şifremi Unuttum'),
+                ),
+              ),
+            ),
+          ),
+        );
 
-//     group('Performance Tests', () {
-//       testWidgets('Widget rebuild performance testi', (tester) async {
-//         await tester.pumpWidget(testWidget);
+        expect(find.byType(TextButton), findsOneWidget);
+        expect(find.text('Şifremi Unuttum'), findsOneWidget);
+      });
+    });
 
-//         // Widget'ı birkaç kez yeniden render et
-//         for (int i = 0; i < 10; i++) {
-//           await tester.pumpWidget(
-//             MaterialApp(home: Scaffold(body: const TestForgotPasswordButton())),
-//           );
-//         }
+    group('Performance Tests', () {
+      testWidgets('Widget rebuild performance testi', (tester) async {
+        await tester.pumpWidget(testWidget);
 
-//         expect(find.byType(TestForgotPasswordButton), findsOneWidget);
-//       });
+        // Widget'ı birkaç kez yeniden render et
+        for (int i = 0; i < 10; i++) {
+          await tester.pumpWidget(
+            MaterialApp(home: Scaffold(body: const TestForgotPasswordButton())),
+          );
+        }
 
-//       testWidgets('Button tıklama performance testi', (tester) async {
-//         await tester.pumpWidget(testWidget);
+        expect(find.byType(TestForgotPasswordButton), findsOneWidget);
+      });
 
-//         // Button'ı birkaç kez tıkla
-//         for (int i = 0; i < 5; i++) {
-//           await tester.tap(find.byType(TextButton));
-//           await tester.pumpAndSettle();
+      testWidgets('Button tıklama performance testi', (tester) async {
+        await tester.pumpWidget(testWidget);
 
-//           // Dialog'u kapat
-//           await tester.tap(find.text('Kapat'));
-//           await tester.pumpAndSettle();
-//         }
+        // Button'ı birkaç kez tıkla
+        for (int i = 0; i < 5; i++) {
+          await tester.tap(find.byType(TextButton));
+          await tester.pumpAndSettle();
 
-//         expect(find.byType(TestForgotPasswordButton), findsOneWidget);
-//       });
-//     });
+          // Dialog'u kapat
+          await tester.tap(find.text('Kapat'));
+          await tester.pumpAndSettle();
+        }
 
-//     group('Integration Tests', () {
-//       testWidgets('Button ve dialog entegrasyonu çalışıyor', (tester) async {
-//         await tester.pumpWidget(testWidget);
+        expect(find.byType(TestForgotPasswordButton), findsOneWidget);
+      });
+    });
 
-//         // Button'ı tıkla
-//         await tester.tap(find.byType(TextButton));
-//         await tester.pumpAndSettle();
+    group('Integration Tests', () {
+      testWidgets('Button ve dialog entegrasyonu çalışıyor', (tester) async {
+        await tester.pumpWidget(testWidget);
 
-//         // Dialog açıldığını kontrol et
-//         expect(find.byType(AlertDialog), findsOneWidget);
+        // Button'ı tıkla
+        await tester.tap(find.byType(TextButton));
+        await tester.pumpAndSettle();
 
-//         // Dialog içeriğini kontrol et
-//         expect(find.text('Şifremi Unuttum'), findsNWidgets(2));
-//         expect(find.text('Şifre sıfırlama dialog\'u'), findsOneWidget);
-//         expect(find.text('Kapat'), findsOneWidget);
+        // Dialog açıldığını kontrol et
+        expect(find.byType(AlertDialog), findsOneWidget);
 
-//         // Dialog'u kapat
-//         await tester.tap(find.text('Kapat'));
-//         await tester.pumpAndSettle();
+        // Dialog içeriğini kontrol et
+        expect(find.text('Şifremi Unuttum'), findsNWidgets(2));
+        expect(find.text('Şifre sıfırlama dialog\'u'), findsOneWidget);
+        expect(find.text('Kapat'), findsOneWidget);
 
-//         // Dialog kapandığını kontrol et
-//         expect(find.byType(AlertDialog), findsNothing);
+        // Dialog'u kapat
+        await tester.tap(find.text('Kapat'));
+        await tester.pumpAndSettle();
 
-//         // Button hala mevcut
-//         expect(find.byType(TextButton), findsOneWidget);
-//       });
-//     });
-//   });
-// }
+        // Dialog kapandığını kontrol et
+        expect(find.byType(AlertDialog), findsNothing);
+
+        // Button hala mevcut
+        expect(find.byType(TextButton), findsOneWidget);
+      });
+    });
+  });
+}
