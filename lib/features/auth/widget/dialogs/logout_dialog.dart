@@ -33,7 +33,7 @@ Future<void> showLogoutDialog(
   if (result == true) {
     await viewModel.signOut();
     if (context.mounted) {
-      context.router.replaceAll([const LoginRoute()]);
+      context.router.replaceAll([LoginRoute()]);
     }
   }
 }

@@ -1,10 +1,13 @@
 import 'package:arya/product/index.dart';
 import 'package:arya/features/auth/widget/dialogs/forgot_password_dialog.dart';
+import 'package:arya/features/auth/service/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class ForgotPasswordButton extends StatelessWidget {
-  const ForgotPasswordButton({super.key});
+  final FirebaseAuthService? authService;
+
+  const ForgotPasswordButton({super.key, this.authService});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +17,9 @@ class ForgotPasswordButton extends StatelessWidget {
         onPressed: () {
           showDialog(
             context: context,
-            builder: (context) => const ForgotPasswordDialog(),
+            builder: (context) => ForgotPasswordDialog(
+              authService: authService ?? FirebaseAuthService(),
+            ),
           );
         },
         child: Text(

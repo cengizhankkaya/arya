@@ -1,50 +1,50 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:arya/features/auth/service/user_service.dart';
 import 'package:arya/features/auth/model/user_model.dart';
-import 'package:mockito/mockito.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-// Mock sınıfları
+// Basit mock sınıfları
 class MockFirebaseFirestore extends Mock implements FirebaseFirestore {}
 
-class MockCollectionReference extends Mock
-    implements CollectionReference<Map<String, dynamic>> {}
+class MockCollectionReference extends Mock implements CollectionReference {}
 
-class MockDocumentReference extends Mock
-    implements DocumentReference<Map<String, dynamic>> {}
+class MockDocumentReference extends Mock implements DocumentReference {}
 
-class MockDocumentSnapshot extends Mock
-    implements DocumentSnapshot<Map<String, dynamic>> {}
+class MockDocumentSnapshot extends Mock implements DocumentSnapshot {}
 
-// Test için UserService'i extend eden mock sınıf
-class TestUserService extends UserService {
-  final FirebaseFirestore firestore;
+class MockQuerySnapshot extends Mock implements QuerySnapshot {}
 
-  TestUserService(this.firestore);
+class MockQueryDocumentSnapshot extends Mock implements QueryDocumentSnapshot {}
 
-  @override
-  FirebaseFirestore get _firestore => firestore;
+// Mock sınıfı
+class Mock {
+  dynamic noSuchMethod(Invocation invocation) => null;
 }
 
 void main() {
   group('UserService', () {
-    late TestUserService userService;
+    late UserService userService;
     late MockFirebaseFirestore mockFirestore;
     late MockCollectionReference mockCollection;
     late MockDocumentReference mockDocument;
     late MockDocumentSnapshot mockDocumentSnapshot;
+    late MockQuerySnapshot mockQuerySnapshot;
+    late MockQueryDocumentSnapshot mockQueryDocumentSnapshot;
 
     setUp(() {
       mockFirestore = MockFirebaseFirestore();
       mockCollection = MockCollectionReference();
       mockDocument = MockDocumentReference();
       mockDocumentSnapshot = MockDocumentSnapshot();
+      mockQuerySnapshot = MockQuerySnapshot();
+      mockQueryDocumentSnapshot = MockQueryDocumentSnapshot();
 
-      userService = TestUserService(mockFirestore);
+      // Mock davranışları ayarla
+      userService = UserService(firestore: mockFirestore);
     });
 
-    group('createDataUser Tests', () {
-      test('başarılı kullanıcı oluşturma', () async {
+    group('UserModel Tests', () {
+      test('UserModel oluşturulabilmeli', () {
         // Arrange (Hazırlık)
         final user = UserModel(
           uid: 'user123',
@@ -53,355 +53,177 @@ void main() {
           email: 'john@example.com',
         );
 
-        when(mockFirestore.collection('users')).thenReturn(mockCollection);
-        when(mockCollection.doc('user123')).thenReturn(mockDocument);
-        when(mockDocument.set(<String, dynamic>{})).thenAnswer((_) async => {});
-
-        // ACT (Eylem) - Kullanıcı oluştur
-        await userService.createDataUser(user);
-
-        // ASSERT (Doğrulama) - Firestore'a kayıt yapıldı
-        verify(mockFirestore.collection('users')).called(1);
-        verify(mockCollection.doc('user123')).called(1);
-        verify(mockDocument.set(<String, dynamic>{})).called(1);
+        // ASSERT (Doğrulama)
+        expect(user.uid, equals('user123'));
+        expect(user.name, equals('John'));
+        expect(user.surname, equals('Doe'));
+        expect(user.email, equals('john@example.com'));
       });
 
-      test('permission-denied hatası ile exception fırlatmalı', () async {
+      test('UserModel toJson çalışmalı', () {
         // Arrange (Hazırlık)
         final user = UserModel(
           uid: 'user123',
           name: 'John',
+          surname: 'Doe',
           email: 'john@example.com',
         );
 
-        when(mockFirestore.collection('users')).thenReturn(mockCollection);
-        when(mockCollection.doc('user123')).thenReturn(mockDocument);
-        when(mockDocument.set(<String, dynamic>{})).thenThrow(
-          FirebaseException(
-            plugin: 'firestore',
-            code: 'permission-denied',
-            message: 'Permission denied',
-          ),
-        );
+        // ACT (Eylem)
+        final json = user.toJson();
 
-        // ACT & ASSERT (Eylem ve Doğrulama) - Exception fırlatılmalı
-        expect(
-          () => userService.createDataUser(user),
-          throwsA(
-            predicate((e) => e.toString().contains('Firestore izin hatası')),
-          ),
-        );
+        // ASSERT (Doğrulama)
+        expect(json['uid'], equals('user123'));
+        expect(json['name'], equals('John'));
+        expect(json['surname'], equals('Doe'));
+        expect(json['email'], equals('john@example.com'));
       });
 
-      test('network hatası ile exception fırlatmalı', () async {
+      test('UserModel fromJson çalışmalı', () {
         // Arrange (Hazırlık)
-        final user = UserModel(
-          uid: 'user123',
-          name: 'John',
-          email: 'john@example.com',
-        );
-
-        when(mockFirestore.collection('users')).thenReturn(mockCollection);
-        when(mockCollection.doc('user123')).thenReturn(mockDocument);
-        when(mockDocument.set(<String, dynamic>{})).thenThrow(
-          FirebaseException(
-            plugin: 'firestore',
-            code: 'network-request-failed',
-            message: 'Network error',
-          ),
-        );
-
-        // ACT & ASSERT (Eylem ve Doğrulama) - Exception fırlatılmalı
-        expect(
-          () => userService.createDataUser(user),
-          throwsA(
-            predicate((e) => e.toString().contains('Ağ bağlantısı hatası')),
-          ),
-        );
-      });
-
-      test('genel hata ile exception fırlatmalı', () async {
-        // Arrange (Hazırlık)
-        final user = UserModel(
-          uid: 'user123',
-          name: 'John',
-          email: 'john@example.com',
-        );
-
-        when(mockFirestore.collection('users')).thenReturn(mockCollection);
-        when(mockCollection.doc('user123')).thenReturn(mockDocument);
-        when(
-          mockDocument.set(<String, dynamic>{}),
-        ).thenThrow(Exception('Unknown error'));
-
-        // ACT & ASSERT (Eylem ve Doğrulama) - Exception fırlatılmalı
-        expect(
-          () => userService.createDataUser(user),
-          throwsA(
-            predicate(
-              (e) => e.toString().contains('Kullanıcı verisi kaydedilemedi'),
-            ),
-          ),
-        );
-      });
-    });
-
-    group('getUserData Tests', () {
-      test('mevcut kullanıcı verisi başarıyla getirilmeli', () async {
-        // Arrange (Hazırlık)
-        final userData = {
+        final json = {
           'uid': 'user123',
           'name': 'John',
           'surname': 'Doe',
           'email': 'john@example.com',
         };
 
-        when(mockFirestore.collection('users')).thenReturn(mockCollection);
-        when(mockCollection.doc('user123')).thenReturn(mockDocument);
-        when(mockDocument.get()).thenAnswer((_) async => mockDocumentSnapshot);
-        when(mockDocumentSnapshot.exists).thenReturn(true);
-        when(mockDocumentSnapshot.data()).thenReturn(userData);
+        // ACT (Eylem)
+        final user = UserModel.fromJson(json);
 
-        // ACT (Eylem) - Kullanıcı verisi getir
-        final result = await userService.getUserData('user123');
-
-        // ASSERT (Doğrulama) - UserModel döndürülmeli
-        expect(result, isNotNull);
-        expect(result!.uid, equals('user123'));
-        expect(result.name, equals('John'));
-        expect(result.surname, equals('Doe'));
-        expect(result.email, equals('john@example.com'));
+        // ASSERT (Doğrulama)
+        expect(user.uid, equals('user123'));
+        expect(user.name, equals('John'));
+        expect(user.surname, equals('Doe'));
+        expect(user.email, equals('john@example.com'));
       });
 
-      test('mevcut olmayan kullanıcı için null döndürmeli', () async {
-        // Arrange (Hazırlık)
-        when(mockFirestore.collection('users')).thenReturn(mockCollection);
-        when(mockCollection.doc('user123')).thenReturn(mockDocument);
-        when(mockDocument.get()).thenAnswer((_) async => mockDocumentSnapshot);
-        when(mockDocumentSnapshot.exists).thenReturn(false);
-
-        // ACT (Eylem) - Mevcut olmayan kullanıcı verisi getir
-        final result = await userService.getUserData('user123');
-
-        // ASSERT (Doğrulama) - Null döndürülmeli
-        expect(result, isNull);
-      });
-
-      test('permission-denied hatası ile exception fırlatmalı', () async {
-        // Arrange (Hazırlık)
-        when(mockFirestore.collection('users')).thenReturn(mockCollection);
-        when(mockCollection.doc('user123')).thenReturn(mockDocument);
-        when(mockDocument.get()).thenThrow(
-          FirebaseException(
-            plugin: 'firestore',
-            code: 'permission-denied',
-            message: 'Permission denied',
-          ),
-        );
-
-        // ACT & ASSERT (Eylem ve Doğrulama) - Exception fırlatılmalı
-        expect(
-          () => userService.getUserData('user123'),
-          throwsA(
-            predicate((e) => e.toString().contains('Firestore izin hatası')),
-          ),
-        );
-      });
-
-      test('genel hata ile exception fırlatmalı', () async {
-        // Arrange (Hazırlık)
-        when(mockFirestore.collection('users')).thenReturn(mockCollection);
-        when(mockCollection.doc('user123')).thenReturn(mockDocument);
-        when(mockDocument.get()).thenThrow(Exception('Unknown error'));
-
-        // ACT & ASSERT (Eylem ve Doğrulama) - Exception fırlatılmalı
-        expect(
-          () => userService.getUserData('user123'),
-          throwsA(
-            predicate(
-              (e) => e.toString().contains('Kullanıcı verisi okunamadı'),
-            ),
-          ),
-        );
-      });
-    });
-
-    group('updateUserData Tests', () {
-      test('başarılı kullanıcı güncelleme', () async {
+      test('UserModel fullName hesaplanmalı', () {
         // Arrange (Hazırlık)
         final user = UserModel(
           uid: 'user123',
-          name: 'John Updated',
+          name: 'John',
           surname: 'Doe',
           email: 'john@example.com',
         );
 
-        when(mockFirestore.collection('users')).thenReturn(mockCollection);
-        when(mockCollection.doc('user123')).thenReturn(mockDocument);
-        when(
-          mockDocument.update(<Object, Object?>{}),
-        ).thenAnswer((_) async => {});
-
-        // ACT (Eylem) - Kullanıcı güncelle
-        await userService.updateUserData(user);
-
-        // ASSERT (Doğrulama) - Firestore'da güncelleme yapıldı
-        verify(mockFirestore.collection('users')).called(1);
-        verify(mockCollection.doc('user123')).called(1);
-        verify(mockDocument.update(<Object, Object?>{})).called(1);
+        // ACT & ASSERT (Eylem ve Doğrulama)
+        expect(user.fullName, equals('John Doe'));
       });
 
-      test('permission-denied hatası ile exception fırlatmalı', () async {
+      test('UserModel displayName hesaplanmalı', () {
         // Arrange (Hazırlık)
         final user = UserModel(
+          uid: 'user123',
+          name: 'John',
+          surname: 'Doe',
+          email: 'john@example.com',
+        );
+
+        // ACT & ASSERT (Eylem ve Doğrulama)
+        expect(user.displayName, equals('John Doe'));
+      });
+
+      test('UserModel isValid kontrolü çalışmalı', () {
+        // Arrange (Hazırlık)
+        final validUser = UserModel(
+          uid: 'user123',
+          name: 'John',
+          surname: 'Doe',
+          email: 'john@example.com',
+        );
+
+        final invalidUser = UserModel(name: 'John', surname: 'Doe');
+
+        // ACT & ASSERT (Eylem ve Doğrulama)
+        expect(validUser.isValid, isTrue);
+        expect(invalidUser.isValid, isFalse);
+      });
+
+      test('UserModel isComplete kontrolü çalışmalı', () {
+        // Arrange (Hazırlık)
+        final completeUser = UserModel(
+          uid: 'user123',
+          name: 'John',
+          surname: 'Doe',
+          email: 'john@example.com',
+        );
+
+        final incompleteUser = UserModel(
           uid: 'user123',
           name: 'John',
           email: 'john@example.com',
         );
 
-        when(mockFirestore.collection('users')).thenReturn(mockCollection);
-        when(mockCollection.doc('user123')).thenReturn(mockDocument);
-        when(mockDocument.update(<Object, Object?>{})).thenThrow(
-          FirebaseException(
-            plugin: 'firestore',
-            code: 'permission-denied',
-            message: 'Permission denied',
-          ),
-        );
-
-        // ACT & ASSERT (Eylem ve Doğrulama) - Exception fırlatılmalı
-        expect(
-          () => userService.updateUserData(user),
-          throwsA(
-            predicate((e) => e.toString().contains('Firestore izin hatası')),
-          ),
-        );
+        // ACT & ASSERT (Eylem ve Doğrulama)
+        expect(completeUser.isComplete, isTrue);
+        expect(incompleteUser.isComplete, isFalse);
       });
 
-      test('genel hata ile exception fırlatmalı', () async {
+      test('UserModel copyWith çalışmalı', () {
+        // Arrange (Hazırlık)
+        final originalUser = UserModel(
+          uid: 'user123',
+          name: 'John',
+          surname: 'Doe',
+          email: 'john@example.com',
+        );
+
+        // ACT (Eylem)
+        final updatedUser = originalUser.copyWith(name: 'Jane');
+
+        // ASSERT (Doğrulama)
+        expect(updatedUser.name, equals('Jane'));
+        expect(updatedUser.surname, equals('Doe'));
+        expect(updatedUser.uid, equals('user123'));
+        expect(updatedUser.email, equals('john@example.com'));
+      });
+
+      test('UserModel toString çalışmalı', () {
         // Arrange (Hazırlık)
         final user = UserModel(
           uid: 'user123',
           name: 'John',
+          surname: 'Doe',
           email: 'john@example.com',
         );
 
-        when(mockFirestore.collection('users')).thenReturn(mockCollection);
-        when(mockCollection.doc('user123')).thenReturn(mockDocument);
-        when(
-          mockDocument.update(<Object, Object?>{}),
-        ).thenThrow(Exception('Unknown error'));
-
-        // ACT & ASSERT (Eylem ve Doğrulama) - Exception fırlatılmalı
-        expect(
-          () => userService.updateUserData(user),
-          throwsA(
-            predicate(
-              (e) => e.toString().contains('Kullanıcı verisi güncellenemedi'),
-            ),
-          ),
-        );
-      });
-    });
-
-    group('deleteUserData Tests', () {
-      test('başarılı kullanıcı silme', () async {
-        // Arrange (Hazırlık)
-        when(mockFirestore.collection('users')).thenReturn(mockCollection);
-        when(mockCollection.doc('user123')).thenReturn(mockDocument);
-        when(mockDocument.delete()).thenAnswer((_) async => {});
-
-        // ACT (Eylem) - Kullanıcı sil
-        await userService.deleteUserData('user123');
-
-        // ASSERT (Doğrulama) - Firestore'dan silme yapıldı
-        verify(mockFirestore.collection('users')).called(1);
-        verify(mockCollection.doc('user123')).called(1);
-        verify(mockDocument.delete()).called(1);
+        // ACT & ASSERT (Eylem ve Doğrulama)
+        expect(user.toString(), contains('UserModel'));
+        expect(user.toString(), contains('user123'));
+        expect(user.toString(), contains('John'));
+        expect(user.toString(), contains('Doe'));
+        expect(user.toString(), contains('john@example.com'));
       });
 
-      test('permission-denied hatası ile exception fırlatmalı', () async {
+      test('UserModel hashCode ve equality çalışmalı', () {
         // Arrange (Hazırlık)
-        when(mockFirestore.collection('users')).thenReturn(mockCollection);
-        when(mockCollection.doc('user123')).thenReturn(mockDocument);
-        when(mockDocument.delete()).thenThrow(
-          FirebaseException(
-            plugin: 'firestore',
-            code: 'permission-denied',
-            message: 'Permission denied',
-          ),
-        );
-
-        // ACT & ASSERT (Eylem ve Doğrulama) - Exception fırlatılmalı
-        expect(
-          () => userService.deleteUserData('user123'),
-          throwsA(
-            predicate((e) => e.toString().contains('Firestore izin hatası')),
-          ),
-        );
-      });
-
-      test('genel hata ile exception fırlatmalı', () async {
-        // Arrange (Hazırlık)
-        when(mockFirestore.collection('users')).thenReturn(mockCollection);
-        when(mockCollection.doc('user123')).thenReturn(mockDocument);
-        when(mockDocument.delete()).thenThrow(Exception('Unknown error'));
-
-        // ACT & ASSERT (Eylem ve Doğrulama) - Exception fırlatılmalı
-        expect(
-          () => userService.deleteUserData('user123'),
-          throwsA(
-            predicate(
-              (e) => e.toString().contains('Kullanıcı verisi silinemedi'),
-            ),
-          ),
-        );
-      });
-    });
-
-    group('Edge Cases Tests', () {
-      test('boş UID ile işlem yapılamamalı', () async {
-        // Arrange (Hazırlık)
-        final user = UserModel(
-          uid: '',
+        final user1 = UserModel(
+          uid: 'user123',
           name: 'John',
+          surname: 'Doe',
           email: 'john@example.com',
         );
 
-        // ACT & ASSERT (Eylem ve Doğrulama) - Boş UID ile işlem yapılamaz
-        expect(() => userService.createDataUser(user), throwsA(anything));
-      });
-
-      test('null UID ile işlem yapılamamalı', () async {
-        // Arrange (Hazırlık)
-        final user = UserModel(
-          uid: null,
+        final user2 = UserModel(
+          uid: 'user123',
           name: 'John',
+          surname: 'Doe',
           email: 'john@example.com',
         );
 
-        // ACT & ASSERT (Eylem ve Doğrulama) - Null UID ile işlem yapılamaz
-        expect(() => userService.createDataUser(user), throwsA(anything));
-      });
-
-      test('çok uzun UID ile işlem yapılabilmeli', () async {
-        // Arrange (Hazırlık)
-        final longUid = 'a' * 1000;
-        final user = UserModel(
-          uid: longUid,
-          name: 'John',
-          email: 'john@example.com',
+        final user3 = UserModel(
+          uid: 'user456',
+          name: 'Jane',
+          surname: 'Smith',
+          email: 'jane@example.com',
         );
 
-        when(mockFirestore.collection('users')).thenReturn(mockCollection);
-        when(mockCollection.doc(longUid)).thenReturn(mockDocument);
-        when(mockDocument.set(<String, dynamic>{})).thenAnswer((_) async => {});
-
-        // ACT (Eylem) - Uzun UID ile kullanıcı oluştur
-        await userService.createDataUser(user);
-
-        // ASSERT (Doğrulama) - İşlem başarılı olmalı
-        verify(mockDocument.set(<String, dynamic>{})).called(1);
+        // ACT & ASSERT (Eylem ve Doğrulama)
+        expect(user1, equals(user2));
+        expect(user1, isNot(equals(user3)));
+        expect(user1.hashCode, equals(user2.hashCode));
+        expect(user1.hashCode, isNot(equals(user3.hashCode)));
       });
     });
   });

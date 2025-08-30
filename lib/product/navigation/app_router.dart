@@ -22,7 +22,7 @@ class AuthGuard extends AutoRouteGuard {
   void onNavigation(NavigationResolver resolver, StackRouter router) async {
     final isAuthenticated = FirebaseAuthService().currentUser != null;
     if (!isAuthenticated) {
-      await resolver.redirectUntil(const LoginRoute());
+      await resolver.redirectUntil(LoginRoute());
       return;
     }
     resolver.next(true);

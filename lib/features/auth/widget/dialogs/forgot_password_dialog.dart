@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class ForgotPasswordDialog extends StatefulWidget {
-  const ForgotPasswordDialog({super.key});
+  final FirebaseAuthService? authService;
+
+  const ForgotPasswordDialog({super.key, this.authService});
 
   @override
   State<ForgotPasswordDialog> createState() => _ForgotPasswordDialogState();
@@ -13,8 +15,10 @@ class ForgotPasswordDialog extends StatefulWidget {
 class _ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
-  final _authService = FirebaseAuthService();
   bool _isLoading = false;
+
+  FirebaseAuthService get _authService =>
+      widget.authService ?? FirebaseAuthService();
 
   @override
   void dispose() {
@@ -162,6 +166,7 @@ class _ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
             child: _isLoading
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       const SizedBox(
                         width: 16,
@@ -169,10 +174,12 @@ class _ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
                         child: CircularProgressIndicator(strokeWidth: 2),
                       ),
                       const SizedBox(width: 8),
-                      Text(
-                        'auth.forgot_password_dialog.sending'.tr(),
-                        style: const TextStyle(fontSize: 13),
-                        overflow: TextOverflow.ellipsis,
+                      Flexible(
+                        child: Text(
+                          'auth.forgot_password_dialog.sending'.tr(),
+                          style: const TextStyle(fontSize: 13),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                     ],
                   )
