@@ -33,7 +33,7 @@ Future<void> showDeleteAccountDialog(
   if (result == true) {
     await viewModel.deleteAccount();
     if (context.mounted) {
-      context.router.replaceAll([const LoginRoute()]);
+      context.router.replaceAll([LoginRoute()]);
     }
   }
 }

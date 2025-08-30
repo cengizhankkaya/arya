@@ -5,25 +5,29 @@ import 'package:provider/provider.dart';
 
 @RoutePage()
 class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+  final FirebaseAuthService? authService;
+
+  const LoginView({super.key, this.authService});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => LoginViewModel(),
-      child: const _LoginViewBody(),
+      child: _LoginViewBody(authService: authService ?? FirebaseAuthService()),
     );
   }
 }
 
 class _LoginViewBody extends StatelessWidget {
-  const _LoginViewBody();
+  final FirebaseAuthService authService;
+
+  const _LoginViewBody({required this.authService});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      body: SafeArea(child: const LoginForm()),
+      body: SafeArea(child: LoginForm(authService: authService)),
     );
   }
 }

@@ -1,61 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:arya/features/auth/login/view_model/login_view_model.dart';
 import 'package:arya/features/auth/login/view/widget/login_form.dart';
+import 'package:arya/features/auth/service/auth_service.dart';
 import 'package:arya/features/auth/login/view/login_title.dart';
 import 'package:arya/features/auth/login/view/email_field.dart';
 import 'package:arya/features/auth/login/view/password_field.dart';
-import 'package:arya/features/auth/login/view/widget/forgot_password_button.dart';
 import 'package:arya/features/auth/login/view/widget/login_button.dart';
+import 'package:arya/features/auth/login/view/widget/forgot_password_button.dart';
 import 'package:arya/features/auth/login/view/sign_up_row.dart';
 import 'package:arya/features/auth/login/view/widget/error_message.dart';
 
-// Mock sınıflarını generate et
-@GenerateMocks([LoginViewModel])
+// Mock sınıfları için anotasyon
+@GenerateMocks(
+  [],
+  customMocks: [
+    MockSpec<LoginViewModel>(as: #MockLoginViewModel),
+    MockSpec<FirebaseAuthService>(as: #MockFirebaseAuthService),
+  ],
+)
 import 'login_form_test.mocks.dart';
 
 void main() {
   group('LoginForm Widget Tests', () {
     late MockLoginViewModel mockViewModel;
-    late Widget testWidget;
+    late MockFirebaseAuthService mockAuthService;
+
+    setUp(() {
+      mockViewModel = MockLoginViewModel();
+      mockAuthService = MockFirebaseAuthService();
+
+      // Mock setup'ı her test için temizle
+      reset(mockViewModel);
+      reset(mockAuthService);
+    });
 
     Widget createTestWidget() {
       return MaterialApp(
         home: ChangeNotifierProvider<LoginViewModel>.value(
           value: mockViewModel,
-          child: const LoginForm(),
+          child: LoginForm(authService: mockAuthService),
         ),
       );
     }
 
-    setUp(() {
-      mockViewModel = MockLoginViewModel();
-
-      // Default mock behavior
+    void setupMockViewModel() {
       when(mockViewModel.isLoading).thenReturn(false);
       when(mockViewModel.errorMessage).thenReturn(null);
       when(mockViewModel.formKey).thenReturn(GlobalKey<FormState>());
-
-      // Controller'ları mock'la
       when(mockViewModel.emailController).thenReturn(TextEditingController());
       when(
         mockViewModel.passwordController,
       ).thenReturn(TextEditingController());
-
-      // Diğer property'leri mock'la
       when(mockViewModel.obscurePassword).thenReturn(true);
-    });
-
-    tearDown(() {
-      reset(mockViewModel);
-    });
+    }
 
     group('Widget Structure Tests', () {
       testWidgets('LoginForm temel widget yapısını göstermeli', (tester) async {
-        testWidget = createTestWidget();
+        setupMockViewModel();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         // Ana widget'ların varlığını kontrol et
@@ -69,7 +76,9 @@ void main() {
       testWidgets('LoginForm tüm gerekli widget\'ları göstermeli', (
         tester,
       ) async {
-        testWidget = createTestWidget();
+        setupMockViewModel();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         // Form içeriğini kontrol et
@@ -84,7 +93,9 @@ void main() {
       testWidgets('LoginForm divider ve "veya" metni göstermeli', (
         tester,
       ) async {
-        testWidget = createTestWidget();
+        setupMockViewModel();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         // Divider'ları kontrol et
@@ -95,7 +106,9 @@ void main() {
       testWidgets('LoginForm doğru spacing ve layout yapısını kullanmalı', (
         tester,
       ) async {
-        testWidget = createTestWidget();
+        setupMockViewModel();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         // Form widget'ının Column layout kullandığını kontrol et
@@ -116,7 +129,9 @@ void main() {
 
     group('Layout Tests', () {
       testWidgets('LoginForm Column layout kullanmalı', (tester) async {
-        testWidget = createTestWidget();
+        setupMockViewModel();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         // Column layout kontrolü - Form içindeki Column'u bul
@@ -128,7 +143,9 @@ void main() {
       });
 
       testWidgets('LoginForm SingleChildScrollView kullanmalı', (tester) async {
-        testWidget = createTestWidget();
+        setupMockViewModel();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         // Scroll view kontrolü
@@ -143,7 +160,9 @@ void main() {
       });
 
       testWidgets('LoginForm padding değerleri doğru olmalı', (tester) async {
-        testWidget = createTestWidget();
+        setupMockViewModel();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         // Padding kontrolü
@@ -161,7 +180,9 @@ void main() {
       });
 
       testWidgets('LoginForm widget hiyerarşisi doğru olmalı', (tester) async {
-        testWidget = createTestWidget();
+        setupMockViewModel();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         // Widget hiyerarşisini kontrol et
@@ -182,7 +203,9 @@ void main() {
       testWidgets('LoginForm doğru theme renklerini kullanmalı', (
         tester,
       ) async {
-        testWidget = createTestWidget();
+        setupMockViewModel();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         // Scaffold background color kontrolü
@@ -196,7 +219,9 @@ void main() {
       testWidgets('LoginForm divider renkleri ve özellikleri doğru olmalı', (
         tester,
       ) async {
-        testWidget = createTestWidget();
+        setupMockViewModel();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         // Divider'ları bul ve kontrol et
@@ -216,7 +241,9 @@ void main() {
       testWidgets('LoginForm "veya" metni doğru style kullanmalı', (
         tester,
       ) async {
-        testWidget = createTestWidget();
+        setupMockViewModel();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         // "veya" metni kontrolü
@@ -231,7 +258,9 @@ void main() {
       testWidgets('LoginForm tüm text widget\'ları doğru style kullanmalı', (
         tester,
       ) async {
-        testWidget = createTestWidget();
+        setupMockViewModel();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         // Tüm text widget'larını bul
@@ -252,9 +281,17 @@ void main() {
 
     group('Error Handling Tests', () {
       testWidgets('LoginForm error message gösterilmeli', (tester) async {
+        when(mockViewModel.isLoading).thenReturn(false);
         when(mockViewModel.errorMessage).thenReturn('Hata mesajı');
+        when(mockViewModel.formKey).thenReturn(GlobalKey<FormState>());
+        when(mockViewModel.emailController).thenReturn(TextEditingController());
+        when(
+          mockViewModel.passwordController,
+        ).thenReturn(TextEditingController());
+        when(mockViewModel.obscurePassword).thenReturn(true);
 
-        testWidget = createTestWidget();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         // Error message widget'ı kontrol et
@@ -269,9 +306,9 @@ void main() {
       testWidgets('LoginForm error message olmadığında gizli olmalı', (
         tester,
       ) async {
-        when(mockViewModel.errorMessage).thenReturn(null);
+        setupMockViewModel();
+        final testWidget = createTestWidget();
 
-        testWidget = createTestWidget();
         await tester.pumpWidget(testWidget);
 
         // Error message widget'ı gizli olmalı
@@ -289,9 +326,17 @@ void main() {
       testWidgets('LoginForm error message widget\'ı doğru konumda olmalı', (
         tester,
       ) async {
+        when(mockViewModel.isLoading).thenReturn(false);
         when(mockViewModel.errorMessage).thenReturn('Hata mesajı');
+        when(mockViewModel.formKey).thenReturn(GlobalKey<FormState>());
+        when(mockViewModel.emailController).thenReturn(TextEditingController());
+        when(
+          mockViewModel.passwordController,
+        ).thenReturn(TextEditingController());
+        when(mockViewModel.obscurePassword).thenReturn(true);
 
-        testWidget = createTestWidget();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         // Error message'ın form içinde olduğunu kontrol et
@@ -308,9 +353,17 @@ void main() {
     group('Form Integration Tests', () {
       testWidgets('LoginForm Form key doğru atanmalı', (tester) async {
         final formKey = GlobalKey<FormState>();
+        when(mockViewModel.isLoading).thenReturn(false);
+        when(mockViewModel.errorMessage).thenReturn(null);
         when(mockViewModel.formKey).thenReturn(formKey);
+        when(mockViewModel.emailController).thenReturn(TextEditingController());
+        when(
+          mockViewModel.passwordController,
+        ).thenReturn(TextEditingController());
+        when(mockViewModel.obscurePassword).thenReturn(true);
 
-        testWidget = createTestWidget();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         // Form key kontrolü
@@ -321,7 +374,9 @@ void main() {
       testWidgets('LoginForm tüm form alanları doğru sırada olmalı', (
         tester,
       ) async {
-        testWidget = createTestWidget();
+        setupMockViewModel();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         // Form alanlarının sırasını kontrol et
@@ -341,9 +396,17 @@ void main() {
 
       testWidgets('LoginForm form validation çalışmalı', (tester) async {
         final formKey = GlobalKey<FormState>();
+        when(mockViewModel.isLoading).thenReturn(false);
+        when(mockViewModel.errorMessage).thenReturn(null);
         when(mockViewModel.formKey).thenReturn(formKey);
+        when(mockViewModel.emailController).thenReturn(TextEditingController());
+        when(
+          mockViewModel.passwordController,
+        ).thenReturn(TextEditingController());
+        when(mockViewModel.obscurePassword).thenReturn(true);
 
-        testWidget = createTestWidget();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         // Form'un validation state'ini kontrol et
@@ -359,7 +422,8 @@ void main() {
       testWidgets('LoginForm farklı ekran boyutlarında çalışmalı', (
         tester,
       ) async {
-        testWidget = createTestWidget();
+        setupMockViewModel();
+        final testWidget = createTestWidget();
 
         // Küçük ekran (iPhone SE)
         tester.binding.window.physicalSizeTestValue = const Size(375, 667);
@@ -387,7 +451,9 @@ void main() {
       });
 
       testWidgets('LoginForm scroll edilebilir olmalı', (tester) async {
-        testWidget = createTestWidget();
+        setupMockViewModel();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         // Scroll view'ın varlığını kontrol et
@@ -404,7 +470,8 @@ void main() {
       testWidgets('LoginForm landscape orientation\'da çalışmalı', (
         tester,
       ) async {
-        testWidget = createTestWidget();
+        setupMockViewModel();
+        final testWidget = createTestWidget();
 
         // Landscape orientation
         tester.binding.window.physicalSizeTestValue = const Size(1024, 768);
@@ -420,7 +487,9 @@ void main() {
 
     group('Accessibility Tests', () {
       testWidgets('LoginForm accessibility özellikleri olmalı', (tester) async {
-        testWidget = createTestWidget();
+        setupMockViewModel();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         // Form'ın accessibility desteği olmalı
@@ -433,7 +502,9 @@ void main() {
       });
 
       testWidgets('LoginForm semantic labels doğru olmalı', (tester) async {
-        testWidget = createTestWidget();
+        setupMockViewModel();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         // Form widget'ının semantic'i olmalı
@@ -455,7 +526,9 @@ void main() {
       testWidgets(
         'LoginForm tüm interactive widget\'ların semantic\'i olmalı',
         (tester) async {
-          testWidget = createTestWidget();
+          setupMockViewModel();
+          final testWidget = createTestWidget();
+
           await tester.pumpWidget(testWidget);
 
           // Tüm interactive widget'ları kontrol et
@@ -476,7 +549,8 @@ void main() {
 
     group('Performance Tests', () {
       testWidgets('LoginForm build performance testi', (tester) async {
-        testWidget = createTestWidget();
+        setupMockViewModel();
+        final testWidget = createTestWidget();
 
         final stopwatch = Stopwatch()..start();
         await tester.pumpWidget(testWidget);
@@ -487,7 +561,9 @@ void main() {
       });
 
       testWidgets('LoginForm rebuild performance testi', (tester) async {
-        testWidget = createTestWidget();
+        setupMockViewModel();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         final stopwatch = Stopwatch()..start();
@@ -504,7 +580,19 @@ void main() {
       testWidgets('LoginForm memory leak testi', (tester) async {
         // Memory leak olmadığını kontrol et
         for (int i = 0; i < 5; i++) {
-          testWidget = createTestWidget();
+          when(mockViewModel.isLoading).thenReturn(false);
+          when(mockViewModel.errorMessage).thenReturn(null);
+          when(mockViewModel.formKey).thenReturn(GlobalKey<FormState>());
+          when(
+            mockViewModel.emailController,
+          ).thenReturn(TextEditingController());
+          when(
+            mockViewModel.passwordController,
+          ).thenReturn(TextEditingController());
+          when(mockViewModel.obscurePassword).thenReturn(true);
+
+          final testWidget = createTestWidget();
+
           await tester.pumpWidget(testWidget);
           await tester.pumpWidget(Container()); // Widget'ı dispose et
         }
@@ -523,9 +611,17 @@ void main() {
       });
 
       testWidgets('LoginForm boş error message ile çalışmalı', (tester) async {
+        when(mockViewModel.isLoading).thenReturn(false);
         when(mockViewModel.errorMessage).thenReturn('');
+        when(mockViewModel.formKey).thenReturn(GlobalKey<FormState>());
+        when(mockViewModel.emailController).thenReturn(TextEditingController());
+        when(
+          mockViewModel.passwordController,
+        ).thenReturn(TextEditingController());
+        when(mockViewModel.obscurePassword).thenReturn(true);
 
-        testWidget = createTestWidget();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         // Boş error message ile de çalışmalı
@@ -539,9 +635,17 @@ void main() {
         tester,
       ) async {
         final longMessage = 'A' * 1000; // 1000 karakter
+        when(mockViewModel.isLoading).thenReturn(false);
         when(mockViewModel.errorMessage).thenReturn(longMessage);
+        when(mockViewModel.formKey).thenReturn(GlobalKey<FormState>());
+        when(mockViewModel.emailController).thenReturn(TextEditingController());
+        when(
+          mockViewModel.passwordController,
+        ).thenReturn(TextEditingController());
+        when(mockViewModel.obscurePassword).thenReturn(true);
 
-        testWidget = createTestWidget();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         // Uzun error message ile de çalışmalı
@@ -553,10 +657,12 @@ void main() {
       testWidgets('LoginForm çok kısa ekran boyutunda çalışmalı', (
         tester,
       ) async {
+        setupMockViewModel();
+        final testWidget = createTestWidget();
+
         // Overflow'u önlemek için yeterince büyük ekran boyutu kullan
         tester.binding.window.physicalSizeTestValue = const Size(500, 800);
 
-        testWidget = createTestWidget();
         await tester.pumpWidget(testWidget);
 
         expect(find.byType(LoginForm), findsOneWidget);
@@ -568,8 +674,16 @@ void main() {
 
       testWidgets('LoginForm loading state\'de çalışmalı', (tester) async {
         when(mockViewModel.isLoading).thenReturn(true);
+        when(mockViewModel.errorMessage).thenReturn(null);
+        when(mockViewModel.formKey).thenReturn(GlobalKey<FormState>());
+        when(mockViewModel.emailController).thenReturn(TextEditingController());
+        when(
+          mockViewModel.passwordController,
+        ).thenReturn(TextEditingController());
+        when(mockViewModel.obscurePassword).thenReturn(true);
 
-        testWidget = createTestWidget();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         // Loading state'de de çalışmalı
@@ -582,7 +696,9 @@ void main() {
       testWidgets('LoginForm tüm child widget\'lar ile entegre çalışmalı', (
         tester,
       ) async {
-        testWidget = createTestWidget();
+        setupMockViewModel();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         // Tüm child widget'ların varlığını ve konumunu kontrol et
@@ -607,7 +723,9 @@ void main() {
       testWidgets('LoginForm widget tree derinliği makul olmalı', (
         tester,
       ) async {
-        testWidget = createTestWidget();
+        setupMockViewModel();
+        final testWidget = createTestWidget();
+
         await tester.pumpWidget(testWidget);
 
         // Widget tree'nin çok derin olmadığını kontrol et

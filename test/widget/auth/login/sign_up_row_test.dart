@@ -86,7 +86,7 @@ class TestableSignUpRow extends StatelessWidget {
 }
 
 // Generate mock
-@GenerateMocks([StackRouter])
+// @GenerateMocks([StackRouter]) - MockStackRouter ile çakışma nedeniyle kaldırıldı
 void main() {
   group('SignUpRow Widget Tests', () {
     late MockStackRouter mockRouter;

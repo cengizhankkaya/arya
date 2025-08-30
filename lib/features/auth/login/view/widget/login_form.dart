@@ -1,10 +1,13 @@
 import 'package:arya/features/index.dart';
 import 'package:arya/product/index.dart';
+import 'package:arya/features/auth/service/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class LoginForm extends StatelessWidget {
-  const LoginForm({super.key});
+  final FirebaseAuthService? authService;
+
+  const LoginForm({super.key, this.authService});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +28,9 @@ class LoginForm extends StatelessWidget {
                 const EmailField(),
                 ProjectSizedBox.heightLarge,
                 const PasswordField(),
-                const ForgotPasswordButton(),
+                ForgotPasswordButton(
+                  authService: authService ?? FirebaseAuthService(),
+                ),
                 if (viewModel.errorMessage != null)
                   ErrorMessage(message: viewModel.errorMessage!),
                 ProjectSizedBox.heightXLarge,

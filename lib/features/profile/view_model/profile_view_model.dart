@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:arya/features/index.dart';
 
 class ProfileViewModel extends ChangeNotifier {
-  final UserService _userService = UserService();
+  final UserService _userService;
 
   UserModel? _user;
   bool _isLoading = false;
@@ -13,6 +13,10 @@ class ProfileViewModel extends ChangeNotifier {
 
   final nameController = TextEditingController();
   final surnameController = TextEditingController();
+
+  // Constructor with dependency injection
+  ProfileViewModel({UserService? userService})
+    : _userService = userService ?? UserService();
 
   // Getters
   UserModel? get user => _user;
