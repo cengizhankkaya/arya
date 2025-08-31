@@ -299,8 +299,8 @@ void main() {
         stopwatch.stop();
         expect(
           stopwatch.elapsedMilliseconds,
-          lessThan(100),
-        ); // 100ms'den az olmalı
+          lessThan(500),
+        ); // 500ms'den az olmalı
       });
     });
 

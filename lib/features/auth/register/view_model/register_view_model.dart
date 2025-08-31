@@ -121,7 +121,9 @@ class RegisterViewModel extends ChangeNotifier {
 
   // Register işlemi - MVVM mimarisine uygun
   Future<bool> register() async {
-    if (!formKey.currentState!.validate()) {
+    // Form validation'ı güvenli şekilde kontrol et
+    final formState = formKey.currentState;
+    if (formState != null && !formState.validate()) {
       return false;
     }
 

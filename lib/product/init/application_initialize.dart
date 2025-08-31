@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:arya/firebase_options.dart';
 
 class ApplicationInitialize {
   static Future<void> init() async {
@@ -27,7 +28,9 @@ class ApplicationInitialize {
 
   static Future<void> _initFirebase() async {
     try {
-      await Firebase.initializeApp();
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
       debugPrint('✅ Firebase başarıyla başlatıldı');
     } catch (e) {
       debugPrint('❌ Firebase başlatma hatası: $e');
