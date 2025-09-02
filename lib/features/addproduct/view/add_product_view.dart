@@ -19,7 +19,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _showWelcomeDialog(context);
+      _maybeShowWelcomeDialog(context);
     });
   }
 
@@ -38,7 +38,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
     );
   }
 
-  Future<void> _showWelcomeDialog(BuildContext context) async {
+  Future<void> _maybeShowWelcomeDialog(BuildContext context) async {
+    final hasSeen = await AppPrefs.getHasSeenOffWelcomeDialog();
+    if (hasSeen) return;
+
     await showDialog(
       context: context,
       barrierDismissible: false,
@@ -46,6 +49,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
         onNavigateToCredentials: () => _navigateToOffCredentials(context),
       ),
     );
+
+    await AppPrefs.setHasSeenOffWelcomeDialog(true);
   }
 
   void _navigateToOffCredentials(BuildContext context) {

@@ -24,6 +24,7 @@ class ProductRepository implements IProductRepository {
     File? imageFile,
   }) async {
     final uri = Uri.parse('$_baseUrl$_endpoint');
+    http.Client? client;
 
     // Form data hazırla
     final body = <String, String>{
@@ -46,7 +47,7 @@ class ProductRepository implements IProductRepository {
     };
 
     try {
-      final client = http.Client();
+      client = http.Client();
       final request = http.Request('POST', uri);
       request.headers.addAll(headers);
       request.bodyFields = body;
@@ -59,14 +60,22 @@ class ProductRepository implements IProductRepository {
         if (status.status == 1) {
           // If product saved, try image upload if provided
           if (imageFile != null) {
-            await _uploadProductImage(
-              client: client,
-              barcode: product.barcode,
-              username: username,
-              password: password,
-              imageFile: imageFile,
-              headers: headers,
-            );
+            try {
+              await _uploadProductImage(
+                client: client,
+                barcode: product.barcode,
+                username: username,
+                password: password,
+                imageFile: imageFile,
+                headers: headers,
+              );
+              print(
+                'Image uploaded successfully for barcode: ${product.barcode}',
+              );
+            } catch (e) {
+              print('Image upload failed: $e');
+              // Image upload başarısız olsa bile ürün kaydedildi
+            }
           }
         }
         return status;
@@ -74,14 +83,22 @@ class ProductRepository implements IProductRepository {
         final status = _parseResponse(response.body);
         if (status.status == 1) {
           if (imageFile != null) {
-            await _uploadProductImage(
-              client: client,
-              barcode: product.barcode,
-              username: username,
-              password: password,
-              imageFile: imageFile,
-              headers: headers,
-            );
+            try {
+              await _uploadProductImage(
+                client: client,
+                barcode: product.barcode,
+                username: username,
+                password: password,
+                imageFile: imageFile,
+                headers: headers,
+              );
+              print(
+                'Image uploaded successfully for barcode: ${product.barcode}',
+              );
+            } catch (e) {
+              print('Image upload failed: $e');
+              // Image upload başarısız olsa bile ürün kaydedildi
+            }
           }
         }
         return status;
@@ -94,6 +111,8 @@ class ProductRepository implements IProductRepository {
       }
     } catch (e) {
       return off.Status(status: -1, statusVerbose: 'Network error: $e');
+    } finally {
+      client?.close(); // HTTP client'ı kapat
     }
   }
 
@@ -174,6 +193,16 @@ class ProductRepository implements IProductRepository {
       multipartRequest.files.add(
         await http.MultipartFile.fromPath('imgupload_front', imageFile.path),
       );
+
+      // Image'ı gerçekten gönder
+      final response = await multipartRequest.send();
+      final finalResponse = await http.Response.fromStream(response);
+
+      if (finalResponse.statusCode != 200) {
+        throw Exception(
+          'Image upload failed with status: ${finalResponse.statusCode}',
+        );
+      }
     } catch (e) {
       throw Exception('Image upload failed: $e');
     }

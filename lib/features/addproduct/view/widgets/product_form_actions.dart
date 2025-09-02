@@ -81,28 +81,32 @@ class ProductFormActions extends StatelessWidget {
               ProjectSizedBox.heightSmallMedium,
             ],
             if (viewModel.successMessage != null) ...[
-              Container(
-                width: double.infinity,
-                padding: ProjectPadding.allSmall(),
-                decoration: BoxDecoration(
-                  color: colors.green50,
-                  border: Border.all(color: colors.green200),
-                  borderRadius: ProjectRadius.xLarge,
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.check_circle_outline, color: colors.green600),
-                    ProjectSizedBox.widthNormal,
-                    Expanded(
-                      child: Text(
-                        viewModel.successMessage!,
-                        style: TextStyle(
-                          color: colors.green700,
-                          fontWeight: AppTypography.bodyLargeWeight,
+              AnimatedOpacity(
+                opacity: viewModel.successMessage != null ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 500),
+                child: Container(
+                  width: double.infinity,
+                  padding: ProjectPadding.allSmall(),
+                  decoration: BoxDecoration(
+                    color: colors.green50,
+                    border: Border.all(color: colors.green200),
+                    borderRadius: ProjectRadius.xLarge,
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.check_circle_outline, color: colors.green600),
+                      ProjectSizedBox.widthNormal,
+                      Expanded(
+                        child: Text(
+                          viewModel.successMessage!,
+                          style: TextStyle(
+                            color: colors.green700,
+                            fontWeight: AppTypography.boldWeight,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -142,6 +146,48 @@ class ProductFormActions extends StatelessWidget {
 
     if (result == true) {
       await viewModel.addProduct();
+
+      // Context'in hala geçerli olup olmadığını kontrol et
+      if (!context.mounted) return;
+
+      // Başarılı ürün ekleme sonrası snackbar göster
+      if (viewModel.successMessage != null) {
+        // ScaffoldMessenger'ın hala mevcut olup olmadığını kontrol et
+        try {
+          // Navigator'ın hala mevcut olup olmadığını kontrol et
+          if (Navigator.of(context).mounted) {
+            // ScaffoldMessenger'ın mevcut olup olmadığını kontrol et
+            final scaffoldMessenger = ScaffoldMessenger.of(context);
+            if (scaffoldMessenger.mounted) {
+              scaffoldMessenger.showSnackBar(
+                SnackBar(
+                  content: Row(
+                    children: [
+                      Icon(Icons.check_circle, color: Colors.white),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          'add_product.success.snackbar_message'.tr(),
+                          style: const TextStyle(fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ],
+                  ),
+                  backgroundColor: Colors.green,
+                  duration: const Duration(seconds: 4),
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              );
+            }
+          }
+        } catch (e) {
+          // SnackBar gösterilemezse sadece log yaz
+          print('SnackBar could not be shown: $e');
+        }
+      }
     }
   }
 }

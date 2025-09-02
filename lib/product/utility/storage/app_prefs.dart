@@ -4,6 +4,8 @@ class AppPrefs {
   static const String _hasOnboardedKey = 'hasOnboarded';
   static const String _offUsernameKey = 'off_username';
   static const String _offPasswordKey = 'off_password';
+  static const String _hasSeenOffWelcomeDialogKey =
+      'has_seen_off_welcome_dialog';
 
   const AppPrefs._();
 
@@ -41,5 +43,16 @@ class AppPrefs {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_offUsernameKey);
     await prefs.remove(_offPasswordKey);
+  }
+
+  // Open Food Facts welcome dialog (only show once)
+  static Future<bool> getHasSeenOffWelcomeDialog() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_hasSeenOffWelcomeDialogKey) ?? false;
+  }
+
+  static Future<void> setHasSeenOffWelcomeDialog(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_hasSeenOffWelcomeDialogKey, value);
   }
 }

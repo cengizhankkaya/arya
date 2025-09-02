@@ -153,6 +153,8 @@
         "fields": {
             "barcode": "Barcode",
             "barcode_required": "Barcode is required",
+            "scan_barcode": "Scan Barcode",
+            "scan_instructions": "Position the barcode in the center of the camera",
             "product_name": "Product Name",
             "product_name_required": "Product name is required",
             "brand": "Brand",
@@ -180,6 +182,10 @@
             "product_added_success": "Product added successfully!",
             "product_add_failed": "Product could not be added: {status}",
             "error_occurred": "An error occurred: {error}"
+        },
+        "success": {
+            "form_cleared": "Form cleared, you can add a new product.",
+            "snackbar_message": "Product added successfully! 🎉"
         }
     },
     "categories": {

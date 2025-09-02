@@ -1,6 +1,7 @@
 import 'package:arya/features/index.dart';
 import 'package:arya/product/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fb;
 import 'package:easy_localization/easy_localization.dart';
 import 'dart:io';
@@ -115,6 +116,7 @@ class AddProductViewModel extends ChangeNotifier
 
       if (result.status == 1) {
         setSuccess("add_product.validation.product_added_success".tr());
+        HapticFeedback.lightImpact();
         _resetForm();
       } else {
         setError(
@@ -133,6 +135,11 @@ class AddProductViewModel extends ChangeNotifier
   void _resetForm() {
     clearForm();
     removeSelectedImage();
-    clearMessages();
+
+    // Başarı mesajını 3 saniye sonra temizle
+    Future.delayed(const Duration(seconds: 3), () {
+      clearMessages();
+      notifyListeners();
+    });
   }
 }

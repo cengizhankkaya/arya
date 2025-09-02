@@ -153,6 +153,8 @@
         "fields": {
             "barcode": "Barkod",
             "barcode_required": "Barkod zorunlu",
+            "scan_barcode": "Barkod Tara",
+            "scan_instructions": "Barkodu kameranın ortasına getirin",
             "product_name": "Ürün Adı",
             "product_name_required": "Ürün adı zorunlu",
             "brand": "Marka",
@@ -180,6 +182,10 @@
             "product_added_success": "Ürün başarıyla eklendi!",
             "product_add_failed": "Ürün eklenemedi: {status}",
             "error_occurred": "Hata oluştu: {error}"
+        },
+        "success": {
+            "form_cleared": "Form temizlendi, yeni ürün ekleyebilirsiniz.",
+            "snackbar_message": "Ürün başarıyla eklendi! 🎉"
         }
     },
     "categories": {
