@@ -4,584 +4,831 @@ import 'package:arya/features/auth/model/user_model.dart';
 void main() {
   group('UserModel', () {
     group('Constructor Tests', () {
-      test('UserModel constructor tüm alanları set etmeli', () {
-        // Arrange (Hazırlık) - Test verilerini hazırla
-        const uid = 'user123';
-        const name = 'John';
-        const surname = 'Doe';
-        const username = 'johndoe';
-        const email = 'john@example.com';
-
-        // ACT (Eylem) - Test edilecek kodu çalıştır
-        const user = UserModel(
-          uid: uid,
-          name: name,
-          surname: surname,
-          username: username,
-          email: email,
+      test('should create model with all parameters', () {
+        // Arrange & Act
+        const model = UserModel(
+          uid: 'user123',
+          name: 'John',
+          surname: 'Doe',
+          username: 'johndoe',
+          email: 'john.doe@example.com',
         );
 
-        // ASSERT (Doğrulama) - Sonucu kontrol et
-        expect(user.uid, equals(uid));
-        expect(user.name, equals(name));
-        expect(user.surname, equals(surname));
-        expect(user.username, equals(username));
-        expect(user.email, equals(email));
+        // Assert
+        expect(model.uid, 'user123');
+        expect(model.name, 'John');
+        expect(model.surname, 'Doe');
+        expect(model.username, 'johndoe');
+        expect(model.email, 'john.doe@example.com');
       });
 
-      test('UserModel null değerlerle oluşturulabilmeli', () {
-        // ARRANGE (Hazırlık) - Null değerler
-        const uid = null;
-        const name = null;
-        const surname = null;
-        const username = null;
-        const email = null;
+      test('should create model with partial parameters', () {
+        // Arrange & Act
+        const model = UserModel(uid: 'user123', email: 'john.doe@example.com');
 
-        // ACT (Eylem) - Null değerlerle UserModel oluştur
-        const user = UserModel(
-          uid: uid,
-          name: name,
-          surname: surname,
-          username: username,
-          email: email,
+        // Assert
+        expect(model.uid, 'user123');
+        expect(model.name, isNull);
+        expect(model.surname, isNull);
+        expect(model.username, isNull);
+        expect(model.email, 'john.doe@example.com');
+      });
+
+      test('should create model with null parameters', () {
+        // Arrange & Act
+        const model = UserModel();
+
+        // Assert
+        expect(model.uid, isNull);
+        expect(model.name, isNull);
+        expect(model.surname, isNull);
+        expect(model.username, isNull);
+        expect(model.email, isNull);
+      });
+
+      test('should create model with empty strings', () {
+        // Arrange & Act
+        const model = UserModel(
+          uid: '',
+          name: '',
+          surname: '',
+          username: '',
+          email: '',
         );
 
-        // ASSERT (Doğrulama) - Tüm değerler null olmalı
-        expect(user.uid, isNull);
-        expect(user.name, isNull);
-        expect(user.surname, isNull);
-        expect(user.username, isNull);
-        expect(user.email, isNull);
-      });
-
-      test('UserModel boş string değerlerle oluşturulabilmeli', () {
-        // ARRANGE (Hazırlık) - Boş string değerler
-        const uid = '';
-        const name = '';
-        const surname = '';
-        const username = '';
-        const email = '';
-
-        // ACT (Eylem) - Boş string değerlerle UserModel oluştur
-        const user = UserModel(
-          uid: uid,
-          name: name,
-          surname: surname,
-          username: username,
-          email: email,
-        );
-
-        // ASSERT (Doğrulama) - Tüm değerler boş string olmalı
-        expect(user.uid, equals(''));
-        expect(user.name, equals(''));
-        expect(user.surname, equals(''));
-        expect(user.username, equals(''));
-        expect(user.email, equals(''));
-      });
-
-      test('UserModel kısmi alanlarla oluşturulabilmeli', () {
-        // ARRANGE (Hazırlık) - Sadece gerekli alanlar
-        const uid = 'user123';
-        const email = 'john@example.com';
-
-        // ACT (Eylem) - Kısmi alanlarla UserModel oluştur
-        const user = UserModel(uid: uid, email: email);
-
-        // ASSERT (Doğrulama) - Sadece belirtilen alanlar set edilmeli
-        expect(user.uid, equals(uid));
-        expect(user.email, equals(email));
-        expect(user.name, isNull);
-        expect(user.surname, isNull);
-        expect(user.username, isNull);
+        // Assert
+        expect(model.uid, '');
+        expect(model.name, '');
+        expect(model.surname, '');
+        expect(model.username, '');
+        expect(model.email, '');
       });
     });
 
-    group('Getter Tests', () {
-      test('fullName getter doğru çalışmalı', () {
+    group('fullName Tests', () {
+      test('should return full name when both name and surname exist', () {
         // Arrange
-        const user = UserModel(name: 'John', surname: 'Doe');
+        const model = UserModel(name: 'John', surname: 'Doe');
 
-        // ACT (Eylem) - getter çağrılır
-        final fullName = user.fullName;
+        // Act
+        final fullName = model.fullName;
 
         // Assert
-        expect(fullName, equals('John Doe'));
+        expect(fullName, 'John Doe');
       });
 
-      test('fullName getter tek isim ile çalışmalı', () {
+      test('should return only name when surname is null', () {
         // Arrange
-        const user = UserModel(name: 'John');
+        const model = UserModel(name: 'John');
 
-        // ACT (Eylem) - getter çağrılır
-        final fullName = user.fullName;
+        // Act
+        final fullName = model.fullName;
 
         // Assert
-        expect(fullName, equals('John'));
+        expect(fullName, 'John');
       });
 
-      test('fullName getter sadece soyisim ile çalışmalı', () {
+      test('should return only surname when name is null', () {
         // Arrange
-        const user = UserModel(surname: 'Doe');
+        const model = UserModel(surname: 'Doe');
 
-        // ACT (Eylem) - getter çağrılır
-        final fullName = user.fullName;
+        // Act
+        final fullName = model.fullName;
 
         // Assert
-        expect(fullName, equals('Doe'));
+        expect(fullName, 'Doe');
       });
 
-      test('fullName getter hiç isim yoksa fallback döndürmeli', () {
+      test('should return fallback when both name and surname are null', () {
         // Arrange
-        const user = UserModel();
+        const model = UserModel();
 
-        // ACT (Eylem) - getter çağrılır
-        final fullName = user.fullName;
+        // Act
+        final fullName = model.fullName;
 
         // Assert
-        expect(fullName, equals('İsimsiz Kullanıcı'));
+        expect(fullName, 'İsimsiz Kullanıcı');
       });
 
-      test('fullName getter boş string isimlerle fallback döndürmeli', () {
+      test('should return fallback when both name and surname are empty', () {
         // Arrange
-        const user = UserModel(name: '', surname: '');
+        const model = UserModel(name: '', surname: '');
 
-        // ACT (Eylem) - getter çağrılır
-        final fullName = user.fullName;
+        // Act
+        final fullName = model.fullName;
 
         // Assert
-        expect(fullName, equals('İsimsiz Kullanıcı'));
+        expect(fullName, 'İsimsiz Kullanıcı');
       });
 
-      test('displayName getter username öncelikli olmalı', () {
-        // ARRANGE (Hazırlık)
-        const user = UserModel(
+      test('should handle whitespace in names', () {
+        // Arrange
+        const model = UserModel(name: '  John  ', surname: '  Doe  ');
+
+        // Act
+        final fullName = model.fullName;
+
+        // Assert
+        expect(fullName, '  John     Doe  ');
+      });
+    });
+
+    group('displayName Tests', () {
+      test('should return username when available', () {
+        // Arrange
+        const model = UserModel(
           name: 'John',
           surname: 'Doe',
           username: 'johndoe',
         );
 
-        // ACT (Eylem) - displayName getter'ı çağır
-        final displayName = user.displayName;
+        // Act
+        final displayName = model.displayName;
 
-        // ASSERT (Doğrulama) - Username öncelikli olmalı
-        expect(displayName, equals('johndoe'));
+        // Assert
+        expect(displayName, 'johndoe');
       });
 
-      test('displayName getter username yoksa fullName döndürmeli', () {
-        // ARRANGE (Hazırlık)
-        const user = UserModel(name: 'John', surname: 'Doe');
+      test('should return full name when username is not available', () {
+        // Arrange
+        const model = UserModel(name: 'John', surname: 'Doe');
 
-        // ACT (Eylem) - displayName getter'ı çağır
-        final displayName = user.displayName;
+        // Act
+        final displayName = model.displayName;
 
-        // ASSERT (Doğrulama) - FullName döndürmeli
-        expect(displayName, equals('John Doe'));
+        // Assert
+        expect(displayName, 'John Doe');
       });
 
-      test('displayName getter hiç isim yoksa fallback döndürmeli', () {
-        // ARRANGE (Hazırlık)
-        const user = UserModel();
+      test('should return only name when surname is not available', () {
+        // Arrange
+        const model = UserModel(name: 'John');
 
-        // ACT (Eylem) - displayName getter'ı çağır
-        final displayName = user.displayName;
+        // Act
+        final displayName = model.displayName;
 
-        // ASSERT (Doğrulama) - Fallback döndürmeli
-        expect(displayName, equals('İsimsiz Kullanıcı'));
+        // Assert
+        expect(displayName, 'John');
       });
 
-      test('displayName getter boş username ile fullName döndürmeli', () {
-        // ARRANGE (Hazırlık)
-        const user = UserModel(name: 'John', surname: 'Doe', username: '');
+      test('should return fallback when no names are available', () {
+        // Arrange
+        const model = UserModel();
 
-        // ACT (Eylem) - displayName getter'ı çağır
-        final displayName = user.displayName;
+        // Act
+        final displayName = model.displayName;
 
-        // ASSERT (Doğrulama) - FullName döndürmeli
-        expect(displayName, equals('John Doe'));
+        // Assert
+        expect(displayName, 'İsimsiz Kullanıcı');
       });
 
-      test('isValid getter doğru çalışmalı', () {
-        // ARRANGE (Hazırlık) - Valid user
-        const validUser = UserModel(uid: 'user123', email: 'john@example.com');
-
-        // ARRANGE (Hazırlık) - Invalid user
-        const invalidUser = UserModel(name: 'John', surname: 'Doe');
-
-        // ACT & ASSERT (Eylem ve Doğrulama)
-        expect(validUser.isValid, isTrue); // UID + Email var
-        expect(invalidUser.isValid, isFalse); // UID yok
-      });
-
-      test('isValid getter boş string ile false döndürmeli', () {
-        // ARRANGE (Hazırlık) - Boş string değerler
-        const userWithEmptyUid = UserModel(uid: '', email: 'john@example.com');
-        const userWithEmptyEmail = UserModel(uid: 'user123', email: '');
-
-        // ACT & ASSERT (Eylem ve Doğrulama)
-        expect(userWithEmptyUid.isValid, isFalse);
-        expect(userWithEmptyEmail.isValid, isFalse);
-      });
-
-      test('isComplete getter doğru çalışmalı', () {
-        // ARRANGE (Hazırlık) - Complete user
-        const completeUser = UserModel(
-          uid: 'user123',
+      test('should prioritize username over full name', () {
+        // Arrange
+        const model = UserModel(
           name: 'John',
           surname: 'Doe',
-          email: 'john@example.com',
+          username: 'johndoe',
         );
 
-        // ARRANGE (Hazırlık) - Incomplete user
-        const incompleteUser = UserModel(
-          uid: 'user123',
-          email: 'john@example.com',
-          // name ve surname eksik
-        );
+        // Act
+        final displayName = model.displayName;
 
-        // ACT & ASSERT (Eylem ve Doğrulama)
-        expect(completeUser.isComplete, isTrue); // Tüm alanlar var
-        expect(incompleteUser.isComplete, isFalse); // name/surname eksik
+        // Assert
+        expect(displayName, 'johndoe');
+        expect(displayName, isNot('John Doe'));
       });
 
-      test('isComplete getter boş string ile false döndürmeli', () {
-        // ARRANGE (Hazırlık) - Boş string değerler
-        const userWithEmptyName = UserModel(
-          uid: 'user123',
-          name: '',
-          surname: 'Doe',
-          email: 'john@example.com',
-        );
+      test('should handle empty username', () {
+        // Arrange
+        const model = UserModel(name: 'John', surname: 'Doe', username: '');
 
-        // ACT & ASSERT (Eylem ve Doğrulama)
-        expect(userWithEmptyName.isComplete, isFalse);
+        // Act
+        final displayName = model.displayName;
+
+        // Assert
+        expect(displayName, 'John Doe');
       });
     });
 
-    group('Method Tests', () {
-      test('copyWith metodu doğru çalışmalı', () {
-        // ARRANGE (Hazırlık) - Orijinal user
-        const originalUser = UserModel(
+    group('isValid Tests', () {
+      test('should return true when uid and email are present', () {
+        // Arrange
+        const model = UserModel(uid: 'user123', email: 'john.doe@example.com');
+
+        // Act
+        final isValid = model.isValid;
+
+        // Assert
+        expect(isValid, isTrue);
+      });
+
+      test('should return false when uid is missing', () {
+        // Arrange
+        const model = UserModel(email: 'john.doe@example.com');
+
+        // Act
+        final isValid = model.isValid;
+
+        // Assert
+        expect(isValid, isFalse);
+      });
+
+      test('should return false when email is missing', () {
+        // Arrange
+        const model = UserModel(uid: 'user123');
+
+        // Act
+        final isValid = model.isValid;
+
+        // Assert
+        expect(isValid, isFalse);
+      });
+
+      test('should return false when both uid and email are missing', () {
+        // Arrange
+        const model = UserModel();
+
+        // Act
+        final isValid = model.isValid;
+
+        // Assert
+        expect(isValid, isFalse);
+      });
+
+      test('should return false when uid is empty string', () {
+        // Arrange
+        const model = UserModel(uid: '', email: 'john.doe@example.com');
+
+        // Act
+        final isValid = model.isValid;
+
+        // Assert
+        expect(isValid, isFalse);
+      });
+
+      test('should return false when email is empty string', () {
+        // Arrange
+        const model = UserModel(uid: 'user123', email: '');
+
+        // Act
+        final isValid = model.isValid;
+
+        // Assert
+        expect(isValid, isFalse);
+      });
+    });
+
+    group('isComplete Tests', () {
+      test('should return true when all required fields are present', () {
+        // Arrange
+        const model = UserModel(
           uid: 'user123',
           name: 'John',
           surname: 'Doe',
-          email: 'john@example.com',
+          email: 'john.doe@example.com',
         );
 
-        // ACT (Eylem) - copyWith ile güncelle
-        final updatedUser = originalUser.copyWith(
+        // Act
+        final isComplete = model.isComplete;
+
+        // Assert
+        expect(isComplete, isTrue);
+      });
+
+      test('should return false when uid is missing', () {
+        // Arrange
+        const model = UserModel(
+          name: 'John',
+          surname: 'Doe',
+          email: 'john.doe@example.com',
+        );
+
+        // Act
+        final isComplete = model.isComplete;
+
+        // Assert
+        expect(isComplete, isFalse);
+      });
+
+      test('should return false when name is missing', () {
+        // Arrange
+        const model = UserModel(
+          uid: 'user123',
+          surname: 'Doe',
+          email: 'john.doe@example.com',
+        );
+
+        // Act
+        final isComplete = model.isComplete;
+
+        // Assert
+        expect(isComplete, isFalse);
+      });
+
+      test('should return false when surname is missing', () {
+        // Arrange
+        const model = UserModel(
+          uid: 'user123',
+          name: 'John',
+          email: 'john.doe@example.com',
+        );
+
+        // Act
+        final isComplete = model.isComplete;
+
+        // Assert
+        expect(isComplete, isFalse);
+      });
+
+      test('should return false when email is missing', () {
+        // Arrange
+        const model = UserModel(uid: 'user123', name: 'John', surname: 'Doe');
+
+        // Act
+        final isComplete = model.isComplete;
+
+        // Assert
+        expect(isComplete, isFalse);
+      });
+
+      test('should return false when any field is empty string', () {
+        // Arrange
+        const model = UserModel(
+          uid: '',
+          name: 'John',
+          surname: 'Doe',
+          email: 'john.doe@example.com',
+        );
+
+        // Act
+        final isComplete = model.isComplete;
+
+        // Assert
+        expect(isComplete, isFalse);
+      });
+    });
+
+    group('copyWith Tests', () {
+      test('should copy with new uid', () {
+        // Arrange
+        const originalModel = UserModel(
+          uid: 'user123',
+          name: 'John',
+          surname: 'Doe',
+          email: 'john.doe@example.com',
+        );
+
+        // Act
+        final newModel = originalModel.copyWith(uid: 'newuser456');
+
+        // Assert
+        expect(newModel.uid, 'newuser456');
+        expect(newModel.name, 'John');
+        expect(newModel.surname, 'Doe');
+        expect(newModel.email, 'john.doe@example.com');
+        expect(originalModel.uid, 'user123'); // Original unchanged
+      });
+
+      test('should copy with new name', () {
+        // Arrange
+        const originalModel = UserModel(
+          uid: 'user123',
+          name: 'John',
+          surname: 'Doe',
+          email: 'john.doe@example.com',
+        );
+
+        // Act
+        final newModel = originalModel.copyWith(name: 'Jane');
+
+        // Assert
+        expect(newModel.uid, 'user123');
+        expect(newModel.name, 'Jane');
+        expect(newModel.surname, 'Doe');
+        expect(newModel.email, 'john.doe@example.com');
+        expect(originalModel.name, 'John'); // Original unchanged
+      });
+
+      test('should copy with multiple fields', () {
+        // Arrange
+        const originalModel = UserModel(
+          uid: 'user123',
+          name: 'John',
+          surname: 'Doe',
+          email: 'john.doe@example.com',
+        );
+
+        // Act
+        final newModel = originalModel.copyWith(
           name: 'Jane',
-          email: 'jane@example.com',
+          surname: 'Smith',
+          email: 'jane.smith@example.com',
         );
 
-        // ASSERT (Doğrulama) - Değişen ve değişmeyen alanlar
-        expect(updatedUser.name, equals('Jane')); // Değişti
-        expect(updatedUser.email, equals('jane@example.com')); // Değişti
-        expect(updatedUser.uid, equals('user123')); // Değişmedi
-        expect(updatedUser.surname, equals('Doe')); // Değişmedi
+        // Assert
+        expect(newModel.uid, 'user123');
+        expect(newModel.name, 'Jane');
+        expect(newModel.surname, 'Smith');
+        expect(newModel.email, 'jane.smith@example.com');
+        expect(originalModel.name, 'John'); // Original unchanged
+        expect(originalModel.surname, 'Doe'); // Original unchanged
+        expect(
+          originalModel.email,
+          'john.doe@example.com',
+        ); // Original unchanged
       });
 
-      test('copyWith metodu null değerlerle çalışmalı', () {
-        // ARRANGE (Hazırlık) - Orijinal user
-        const originalUser = UserModel(
+      test('should copy with no changes', () {
+        // Arrange
+        const originalModel = UserModel(
           uid: 'user123',
           name: 'John',
           surname: 'Doe',
-          email: 'john@example.com',
+          email: 'john.doe@example.com',
         );
 
-        // ACT (Eylem) - copyWith ile null değerler set et
-        final updatedUser = originalUser.copyWith(name: null, surname: null);
+        // Act
+        final newModel = originalModel.copyWith();
 
-        // ASSERT (Doğrulama) - copyWith null değerleri kabul etmez, orijinal değerleri korur
-        expect(updatedUser.name, equals('John')); // Orijinal değer korundu
-        expect(updatedUser.surname, equals('Doe')); // Orijinal değer korundu
-        expect(updatedUser.uid, equals('user123')); // Değişmedi
-        expect(updatedUser.email, equals('john@example.com')); // Değişmedi
+        // Assert
+        expect(newModel.uid, 'user123');
+        expect(newModel.name, 'John');
+        expect(newModel.surname, 'Doe');
+        expect(newModel.email, 'john.doe@example.com');
+        expect(
+          identical(newModel, originalModel),
+          false,
+        ); // Different instances
       });
 
-      test(
-        'copyWith metodu hiç parametre verilmeden orijinal user döndürmeli',
-        () {
-          // ARRANGE (Hazırlık) - Orijinal user
-          const originalUser = UserModel(
-            uid: 'user123',
-            name: 'John',
-            surname: 'Doe',
-            email: 'john@example.com',
-          );
+      test('should copy with null values (no change)', () {
+        // Arrange
+        const originalModel = UserModel(
+          uid: 'user123',
+          name: 'John',
+          surname: 'Doe',
+          email: 'john.doe@example.com',
+        );
 
-          // ACT (Eylem) - copyWith parametresiz çağır
-          final copiedUser = originalUser.copyWith();
+        // Act
+        final newModel = originalModel.copyWith(
+          uid: null,
+          name: null,
+          surname: null,
+          email: null,
+        );
 
-          // ASSERT (Doğrulama) - Aynı değerler döndürmeli
-          expect(copiedUser.uid, equals(originalUser.uid));
-          expect(copiedUser.name, equals(originalUser.name));
-          expect(copiedUser.surname, equals(originalUser.surname));
-          expect(copiedUser.email, equals(originalUser.email));
-        },
-      );
+        // Assert
+        expect(newModel.uid, 'user123');
+        expect(newModel.name, 'John');
+        expect(newModel.surname, 'Doe');
+        expect(newModel.email, 'john.doe@example.com');
+      });
+    });
 
-      test('fromJson metodu doğru çalışmalı', () {
-        // ARRANGE (Hazırlık) - JSON data
-        const jsonData = {
+    group('toJson Tests', () {
+      test('should convert to JSON correctly', () {
+        // Arrange
+        const model = UserModel(
+          uid: 'user123',
+          name: 'John',
+          surname: 'Doe',
+          username: 'johndoe',
+          email: 'john.doe@example.com',
+        );
+
+        // Act
+        final json = model.toJson();
+
+        // Assert
+        expect(json, isA<Map<String, dynamic>>());
+        expect(json['uid'], 'user123');
+        expect(json['name'], 'John');
+        expect(json['surname'], 'Doe');
+        expect(json['username'], 'johndoe');
+        expect(json['email'], 'john.doe@example.com');
+        expect(json.length, 5);
+      });
+
+      test('should convert partial model to JSON', () {
+        // Arrange
+        const model = UserModel(uid: 'user123', email: 'john.doe@example.com');
+
+        // Act
+        final json = model.toJson();
+
+        // Assert
+        expect(json['uid'], 'user123');
+        expect(json['name'], isNull);
+        expect(json['surname'], isNull);
+        expect(json['username'], isNull);
+        expect(json['email'], 'john.doe@example.com');
+      });
+
+      test('should convert empty model to JSON', () {
+        // Arrange
+        const model = UserModel();
+
+        // Act
+        final json = model.toJson();
+
+        // Assert
+        expect(json['uid'], isNull);
+        expect(json['name'], isNull);
+        expect(json['surname'], isNull);
+        expect(json['username'], isNull);
+        expect(json['email'], isNull);
+      });
+    });
+
+    group('fromJson Tests', () {
+      test('should create model from valid JSON', () {
+        // Arrange
+        const json = {
           'uid': 'user123',
           'name': 'John',
           'surname': 'Doe',
           'username': 'johndoe',
-          'email': 'john@example.com',
+          'email': 'john.doe@example.com',
         };
 
-        // ACT (Eylem) - fromJson çağır
-        final user = UserModel.fromJson(jsonData);
+        // Act
+        final model = UserModel.fromJson(json);
 
-        // ASSERT (Doğrulama) - UserModel doğru oluşturulmalı
-        expect(user.uid, equals('user123'));
-        expect(user.name, equals('John'));
-        expect(user.surname, equals('Doe'));
-        expect(user.username, equals('johndoe'));
-        expect(user.email, equals('john@example.com'));
+        // Assert
+        expect(model.uid, 'user123');
+        expect(model.name, 'John');
+        expect(model.surname, 'Doe');
+        expect(model.username, 'johndoe');
+        expect(model.email, 'john.doe@example.com');
       });
 
-      test('fromJson metodu eksik alanlarla çalışmalı', () {
-        // ARRANGE (Hazırlık) - Kısmi JSON data
-        const jsonData = {'uid': 'user123', 'email': 'john@example.com'};
+      test('should create model from JSON with null values', () {
+        // Arrange
+        const json = {
+          'uid': null,
+          'name': null,
+          'surname': null,
+          'username': null,
+          'email': null,
+        };
 
-        // ACT (Eylem) - fromJson çağır
-        final user = UserModel.fromJson(jsonData);
+        // Act
+        final model = UserModel.fromJson(json);
 
-        // ASSERT (Doğrulama) - Sadece mevcut alanlar set edilmeli
-        expect(user.uid, equals('user123'));
-        expect(user.email, equals('john@example.com'));
-        expect(user.name, isNull);
-        expect(user.surname, isNull);
-        expect(user.username, isNull);
+        // Assert
+        expect(model.uid, isNull);
+        expect(model.name, isNull);
+        expect(model.surname, isNull);
+        expect(model.username, isNull);
+        expect(model.email, isNull);
       });
 
-      test('toJson metodu doğru çalışmalı', () {
-        // ARRANGE (Hazırlık) - UserModel
-        const user = UserModel(
-          uid: 'user123',
-          name: 'John',
-          surname: 'Doe',
-          username: 'johndoe',
-          email: 'john@example.com',
-        );
+      test('should create model from JSON with missing keys', () {
+        // Arrange
+        const json = <String, dynamic>{};
 
-        // ACT (Eylem) - toJson çağır
-        final jsonData = user.toJson();
+        // Act
+        final model = UserModel.fromJson(json);
 
-        // ASSERT (Doğrulama) - JSON formatı doğru olmalı
-        expect(jsonData['uid'], equals('user123'));
-        expect(jsonData['name'], equals('John'));
-        expect(jsonData['surname'], equals('Doe'));
-        expect(jsonData['username'], equals('johndoe'));
-        expect(jsonData['email'], equals('john@example.com'));
+        // Assert
+        expect(model.uid, isNull);
+        expect(model.name, isNull);
+        expect(model.surname, isNull);
+        expect(model.username, isNull);
+        expect(model.email, isNull);
       });
 
-      test('toJson metodu null değerleri dahil etmemeli', () {
-        // ARRANGE (Hazırlık) - Kısmi UserModel
-        const user = UserModel(uid: 'user123', email: 'john@example.com');
+      test('should create model from JSON with extra keys', () {
+        // Arrange
+        const json = {
+          'uid': 'user123',
+          'name': 'John',
+          'extra_key': 'extra_value',
+        };
 
-        // ACT (Eylem) - toJson çağır
-        final jsonData = user.toJson();
+        // Act
+        final model = UserModel.fromJson(json);
 
-        // ASSERT (Doğrulama) - Sadece mevcut alanlar dahil edilmeli
-        expect(jsonData['uid'], equals('user123'));
-        expect(jsonData['email'], equals('john@example.com'));
-        expect(jsonData.containsKey('name'), isFalse);
-        expect(jsonData.containsKey('surname'), isFalse);
-        expect(jsonData.containsKey('username'), isFalse);
-      });
-
-      test('toJson metodu boş string username dahil etmemeli', () {
-        // ARRANGE (Hazırlık) - Boş username ile UserModel
-        const user = UserModel(
-          uid: 'user123',
-          username: '',
-          email: 'john@example.com',
-        );
-
-        // ACT (Eylem) - toJson çağır
-        final jsonData = user.toJson();
-
-        // ASSERT (Doğrulama) - Boş username dahil edilmemeli
-        expect(jsonData.containsKey('username'), isFalse);
+        // Assert
+        expect(model.uid, 'user123');
+        expect(model.name, 'John');
+        expect(model.surname, isNull);
+        expect(model.username, isNull);
+        expect(model.email, isNull);
       });
     });
 
-    group('Utility Tests', () {
-      test('toString metodu doğru çalışmalı', () {
-        // ARRANGE (Hazırlık)
-        const user = UserModel(
+    group('Equality Tests', () {
+      test('should be equal to identical model', () {
+        // Arrange
+        const model1 = UserModel(
           uid: 'user123',
           name: 'John',
           surname: 'Doe',
-          username: 'johndoe',
-          email: 'john@example.com',
+          email: 'john.doe@example.com',
         );
-
-        // ACT (Eylem) - toString çağır
-        final stringRepresentation = user.toString();
-
-        // ASSERT (Doğrulama) - String formatı doğru olmalı
-        expect(stringRepresentation, contains('UserModel'));
-        expect(stringRepresentation, contains('user123'));
-        expect(stringRepresentation, contains('John'));
-        expect(stringRepresentation, contains('Doe'));
-        expect(stringRepresentation, contains('johndoe'));
-        expect(stringRepresentation, contains('john@example.com'));
-      });
-
-      test('toString metodu null değerlerle çalışmalı', () {
-        // ARRANGE (Hazırlık) - Kısmi UserModel
-        const user = UserModel(uid: 'user123', email: 'john@example.com');
-
-        // ACT (Eylem) - toString çağır
-        final stringRepresentation = user.toString();
-
-        // ASSERT (Doğrulama) - Null değerler dahil edilmeli
-        expect(stringRepresentation, contains('user123'));
-        expect(stringRepresentation, contains('john@example.com'));
-        expect(stringRepresentation, contains('null'));
-      });
-
-      test('hashCode metodu doğru çalışmalı', () {
-        // ARRANGE (Hazırlık) - İki aynı user
-        const user1 = UserModel(
+        const model2 = UserModel(
           uid: 'user123',
           name: 'John',
           surname: 'Doe',
-          email: 'john@example.com',
+          email: 'john.doe@example.com',
         );
 
-        const user2 = UserModel(
+        // Act & Assert
+        expect(model1, equals(model2));
+        expect(model1.hashCode, equals(model2.hashCode));
+      });
+
+      test('should not be equal to different uid', () {
+        // Arrange
+        const model1 = UserModel(
           uid: 'user123',
           name: 'John',
           surname: 'Doe',
-          email: 'john@example.com',
+          email: 'john.doe@example.com',
         );
-
-        // ACT & ASSERT (Eylem ve Doğrulama)
-        expect(
-          user1.hashCode,
-          equals(user2.hashCode),
-        ); // Aynı değerler = aynı hash
-        expect(user1.hashCode, isA<int>()); // hashCode int olmalı
-      });
-
-      test('hashCode metodu farklı userlar için farklı olmalı', () {
-        // ARRANGE (Hazırlık) - Farklı userlar
-        const user1 = UserModel(
-          uid: 'user123',
+        const model2 = UserModel(
+          uid: 'differentuser',
           name: 'John',
-          email: 'john@example.com',
+          surname: 'Doe',
+          email: 'john.doe@example.com',
         );
 
-        const user2 = UserModel(
-          uid: 'user456',
-          name: 'Jane',
-          email: 'jane@example.com',
-        );
-
-        // ACT & ASSERT (Eylem ve Doğrulama)
-        expect(user1.hashCode, isNot(equals(user2.hashCode)));
+        // Act & Assert
+        expect(model1, isNot(equals(model2)));
+        expect(model1.hashCode, isNot(equals(model2.hashCode)));
       });
 
-      test('== operator doğru çalışmalı', () {
-        // ARRANGE (Hazırlık) - İki aynı user
-        const user1 = UserModel(
+      test('should not be equal to different type', () {
+        // Arrange
+        const model = UserModel(
           uid: 'user123',
           name: 'John',
           surname: 'Doe',
-          username: 'johndoe',
-          email: 'john@example.com',
+          email: 'john.doe@example.com',
         );
+        const differentObject = 'not a model';
 
-        const user2 = UserModel(
+        // Act & Assert
+        expect(model, isNot(equals(differentObject)));
+      });
+
+      test('should be equal to itself', () {
+        // Arrange
+        const model = UserModel(
           uid: 'user123',
           name: 'John',
           surname: 'Doe',
-          username: 'johndoe',
-          email: 'john@example.com',
+          email: 'john.doe@example.com',
         );
 
-        // ARRANGE (Hazırlık) - Farklı user
-        const user3 = UserModel(
-          uid: 'user456',
-          name: 'Jane',
-          surname: 'Smith',
-          email: 'jane@example.com',
+        // Act & Assert
+        expect(model, equals(model));
+        expect(identical(model, model), isTrue);
+      });
+    });
+
+    group('toString Tests', () {
+      test('should return correct string representation', () {
+        // Arrange
+        const model = UserModel(
+          uid: 'user123',
+          name: 'John',
+          surname: 'Doe',
+          email: 'john.doe@example.com',
         );
 
-        // ACT & ASSERT (Eylem ve Doğrulama)
-        expect(user1 == user2, isTrue); // Aynı değerler = eşit
-        expect(user1 == user3, isFalse); // Farklı değerler = eşit değil
-        expect(user1, equals(user2)); // equals() ile de test et
+        // Act
+        final string = model.toString();
+
+        // Assert
+        expect(string, contains('UserModel'));
+        expect(string, contains('uid: user123'));
+        expect(string, contains('name: John'));
+        expect(string, contains('surname: Doe'));
+        expect(string, contains('email: john.doe@example.com'));
       });
 
-      test('== operator null değerlerle çalışmalı', () {
-        // ARRANGE (Hazırlık) - Null değerlerle userlar
-        const user1 = UserModel(uid: 'user123', email: 'john@example.com');
+      test('should return correct string for partial model', () {
+        // Arrange
+        const model = UserModel(uid: 'user123', email: 'john.doe@example.com');
 
-        const user2 = UserModel(uid: 'user123', email: 'john@example.com');
+        // Act
+        final string = model.toString();
 
-        // ACT & ASSERT (Eylem ve Doğrulama)
-        expect(user1 == user2, isTrue);
-      });
-
-      test('== operator farklı türlerle false döndürmeli', () {
-        // ARRANGE (Hazırlık) - UserModel ve String
-        const user = UserModel(uid: 'user123', email: 'john@example.com');
-
-        const string = 'user123';
-
-        // ACT & ASSERT (Eylem ve Doğrulama)
-        expect(user == string, isFalse);
+        // Assert
+        expect(string, contains('uid: user123'));
+        expect(string, contains('email: john.doe@example.com'));
+        expect(string, contains('name: null'));
+        expect(string, contains('surname: null'));
       });
     });
 
     group('Edge Cases Tests', () {
-      test('çok uzun string değerlerle çalışmalı', () {
-        // ARRANGE (Hazırlık) - Çok uzun string
+      test('should handle very long strings', () {
+        // Arrange
         final longString = 'a' * 1000;
-        final user = UserModel(
+        final model = UserModel(
           uid: longString,
           name: longString,
           surname: longString,
           username: longString,
-          email: '$longString@example.com',
+          email: longString,
         );
 
-        // ACT & ASSERT (Eylem ve Doğrulama)
-        expect(user.uid, equals(longString));
-        expect(user.fullName, equals('$longString $longString'));
-        expect(user.displayName, equals(longString));
+        // Act & Assert
+        expect(model.uid, longString);
+        expect(model.name, longString);
+        expect(model.surname, longString);
+        expect(model.username, longString);
+        expect(model.email, longString);
+        expect(model.uid!.length, 1000);
       });
 
-      test('özel karakterlerle çalışmalı', () {
-        // ARRANGE (Hazırlık) - Özel karakterler
-        const specialChars = '!@#\$%^&*()_+-=[]{}|;:,.<>?';
-        const user = UserModel(
-          uid: specialChars,
-          name: specialChars,
-          email: '$specialChars@example.com',
-        );
-
-        // ACT & ASSERT (Eylem ve Doğrulama)
-        expect(user.uid, equals(specialChars));
-        expect(user.name, equals(specialChars));
-        expect(user.email, equals('$specialChars@example.com'));
-      });
-
-      test('Unicode karakterlerle çalışmalı', () {
-        // ARRANGE (Hazırlık) - Unicode karakterler
+      test('should handle unicode characters', () {
+        // Arrange
         const unicodeName = 'José María';
         const unicodeSurname = 'García-López';
-        const user = UserModel(name: unicodeName, surname: unicodeSurname);
+        const model = UserModel(name: unicodeName, surname: unicodeSurname);
 
-        // ACT & ASSERT (Eylem ve Doğrulama)
-        expect(user.fullName, equals('$unicodeName $unicodeSurname'));
-        expect(user.displayName, equals('$unicodeName $unicodeSurname'));
+        // Act & Assert
+        expect(model.name, unicodeName);
+        expect(model.surname, unicodeSurname);
+        expect(model.fullName, 'José María García-López');
+      });
+
+      test('should handle special characters in username', () {
+        // Arrange
+        const specialUsername = 'user_123-test';
+        const model = UserModel(username: specialUsername);
+
+        // Act & Assert
+        expect(model.username, specialUsername);
+        expect(model.displayName, specialUsername);
+      });
+    });
+
+    group('Integration Tests', () {
+      test(
+        'should handle complete workflow: create -> copy -> toJson -> fromJson',
+        () {
+          // Arrange
+          const originalModel = UserModel(
+            uid: 'user123',
+            name: 'John',
+            surname: 'Doe',
+            email: 'john.doe@example.com',
+          );
+
+          // Act - Copy
+          final copiedModel = originalModel.copyWith(
+            name: 'Jane',
+            surname: 'Smith',
+          );
+
+          // Act - To JSON
+          final json = copiedModel.toJson();
+
+          // Act - From JSON
+          final restoredModel = UserModel.fromJson(json);
+
+          // Assert
+          expect(copiedModel.name, 'Jane');
+          expect(copiedModel.surname, 'Smith');
+          expect(json['name'], 'Jane');
+          expect(json['surname'], 'Smith');
+          expect(restoredModel.name, 'Jane');
+          expect(restoredModel.surname, 'Smith');
+          expect(restoredModel, equals(copiedModel));
+        },
+      );
+
+      test('should handle multiple copy operations', () {
+        // Arrange
+        const originalModel = UserModel(
+          uid: 'user123',
+          name: 'John',
+          surname: 'Doe',
+          email: 'john.doe@example.com',
+        );
+
+        // Act - Multiple copies
+        final model1 = originalModel.copyWith(name: 'Jane');
+        final model2 = model1.copyWith(surname: 'Smith');
+        final model3 = model2.copyWith(email: 'jane.smith@example.com');
+
+        // Assert
+        expect(originalModel.name, 'John');
+        expect(originalModel.surname, 'Doe');
+        expect(originalModel.email, 'john.doe@example.com');
+        expect(model1.name, 'Jane');
+        expect(model1.surname, 'Doe');
+        expect(model2.name, 'Jane');
+        expect(model2.surname, 'Smith');
+        expect(model3.name, 'Jane');
+        expect(model3.surname, 'Smith');
+        expect(model3.email, 'jane.smith@example.com');
       });
     });
   });

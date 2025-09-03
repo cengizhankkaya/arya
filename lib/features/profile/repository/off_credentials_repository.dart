@@ -126,8 +126,9 @@ class OffCredentialsRepository implements IOffCredentialsRepository {
     // En az bir rakam
     if (!RegExp(r'[0-9]').hasMatch(password)) return false;
 
-    // En az bir özel karakter
-    if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(password)) return false;
+    // En az bir özel karakter (basit karakter seti)
+    if (!RegExp(r'[!@#$%^&*()_+\-=\[\]{}:;<>,.?]').hasMatch(password))
+      return false;
 
     return true;
   }

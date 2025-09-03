@@ -38,7 +38,14 @@ abstract class BaseViewModel extends ChangeNotifier {
   /// Public getter for the current loading state.
   /// This getter allows views to access the loading state for
   /// displaying loading indicators, disabling interactions, etc.
-  bool get loading => _loading;
+  bool get loading {
+    try {
+      return _loading;
+    } catch (e) {
+      // If disposed, return false
+      return false;
+    }
+  }
 
   /// Updates the loading state and notifies listeners of the change.
   /// This method is the primary way to control loading state and

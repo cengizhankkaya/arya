@@ -10,6 +10,7 @@ class OffCredentialsViewModel extends BaseViewModel {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool _isDisposed = false;
 
   static const int _maxSaveAttempts = 5;
   static const Duration _saveCooldown = Duration(minutes: 1);
@@ -26,6 +27,9 @@ class OffCredentialsViewModel extends BaseViewModel {
 
   @override
   void dispose() {
+    if (_isDisposed) return; // Already disposed, don't dispose again
+
+    _isDisposed = true;
     usernameController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -239,9 +243,16 @@ class OffCredentialsViewModel extends BaseViewModel {
   }
 
   bool get hasCredentials => _credentials != null;
-  bool get isFormValid =>
-      usernameController.text.trim().isNotEmpty &&
-      passwordController.text.trim().isNotEmpty;
+  bool get isFormValid {
+    if (_isDisposed) return false;
+    try {
+      return usernameController.text.trim().isNotEmpty &&
+          passwordController.text.trim().isNotEmpty;
+    } catch (e) {
+      // If controllers are disposed, return false
+      return false;
+    }
+  }
 
   bool get isRateLimited => !_checkRateLimit();
   int get remainingAttempts => _maxSaveAttempts - _saveAttempts;

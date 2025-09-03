@@ -1,5 +1,43 @@
 import 'package:arya/product/utility/storage/app_prefs.dart';
 import '../model/off_credentials_model.dart';
+import 'package:flutter/foundation.dart';
+
+// Storage interface for dependency injection
+abstract class IStorageService {
+  Future<String?> getOffUsername();
+  Future<String?> getOffPassword();
+  Future<void> setOffCredentials({
+    required String username,
+    required String password,
+  });
+  Future<void> clearOffCredentials();
+}
+
+// Concrete implementation using AppPrefs
+class AppPrefsStorageService implements IStorageService {
+  @override
+  Future<String?> getOffUsername() async {
+    return await AppPrefs.getOffUsername();
+  }
+
+  @override
+  Future<String?> getOffPassword() async {
+    return await AppPrefs.getOffPassword();
+  }
+
+  @override
+  Future<void> setOffCredentials({
+    required String username,
+    required String password,
+  }) async {
+    await AppPrefs.setOffCredentials(username: username, password: password);
+  }
+
+  @override
+  Future<void> clearOffCredentials() async {
+    await AppPrefs.clearOffCredentials();
+  }
+}
 
 abstract class IOffCredentialsService {
   Future<OffCredentialsModel?> getCredentials();
@@ -8,9 +46,15 @@ abstract class IOffCredentialsService {
 }
 
 class OffCredentialsService implements IOffCredentialsService {
+  final IStorageService _storageService;
+
   // Rate limiting için
   static const int _maxRequestsPerMinute = 30;
   static final Map<String, List<DateTime>> _requestHistory = {};
+
+  // Constructor with dependency injection
+  OffCredentialsService({IStorageService? storageService})
+    : _storageService = storageService ?? AppPrefsStorageService();
 
   @override
   Future<OffCredentialsModel?> getCredentials() async {
@@ -20,8 +64,8 @@ class OffCredentialsService implements IOffCredentialsService {
         throw Exception('Rate limit exceeded');
       }
 
-      final username = await AppPrefs.getOffUsername();
-      final password = await AppPrefs.getOffPassword();
+      final username = await _storageService.getOffUsername();
+      final password = await _storageService.getOffPassword();
 
       if (username != null && password != null) {
         // Güvenlik validasyonu
@@ -58,7 +102,7 @@ class OffCredentialsService implements IOffCredentialsService {
         throw Exception('Credentials security requirements not met');
       }
 
-      await AppPrefs.setOffCredentials(
+      await _storageService.setOffCredentials(
         username: credentials.username,
         password: credentials.password,
       );
@@ -78,7 +122,7 @@ class OffCredentialsService implements IOffCredentialsService {
         throw Exception('Rate limit exceeded');
       }
 
-      await AppPrefs.clearOffCredentials();
+      await _storageService.clearOffCredentials();
       return true;
     } catch (e) {
       // Güvenli hata mesajı
@@ -171,7 +215,7 @@ class OffCredentialsService implements IOffCredentialsService {
 
   Future<void> _clearCorruptedCredentials() async {
     try {
-      await AppPrefs.clearOffCredentials();
+      await _storageService.clearOffCredentials();
     } catch (e) {
       // Silent fail - zaten corrupted
     }
@@ -212,5 +256,11 @@ class OffCredentialsService implements IOffCredentialsService {
       // Development'ta detaylı hata
       print('Hata detayı [$operation]: $error');
     }
+  }
+
+  // Test için rate limiting state'ini sıfırla
+  @visibleForTesting
+  void resetRateLimit() {
+    _requestHistory.clear();
   }
 }
