@@ -4,9 +4,8 @@ import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:provider/provider.dart';
 import 'package:arya/features/profile/view_model/profile_view_model.dart';
-import 'package:arya/test/helpers/test_helpers.dart';
-import 'package:arya/product/index.dart';
 
+import '../../helpers/test_helpers.dart';
 @GenerateMocks([ProfileViewModel])
 import 'edit_profile_form_test.mocks.dart';
 

@@ -4,7 +4,7 @@ import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:arya/features/profile/view/widgets/off_action_buttons.dart';
 import 'package:arya/features/profile/view_model/off_credentials_view_model.dart';
-import 'package:arya/test/helpers/test_helpers.dart';
+import '../../helpers/test_helpers.dart';
 
 @GenerateMocks([OffCredentialsViewModel])
 import 'off_action_buttons_test.mocks.dart';

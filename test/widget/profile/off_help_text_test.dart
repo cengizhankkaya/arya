@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:arya/features/profile/view/widgets/off_help_text.dart';
-import 'package:arya/test/helpers/test_helpers.dart';
+import '../../helpers/test_helpers.dart';
 
 void main() {
   group('OffHelpText Tests', () {
