@@ -6,8 +6,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/product/theme/app_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:auto_route/auto_route.dart';
-import 'package:auto_route/src/router/auto_router_x.dart';
 
 /// Mock RouterConfig sınıfı test ortamı için
 class MockRouterConfig extends RouterConfig<Object> {
@@ -150,6 +148,47 @@ class TestHelpers {
         .setMockMessageHandler('flutter/assets', (message) async {
           return null;
         });
+  }
+
+  /// Firebase mock setup'ı
+  static void setupFirebaseMocks() {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    // Firebase Core mock setup
+    setupFirebaseCoreMocks();
+  }
+
+  /// Firebase Core mock setup helper
+  static void setupFirebaseCoreMocks() {
+    // Firebase Core platform interface mock
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          const MethodChannel('plugins.flutter.io/firebase_core'),
+          (MethodCall methodCall) async {
+            if (methodCall.method == 'Firebase#initializeCore') {
+              return [
+                {
+                  'name': '[DEFAULT]',
+                  'options': {
+                    'apiKey': 'test-api-key',
+                    'appId': 'test-app-id',
+                    'messagingSenderId': 'test-sender-id',
+                    'projectId': 'test-project-id',
+                  },
+                  'pluginConstants': <String, dynamic>{},
+                },
+              ];
+            }
+            if (methodCall.method == 'Firebase#initializeApp') {
+              return {
+                'name': methodCall.arguments['appName'],
+                'options': methodCall.arguments['options'],
+                'pluginConstants': <String, dynamic>{},
+              };
+            }
+            return null;
+          },
+        );
   }
 
   // ==================== WIDGET WRAPPERS ====================
