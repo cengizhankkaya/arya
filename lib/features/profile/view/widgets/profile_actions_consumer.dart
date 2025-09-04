@@ -39,7 +39,7 @@ class ProfileActionsConsumer extends StatelessWidget {
                           Text(
                             'dialogs.language.current_language'.tr(
                               args: [
-                                context.locale.languageCode == 'tr'
+                                (context.locale?.languageCode ?? 'en') == 'tr'
                                     ? 'dialogs.language.turkish'.tr()
                                     : 'dialogs.language.english'.tr(),
                               ],
@@ -76,13 +76,17 @@ class ProfileActionsConsumer extends StatelessWidget {
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor:
-                                          context.locale.languageCode == 'tr'
+                                          (context.locale?.languageCode ??
+                                                  'en') ==
+                                              'tr'
                                           ? Theme.of(
                                               context,
                                             ).colorScheme.primary
                                           : null,
                                       foregroundColor:
-                                          context.locale.languageCode == 'tr'
+                                          (context.locale?.languageCode ??
+                                                  'en') ==
+                                              'tr'
                                           ? Theme.of(
                                               context,
                                             ).colorScheme.onPrimary
@@ -121,13 +125,17 @@ class ProfileActionsConsumer extends StatelessWidget {
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor:
-                                          context.locale.languageCode == 'en'
+                                          (context.locale?.languageCode ??
+                                                  'en') ==
+                                              'en'
                                           ? Theme.of(
                                               context,
                                             ).colorScheme.primary
                                           : null,
                                       foregroundColor:
-                                          context.locale.languageCode == 'en'
+                                          (context.locale?.languageCode ??
+                                                  'en') ==
+                                              'en'
                                           ? Theme.of(
                                               context,
                                             ).colorScheme.onPrimary
@@ -167,6 +175,7 @@ class ProfileActionsConsumer extends StatelessWidget {
             PopupMenuItem(
               value: 'language',
               child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Icons.language),
                   SizedBox(width: 8),
@@ -175,9 +184,12 @@ class ProfileActionsConsumer extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text('settings.language'.tr()),
                         Text(
-                          context.locale.languageCode == 'tr'
+                          'settings.language'.tr(),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          (context.locale?.languageCode ?? 'en') == 'tr'
                               ? 'dialogs.language.turkish'.tr()
                               : 'dialogs.language.english'.tr(),
                           style: Theme.of(context).textTheme.bodySmall
@@ -186,6 +198,7 @@ class ProfileActionsConsumer extends StatelessWidget {
                                   context,
                                 ).colorScheme.onSurfaceVariant,
                               ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ],
                     ),
@@ -196,10 +209,16 @@ class ProfileActionsConsumer extends StatelessWidget {
             PopupMenuItem(
               value: 'off',
               child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Icons.key),
                   SizedBox(width: 8),
-                  Text('appbar.off_account'.tr()),
+                  Expanded(
+                    child: Text(
+                      'appbar.off_account'.tr(),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -207,16 +226,20 @@ class ProfileActionsConsumer extends StatelessWidget {
             PopupMenuItem(
               value: 'delete',
               child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
                     Icons.delete_forever,
                     color: Theme.of(context).colorScheme.error,
                   ),
                   SizedBox(width: 8),
-                  Text(
-                    'general.button.delete_account'.tr(),
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.error,
+                  Expanded(
+                    child: Text(
+                      'general.button.delete_account'.tr(),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],

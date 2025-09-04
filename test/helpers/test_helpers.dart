@@ -1,13 +1,183 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/product/theme/app_colors.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:auto_route/src/router/auto_router_x.dart';
 
-/// Test helper'ları için widget wrapper'ları
+/// Mock RouterConfig sınıfı test ortamı için
+class MockRouterConfig extends RouterConfig<Object> {
+  final Widget child;
+
+  MockRouterConfig(this.child)
+    : super(
+        routeInformationProvider: MockRouteInformationProvider(),
+        routeInformationParser: MockRouteInformationParser(),
+        routerDelegate: MockRouterDelegate(child),
+      );
+}
+
+/// Mock RouteInformationProvider
+class MockRouteInformationProvider extends RouteInformationProvider {
+  @override
+  RouteInformation get value => RouteInformation(uri: Uri.parse('/'));
+
+  @override
+  void addListener(VoidCallback listener) {}
+
+  @override
+  void removeListener(VoidCallback listener) {}
+}
+
+/// Mock RouteInformationParser
+class MockRouteInformationParser extends RouteInformationParser<Object> {
+  @override
+  Future<Object> parseRouteInformation(
+    RouteInformation routeInformation,
+  ) async {
+    return routeInformation.uri.path;
+  }
+
+  @override
+  RouteInformation restoreRouteInformation(Object configuration) {
+    return RouteInformation(uri: Uri.parse(configuration.toString()));
+  }
+}
+
+/// Mock RouterDelegate
+class MockRouterDelegate extends RouterDelegate<Object> {
+  final Widget child;
+
+  MockRouterDelegate(this.child);
+
+  @override
+  Widget build(BuildContext context) {
+    return child;
+  }
+
+  @override
+  Future<void> setNewRoutePath(Object configuration) async {}
+
+  @override
+  Object get currentConfiguration => '/';
+
+  @override
+  Future<bool> popRoute() async => false;
+
+  @override
+  void addListener(VoidCallback listener) {}
+
+  @override
+  void removeListener(VoidCallback listener) {}
+}
+
+/// Mock SharedPreferences sınıfı test ortamı için
+class MockSharedPreferences {
+  static final Map<String, Object> _storage = <String, Object>{};
+
+  static void clear() {
+    _storage.clear();
+  }
+
+  static void setMockValue(String key, Object value) {
+    _storage[key] = value;
+  }
+
+  static Object? getMockValue(String key) {
+    return _storage[key];
+  }
+
+  static bool containsKey(String key) {
+    return _storage.containsKey(key);
+  }
+
+  static Set<String> getKeys() {
+    return _storage.keys.toSet();
+  }
+}
+
+/// Test helper'ları için widget wrapper'ları ve utility methodları
+///
+/// Bu sınıf test ortamında widget testleri için gerekli olan
+/// tüm yardımcı methodları içerir.
+///
+/// Örnek kullanım:
+/// ```dart
+/// TestHelpers.setupEasyLocalization();
+/// await tester.pumpWidget(TestHelpers.createTestApp(child: MyWidget()));
+/// ```
 class TestHelpers {
+  TestHelpers._(); // Private constructor to prevent instantiation
+
+  // ==================== SETUP METHODS ====================
+
   /// Test için Easy Localization setup'ı
   static void setupEasyLocalization() {
+    // Flutter binding'i initialize et
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    // SharedPreferences için mock değerler ayarla
+    SharedPreferences.setMockInitialValues({});
+
     EasyLocalization.logger.enableBuildModes = [];
+    // Test ortamında EasyLocalization'ı başlat
+    EasyLocalization.ensureInitialized();
+  }
+
+  /// Test için platform channel setup'ı
+  static void setupPlatformChannels() {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMessageHandler('plugins.flutter.io/shared_preferences', (
+          message,
+        ) async {
+          return null;
+        });
+  }
+
+  /// Test ortamını temizle
+  static void tearDown() {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMessageHandler('plugins.flutter.io/shared_preferences', null);
+  }
+
+  /// Test için asset bundle mock'u
+  static void mockAssetBundle() {
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMessageHandler('flutter/assets', (message) async {
+          return null;
+        });
+  }
+
+  // ==================== WIDGET WRAPPERS ====================
+
+  /// Easy Localization ile MaterialApp oluşturur
+  static Widget createTestAppWithLocalization(Widget child) {
+    return EasyLocalization(
+      supportedLocales: const [Locale('en'), Locale('tr')],
+      path: 'assets/translations',
+      fallbackLocale: const Locale('en'),
+      startLocale: const Locale('en'),
+      child: MaterialApp(
+        theme: _createDefaultTheme(),
+        home: Scaffold(body: child),
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [Locale('en'), Locale('tr')],
+        locale: const Locale('en'),
+      ),
+    );
+  }
+
+  /// Mock router config oluşturur
+  static RouterConfig<Object> _createMockRouterConfig(Widget child) {
+    return MockRouterConfig(child);
   }
 
   /// AppColors extension'ını içeren MaterialApp wrapper'ı
@@ -48,143 +218,108 @@ class TestHelpers {
     );
   }
 
-  /// Varsayılan AppColors instance'ı
+  /// Varsayılan AppColors instance'ı (light tema)
   static AppColors _createDefaultAppColors() {
-    return AppColors(
-      addbackground: Colors.white,
-      textStrong: Colors.black87,
-      textMuted: Colors.black54,
-      dividerAlt: Colors.grey[300]!,
-      openfoodfacts: Colors.green,
-      shimmerBase: Colors.grey[200]!,
-      shimmerHighlight: Colors.grey[100]!,
-      shimmerBorder: Colors.grey[300]!,
-      grey200: Colors.grey[200]!,
-      formFieldBorder: Colors.grey[300]!,
-      cardBackground: Colors.white,
-      categorySoftGreenBg: Colors.green[50]!,
-      categorySoftGreenBorder: Colors.green[200]!,
-      categorySoftPurpleBg: Colors.purple[50]!,
-      categorySoftPurpleBorder: Colors.purple[200]!,
-      categorySoftBlueBg: Colors.blue[50]!,
-      categorySoftBlueBorder: Colors.blue[200]!,
-      categorySoftPinkBg: Colors.pink[50]!,
-      categorySoftPinkBorder: Colors.pink[200]!,
-      categorySoftPeachBg: Colors.orange[50]!,
-      categorySoftPeachBorder: Colors.orange[200]!,
-      categorySoftYellowBg: Colors.yellow[50]!,
-      categorySoftYellowBorder: Colors.yellow[200]!,
-      categorySoftOrangeBg: Colors.orange[50]!,
-      categorySoftOrangeBorder: Colors.orange[200]!,
-      categorySoftTealBg: Colors.teal[50]!,
-      categorySoftTealBorder: Colors.teal[200]!,
-      categorySoftBrownBg: Colors.brown[50]!,
-      categorySoftBrownBorder: Colors.brown[200]!,
-      categorySoftEmeraldBg: Colors.green[50]!,
-      categorySoftEmeraldBorder: Colors.green[200]!,
-      categorySoftLimeBg: Colors.lime[50]!,
-      categorySoftLimeBorder: Colors.lime[200]!,
-      red50: Colors.red[50]!,
-      red200: Colors.red[200]!,
-      red600: Colors.red[600]!,
-      red700: Colors.red[700]!,
-      redAccent: Colors.redAccent,
-      green50: Colors.green[50]!,
-      green200: Colors.green[200]!,
-      green600: Colors.green[600]!,
-      green700: Colors.green[700]!,
-      lightGreen: Colors.lightGreen,
-      primaryGreen: Colors.green,
-      transparent: Colors.transparent,
-      nutritionProteinHigh: Colors.red,
-      nutritionProteinMedium: Colors.orange,
-      nutritionProteinLow: Colors.green,
-      nutritionCarbohydrateHigh: Colors.red,
-      nutritionCarbohydrateMedium: Colors.orange,
-      nutritionCarbohydrateLow: Colors.green,
-      nutritionFatHigh: Colors.red,
-      nutritionFatMedium: Colors.orange,
-      nutritionFatLow: Colors.green,
-      nutritionVitaminMineralHigh: Colors.green,
-      nutritionVitaminMineralMedium: Colors.orange,
-      nutritionVitaminMineralLow: Colors.red,
-      nutritionFiberHigh: Colors.green,
-      nutritionFiberMedium: Colors.orange,
-      nutritionFiberLow: Colors.red,
-      white: Colors.white,
-      black: Colors.black,
-      grey: Colors.grey,
-      red: Colors.red,
-    );
+    return AppColors.light;
   }
 
   /// Dark tema için AppColors instance'ı
   static AppColors _createDarkAppColors() {
-    return AppColors(
-      addbackground: Colors.grey[900]!,
-      textStrong: Colors.white,
-      textMuted: Colors.grey[400]!,
-      dividerAlt: Colors.grey[700]!,
-      openfoodfacts: Colors.green,
-      shimmerBase: Colors.grey[800]!,
-      shimmerHighlight: Colors.grey[700]!,
-      shimmerBorder: Colors.grey[600]!,
-      grey200: Colors.grey[700]!,
-      formFieldBorder: Colors.grey[600]!,
-      cardBackground: Colors.grey[900]!,
-      categorySoftGreenBg: Colors.green[900]!,
-      categorySoftGreenBorder: Colors.green[700]!,
-      categorySoftPurpleBg: Colors.purple[900]!,
-      categorySoftPurpleBorder: Colors.purple[700]!,
-      categorySoftBlueBg: Colors.blue[900]!,
-      categorySoftBlueBorder: Colors.blue[700]!,
-      categorySoftPinkBg: Colors.pink[900]!,
-      categorySoftPinkBorder: Colors.pink[700]!,
-      categorySoftPeachBg: Colors.orange[900]!,
-      categorySoftPeachBorder: Colors.orange[700]!,
-      categorySoftYellowBg: Colors.yellow[900]!,
-      categorySoftYellowBorder: Colors.yellow[700]!,
-      categorySoftOrangeBg: Colors.orange[900]!,
-      categorySoftOrangeBorder: Colors.orange[700]!,
-      categorySoftTealBg: Colors.teal[900]!,
-      categorySoftTealBorder: Colors.teal[700]!,
-      categorySoftBrownBg: Colors.brown[900]!,
-      categorySoftBrownBorder: Colors.brown[700]!,
-      categorySoftEmeraldBg: Colors.green[900]!,
-      categorySoftEmeraldBorder: Colors.green[700]!,
-      categorySoftLimeBg: Colors.lime[900]!,
-      categorySoftLimeBorder: Colors.lime[700]!,
-      red50: Colors.red[900]!,
-      red200: Colors.red[700]!,
-      red600: Colors.red[400]!,
-      red700: Colors.red[300]!,
-      redAccent: Colors.redAccent,
-      green50: Colors.green[900]!,
-      green200: Colors.green[700]!,
-      green600: Colors.green[400]!,
-      green700: Colors.green[300]!,
-      lightGreen: Colors.lightGreen,
-      primaryGreen: Colors.green,
-      transparent: Colors.transparent,
-      nutritionProteinHigh: Colors.red,
-      nutritionProteinMedium: Colors.orange,
-      nutritionProteinLow: Colors.green,
-      nutritionCarbohydrateHigh: Colors.red,
-      nutritionCarbohydrateMedium: Colors.orange,
-      nutritionCarbohydrateLow: Colors.green,
-      nutritionFatHigh: Colors.red,
-      nutritionFatMedium: Colors.orange,
-      nutritionFatLow: Colors.green,
-      nutritionVitaminMineralHigh: Colors.green,
-      nutritionVitaminMineralMedium: Colors.orange,
-      nutritionVitaminMineralLow: Colors.red,
-      nutritionFiberHigh: Colors.green,
-      nutritionFiberMedium: Colors.orange,
-      nutritionFiberLow: Colors.red,
-      white: Colors.white,
-      black: Colors.black,
-      grey: Colors.grey,
-      red: Colors.red,
+    return AppColors.dark;
+  }
+
+  /// Provider ile test app oluşturur
+  static Widget createTestAppWithProvider<T extends ChangeNotifier>({
+    required Widget child,
+    required T provider,
+    ThemeData? theme,
+  }) {
+    return ChangeNotifierProvider<T>(
+      create: (_) => provider,
+      child: MaterialApp(
+        theme: theme ?? _createDefaultTheme(),
+        home: Scaffold(body: child),
+      ),
     );
+  }
+
+  /// MultiProvider ile test app oluşturur
+  static Widget createTestAppWithMultiProvider({
+    required Widget child,
+    required List<ChangeNotifierProvider> providers,
+    ThemeData? theme,
+  }) {
+    return MultiProvider(
+      providers: providers,
+      child: MaterialApp(
+        theme: theme ?? _createDefaultTheme(),
+        home: Scaffold(body: child),
+      ),
+    );
+  }
+
+  // ==================== TEST INTERACTION HELPERS ====================
+
+  /// Belirli bir widget'ın bulunmasını bekle
+  static Future<void> waitForWidget(
+    WidgetTester tester,
+    Finder finder, {
+    Duration timeout = const Duration(seconds: 10),
+  }) async {
+    final endTime = DateTime.now().add(timeout);
+    while (DateTime.now().isBefore(endTime)) {
+      await tester.pump();
+      if (finder.evaluate().isNotEmpty) {
+        return;
+      }
+      await Future.delayed(const Duration(milliseconds: 100));
+    }
+    throw Exception('Widget not found within timeout');
+  }
+
+  /// Animasyon tamamlanmasını bekle
+  static Future<void> pumpAndSettle(
+    WidgetTester tester, {
+    Duration timeout = const Duration(seconds: 10),
+  }) async {
+    await tester.pumpAndSettle(timeout);
+  }
+
+  /// Text field'a değer gir
+  static Future<void> enterText(
+    WidgetTester tester,
+    Finder finder,
+    String text,
+  ) async {
+    await tester.enterText(finder, text);
+    await tester.pump();
+  }
+
+  /// Button'a bas ve animasyon bekle
+  static Future<void> tapAndSettle(WidgetTester tester, Finder finder) async {
+    await tester.tap(finder);
+    await tester.pumpAndSettle();
+  }
+
+  /// Scroll action'ı
+  static Future<void> scrollUntilVisible(
+    WidgetTester tester,
+    Finder itemFinder,
+    Finder scrollableFinder, {
+    double delta = 100.0,
+  }) async {
+    await tester.scrollUntilVisible(
+      itemFinder,
+      delta,
+      scrollable: scrollableFinder,
+    );
+  }
+
+  /// Test timeout wrapper'ı
+  static Future<T> withTimeout<T>(
+    Future<T> future, {
+    Duration timeout = const Duration(seconds: 30),
+  }) {
+    return future.timeout(timeout);
   }
 }
