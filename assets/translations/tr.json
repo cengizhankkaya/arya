@@ -48,10 +48,11 @@
             "ok": "Tamam",
             "cancel": "İptal",
             "save": "Kaydet",
+            "logout": "Çıkış Yap",
             "edit": "Düzenle",
+            "retry": "Tekrar Dene",
             "clear": "Temizle",
             "try_again": "Tekrar Dene",
-            "logout": "Çıkış Yap",
             "delete_account": "Hesabı Sil"
         },
         "tooltip": {
@@ -107,7 +108,15 @@
         "account_info_desc": "OpenFoodFacts hesabınızdan aldığınız bilgileri girin",
         "username_hint": "Kullanıcı adınızı girin",
         "password_hint": "Şifrenizi girin",
-        "help_text": "Hesap oluşturduktan sonra kullanıcı adı ve şifrenizi buraya girerek ürün bilgilerini daha detaylı görüntüleyebilirsiniz."
+        "help_text": "Hesap oluşturduktan sonra kullanıcı adı ve şifrenizi buraya girerek ürün bilgilerini daha detaylı görüntüleyebilirsiniz.",
+        "validation": {
+            "username_too_short": "Kullanıcı adı en az 3 karakter olmalıdır",
+            "username_too_long": "Kullanıcı adı en fazla 50 karakter olmalıdır",
+            "username_invalid_chars": "Kullanıcı adı sadece harf, rakam ve alt çizgi içerebilir",
+            "password_too_short": "Şifre en az 8 karakter olmalıdır",
+            "password_too_long": "Şifre en fazla 100 karakter olmalıdır",
+            "password_weak": "Şifre güçlü değil. En az bir büyük harf, bir küçük harf, bir rakam ve bir özel karakter içermelidir"
+        }
     },
     "store": {
         "search_hint": "Ürün ara...",
@@ -272,5 +281,24 @@
         "content": "Ürün ekleyebilmek için önce OpenFood hesap bilgilerinizi girmeniz gerekmektedir.",
         "later": "Daha Sonra",
         "enter_credentials": "Bilgileri Gir"
+    },
+    "profile": {
+        "section": {
+            "personal_info": "Kişisel Bilgiler"
+        },
+        "labels": {
+            "name": "Ad",
+            "surname": "Soyad",
+            "email": "E-posta"
+        },
+        "status": {
+            "incomplete": "Profil Eksik",
+            "incomplete_desc": "Lütfen profil bilgilerinizi tamamlayın"
+        }
+    },
+    "off": {
+        "help_text": "Ürün eklemek için OpenFood kullanıcı adınızı girin",
+        "password": "Şifre",
+        "password_hint": "OpenFood şifrenizi girin"
     }
 }

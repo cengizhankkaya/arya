@@ -55,6 +55,12 @@ class OffCredentialsViewModel extends BaseViewModel {
   }
 
   Future<bool> save() async {
+    // Form key null check güvenliği
+    if (_formKey.currentState == null) {
+      debugPrint('Form key current state is null');
+      return false;
+    }
+    
     if (!_formKey.currentState!.validate()) return false;
 
     if (!_checkRateLimit()) {
@@ -160,11 +166,17 @@ class OffCredentialsViewModel extends BaseViewModel {
       return 'off.password_too_short'.tr();
     }
 
-    if (sanitizedValue.length > 128) {
+    if (sanitizedValue.length > 100) {
       return 'off.password_too_long'.tr();
     }
 
     if (!_isStrongPassword(sanitizedValue)) {
+      return 'off.password_weak'.tr();
+    }
+
+    // Security requirement check - username ile karşılaştır
+    final username = usernameController.text.trim();
+    if (username.isNotEmpty && !_validateSecurityRequirements(username, sanitizedValue)) {
       return 'off.password_weak'.tr();
     }
 

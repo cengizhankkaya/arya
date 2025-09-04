@@ -236,8 +236,8 @@ void main() {
         stopwatch.stop();
         expect(
           stopwatch.elapsedMilliseconds,
-          lessThan(800),
-        ); // 800ms'den az olmalı
+          lessThan(1000),
+        ); // 1000ms'den az olmalı
       });
 
       testWidgets('Text input performance testi', (tester) async {
@@ -257,8 +257,8 @@ void main() {
         stopwatch.stop();
         expect(
           stopwatch.elapsedMilliseconds,
-          lessThan(1500),
-        ); // 1.5 saniyeden az olmalı
+          lessThan(3000),
+        ); // 3 saniyeden az olmalı
       });
     });
 

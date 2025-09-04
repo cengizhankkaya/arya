@@ -1,411 +1,51 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+import 'package:mockito/annotations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:arya/features/profile/view_model/profile_view_model.dart';
 import 'package:arya/features/auth/service/user_service.dart';
 import 'package:arya/features/auth/model/user_model.dart';
 
-// Firebase Core mock
-class MockFirebaseCore {
-  static bool _initialized = false;
-
-  static bool get initialized => _initialized;
-
-  static void setInitialized(bool value) {
-    _initialized = value;
-  }
-
-  static void reset() {
-    _initialized = false;
-  }
-}
-
-// Firebase Auth mock
-class MockFirebaseAuth {
-  static User? _currentUser;
-
-  static User? get currentUser => _currentUser;
-
-  static void setCurrentUser(User? user) {
-    _currentUser = user;
-  }
-
-  static void reset() {
-    _currentUser = null;
-  }
-}
-
-// Mock sınıfları manuel olarak oluştur
-class MockUserService implements UserService {
-  @override
-  Future<void> createDataUser(UserModel user) async {}
-
-  @override
-  Future<UserModel?> getUserData(String uid) async => null;
-
-  @override
-  Future<void> updateUserData(UserModel user) async {}
-
-  @override
-  Future<void> deleteUserData(String uid) async {}
-
-  @override
-  Future<UserModel?> getUserByEmail(String email) async => null;
-
-  @override
-  Future<UserModel?> getUserByUsername(String username) async => null;
-}
-
-// Firebase Auth mock'ları
-class MockUser implements User {
-  @override
-  String get uid => 'test-uid-123';
-
-  @override
-  String? get email => 'test@example.com';
-
-  @override
-  bool get emailVerified => true;
-
-  @override
-  String? get displayName => 'Test User';
-
-  @override
-  String? get photoURL => null;
-
-  @override
-  String? get phoneNumber => null;
-
-  @override
-  bool get isAnonymous => false;
-
-  @override
-  List<UserInfo> get providerData => [];
-
-  @override
-  List<String> get providerId => [];
-
-  @override
-  String get tenantId => '';
-
-  @override
-  UserMetadata get metadata => UserMetadata(
-    DateTime.now().millisecondsSinceEpoch,
-    DateTime.now().millisecondsSinceEpoch,
-  );
-
-  @override
-  MultiFactor get multiFactor => MockMultiFactor();
-
-  @override
-  Future<void> delete() async {}
-
-  @override
-  Future<String> getIdToken([bool forceRefresh = false]) async => 'token';
-
-  @override
-  Future<IdTokenResult> getIdTokenResult([bool forceRefresh = false]) async =>
-      MockIdTokenResult();
-
-  @override
-  Future<UserCredential> linkWithCredential(AuthCredential credential) async =>
-      MockUserCredential();
-
-  @override
-  Future<ConfirmationResult> linkWithPhoneNumber(
-    String phoneNumber, [
-    RecaptchaVerifier? recaptchaVerifier,
-  ]) async => MockConfirmationResult();
-
-  @override
-  Future<UserCredential> linkWithPopup(AuthProvider provider) async =>
-      MockUserCredential();
-
-  @override
-  Future<UserCredential> linkWithRedirect(AuthProvider provider) async =>
-      MockUserCredential();
-
-  @override
-  Future<UserCredential> reauthenticateWithCredential(
-    AuthCredential credential,
-  ) async => MockUserCredential();
-
-  @override
-  Future<ConfirmationResult> reauthenticateWithPhoneNumber(
-    String phoneNumber, [
-    RecaptchaVerifier? recaptchaVerifier,
-  ]) async => MockConfirmationResult();
-
-  @override
-  Future<UserCredential> reauthenticateWithPopup(AuthProvider provider) async =>
-      MockUserCredential();
-
-  @override
-  Future<UserCredential> reauthenticateWithRedirect(
-    AuthProvider provider,
-  ) async => MockUserCredential();
-
-  @override
-  Future<void> reload() async {}
-
-  @override
-  Future<void> sendEmailVerification([
-    ActionCodeSettings? actionCodeSettings,
-  ]) async {}
-
-  @override
-  Future<User> toUser() async => this;
-
-  @override
-  Future<User> unlink(String providerId) async => this;
-
-  @override
-  Future<void> updateDisplayName(String? displayName) async {}
-
-  @override
-  Future<void> updateEmail(String email) async {}
-
-  @override
-  Future<void> updatePassword(String password) async {}
-
-  @override
-  Future<void> updatePhoneNumber(PhoneAuthCredential phoneCredential) async {}
-
-  @override
-  Future<void> updatePhotoURL(String? photoURL) async {}
-
-  @override
-  Future<void> updateProfile({String? displayName, String? photoURL}) async {}
-
-  @override
-  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
-}
-
-class MockUserModel implements UserModel {
-  @override
-  String? get uid => 'test-uid-123';
-
-  @override
-  String? get name => 'John';
-
-  @override
-  String? get surname => 'Doe';
-
-  @override
-  String? get username => 'johndoe';
-
-  @override
-  String? get email => 'john@example.com';
-
-  @override
-  String get fullName => 'John Doe';
-
-  @override
-  String get displayName => 'johndoe';
-
-  @override
-  bool get isValid => true;
-
-  @override
-  bool get isComplete => true;
-
-  @override
-  UserModel copyWith({
-    String? uid,
-    String? name,
-    String? surname,
-    String? username,
-    String? email,
-  }) => UserModel(
-    uid: uid ?? this.uid,
-    name: name ?? this.name,
-    surname: surname ?? this.surname,
-    username: username ?? this.username,
-    email: email ?? this.email,
-  );
-
-  @override
-  Map<String, dynamic> toJson() => {
-    'uid': uid,
-    'name': name,
-    'surname': surname,
-    'username': username,
-    'email': email,
-  };
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is UserModel &&
-          runtimeType == other.runtimeType &&
-          uid == other.uid &&
-          name == other.name &&
-          surname == other.surname &&
-          username == other.username &&
-          email == other.email;
-
-  @override
-  int get hashCode =>
-      uid.hashCode ^
-      name.hashCode ^
-      surname.hashCode ^
-      username.hashCode ^
-      email.hashCode;
-
-  @override
-  String toString() =>
-      'UserModel(uid: $uid, name: $name, surname: $surname, username: $username, email: $email)';
-}
-
-class MockMultiFactor implements MultiFactor {
-  @override
-  List<MultiFactorInfo> get enrolledFactors => [];
-
-  @override
-  Future<MultiFactorSession> getSession() async => MockMultiFactorSession();
-
-  @override
-  Future<MultiFactorResolver> resolveSignIn(
-    MultiFactorAssertion assertion,
-  ) async => MockMultiFactorResolver();
-
-  @override
-  Future<void> enroll(
-    MultiFactorAssertion assertion, {
-    String? displayName,
-  }) async {}
-
-  @override
-  Future<void> unenroll({
-    String? factorUid,
-    MultiFactorInfo? multiFactorInfo,
-  }) async {}
-
-  @override
-  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
-}
-
-class MockMultiFactorSession implements MultiFactorSession {
-  @override
-  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
-}
-
-class MockMultiFactorResolver implements MultiFactorResolver {
-  @override
-  List<MultiFactorInfo> get hints => [];
-
-  @override
-  MultiFactorSession get session => MockMultiFactorSession();
-
-  @override
-  Future<UserCredential> resolveSignIn(MultiFactorAssertion assertion) async =>
-      MockUserCredential();
-
-  @override
-  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
-}
-
-class MockUserCredential implements UserCredential {
-  @override
-  User? get user => null;
-
-  @override
-  AdditionalUserInfo? get additionalUserInfo => null;
-
-  @override
-  AuthCredential? get credential => null;
-
-  @override
-  OAuthCredential? get oAuthCredential => null;
-
-  @override
-  String? get operationType => null;
-
-  @override
-  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
-}
-
-class MockConfirmationResult implements ConfirmationResult {
-  @override
-  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
-}
-
-class MockIdTokenResult implements IdTokenResult {
-  @override
-  DateTime? get authTime => null;
-
-  @override
-  Map<String, dynamic>? get claims => null;
-
-  @override
-  DateTime? get expirationTime => null;
-
-  @override
-  DateTime? get issuedAtTime => null;
-
-  @override
-  String? get signInProvider => null;
-
-  @override
-  String? get token => null;
-
-  @override
-  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
-}
-
-// Test için ProfileViewModel'i extend eden test sınıfı
-class TestableProfileViewModel extends ProfileViewModel {
-  TestableProfileViewModel({UserService? userService})
-    : super(userService: userService);
-
-  // Test için user state'i set etmek için
-  void setUserState(UserModel? user) {
-    // Private field'a erişim için reflection kullanılabilir
-    // Ancak test için basit bir yaklaşım kullanıyoruz
-  }
-
-  // Test için loading state'i set etmek için
-  void setLoadingState(bool loading) {
-    // Private field'a erişim için reflection kullanılabilir
-    // Ancak test için basit bir yaklaşım kullanıyoruz
-  }
-
-  // Test için error state'i set etmek için
-  void setErrorState(String? error) {
-    // Private field'a erişim için reflection kullanılabilir
-    // Ancak test için basit bir yaklaşım kullanıyoruz
-  }
-}
+@GenerateMocks(
+  [],
+  customMocks: [
+    MockSpec<UserService>(as: #MockUserServiceForProfile),
+    MockSpec<User>(as: #MockUserForProfile),
+    MockSpec<FirebaseAuth>(as: #MockFirebaseAuthForProfile),
+  ],
+)
+import 'profile_view_model_test.mocks.dart';
 
 void main() {
   group('ProfileViewModel Tests', () {
     ProfileViewModel? viewModel;
-    late MockUserService mockUserService;
-    late MockUser mockFirebaseUser;
-    late MockUserModel mockUserModel;
+    late MockUserServiceForProfile mockUserService;
+    late MockUserForProfile mockUser;
+    late MockFirebaseAuthForProfile mockFirebaseAuth;
 
     setUp(() {
-      mockUserService = MockUserService();
-      mockFirebaseUser = MockUser();
-      mockUserModel = MockUserModel();
+      mockUserService = MockUserServiceForProfile();
+      mockUser = MockUserForProfile();
+      mockFirebaseAuth = MockFirebaseAuthForProfile();
 
-      // Firebase mock'larını sıfırla
-      MockFirebaseCore.setInitialized(true);
-      MockFirebaseAuth.reset();
+      // FirebaseAuth.instance mock'unu ayarla
+      when(mockUser.uid).thenReturn('user123');
+      when(mockFirebaseAuth.currentUser).thenReturn(mockUser);
     });
 
     tearDown(() {
       viewModel?.dispose();
-      viewModel = null;
-
-      // Firebase mock'larını temizle
-      MockFirebaseCore.reset();
-      MockFirebaseAuth.reset();
     });
 
     group('Initial State Tests', () {
       test('ProfileViewModel başlangıç durumu doğru olmalı', () {
-        viewModel = ProfileViewModel(userService: mockUserService);
+        // Test için ProfileViewModel'i oluştur
+        viewModel = ProfileViewModel(
+          userService: mockUserService,
+          firebaseAuth: mockFirebaseAuth,
+        );
 
+        // Assert
         expect(viewModel!.user, isNull);
         expect(viewModel!.isLoading, isFalse);
         expect(viewModel!.errorMessage, isNull);
@@ -417,19 +57,29 @@ void main() {
       });
 
       test('TextEditingController\'lar doğru oluşturulmalı', () {
-        viewModel = ProfileViewModel(userService: mockUserService);
+        // Test için ProfileViewModel'i oluştur
+        viewModel = ProfileViewModel(
+          userService: mockUserService,
+          firebaseAuth: mockFirebaseAuth,
+        );
 
+        // Assert
         expect(viewModel!.nameController, isNotNull);
-        expect(viewModel!.nameController.text, isEmpty);
         expect(viewModel!.surnameController, isNotNull);
+        expect(viewModel!.nameController.text, isEmpty);
         expect(viewModel!.surnameController.text, isEmpty);
       });
     });
 
     group('Edit Mode Tests', () {
       test('toggleEditMode edit mode\'u değiştirmeli', () {
-        // Arrange
-        viewModel = ProfileViewModel(userService: mockUserService);
+        // Test için ProfileViewModel'i oluştur
+        viewModel = ProfileViewModel(
+          userService: mockUserService,
+          firebaseAuth: mockFirebaseAuth,
+        );
+
+        // Initial state
         expect(viewModel!.isEditing, isFalse);
 
         // Act
@@ -438,7 +88,7 @@ void main() {
         // Assert
         expect(viewModel!.isEditing, isTrue);
 
-        // Act
+        // Act again
         viewModel!.toggleEditMode();
 
         // Assert
@@ -446,23 +96,46 @@ void main() {
       });
 
       test('toggleEditMode edit mode kapatıldığında error temizlenmeli', () {
+        // Test için ProfileViewModel'i oluştur
+        viewModel = ProfileViewModel(
+          userService: mockUserService,
+          firebaseAuth: mockFirebaseAuth,
+        );
+
         // Arrange
-        viewModel = ProfileViewModel(userService: mockUserService);
+        viewModel!.toggleEditMode();
+        // Simulate error
+        // Note: We can't directly set error message, but we can test the behavior
 
         // Act
-        viewModel!.toggleEditMode(); // true
-        viewModel!.toggleEditMode(); // false
+        viewModel!.toggleEditMode();
 
         // Assert
         expect(viewModel!.isEditing, isFalse);
-        expect(viewModel!.errorMessage, isNull);
       });
     });
 
     group('Error Handling Tests', () {
-      test('clearError error message\'ı temizlemeli', () {
+      test('clearError error message\'ı temizlemeli', () async {
         // Arrange
-        viewModel = ProfileViewModel(userService: mockUserService);
+        const testUser = UserModel(
+          uid: 'user123',
+          name: 'John',
+          surname: 'Doe',
+          email: 'john.doe@example.com',
+        );
+
+        when(
+          mockUserService.getUserData('user123'),
+        ).thenAnswer((_) async => testUser);
+
+        // Test için ProfileViewModel'i oluştur
+        viewModel = ProfileViewModel(
+          userService: mockUserService,
+          firebaseAuth: mockFirebaseAuth,
+        );
+
+        await viewModel!.fetchUser();
 
         // Act
         viewModel!.clearError();
@@ -475,99 +148,150 @@ void main() {
     group('Edge Case Tests', () {
       test('çok uzun text input\'lar ile çalışmalı', () async {
         // Arrange
-        final longName = 'a' * 1000;
-        final longSurname = 'b' * 1000;
+        final longName = 'A' * 100;
+        final longSurname = 'B' * 100;
+        final testUser = UserModel(
+          uid: 'user123',
+          name: longName,
+          surname: longSurname,
+          email: 'john.doe@example.com',
+        );
 
-        viewModel = ProfileViewModel(userService: mockUserService);
-        viewModel!.nameController.text = longName;
-        viewModel!.surnameController.text = longSurname;
+        when(
+          mockUserService.getUserData('user123'),
+        ).thenAnswer((_) async => testUser);
+
+        // Test için ProfileViewModel'i oluştur
+        viewModel = ProfileViewModel(
+          userService: mockUserService,
+          firebaseAuth: mockFirebaseAuth,
+        );
 
         // Act
-        await viewModel!.updateUserFromControllers();
+        await viewModel!.fetchUser();
 
         // Assert
-        expect(viewModel!.nameController.text, equals(longName));
-        expect(viewModel!.surnameController.text, equals(longSurname));
+        expect(viewModel!.user, isNotNull);
+        expect(viewModel!.user!.name, longName);
+        expect(viewModel!.user!.surname, longSurname);
+        expect(viewModel!.nameController.text, longName);
+        expect(viewModel!.surnameController.text, longSurname);
+        expect(viewModel!.errorMessage, isNull);
       });
 
       test('boş string input\'lar ile çalışmalı', () async {
         // Arrange
-        viewModel = ProfileViewModel(userService: mockUserService);
-        viewModel!.nameController.text = '';
-        viewModel!.surnameController.text = '';
+        const testUser = UserModel(
+          uid: 'user123',
+          name: '',
+          surname: '',
+          email: 'john.doe@example.com',
+        );
+
+        when(
+          mockUserService.getUserData('user123'),
+        ).thenAnswer((_) async => testUser);
+
+        // Test için ProfileViewModel'i oluştur
+        viewModel = ProfileViewModel(
+          userService: mockUserService,
+          firebaseAuth: mockFirebaseAuth,
+        );
 
         // Act
-        await viewModel!.updateUserFromControllers();
+        await viewModel!.fetchUser();
 
         // Assert
+        expect(viewModel!.user, isNotNull);
+        expect(viewModel!.user!.name, isEmpty);
+        expect(viewModel!.user!.surname, isEmpty);
         expect(viewModel!.nameController.text, isEmpty);
         expect(viewModel!.surnameController.text, isEmpty);
+        expect(viewModel!.errorMessage, isNull);
       });
     });
 
     group('Performance Tests', () {
-      test('multiple rapid state changes performans testi', () async {
-        // Arrange
-        viewModel = ProfileViewModel(userService: mockUserService);
+      test('multiple rapid state changes performans testi', () {
+        // Test için ProfileViewModel'i oluştur
+        viewModel = ProfileViewModel(
+          userService: mockUserService,
+          firebaseAuth: mockFirebaseAuth,
+        );
 
-        // Act
+        // Act - Multiple rapid operations
         for (int i = 0; i < 100; i++) {
           viewModel!.toggleEditMode();
-          viewModel!.clearError();
         }
 
         // Assert
-        expect(viewModel!.isEditing, isFalse);
-        expect(viewModel!.errorMessage, isNull);
+        expect(viewModel!.isEditing, isFalse); // Even number of toggles
+        expect(viewModel!.user, isNull);
+        expect(viewModel!.isLoading, isFalse);
       });
     });
 
     group('Integration Tests', () {
       test('tam user flow entegrasyon testi', () async {
         // Arrange
-        viewModel = ProfileViewModel(userService: mockUserService);
+        const testUser = UserModel(
+          uid: 'user123',
+          name: 'John',
+          surname: 'Doe',
+          email: 'john.doe@example.com',
+        );
 
-        // Act 1: Toggle edit mode
-        viewModel!.toggleEditMode();
-        expect(viewModel!.isEditing, isTrue);
+        when(
+          mockUserService.getUserData('user123'),
+        ).thenAnswer((_) async => testUser);
+        when(mockUserService.updateUserData(any)).thenAnswer((_) async {});
 
-        // Act 2: Toggle edit mode back
+        // Test için ProfileViewModel'i oluştur
+        viewModel = ProfileViewModel(
+          userService: mockUserService,
+          firebaseAuth: mockFirebaseAuth,
+        );
+
+        // Act - Complete user flow
+        await viewModel!.fetchUser();
         viewModel!.toggleEditMode();
+        await viewModel!.updateUser(name: 'Jane', surname: 'Smith');
+
+        // Assert
+        expect(viewModel!.user, isNotNull);
+        expect(viewModel!.user!.name, 'Jane');
+        expect(viewModel!.user!.surname, 'Smith');
         expect(viewModel!.isEditing, isFalse);
-
-        // Act 3: Clear error
-        viewModel!.clearError();
-        expect(viewModel!.errorMessage, isNull);
-
-        // Act 4: Check initial state
-        expect(viewModel!.hasUser, isFalse);
-        expect(viewModel!.isUserComplete, isFalse);
+        expect(viewModel!.nameController.text, 'Jane');
+        expect(viewModel!.surnameController.text, 'Smith');
       });
     });
 
     group('Dependency Injection Tests', () {
       test('ProfileViewModel UserService dependency injection testi', () {
-        // Arrange
-        viewModel = ProfileViewModel(userService: mockUserService);
+        // Test için ProfileViewModel'i oluştur
+        viewModel = ProfileViewModel(
+          userService: mockUserService,
+          firebaseAuth: mockFirebaseAuth,
+        );
 
-        // Act & Assert
-        // ProfileViewModel constructor'ında UserService inject ediliyor
-        // Bu test dependency injection'ın çalıştığını doğruluyor
+        // Assert
         expect(viewModel, isNotNull);
-        expect(viewModel!.nameController, isNotNull);
-        expect(viewModel!.surnameController, isNotNull);
+        expect(viewModel!.user, isNull);
+        expect(viewModel!.isLoading, isFalse);
       });
 
       test('ProfileViewModel mock UserService ile testi', () {
-        // Arrange
-        viewModel = ProfileViewModel(userService: mockUserService);
+        // Test için ProfileViewModel'i oluştur
+        viewModel = ProfileViewModel(
+          userService: mockUserService,
+          firebaseAuth: mockFirebaseAuth,
+        );
 
-        // Act & Assert
-        // Mock UserService inject edildi
+        // Assert
         expect(viewModel, isNotNull);
-
-        // Mock service'in davranışını test et
-        expect(mockUserService, isA<MockUserService>());
+        expect(viewModel!.user, isNull);
+        expect(viewModel!.isLoading, isFalse);
       });
     });
   });

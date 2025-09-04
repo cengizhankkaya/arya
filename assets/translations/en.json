@@ -48,10 +48,11 @@
             "ok": "OK",
             "cancel": "Cancel",
             "save": "Save",
+            "logout": "Log Out",
             "edit": "Edit",
+            "retry": "Retry",
             "clear": "Clear",
             "try_again": "Try Again",
-            "logout": "Log Out",
             "delete_account": "Delete Account"
         },
         "tooltip": {
@@ -107,7 +108,15 @@
         "account_info_desc": "Enter the information from your OpenFoodFacts account",
         "username_hint": "Enter your username",
         "password_hint": "Enter your password",
-        "help_text": "After creating an account, enter your username and password here to view more detailed product information."
+        "help_text": "After creating an account, enter your username and password here to view more detailed product information.",
+        "validation": {
+            "username_too_short": "Username must be at least 3 characters",
+            "username_too_long": "Username must be at most 50 characters",
+            "username_invalid_chars": "Username can only contain letters, numbers and underscores",
+            "password_too_short": "Password must be at least 8 characters",
+            "password_too_long": "Password must be at most 100 characters",
+            "password_weak": "Password is weak. Must contain at least one uppercase letter, one lowercase letter, one number and one special character"
+        }
     },
     "store": {
         "search_hint": "Search product...",
@@ -272,5 +281,24 @@
         "content": "To add products, you need to enter your OpenFood account credentials first.",
         "later": "Later",
         "enter_credentials": "Enter Credentials"
+    },
+    "profile": {
+        "section": {
+            "personal_info": "Personal Information"
+        },
+        "labels": {
+            "name": "Name",
+            "surname": "Surname",
+            "email": "Email"
+        },
+        "status": {
+            "incomplete": "Profile Incomplete",
+            "incomplete_desc": "Please complete your profile information"
+        }
+    },
+    "off": {
+        "help_text": "Enter your OpenFood username to add products",
+        "password": "Password",
+        "password_hint": "Enter your OpenFood password"
     }
 }

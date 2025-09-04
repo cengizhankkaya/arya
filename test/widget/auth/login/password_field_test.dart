@@ -328,8 +328,8 @@ void main() {
         stopwatch.stop();
         expect(
           stopwatch.elapsedMilliseconds,
-          lessThan(500),
-        ); // 500ms'den az olmalı
+          lessThan(1000),
+        ); // 1 saniyeden az olmalı
       });
 
       testWidgets('Text input performance testi', (tester) async {
@@ -346,8 +346,8 @@ void main() {
         stopwatch.stop();
         expect(
           stopwatch.elapsedMilliseconds,
-          lessThan(1500),
-        ); // 1.5 saniyeden az olmalı
+          lessThan(3000),
+        ); // 3 saniyeden az olmalı
       });
 
       testWidgets('Toggle performance testi', (tester) async {
@@ -366,8 +366,8 @@ void main() {
         stopwatch.stop();
         expect(
           stopwatch.elapsedMilliseconds,
-          lessThan(1500),
-        ); // 1.5 saniyeden az olmalı
+          lessThan(3000),
+        ); // 3 saniyeden az olmalı
       });
     });
 

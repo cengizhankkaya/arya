@@ -4,6 +4,7 @@ import 'package:arya/features/index.dart';
 
 class ProfileViewModel extends ChangeNotifier {
   final UserService _userService;
+  final FirebaseAuth _firebaseAuth;
 
   UserModel? _user;
   bool _isLoading = false;
@@ -15,8 +16,9 @@ class ProfileViewModel extends ChangeNotifier {
   final surnameController = TextEditingController();
 
   // Constructor with dependency injection
-  ProfileViewModel({UserService? userService})
-    : _userService = userService ?? UserService();
+  ProfileViewModel({UserService? userService, FirebaseAuth? firebaseAuth})
+    : _userService = userService ?? UserService(),
+      _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
   // Getters
   UserModel? get user => _user;
@@ -25,6 +27,7 @@ class ProfileViewModel extends ChangeNotifier {
   bool get isEditing => _isEditing;
   bool get hasUser => _user != null;
   bool get isUserComplete => _user?.isComplete ?? false;
+  bool get isDisposed => _isDisposed;
 
   Future<void> fetchUser() async {
     if (_isDisposed) return;
@@ -32,7 +35,7 @@ class ProfileViewModel extends ChangeNotifier {
     _clearError();
 
     try {
-      final uid = FirebaseAuth.instance.currentUser?.uid;
+      final uid = _firebaseAuth.currentUser?.uid;
       if (uid == null) {
         _setError("Kullanıcı oturumu bulunamadı.");
         return;
@@ -42,27 +45,42 @@ class ProfileViewModel extends ChangeNotifier {
       if (_user == null) {
         _setError("Kullanıcı verisi bulunamadı.");
       } else {
-        _initializeControllers();
+        // Dispose check ekleyelim
+        if (!_isDisposed) {
+          _initializeControllers();
+        }
       }
     } catch (e) {
       _setError("Kullanıcı verisi yüklenirken hata oluştu: ${e.toString()}");
     } finally {
-      _setLoading(false);
+      if (!_isDisposed) {
+        _setLoading(false);
+      }
     }
   }
 
   void _initializeControllers() {
     if (_isDisposed) return;
-    nameController.text = _user?.name ?? '';
-    surnameController.text = _user?.surname ?? '';
+    try {
+      nameController.text = _user?.name ?? '';
+      surnameController.text = _user?.surname ?? '';
+    } catch (e) {
+      // Controller'lar dispose edilmişse hata vermeyelim
+      return;
+    }
   }
 
   Future<void> updateUserFromControllers() async {
     if (_isDisposed) return;
-    await updateUser(
-      name: nameController.text.trim(),
-      surname: surnameController.text.trim(),
-    );
+    try {
+      await updateUser(
+        name: nameController.text.trim(),
+        surname: surnameController.text.trim(),
+      );
+    } catch (e) {
+      // Controller'lar dispose edilmişse hata vermeyelim
+      return;
+    }
   }
 
   Future<void> updateUser({String? name, String? surname}) async {
@@ -103,7 +121,7 @@ class ProfileViewModel extends ChangeNotifier {
     if (_isDisposed) return;
     _setLoading(true);
     try {
-      await FirebaseAuth.instance.signOut();
+      await _firebaseAuth.signOut();
       _user = null;
       _isEditing = false;
       _clearError();
@@ -126,7 +144,7 @@ class ProfileViewModel extends ChangeNotifier {
 
     try {
       await _userService.deleteUserData(_user!.uid!);
-      await FirebaseAuth.instance.currentUser?.delete();
+      await _firebaseAuth.currentUser?.delete();
 
       _user = null;
       _isEditing = false;

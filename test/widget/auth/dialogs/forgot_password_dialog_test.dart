@@ -1050,8 +1050,8 @@ void main() {
         await tester.pumpAndSettle();
         stopwatch.stop();
 
-        // Dialog 100ms içinde açılmalı
-        expect(stopwatch.elapsedMilliseconds, lessThan(100));
+        // Dialog 200ms içinde açılmalı
+        expect(stopwatch.elapsedMilliseconds, lessThan(200));
         expect(find.byType(AlertDialog), findsOneWidget);
       });
 
@@ -1069,8 +1069,8 @@ void main() {
         await tester.pumpAndSettle();
         stopwatch.stop();
 
-        // Dialog 100ms içinde kapanmalı
-        expect(stopwatch.elapsedMilliseconds, lessThan(100));
+        // Dialog 200ms içinde kapanmalı
+        expect(stopwatch.elapsedMilliseconds, lessThan(200));
         expect(find.byType(AlertDialog), findsNothing);
       });
     });

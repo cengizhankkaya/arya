@@ -39,6 +39,12 @@ class TestBaseViewModel extends BaseViewModel {
       throw Exception('withLoading error');
     });
   }
+
+  @override
+  void dispose() {
+    // Override to avoid ChangeNotifier restrictions in tests
+    super.dispose();
+  }
 }
 
 void main() {
@@ -237,6 +243,199 @@ void main() {
         // Assert
         expect(results.length, equals(5));
         expect(results.every((r) => r == 'withLoading result'), isTrue);
+        expect(viewModel.loading, isFalse);
+      });
+    });
+
+    group('withLoading Tests', () {
+      test('should return result from async operation', () async {
+        // Act
+        final result = await viewModel.testWithLoading();
+
+        // Assert
+        expect(result, equals('withLoading result'));
+        expect(viewModel.loading, isFalse);
+      });
+
+      test(
+        'should set loading to false even when operation throws error',
+        () async {
+          // Act & Assert
+          expect(() => viewModel.testWithLoadingError(), throwsException);
+
+          // Wait a bit to ensure the finally block executes
+          await Future.delayed(Duration(milliseconds: 50));
+          expect(viewModel.loading, isFalse);
+        },
+      );
+
+      test('should set loading to true during operation', () async {
+        // Arrange
+        bool loadingDuringOperation = false;
+        viewModel.addListener(() {
+          if (viewModel.loading) {
+            loadingDuringOperation = true;
+          }
+        });
+
+        // Act
+        await viewModel.testWithLoading();
+
+        // Assert
+        expect(loadingDuringOperation, isTrue);
+        expect(viewModel.loading, isFalse);
+      });
+    });
+
+    group('Dispose Tests', () {
+      test('should complete disposal without throwing', () {
+        // Arrange
+        final testViewModel = TestBaseViewModel();
+
+        // Act & Assert - Dispose should not throw
+        expect(() => testViewModel.dispose(), returnsNormally);
+      });
+
+      test('should handle disposal gracefully', () {
+        // Arrange
+        final testViewModel = TestBaseViewModel();
+
+        // Act & Assert - Dispose should complete successfully
+        testViewModel.dispose();
+        expect(testViewModel, isNotNull);
+      });
+    });
+
+    group('SnackBar Message Tests', () {
+      testWidgets('should show error message in SnackBar', (
+        WidgetTester tester,
+      ) async {
+        // Arrange
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Builder(
+                builder: (context) {
+                  return ElevatedButton(
+                    onPressed: () =>
+                        viewModel.testShowError(context, 'Test error'),
+                    child: Text('Show Error'),
+                  );
+                },
+              ),
+            ),
+          ),
+        );
+
+        // Act
+        await tester.tap(find.text('Show Error'));
+        await tester.pump();
+
+        // Assert
+        expect(find.text('Test error'), findsOneWidget);
+        expect(find.byType(SnackBar), findsOneWidget);
+      });
+
+      testWidgets('should show success message in SnackBar', (
+        WidgetTester tester,
+      ) async {
+        // Arrange
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Builder(
+                builder: (context) {
+                  return ElevatedButton(
+                    onPressed: () =>
+                        viewModel.testShowSuccess(context, 'Test success'),
+                    child: Text('Show Success'),
+                  );
+                },
+              ),
+            ),
+          ),
+        );
+
+        // Act
+        await tester.tap(find.text('Show Success'));
+        await tester.pump();
+
+        // Assert
+        expect(find.text('Test success'), findsOneWidget);
+        expect(find.byType(SnackBar), findsOneWidget);
+      });
+
+      testWidgets('should show SnackBar with correct styling', (
+        WidgetTester tester,
+      ) async {
+        // Arrange
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Builder(
+                builder: (context) {
+                  return ElevatedButton(
+                    onPressed: () =>
+                        viewModel.testShowError(context, 'Styled error'),
+                    child: Text('Show Styled Error'),
+                  );
+                },
+              ),
+            ),
+          ),
+        );
+
+        // Act
+        await tester.tap(find.text('Show Styled Error'));
+        await tester.pump();
+
+        // Assert
+        final snackBar = tester.widget<SnackBar>(find.byType(SnackBar));
+        expect(snackBar.content, isA<Text>());
+        expect((snackBar.content as Text).data, equals('Styled error'));
+      });
+    });
+
+    group('Edge Cases Tests', () {
+      test('should handle rapid loading state changes', () {
+        // Act - Rapid state changes
+        viewModel.testSetLoading(true);
+        viewModel.testSetLoading(false);
+        viewModel.testSetLoading(true);
+        viewModel.testSetLoading(false);
+
+        // Assert
+        expect(viewModel.loading, isFalse);
+      });
+
+      test('should handle multiple listeners correctly', () {
+        // Arrange
+        int listener1Count = 0;
+        int listener2Count = 0;
+
+        viewModel.addListener(() {
+          listener1Count++;
+        });
+        viewModel.addListener(() {
+          listener2Count++;
+        });
+
+        // Act
+        viewModel.testSetLoading(true);
+
+        // Assert
+        expect(listener1Count, equals(1));
+        expect(listener2Count, equals(1));
+      });
+
+      test('should handle withLoading with very fast operations', () async {
+        // Act
+        final result = await viewModel.withLoading(() async {
+          return 'fast result';
+        });
+
+        // Assert
+        expect(result, equals('fast result'));
         expect(viewModel.loading, isFalse);
       });
     });

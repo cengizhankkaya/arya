@@ -20,11 +20,16 @@ void main() {
       mockUserService = MockUserService();
       mockFirebaseAuth = MockFirebaseAuth();
       mockUser = MockUser();
-      viewModel = ProfileViewModel(userService: mockUserService);
-
-      // Inject mocked FirebaseAuth via instance getter
-      // We cannot override FirebaseAuth.instance directly; instead, we stub currentUser
+      
+      // Mock FirebaseAuth.currentUser
+      when(mockUser.uid).thenReturn('user123');
       when(mockFirebaseAuth.currentUser).thenReturn(mockUser);
+      
+      // Create ProfileViewModel with mocked dependencies
+      viewModel = ProfileViewModel(
+        userService: mockUserService,
+        firebaseAuth: mockFirebaseAuth,
+      );
     });
 
     test('fails gracefully when user model is null', () async {

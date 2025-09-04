@@ -35,16 +35,16 @@ abstract class BaseViewModel extends ChangeNotifier {
   /// an asynchronous operation that should show loading indicators.
   bool _loading = false;
 
+  /// Internal disposed flag.
+  /// This field tracks whether the ViewModel has been disposed.
+  bool _disposed = false;
+
   /// Public getter for the current loading state.
   /// This getter allows views to access the loading state for
   /// displaying loading indicators, disabling interactions, etc.
   bool get loading {
-    try {
-      return _loading;
-    } catch (e) {
-      // If disposed, return false
-      return false;
-    }
+    if (_disposed) return false;
+    return _loading;
   }
 
   /// Updates the loading state and notifies listeners of the change.
@@ -138,5 +138,11 @@ abstract class BaseViewModel extends ChangeNotifier {
     } finally {
       setLoading(false);
     }
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
   }
 }
