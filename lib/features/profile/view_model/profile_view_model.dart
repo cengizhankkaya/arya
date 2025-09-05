@@ -29,6 +29,14 @@ class ProfileViewModel extends ChangeNotifier {
   bool get isUserComplete => _user?.isComplete ?? false;
   bool get isDisposed => _isDisposed;
 
+  // Test helper method
+  void setUser(UserModel user) {
+    if (_isDisposed) return;
+    _user = user;
+    _initializeControllers();
+    _notifySafely();
+  }
+
   Future<void> fetchUser() async {
     if (_isDisposed) return;
     _setLoading(true);
@@ -97,14 +105,22 @@ class ProfileViewModel extends ChangeNotifier {
       final updatedUser = _user!.copyWith(name: name, surname: surname);
 
       await _userService.updateUserData(updatedUser);
-      _user = updatedUser;
-      _isEditing = false;
-      _initializeControllers();
-      _notifySafely();
+      if (!_isDisposed) {
+        _user = updatedUser;
+        _isEditing = false;
+        _initializeControllers();
+        _notifySafely();
+      }
     } catch (e) {
-      _setError("Kullanıcı verisi güncellenirken hata oluştu: ${e.toString()}");
+      if (!_isDisposed) {
+        _setError(
+          "Kullanıcı verisi güncellenirken hata oluştu: ${e.toString()}",
+        );
+      }
     } finally {
-      _setLoading(false);
+      if (!_isDisposed) {
+        _setLoading(false);
+      }
     }
   }
 
@@ -122,13 +138,19 @@ class ProfileViewModel extends ChangeNotifier {
     _setLoading(true);
     try {
       await _firebaseAuth.signOut();
-      _user = null;
-      _isEditing = false;
-      _clearError();
+      if (!_isDisposed) {
+        _user = null;
+        _isEditing = false;
+        _clearError();
+      }
     } catch (e) {
-      _setError("Çıkış yapılırken hata oluştu: ${e.toString()}");
+      if (!_isDisposed) {
+        _setError("Çıkış yapılırken hata oluştu: ${e.toString()}");
+      }
     } finally {
-      _setLoading(false);
+      if (!_isDisposed) {
+        _setLoading(false);
+      }
     }
   }
 
@@ -146,12 +168,18 @@ class ProfileViewModel extends ChangeNotifier {
       await _userService.deleteUserData(_user!.uid!);
       await _firebaseAuth.currentUser?.delete();
 
-      _user = null;
-      _isEditing = false;
+      if (!_isDisposed) {
+        _user = null;
+        _isEditing = false;
+      }
     } catch (e) {
-      _setError("Hesap silinirken hata oluştu: ${e.toString()}");
+      if (!_isDisposed) {
+        _setError("Hesap silinirken hata oluştu: ${e.toString()}");
+      }
     } finally {
-      _setLoading(false);
+      if (!_isDisposed) {
+        _setLoading(false);
+      }
     }
   }
 
@@ -173,6 +201,12 @@ class ProfileViewModel extends ChangeNotifier {
   void _clearError() {
     _errorMessage = null;
     _notifySafely();
+  }
+
+  // Test helper method
+  void setError(String error) {
+    if (_isDisposed) return;
+    _setError(error);
   }
 
   @override

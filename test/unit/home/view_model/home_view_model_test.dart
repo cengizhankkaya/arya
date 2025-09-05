@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:arya/features/home/view_model/home_view_model.dart';
-import 'package:arya/features/home/model/home_category.dart';
 
 void main() {
   group('HomeViewModel Tests', () {
@@ -128,7 +127,10 @@ void main() {
       test('should have consistent color schemes', () {
         for (final category in viewModel.categories) {
           expect(category.palette, isNotNull);
-          expect(category.palette.runtimeType.toString(), contains('CategoryPalette'));
+          expect(
+            category.palette.runtimeType.toString(),
+            contains('CategoryPalette'),
+          );
         }
       });
 

@@ -75,7 +75,7 @@ class ProfileBody extends StatelessWidget {
                 ),
                 ProjectSizedBox.heightLarge,
                 ElevatedButton(
-                  onPressed: () async {
+                  onPressed: viewModel.isLoading ? null : () async {
                     final shouldLogout = await showDialog<bool>(
                       context: context,
                       builder: (context) => AlertDialog(
@@ -103,10 +103,21 @@ class ProfileBody extends StatelessWidget {
                     foregroundColor: Theme.of(context).colorScheme.onError,
                     minimumSize: const Size(double.infinity, 48),
                   ),
-                  child: Text(
-                    'general.button.logout'.tr(),
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
+                  child: viewModel.isLoading
+                      ? SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Theme.of(context).colorScheme.onError,
+                            ),
+                          ),
+                        )
+                      : Text(
+                          'general.button.logout'.tr(),
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
                 ),
               ],
             ),

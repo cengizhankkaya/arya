@@ -17,7 +17,7 @@ dependencies:
 
 
   # Firebase packages
- 
+  firebase_core: ^4.1.0
   firebase_auth: ^6.0.0
   provider: ^6.1.5
   cloud_firestore: ^6.0.0
@@ -66,13 +66,15 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  integration_test:
+    sdk: flutter
 
 
 
 
   flutter_lints: ^6.0.0
 
-  build_runner: ^2.4.12
+  build_runner: ^2.7.1
   auto_route_generator: ^10.0.2
   patrol: ^3.19.0
   patrol_cli: ^3.10.0
