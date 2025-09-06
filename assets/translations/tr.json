@@ -295,10 +295,5 @@
             "incomplete": "Profil Eksik",
             "incomplete_desc": "Lütfen profil bilgilerinizi tamamlayın"
         }
-    },
-    "off": {
-        "help_text": "Ürün eklemek için OpenFood kullanıcı adınızı girin",
-        "password": "Şifre",
-        "password_hint": "OpenFood şifrenizi girin"
     }
 }

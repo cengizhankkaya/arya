@@ -21,14 +21,14 @@ void main() {
     late StoreViewModel viewModel;
     late MockCartViewModel mockCartViewModel;
     late MockBuildContext mockContext;
+    late MockOpenFoodFactsService mockService;
 
     setUp(() {
       mockCartViewModel = MockCartViewModel();
       mockContext = MockBuildContext();
+      mockService = MockOpenFoodFactsService();
 
-      viewModel = StoreViewModel();
-      // Inject mock service (this would require modifying StoreViewModel to accept dependency injection)
-      // For now, we'll test the public interface
+      viewModel = StoreViewModel(service: mockService);
     });
 
     tearDown(() {
@@ -125,6 +125,16 @@ void main() {
 
     group('Search Functionality Tests', () {
       test('should handle empty search query', () async {
+        // Arrange
+        when(
+          mockService.searchProducts(
+            any,
+            country: anyNamed('country'),
+            page: anyNamed('page'),
+            pageSize: anyNamed('pageSize'),
+          ),
+        ).thenAnswer((_) async => []);
+
         // Act
         await viewModel.search('');
 
@@ -132,9 +142,20 @@ void main() {
         expect(viewModel.currentQuery, equals(''));
         expect(viewModel.currentPage, equals(1));
         expect(viewModel.hasMoreProducts, isTrue);
+        expect(viewModel.isLoading, isFalse);
       });
 
       test('should handle search with valid query', () async {
+        // Arrange
+        when(
+          mockService.searchProducts(
+            any,
+            country: anyNamed('country'),
+            page: anyNamed('page'),
+            pageSize: anyNamed('pageSize'),
+          ),
+        ).thenAnswer((_) async => []);
+
         // Act
         await viewModel.search('test product');
 
@@ -142,9 +163,20 @@ void main() {
         expect(viewModel.currentQuery, equals('test product'));
         expect(viewModel.currentPage, equals(1));
         expect(viewModel.hasMoreProducts, isTrue);
+        expect(viewModel.isLoading, isFalse);
       });
 
       test('should handle search with whitespace query', () async {
+        // Arrange
+        when(
+          mockService.searchProducts(
+            any,
+            country: anyNamed('country'),
+            page: anyNamed('page'),
+            pageSize: anyNamed('pageSize'),
+          ),
+        ).thenAnswer((_) async => []);
+
         // Act
         await viewModel.search('   ');
 
@@ -152,12 +184,21 @@ void main() {
         expect(viewModel.currentQuery, equals('   '));
         expect(viewModel.currentPage, equals(1));
         expect(viewModel.hasMoreProducts, isTrue);
+        expect(viewModel.isLoading, isFalse);
       });
 
       test('should reset page and hasMoreProducts on new search', () async {
         // Arrange
         viewModel.currentPage = 5;
         viewModel.hasMoreProducts = false;
+        when(
+          mockService.searchProducts(
+            any,
+            country: anyNamed('country'),
+            page: anyNamed('page'),
+            pageSize: anyNamed('pageSize'),
+          ),
+        ).thenAnswer((_) async => []);
 
         // Act
         await viewModel.search('new search');
@@ -165,11 +206,22 @@ void main() {
         // Assert
         expect(viewModel.currentPage, equals(1));
         expect(viewModel.hasMoreProducts, isTrue);
+        expect(viewModel.isLoading, isFalse);
       });
     });
 
     group('Fetch Random Products Tests', () {
       test('should fetch random products successfully', () async {
+        // Arrange
+        when(
+          mockService.searchProducts(
+            any,
+            country: anyNamed('country'),
+            page: anyNamed('page'),
+            pageSize: anyNamed('pageSize'),
+          ),
+        ).thenAnswer((_) async => []);
+
         // Act
         await viewModel.fetchRandomProducts();
 
@@ -183,6 +235,14 @@ void main() {
         // Arrange
         viewModel.currentPage = 5;
         viewModel.hasMoreProducts = false;
+        when(
+          mockService.searchProducts(
+            any,
+            country: anyNamed('country'),
+            page: anyNamed('page'),
+            pageSize: anyNamed('pageSize'),
+          ),
+        ).thenAnswer((_) async => []);
 
         // Act
         await viewModel.fetchRandomProducts();
@@ -190,6 +250,7 @@ void main() {
         // Assert
         expect(viewModel.currentPage, equals(1));
         expect(viewModel.hasMoreProducts, isTrue);
+        expect(viewModel.isLoading, isFalse);
       });
     });
 
@@ -231,6 +292,16 @@ void main() {
 
     group('Fetch By Category Tests', () {
       test('should fetch products by protein category', () async {
+        // Arrange
+        when(
+          mockService.searchProductsByCategory(
+            any,
+            country: anyNamed('country'),
+            page: anyNamed('page'),
+            pageSize: anyNamed('pageSize'),
+          ),
+        ).thenAnswer((_) async => []);
+
         // Act
         await viewModel.fetchByCategory('protein');
 
@@ -243,6 +314,16 @@ void main() {
       });
 
       test('should fetch products by carbohydrate category', () async {
+        // Arrange
+        when(
+          mockService.searchProductsByCategory(
+            any,
+            country: anyNamed('country'),
+            page: anyNamed('page'),
+            pageSize: anyNamed('pageSize'),
+          ),
+        ).thenAnswer((_) async => []);
+
         // Act
         await viewModel.fetchByCategory('karbonhidrat');
 
@@ -255,6 +336,16 @@ void main() {
       });
 
       test('should fetch products by fat category', () async {
+        // Arrange
+        when(
+          mockService.searchProductsByCategory(
+            any,
+            country: anyNamed('country'),
+            page: anyNamed('page'),
+            pageSize: anyNamed('pageSize'),
+          ),
+        ).thenAnswer((_) async => []);
+
         // Act
         await viewModel.fetchByCategory('yağ');
 
@@ -267,6 +358,16 @@ void main() {
       });
 
       test('should fetch products by vitamin category', () async {
+        // Arrange
+        when(
+          mockService.searchProductsByCategory(
+            any,
+            country: anyNamed('country'),
+            page: anyNamed('page'),
+            pageSize: anyNamed('pageSize'),
+          ),
+        ).thenAnswer((_) async => []);
+
         // Act
         await viewModel.fetchByCategory('vitamin');
 
@@ -279,6 +380,16 @@ void main() {
       });
 
       test('should fetch products by fiber category', () async {
+        // Arrange
+        when(
+          mockService.searchProductsByCategory(
+            any,
+            country: anyNamed('country'),
+            page: anyNamed('page'),
+            pageSize: anyNamed('pageSize'),
+          ),
+        ).thenAnswer((_) async => []);
+
         // Act
         await viewModel.fetchByCategory('lif');
 
@@ -291,6 +402,16 @@ void main() {
       });
 
       test('should fetch products by generic category', () async {
+        // Arrange
+        when(
+          mockService.searchProductsByCategory(
+            any,
+            country: anyNamed('country'),
+            page: anyNamed('page'),
+            pageSize: anyNamed('pageSize'),
+          ),
+        ).thenAnswer((_) async => []);
+
         // Act
         await viewModel.fetchByCategory('beverages');
 
@@ -307,6 +428,14 @@ void main() {
         viewModel.currentPage = 5;
         viewModel.hasMoreProducts = false;
         viewModel.currentQuery = 'old query';
+        when(
+          mockService.searchProductsByCategory(
+            any,
+            country: anyNamed('country'),
+            page: anyNamed('page'),
+            pageSize: anyNamed('pageSize'),
+          ),
+        ).thenAnswer((_) async => []);
 
         // Act
         await viewModel.fetchByCategory('test category');
@@ -315,6 +444,7 @@ void main() {
         expect(viewModel.currentPage, equals(1));
         expect(viewModel.hasMoreProducts, isTrue);
         expect(viewModel.currentQuery, isEmpty);
+        expect(viewModel.isLoading, isFalse);
       });
     });
 
@@ -633,6 +763,14 @@ void main() {
       test('should handle disposal during async operations', () async {
         // Arrange
         viewModel.addListener(() {});
+        when(
+          mockService.searchProducts(
+            any,
+            country: anyNamed('country'),
+            page: anyNamed('page'),
+            pageSize: anyNamed('pageSize'),
+          ),
+        ).thenAnswer((_) async => []);
 
         // Act
         final searchFuture = viewModel.search('test');
@@ -652,6 +790,22 @@ void main() {
           // Arrange
           viewModel.setCountry('turkey');
           viewModel.selectedCategory = 'protein';
+          when(
+            mockService.searchProducts(
+              any,
+              country: anyNamed('country'),
+              page: anyNamed('page'),
+              pageSize: anyNamed('pageSize'),
+            ),
+          ).thenAnswer((_) async => []);
+          when(
+            mockService.searchProductsByCategory(
+              any,
+              country: anyNamed('country'),
+              page: anyNamed('page'),
+              pageSize: anyNamed('pageSize'),
+            ),
+          ).thenAnswer((_) async => []);
 
           // Act
           await viewModel.search('test query');

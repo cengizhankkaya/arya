@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class StoreViewModel extends ChangeNotifier {
-  final OpenFoodFactsService _service = OpenFoodFactsService();
+  final OpenFoodFactsService _service;
+
+  StoreViewModel({OpenFoodFactsService? service})
+    : _service = service ?? OpenFoodFactsService();
   List<dynamic> products = [];
   bool isLoading = false;
   bool isLoadingMore = false;

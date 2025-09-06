@@ -295,10 +295,5 @@
             "incomplete": "Profile Incomplete",
             "incomplete_desc": "Please complete your profile information"
         }
-    },
-    "off": {
-        "help_text": "Enter your OpenFood username to add products",
-        "password": "Password",
-        "password_hint": "Enter your OpenFood password"
     }
 }
