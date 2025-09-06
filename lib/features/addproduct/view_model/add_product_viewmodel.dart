@@ -63,9 +63,7 @@ class AddProductViewModel extends ChangeNotifier
       setError('add_product.validation.fill_required_fields'.tr());
       return;
     }
-
     setLoading(true);
-
     try {
       // 1) Firebase oturumu kontrol et
       final firebaseUser = fb.FirebaseAuth.instance.currentUser;

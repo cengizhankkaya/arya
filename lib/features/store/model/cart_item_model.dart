@@ -59,4 +59,47 @@ class CartItemModel {
       nutriments: nutriments ?? this.nutriments,
     );
   }
+
+  @override
+  String toString() {
+    return 'CartItemModel(id: $id, productName: $productName, brands: $brands, imageThumbUrl: $imageThumbUrl, quantity: $quantity, nutriments: $nutriments)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is CartItemModel &&
+        other.id == id &&
+        other.productName == productName &&
+        other.brands == brands &&
+        other.imageThumbUrl == imageThumbUrl &&
+        other.quantity == quantity &&
+        _mapEquals(other.nutriments, nutriments);
+  }
+
+  @override
+  int get hashCode {
+    return Object.hash(
+      id,
+      productName,
+      brands,
+      imageThumbUrl,
+      quantity,
+      Object.hashAllUnordered(nutriments.entries),
+    );
+  }
+
+  /// Helper method to compare maps for equality
+  bool _mapEquals(Map<String, dynamic>? a, Map<String, dynamic>? b) {
+    if (a == null && b == null) return true;
+    if (a == null || b == null) return false;
+    if (a.length != b.length) return false;
+
+    for (final key in a.keys) {
+      if (!b.containsKey(key) || a[key] != b[key]) {
+        return false;
+      }
+    }
+    return true;
+  }
 }
