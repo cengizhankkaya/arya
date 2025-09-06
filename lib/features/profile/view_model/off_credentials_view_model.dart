@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:auto_route/auto_route.dart';
@@ -57,10 +58,11 @@ class OffCredentialsViewModel extends BaseViewModel {
   Future<bool> save() async {
     // Form key null check güvenliği
     if (_formKey.currentState == null) {
-      debugPrint('Form key current state is null');
+      // Form widget'ı bağlanmamış, save işlemi yapılamaz
+      // Bu durum test ortamında normal, production'da UI hatası
       return false;
     }
-    
+
     if (!_formKey.currentState!.validate()) return false;
 
     if (!_checkRateLimit()) {
@@ -176,7 +178,8 @@ class OffCredentialsViewModel extends BaseViewModel {
 
     // Security requirement check - username ile karşılaştır
     final username = usernameController.text.trim();
-    if (username.isNotEmpty && !_validateSecurityRequirements(username, sanitizedValue)) {
+    if (username.isNotEmpty &&
+        !_validateSecurityRequirements(username, sanitizedValue)) {
       return 'off.password_weak'.tr();
     }
 
