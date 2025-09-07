@@ -124,6 +124,7 @@
         "add_product": "Ürün Ekle",
         "no_products": "Ürün bulunamadı",
         "product_name_missing": "Ürün adı yok",
+        "brand_missing": "Marka yok",
         "added_to_cart": "Ürün sepete eklendi",
         "nutrition_title": "Besin Değerleri (100g)",
         "kcal": "Kalori",

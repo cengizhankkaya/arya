@@ -124,6 +124,7 @@
         "add_product": "Add Product",
         "no_products": "No products found",
         "product_name_missing": "No product name",
+        "brand_missing": "No brand",
         "added_to_cart": "Product added to cart",
         "nutrition_title": "Nutrition Facts (100g)",
         "kcal": "Calories",

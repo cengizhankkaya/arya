@@ -1,14 +1,20 @@
 import 'package:dio/dio.dart';
 
 class OpenFoodFactsService {
-  final Dio _dio = Dio(
-    BaseOptions(
-      baseUrl: 'https://world.openfoodfacts.org',
-      headers: {
-        'User-Agent': 'Arya-Flutter-App/1.0 (https://github.com/your-repo)',
-      },
-    ),
-  );
+  final Dio _dio;
+
+  OpenFoodFactsService({Dio? dio})
+    : _dio =
+          dio ??
+          Dio(
+            BaseOptions(
+              baseUrl: 'https://world.openfoodfacts.org',
+              headers: {
+                'User-Agent':
+                    'Arya-Flutter-App/1.0 (https://github.com/your-repo)',
+              },
+            ),
+          );
 
   Future<List<dynamic>> searchProducts(
     String query, {

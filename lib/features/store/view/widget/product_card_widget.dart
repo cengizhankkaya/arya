@@ -54,7 +54,7 @@ class ProductCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        product['brands'] ?? '',
+                        product['brands'] ?? 'store.brand_missing'.tr(),
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: scheme.onSurfaceVariant,
                         ),
