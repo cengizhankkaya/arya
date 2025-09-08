@@ -7,6 +7,7 @@ import 'package:arya/product/theme/app_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:arya/features/index.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 /// Mock RouterConfig sınıfı test ortamı için
 class MockRouterConfig extends RouterConfig<Object> {
@@ -134,6 +135,14 @@ class TestHelpers {
     }
   }
 
+  /// Theme setup'ı test ortamı için
+  static ThemeData createTestTheme() {
+    return ThemeData(
+      extensions: <ThemeExtension<dynamic>>[AppColors.light],
+      useMaterial3: true,
+    );
+  }
+
   /// Test için Easy Localization ile MaterialApp oluşturur
   static Widget createTestAppWithEasyLocalization(Widget child) {
     return EasyLocalization(
@@ -180,22 +189,109 @@ class TestHelpers {
         });
   }
 
-  /// Firebase mock setup'ı
+  /// Firebase mock setup'ı - Geliştirilmiş versiyon
   static void setupFirebaseMocks() {
     TestWidgetsFlutterBinding.ensureInitialized();
 
-    // Firebase Core mock setup
-    setupFirebaseCoreMocks();
-    setupFirebaseAuthMocks();
-    setupFirebaseFirestoreMocks();
+    // Firebase Core method channel mock - daha kapsamlı
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          const MethodChannel('plugins.flutter.io/firebase_core'),
+          (MethodCall methodCall) async {
+            switch (methodCall.method) {
+              case 'Firebase#initializeCore':
+                return [
+                  {
+                    'name': '[DEFAULT]',
+                    'options': {
+                      'apiKey': 'test-api-key',
+                      'appId': 'test-app-id',
+                      'messagingSenderId': 'test-sender-id',
+                      'projectId': 'test-project-id',
+                    },
+                    'pluginConstants': <String, dynamic>{},
+                  },
+                ];
+              case 'Firebase#initializeApp':
+                return {
+                  'name': methodCall.arguments['appName'] ?? '[DEFAULT]',
+                  'options':
+                      methodCall.arguments['options'] ??
+                      {
+                        'apiKey': 'test-api-key',
+                        'appId': 'test-app-id',
+                        'messagingSenderId': 'test-sender-id',
+                        'projectId': 'test-project-id',
+                      },
+                  'pluginConstants': <String, dynamic>{},
+                };
+              case 'Firebase#app':
+                return {
+                  'name': '[DEFAULT]',
+                  'options': {
+                    'apiKey': 'test-api-key',
+                    'appId': 'test-app-id',
+                    'messagingSenderId': 'test-sender-id',
+                    'projectId': 'test-project-id',
+                  },
+                  'pluginConstants': <String, dynamic>{},
+                };
+              case 'Firebase#delete':
+                return null;
+              default:
+                return null;
+            }
+          },
+        );
+
+    // Firestore mock setup
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          const MethodChannel('plugins.flutter.io/cloud_firestore'),
+          (MethodCall methodCall) async {
+            // Firestore method calls için mock responses
+            switch (methodCall.method) {
+              case 'DocumentReference#get':
+                return {
+                  'data': <String, dynamic>{},
+                  'metadata': {'hasPendingWrites': false, 'isFromCache': false},
+                };
+              case 'Query#get':
+                return {
+                  'documents': <Map<String, dynamic>>[],
+                  'metadata': {'hasPendingWrites': false, 'isFromCache': false},
+                };
+              default:
+                return null;
+            }
+          },
+        );
+
+    // Firebase Auth mock setup
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          const MethodChannel('plugins.flutter.io/firebase_auth'),
+          (MethodCall methodCall) async {
+            // Auth method calls için mock responses
+            switch (methodCall.method) {
+              case 'Auth#currentUser':
+                return null; // No user logged in
+              case 'Auth#signInAnonymously':
+                return {
+                  'user': {'uid': 'test-uid', 'isAnonymous': true},
+                };
+              default:
+                return null;
+            }
+          },
+        );
   }
 
   /// Firebase'i test ortamında başlat
   static Future<void> initializeFirebaseForTesting() async {
     TestWidgetsFlutterBinding.ensureInitialized();
-    setupComprehensiveFirebaseMocks();
 
-    // Firebase Core mock setup - daha kapsamlı
+    // Firebase Core mock setup
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(
           const MethodChannel('plugins.flutter.io/firebase_core'),
@@ -239,6 +335,300 @@ class TestHelpers {
                 },
                 'pluginConstants': <String, dynamic>{},
               };
+            }
+            return null;
+          },
+        );
+
+    // Firestore mock setup
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          const MethodChannel('plugins.flutter.io/cloud_firestore'),
+          (MethodCall methodCall) async {
+            // Firestore method calls için mock responses
+            return null;
+          },
+        );
+
+    // Firebase Auth mock setup
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          const MethodChannel('plugins.flutter.io/firebase_auth'),
+          (MethodCall methodCall) async {
+            // Auth method calls için mock responses
+            return null;
+          },
+        );
+
+    try {
+      await Firebase.initializeApp();
+    } catch (e) {
+      // Firebase zaten başlatılmış olabilir
+    }
+  }
+
+  /// AppShell test'leri için özel test widget'ı oluştur - Geliştirilmiş versiyon
+  static Widget createAppShellTestWidget({
+    required Widget child,
+    Map<Type, dynamic>? providers,
+  }) {
+    return createTestAppWithEasyLocalization(
+      MultiProvider(
+        providers: [
+          if (providers != null)
+            ...providers.entries.map(
+              (entry) => ChangeNotifierProvider.value(value: entry.value),
+            ),
+        ],
+        child: child,
+      ),
+    );
+  }
+
+  /// Mock ViewModel'ler ile AppShell test widget'ı oluştur
+  static Widget createAppShellTestWidgetWithMocks({
+    required Widget child,
+    required Map<String, dynamic> mockViewModels,
+  }) {
+    return createTestAppWithEasyLocalization(
+      MultiProvider(
+        providers: [
+          // AppShellViewModel - Type-specific provider
+          if (mockViewModels.containsKey('AppShellViewModel'))
+            ChangeNotifierProvider<AppShellViewModel>.value(
+              value: mockViewModels['AppShellViewModel'] as AppShellViewModel,
+            ),
+          // CartViewModel - Type-specific provider
+          if (mockViewModels.containsKey('CartViewModel'))
+            ChangeNotifierProvider<CartViewModel>.value(
+              value: mockViewModels['CartViewModel'] as CartViewModel,
+            ),
+          // ProfileViewModel - Type-specific provider
+          if (mockViewModels.containsKey('ProfileViewModel'))
+            ChangeNotifierProvider<ProfileViewModel>.value(
+              value: mockViewModels['ProfileViewModel'] as ProfileViewModel,
+            ),
+          // HomeViewModel - Type-specific provider
+          if (mockViewModels.containsKey('HomeViewModel'))
+            ChangeNotifierProvider<HomeViewModel>.value(
+              value: mockViewModels['HomeViewModel'] as HomeViewModel,
+            ),
+          // StoreViewModel - Type-specific provider
+          if (mockViewModels.containsKey('StoreViewModel'))
+            ChangeNotifierProvider<StoreViewModel>.value(
+              value: mockViewModels['StoreViewModel'] as StoreViewModel,
+            ),
+        ],
+        child: child,
+      ),
+    );
+  }
+
+  /// Firebase bağımlılığı olmadan AppShell test widget'ı oluştur
+  static Widget createFirebaseFreeAppShellTestWidget({
+    required Widget child,
+    required Map<String, dynamic> mockViewModels,
+  }) {
+    return createTestAppWithEasyLocalization(
+      MultiProvider(
+        providers: [
+          // AppShellViewModel - Type-specific provider
+          if (mockViewModels.containsKey('AppShellViewModel'))
+            ChangeNotifierProvider<AppShellViewModel>.value(
+              value: mockViewModels['AppShellViewModel'] as AppShellViewModel,
+            ),
+          // CartViewModel - Type-specific provider
+          if (mockViewModels.containsKey('CartViewModel'))
+            ChangeNotifierProvider<CartViewModel>.value(
+              value: mockViewModels['CartViewModel'] as CartViewModel,
+            ),
+          // ProfileViewModel - Type-specific provider
+          if (mockViewModels.containsKey('ProfileViewModel'))
+            ChangeNotifierProvider<ProfileViewModel>.value(
+              value: mockViewModels['ProfileViewModel'] as ProfileViewModel,
+            ),
+          // HomeViewModel - Type-specific provider
+          if (mockViewModels.containsKey('HomeViewModel'))
+            ChangeNotifierProvider<HomeViewModel>.value(
+              value: mockViewModels['HomeViewModel'] as HomeViewModel,
+            ),
+          // StoreViewModel - Type-specific provider
+          if (mockViewModels.containsKey('StoreViewModel'))
+            ChangeNotifierProvider<StoreViewModel>.value(
+              value: mockViewModels['StoreViewModel'] as StoreViewModel,
+            ),
+        ],
+        child: child,
+      ),
+    );
+  }
+
+  /// Firebase-free test widget'ı - tüm gerekli provider'ları içerir
+  static Widget createCompleteFirebaseFreeTestWidget({
+    required Widget child,
+    required Map<String, dynamic> mockViewModels,
+  }) {
+    return createTestAppWithEasyLocalization(
+      MultiProvider(
+        providers: [
+          // AppShellViewModel
+          if (mockViewModels.containsKey('AppShellViewModel'))
+            ChangeNotifierProvider<AppShellViewModel>.value(
+              value: mockViewModels['AppShellViewModel'] as AppShellViewModel,
+            ),
+          // CartViewModel
+          if (mockViewModels.containsKey('CartViewModel'))
+            ChangeNotifierProvider<CartViewModel>.value(
+              value: mockViewModels['CartViewModel'] as CartViewModel,
+            ),
+          // ProfileViewModel
+          if (mockViewModels.containsKey('ProfileViewModel'))
+            ChangeNotifierProvider<ProfileViewModel>.value(
+              value: mockViewModels['ProfileViewModel'] as ProfileViewModel,
+            ),
+          // HomeViewModel
+          if (mockViewModels.containsKey('HomeViewModel'))
+            ChangeNotifierProvider<HomeViewModel>.value(
+              value: mockViewModels['HomeViewModel'] as HomeViewModel,
+            ),
+          // StoreViewModel
+          if (mockViewModels.containsKey('StoreViewModel'))
+            ChangeNotifierProvider<StoreViewModel>.value(
+              value: mockViewModels['StoreViewModel'] as StoreViewModel,
+            ),
+        ],
+        child: child,
+      ),
+    );
+  }
+
+  /// Mock ProfileScreen widget'ı - Firebase bağımlılığı olmadan
+  static Widget createMockProfileScreen() {
+    return const Scaffold(body: Center(child: Text('Mock Profile Screen')));
+  }
+
+  /// Mock HomeScreen widget'ı
+  static Widget createMockHomeScreen() {
+    return const Scaffold(body: Center(child: Text('Mock Home Screen')));
+  }
+
+  /// Mock StoreScreen widget'ı
+  static Widget createMockStoreScreen() {
+    return const Scaffold(body: Center(child: Text('Mock Store Screen')));
+  }
+
+  /// Mock CartScreen widget'ı
+  static Widget createMockCartScreen() {
+    return const Scaffold(body: Center(child: Text('Mock Cart Screen')));
+  }
+
+  /// Firebase'i test ortamında tam olarak başlat
+  static Future<void> initializeFirebaseCompletely() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    // Firebase Core mock setup
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          const MethodChannel('plugins.flutter.io/firebase_core'),
+          (MethodCall methodCall) async {
+            if (methodCall.method == 'Firebase#initializeCore') {
+              return [
+                {
+                  'name': '[DEFAULT]',
+                  'options': {
+                    'apiKey': 'test-api-key',
+                    'appId': 'test-app-id',
+                    'messagingSenderId': 'test-sender-id',
+                    'projectId': 'test-project-id',
+                  },
+                  'pluginConstants': <String, dynamic>{},
+                },
+              ];
+            }
+            if (methodCall.method == 'Firebase#initializeApp') {
+              return {
+                'name': methodCall.arguments['appName'] ?? '[DEFAULT]',
+                'options':
+                    methodCall.arguments['options'] ??
+                    {
+                      'apiKey': 'test-api-key',
+                      'appId': 'test-app-id',
+                      'messagingSenderId': 'test-sender-id',
+                      'projectId': 'test-project-id',
+                    },
+                'pluginConstants': <String, dynamic>{},
+              };
+            }
+            if (methodCall.method == 'Firebase#app') {
+              return {
+                'name': '[DEFAULT]',
+                'options': {
+                  'apiKey': 'test-api-key',
+                  'appId': 'test-app-id',
+                  'messagingSenderId': 'test-sender-id',
+                  'projectId': 'test-project-id',
+                },
+                'pluginConstants': <String, dynamic>{},
+              };
+            }
+            return null;
+          },
+        );
+
+    // Firebase Firestore mock setup
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          const MethodChannel('plugins.flutter.io/cloud_firestore'),
+          (MethodCall methodCall) async {
+            if (methodCall.method == 'Firestore#enableNetwork') {
+              return null;
+            }
+            if (methodCall.method == 'Firestore#disableNetwork') {
+              return null;
+            }
+            if (methodCall.method == 'Query#get') {
+              return {
+                'documents': [],
+                'metadata': {'hasPendingWrites': false, 'isFromCache': false},
+              };
+            }
+            if (methodCall.method == 'DocumentReference#get') {
+              return {
+                'data': null,
+                'metadata': {'hasPendingWrites': false, 'isFromCache': false},
+              };
+            }
+            if (methodCall.method == 'DocumentReference#set') {
+              return null;
+            }
+            if (methodCall.method == 'DocumentReference#update') {
+              return null;
+            }
+            if (methodCall.method == 'DocumentReference#delete') {
+              return null;
+            }
+            return null;
+          },
+        );
+
+    // Firebase Auth mock setup
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          const MethodChannel('plugins.flutter.io/firebase_auth'),
+          (MethodCall methodCall) async {
+            if (methodCall.method == 'Auth#signInAnonymously') {
+              return {
+                'user': {'uid': 'test-uid', 'isAnonymous': true},
+              };
+            }
+            if (methodCall.method == 'Auth#signOut') {
+              return null;
+            }
+            if (methodCall.method == 'Auth#currentUser') {
+              return null;
+            }
+            if (methodCall.method == 'Auth#authStateChanges') {
+              return null;
             }
             return null;
           },
@@ -520,11 +910,7 @@ class TestHelpers {
 
   /// AppColors extension'ını içeren varsayılan tema
   static ThemeData _createDefaultTheme() {
-    final appColors = _createDefaultAppColors();
-    return ThemeData(
-      colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-      extensions: <ThemeExtension<dynamic>>[appColors],
-    );
+    return createTestTheme();
   }
 
   /// Dark tema ile AppColors extension'ı
@@ -680,6 +1066,188 @@ class TestHelpers {
       surname: surname ?? 'Test Surname',
       email: email ?? 'test@example.com',
       username: username ?? 'testuser',
+    );
+  }
+
+  /// Firebase'i test ortamında başlat (daha basit versiyon)
+  static Future<void> initializeFirebaseForTests() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
+    // Firebase Core mock setup - daha kapsamlı
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          const MethodChannel('plugins.flutter.io/firebase_core'),
+          (MethodCall methodCall) async {
+            switch (methodCall.method) {
+              case 'Firebase#initializeCore':
+                return [
+                  {
+                    'name': '[DEFAULT]',
+                    'options': {
+                      'apiKey': 'test-api-key',
+                      'appId': 'test-app-id',
+                      'messagingSenderId': 'test-sender-id',
+                      'projectId': 'test-project-id',
+                    },
+                    'pluginConstants': <String, dynamic>{},
+                  },
+                ];
+              case 'Firebase#initializeApp':
+                return {
+                  'name': methodCall.arguments['appName'] ?? '[DEFAULT]',
+                  'options':
+                      methodCall.arguments['options'] ??
+                      {
+                        'apiKey': 'test-api-key',
+                        'appId': 'test-app-id',
+                        'messagingSenderId': 'test-sender-id',
+                        'projectId': 'test-project-id',
+                      },
+                  'pluginConstants': <String, dynamic>{},
+                };
+              case 'Firebase#app':
+                return {
+                  'name': '[DEFAULT]',
+                  'options': {
+                    'apiKey': 'test-api-key',
+                    'appId': 'test-app-id',
+                    'messagingSenderId': 'test-sender-id',
+                    'projectId': 'test-project-id',
+                  },
+                  'pluginConstants': <String, dynamic>{},
+                };
+              default:
+                return null;
+            }
+          },
+        );
+
+    // Firebase'i gerçekten başlat
+    try {
+      await Firebase.initializeApp(
+        options: const FirebaseOptions(
+          apiKey: 'test-api-key',
+          appId: 'test-app-id',
+          messagingSenderId: 'test-sender-id',
+          projectId: 'test-project-id',
+        ),
+      );
+    } catch (e) {
+      // Test ortamında hata olması normal, devam et
+    }
+
+    // Firebase Firestore mock setup
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          const MethodChannel('plugins.flutter.io/cloud_firestore'),
+          (MethodCall methodCall) async {
+            switch (methodCall.method) {
+              case 'Firestore#enableNetwork':
+              case 'Firestore#disableNetwork':
+              case 'DocumentReference#set':
+              case 'DocumentReference#update':
+              case 'DocumentReference#delete':
+                return null;
+              case 'DocumentReference#get':
+                return {
+                  'data': <String, dynamic>{
+                    'uid': 'test-uid',
+                    'name': 'Test',
+                    'surname': 'User',
+                    'email': 'test@example.com',
+                  },
+                  'metadata': <String, dynamic>{
+                    'hasPendingWrites': false,
+                    'isFromCache': false,
+                  },
+                };
+              case 'Query#get':
+                return {
+                  'documents': [],
+                  'metadata': {'hasPendingWrites': false, 'isFromCache': false},
+                };
+              default:
+                return null;
+            }
+          },
+        );
+
+    // Firebase Auth mock setup
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          const MethodChannel('plugins.flutter.io/firebase_auth'),
+          (MethodCall methodCall) async {
+            switch (methodCall.method) {
+              case 'Auth#registerIdTokenListener':
+              case 'Auth#registerAuthStateListener':
+              case 'User#reload':
+              case 'User#delete':
+              case 'Auth#signOut':
+                return null;
+              case 'User#getIdToken':
+                return 'mock-token';
+              case 'Auth#signInWithEmailAndPassword':
+                return {
+                  'user': {
+                    'uid': 'test-uid',
+                    'email': 'test@example.com',
+                    'displayName': 'Test User',
+                  },
+                  'additionalUserInfo': <String, dynamic>{},
+                };
+              case 'Auth#currentUser':
+                return null;
+              default:
+                return null;
+            }
+          },
+        );
+  }
+
+  /// Test için AppShellView widget'ı - mock screen'lerle
+  static Widget createTestAppShellView({
+    required Map<String, dynamic> mockViewModels,
+  }) {
+    return Consumer<AppShellViewModel>(
+      builder: (context, vm, child) {
+        final List<Widget> mockPages = [
+          TestHelpers.createMockHomeScreen(),
+          TestHelpers.createMockStoreScreen(),
+          TestHelpers.createMockCartScreen(),
+          TestHelpers.createMockProfileScreen(),
+        ];
+
+        return Scaffold(
+          body: IndexedStack(index: vm.selectedIndex, children: mockPages),
+          bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            currentIndex: vm.selectedIndex,
+            onTap: vm.onItemTapped,
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home_outlined),
+                activeIcon: Icon(Icons.home_rounded),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.store_outlined),
+                activeIcon: Icon(Icons.store_rounded),
+                label: 'Store',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.shopping_cart_outlined),
+                activeIcon: Icon(Icons.shopping_cart_rounded),
+                label: 'Cart',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person_outline),
+                activeIcon: Icon(Icons.person_rounded),
+                label: 'Profile',
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

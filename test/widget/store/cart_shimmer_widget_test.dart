@@ -3,7 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:arya/features/store/view/widget/cart_shimmer_widget.dart';
 import 'package:arya/product/theme/app_colors.dart';
-import 'package:arya/product/utility/constants/dimensions/project_padding.dart';
 
 void main() {
   group('CartShimmerWidget Tests', () {

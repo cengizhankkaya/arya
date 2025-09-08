@@ -87,8 +87,7 @@ class StoreViewModel extends ChangeNotifier {
 
       if (selectedCategory.isNotEmpty) {
         // Kategori aramaları için
-        if (selectedCategory.toLowerCase().contains('protein') ||
-            selectedCategory.toLowerCase().contains('yüksek')) {
+        if (selectedCategory.toLowerCase().contains('protein')) {
           newProducts = await _service.searchProductsByCategory(
             'Protein Oranı Yüksek',
             country: selectedCountry,
@@ -182,8 +181,7 @@ class StoreViewModel extends ChangeNotifier {
     safeNotify();
     try {
       // Protein oranı yüksek kategorisi için özel işlem
-      if (category.toLowerCase().contains('protein') ||
-          category.toLowerCase().contains('yüksek')) {
+      if (category.toLowerCase().contains('protein')) {
         products = await _service.searchProductsByCategory(
           'Protein Oranı Yüksek',
           country: selectedCountry,

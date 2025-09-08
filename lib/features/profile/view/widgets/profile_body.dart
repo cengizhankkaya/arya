@@ -75,29 +75,33 @@ class ProfileBody extends StatelessWidget {
                 ),
                 ProjectSizedBox.heightLarge,
                 ElevatedButton(
-                  onPressed: viewModel.isLoading ? null : () async {
-                    final shouldLogout = await showDialog<bool>(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: Text('dialogs.logout.title'.tr()),
-                        content: Text('dialogs.logout.content'.tr()),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.of(context).pop(false),
-                            child: Text('general.button.cancel'.tr()),
-                          ),
-                          TextButton(
-                            onPressed: () => Navigator.of(context).pop(true),
-                            child: Text('general.button.ok'.tr()),
-                          ),
-                        ],
-                      ),
-                    );
+                  onPressed: viewModel.isLoading
+                      ? null
+                      : () async {
+                          final shouldLogout = await showDialog<bool>(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text('dialogs.logout.title'.tr()),
+                              content: Text('dialogs.logout.content'.tr()),
+                              actions: [
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.of(context).pop(false),
+                                  child: Text('general.button.cancel'.tr()),
+                                ),
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.of(context).pop(true),
+                                  child: Text('general.button.ok'.tr()),
+                                ),
+                              ],
+                            ),
+                          );
 
-                    if (shouldLogout == true) {
-                      viewModel.signOut();
-                    }
-                  },
+                          if (shouldLogout == true) {
+                            viewModel.signOut();
+                          }
+                        },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.error,
                     foregroundColor: Theme.of(context).colorScheme.onError,

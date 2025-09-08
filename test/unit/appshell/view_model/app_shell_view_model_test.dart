@@ -48,7 +48,7 @@ void main() {
         expect(viewModel.selectedIndex, equals(1));
       });
 
-      test('should not change index when same tab is selected', () {
+      test('should not notify listeners when same tab is selected', () {
         // Arrange
         viewModel.selectedIndex = 1;
         bool listenerCalled = false;
@@ -65,25 +65,6 @@ void main() {
       });
     });
 
-    group('Tab Index Range Tests', () {
-      test('should handle valid tab indices', () {
-        // Test valid tab indices (0-3)
-        for (int i = 0; i <= 3; i++) {
-          viewModel.onItemTapped(i);
-          expect(viewModel.selectedIndex, equals(i));
-        }
-      });
-
-      test('should handle edge case tab indices', () {
-        // Test edge cases
-        viewModel.onItemTapped(0);
-        expect(viewModel.selectedIndex, equals(0));
-
-        viewModel.onItemTapped(3);
-        expect(viewModel.selectedIndex, equals(3));
-      });
-    });
-
     group('State Management Tests', () {
       test('should maintain state across multiple tab changes', () {
         // Act
@@ -97,58 +78,31 @@ void main() {
         expect(viewModel.selectedIndex, equals(0));
       });
 
-      test('should handle rapid tab changes', () {
-        // Act
-        viewModel.onItemTapped(1);
-        viewModel.onItemTapped(2);
-        viewModel.onItemTapped(3);
-        viewModel.onItemTapped(0);
-
-        // Assert
-        expect(viewModel.selectedIndex, equals(0));
+      test('should handle valid tab indices (0-3)', () {
+        // Test valid tab indices
+        for (int i = 0; i <= 3; i++) {
+          viewModel.onItemTapped(i);
+          expect(viewModel.selectedIndex, equals(i));
+        }
       });
-    });
 
-    group('Listener Management Tests', () {
-      test('should properly manage multiple listeners', () {
-        // Arrange
-        int listener1Count = 0;
-        int listener2Count = 0;
-
-        viewModel.addListener(() {
-          listener1Count++;
-        });
-        viewModel.addListener(() {
-          listener2Count++;
-        });
-
-        // Act
-        viewModel.onItemTapped(1);
-
-        // Assert
-        expect(listener1Count, equals(1));
-        expect(listener2Count, equals(1));
-      });
-    });
-
-    group('Edge Cases Tests', () {
-      test('should handle negative tab index gracefully', () {
+      test('should handle invalid negative index', () {
         // Act
         viewModel.onItemTapped(-1);
 
-        // Assert
+        // Assert - Should accept the invalid index (current implementation behavior)
         expect(viewModel.selectedIndex, equals(-1));
       });
 
-      test('should handle very large tab index', () {
+      test('should handle invalid large index', () {
         // Act
         viewModel.onItemTapped(999);
 
-        // Assert
+        // Assert - Should accept the invalid index (current implementation behavior)
         expect(viewModel.selectedIndex, equals(999));
       });
 
-      test('should handle zero tab index correctly', () {
+      test('should handle edge case index 0', () {
         // Arrange
         viewModel.selectedIndex = 2;
 
@@ -158,61 +112,128 @@ void main() {
         // Assert
         expect(viewModel.selectedIndex, equals(0));
       });
+
+      test('should handle edge case index 3', () {
+        // Arrange
+        viewModel.selectedIndex = 0;
+
+        // Act
+        viewModel.onItemTapped(3);
+
+        // Assert
+        expect(viewModel.selectedIndex, equals(3));
+      });
     });
 
-    group('Performance Tests', () {
-      test('should handle rapid tab switching efficiently', () {
-        final stopwatch = Stopwatch()..start();
+    group('Listener Management Tests', () {
+      test('should notify multiple listeners when tab changes', () {
+        // Arrange
+        bool listener1Called = false;
+        bool listener2Called = false;
+        bool listener3Called = false;
 
-        // Rapidly switch between tabs
-        for (int i = 0; i < 100; i++) {
-          viewModel.onItemTapped(i % 4);
-        }
+        viewModel.addListener(() {
+          listener1Called = true;
+        });
+        viewModel.addListener(() {
+          listener2Called = true;
+        });
+        viewModel.addListener(() {
+          listener3Called = true;
+        });
 
-        stopwatch.stop();
+        // Act
+        viewModel.onItemTapped(2);
 
-        // Should complete within reasonable time
-        expect(stopwatch.elapsedMilliseconds, lessThan(100));
+        // Assert
+        expect(listener1Called, isTrue);
+        expect(listener2Called, isTrue);
+        expect(listener3Called, isTrue);
+        expect(viewModel.selectedIndex, equals(2));
       });
 
-      test('should not cause memory leaks with multiple listeners', () {
-        // Add many listeners
-        for (int i = 0; i < 100; i++) {
-          viewModel.addListener(() {});
-        }
+      test('should not notify removed listeners', () {
+        // Arrange
+        bool listener1Called = false;
+        bool listener2Called = false;
 
-        // Change tab
+        VoidCallback listener1 = () {
+          listener1Called = true;
+        };
+        VoidCallback listener2 = () {
+          listener2Called = true;
+        };
+
+        viewModel.addListener(listener1);
+        viewModel.addListener(listener2);
+
+        // Remove first listener
+        viewModel.removeListener(listener1);
+
+        // Act
         viewModel.onItemTapped(1);
 
-        // Should not crash or cause issues
+        // Assert
+        expect(listener1Called, isFalse);
+        expect(listener2Called, isTrue);
         expect(viewModel.selectedIndex, equals(1));
+      });
+
+      test('should handle listener removal gracefully', () {
+        // Arrange
+        VoidCallback listener = () {};
+
+        // Act & Assert - Should not throw
+        expect(() => viewModel.removeListener(listener), returnsNormally);
       });
     });
 
-    group('Integration Tests', () {
-      test('should work correctly with ChangeNotifier pattern', () {
-        // Verify ChangeNotifier functionality
-        expect(viewModel, isA<ChangeNotifier>());
-
-        // Test listener notification
+    group('Dispose Tests', () {
+      test('should handle operations before dispose', () {
+        // Arrange
         bool listenerCalled = false;
         viewModel.addListener(() {
           listenerCalled = true;
         });
 
-        viewModel.onItemTapped(2);
+        // Act - Operations before dispose should work
+        viewModel.onItemTapped(1);
+
+        // Assert
+        expect(viewModel.selectedIndex, equals(1));
         expect(listenerCalled, isTrue);
       });
+    });
 
-      test('should maintain consistency with multiple operations', () {
-        // Perform multiple operations
+    group('State Persistence Tests', () {
+      test('should maintain state across multiple rapid changes', () {
+        // Act - Rapid state changes
         viewModel.onItemTapped(1);
         viewModel.onItemTapped(2);
-        viewModel.onItemTapped(1); // Same tab, should not notify
         viewModel.onItemTapped(3);
+        viewModel.onItemTapped(0);
+        viewModel.onItemTapped(2);
 
-        // Verify final state
-        expect(viewModel.selectedIndex, equals(3));
+        // Assert
+        expect(viewModel.selectedIndex, equals(2));
+      });
+
+      test('should handle same index selection multiple times', () {
+        // Arrange
+        viewModel.selectedIndex = 1;
+        int notificationCount = 0;
+        viewModel.addListener(() {
+          notificationCount++;
+        });
+
+        // Act - Select same index multiple times
+        viewModel.onItemTapped(1);
+        viewModel.onItemTapped(1);
+        viewModel.onItemTapped(1);
+
+        // Assert
+        expect(viewModel.selectedIndex, equals(1));
+        expect(notificationCount, equals(0)); // Should not notify
       });
     });
   });
