@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:arya/features/addproduct/view_model/add_product_viewmodel.dart';
+import 'package:arya/features/addproduct/service/product_repository.dart';
+import 'package:arya/features/addproduct/service/image_service.dart';
+import 'package:arya/features/addproduct/model/add_product_model.dart';
+import 'package:openfoodfacts/openfoodfacts.dart' as off;
+import 'package:firebase_auth/firebase_auth.dart' as fb;
+import 'package:mockito/mockito.dart';
+import 'package:mockito/annotations.dart';
 
+import 'add_product_viewmodel_test.mocks.dart';
+
+@GenerateMocks([IProductRepository, IImageService, fb.FirebaseAuth, fb.User])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -33,6 +43,11 @@ void main() {
         expect(viewModel.carbsController, isNotNull);
         expect(viewModel.proteinController, isNotNull);
         expect(viewModel.ingredientsController, isNotNull);
+        expect(viewModel.sodiumController, isNotNull);
+        expect(viewModel.fiberController, isNotNull);
+        expect(viewModel.sugarController, isNotNull);
+        expect(viewModel.allergensController, isNotNull);
+        expect(viewModel.tagsController, isNotNull);
       });
     });
 
@@ -81,6 +96,42 @@ void main() {
       });
     });
 
+    group('Form Validation Tests', () {
+      test('should have form key', () {
+        // Assert
+        expect(viewModel.formKey, isNotNull);
+        expect(viewModel.formKey, isA<GlobalKey<FormState>>());
+      });
+
+      test('should validate individual fields correctly', () {
+        // Test barcode validation
+        expect(AddProductModel.validateBarcode('1234567890123'), isNull);
+        expect(AddProductModel.validateBarcode(''), isNotNull);
+        expect(AddProductModel.validateBarcode('1234567'), isNotNull);
+
+        // Test name validation
+        expect(AddProductModel.validateName('Test Product'), isNull);
+        expect(AddProductModel.validateName(''), isNotNull);
+        expect(AddProductModel.validateName('A'), isNotNull);
+
+        // Test brands validation
+        expect(AddProductModel.validateBrands('Test Brand'), isNull);
+        expect(AddProductModel.validateBrands(''), isNotNull);
+
+        // Test categories validation
+        expect(AddProductModel.validateCategories('Test Category'), isNull);
+        expect(AddProductModel.validateCategories(''), isNotNull);
+
+        // Test quantity validation
+        expect(AddProductModel.validateQuantity('100g'), isNull);
+        expect(AddProductModel.validateQuantity(''), isNotNull);
+
+        // Test ingredients validation
+        expect(AddProductModel.validateIngredients('Test ingredients'), isNull);
+        expect(AddProductModel.validateIngredients(''), isNotNull);
+      });
+    });
+
     group('Edge Cases Tests', () {
       test('should handle very long text inputs', () {
         // Act
@@ -111,6 +162,31 @@ void main() {
       });
     });
 
+    group('Image Management Tests', () {
+      test('should have image management getters', () {
+        // Assert
+        expect(viewModel.selectedImage, isNull);
+        expect(viewModel.isImageUploading, isFalse);
+      });
+
+      test('should remove selected image', () {
+        // Act
+        viewModel.removeSelectedImage();
+
+        // Assert
+        expect(viewModel.selectedImage, isNull);
+      });
+
+      test('should handle image operations without crashing', () async {
+        // These methods will fail in test environment but should not crash
+        await viewModel.pickImageFromGallery();
+        await viewModel.takePhotoWithCamera();
+
+        // Should not throw exceptions
+        expect(viewModel.selectedImage, isNull);
+      });
+    });
+
     group('Performance Tests', () {
       test('should handle rapid state changes efficiently', () {
         final stopwatch = Stopwatch()..start();
@@ -138,6 +214,97 @@ void main() {
 
         // Should not crash or cause issues
         expect(viewModel.isLoading, isTrue);
+      });
+    });
+  });
+
+  group('AddProductViewModel with Mocks Tests', () {
+    late AddProductViewModel viewModel;
+    late MockIProductRepository mockProductRepository;
+    late MockIImageService mockImageService;
+    late MockFirebaseAuth mockFirebaseAuth;
+    late MockUser mockUser;
+
+    setUp(() {
+      mockProductRepository = MockIProductRepository();
+      mockImageService = MockIImageService();
+      mockFirebaseAuth = MockFirebaseAuth();
+      mockUser = MockUser();
+
+      viewModel = AddProductViewModel(
+        productRepository: mockProductRepository,
+        imageService: mockImageService,
+      );
+    });
+
+    tearDown(() {
+      viewModel.dispose();
+    });
+
+    group('Dependency Injection Tests', () {
+      test('should use injected dependencies', () {
+        // Arrange
+        when(mockImageService.selectedImage).thenReturn(null);
+        when(mockImageService.isImageUploading).thenReturn(false);
+
+        // Assert
+        expect(viewModel, isNotNull);
+        // ViewModel should be created with mock dependencies
+        expect(viewModel.selectedImage, isNull);
+        expect(viewModel.isImageUploading, isFalse);
+      });
+
+      test('should handle image service operations', () async {
+        // Arrange
+        when(
+          mockImageService.pickImageFromGallery(),
+        ).thenAnswer((_) async => null);
+        when(
+          mockImageService.takePhotoWithCamera(),
+        ).thenAnswer((_) async => null);
+        when(mockImageService.selectedImage).thenReturn(null);
+        when(mockImageService.isImageUploading).thenReturn(false);
+
+        // Act
+        await viewModel.pickImageFromGallery();
+        await viewModel.takePhotoWithCamera();
+        viewModel.removeSelectedImage();
+
+        // Assert
+        verify(mockImageService.pickImageFromGallery()).called(1);
+        verify(mockImageService.takePhotoWithCamera()).called(1);
+        verify(mockImageService.removeSelectedImage()).called(1);
+      });
+    });
+
+    group('AddProduct Method Tests', () {
+      test('should have addProduct method', () {
+        // Assert
+        expect(viewModel.addProduct, isNotNull);
+        expect(viewModel.addProduct, isA<Function>());
+      });
+    });
+
+    group('Form Reset Tests', () {
+      test('should clear form controllers', () {
+        // Arrange
+        viewModel.barcodeController.text = '1234567890123';
+        viewModel.nameController.text = 'Test Product';
+        viewModel.brandsController.text = 'Test Brand';
+        viewModel.categoriesController.text = 'Test Category';
+        viewModel.quantityController.text = '100g';
+        viewModel.ingredientsController.text = 'Test ingredients';
+
+        // Act
+        viewModel.clearForm();
+
+        // Assert
+        expect(viewModel.barcodeController.text, isEmpty);
+        expect(viewModel.nameController.text, isEmpty);
+        expect(viewModel.brandsController.text, isEmpty);
+        expect(viewModel.categoriesController.text, isEmpty);
+        expect(viewModel.quantityController.text, isEmpty);
+        expect(viewModel.ingredientsController.text, isEmpty);
       });
     });
   });
