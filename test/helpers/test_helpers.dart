@@ -1069,6 +1069,160 @@ class TestHelpers {
     );
   }
 
+  // ==================== ADD PRODUCT TEST HELPERS ====================
+
+  /// AddProduct testleri için MaterialApp wrapper'ı
+  static Widget createAddProductTestApp({
+    required Widget child,
+    required ChangeNotifier viewModel,
+  }) {
+    return MaterialApp(
+      theme: createTestTheme(),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('tr', 'TR')],
+      locale: const Locale('tr', 'TR'),
+      home: ChangeNotifierProvider(create: (_) => viewModel, child: child),
+    );
+  }
+
+  /// AddProduct form alanlarını doldurur
+  static Future<void> fillAddProductForm(
+    WidgetTester tester, {
+    required Map<String, String> testData,
+  }) async {
+    final textFields = find.byType(TextFormField);
+
+    if (textFields.evaluate().isNotEmpty) {
+      final fieldOrder = [
+        'barcode',
+        'name',
+        'brands',
+        'categories',
+        'quantity',
+        'ingredients',
+        'energy',
+        'fat',
+        'carbs',
+        'protein',
+        'sodium',
+        'fiber',
+        'sugar',
+        'allergens',
+        'description',
+        'tags',
+      ];
+
+      for (
+        int i = 0;
+        i < fieldOrder.length && i < textFields.evaluate().length;
+        i++
+      ) {
+        final fieldName = fieldOrder[i];
+        if (testData.containsKey(fieldName) &&
+            testData[fieldName]!.isNotEmpty) {
+          await tester.enterText(textFields.at(i), testData[fieldName]!);
+          await tester.pumpAndSettle();
+        }
+      }
+    }
+  }
+
+  /// AddProduct form submit butonuna tıklar
+  static Future<void> submitAddProductForm(WidgetTester tester) async {
+    final addButton = find.text('add_product.actions.add_product'.tr());
+    if (addButton.evaluate().isNotEmpty) {
+      await tester.tap(addButton, warnIfMissed: false);
+      await tester.pumpAndSettle();
+    }
+  }
+
+  /// AddProduct form alanlarının doğru değerleri içerdiğini kontrol eder
+  static void verifyFormFields({required Map<String, String> expectedData}) {
+    final fieldOrder = [
+      'barcode',
+      'name',
+      'brands',
+      'categories',
+      'quantity',
+      'ingredients',
+      'energy',
+      'fat',
+      'carbs',
+      'protein',
+      'sodium',
+      'fiber',
+      'sugar',
+      'allergens',
+      'description',
+      'tags',
+    ];
+
+    for (int i = 0; i < fieldOrder.length; i++) {
+      final fieldName = fieldOrder[i];
+      if (expectedData.containsKey(fieldName) &&
+          expectedData[fieldName]!.isNotEmpty) {
+        expect(find.text(expectedData[fieldName]!), findsOneWidget);
+      }
+    }
+  }
+
+  /// AddProduct form alanlarının boş olduğunu kontrol eder
+  static void verifyFormFieldsEmpty(WidgetTester tester) {
+    final textFields = find.byType(TextFormField);
+    for (int i = 0; i < textFields.evaluate().length; i++) {
+      final field = textFields.at(i);
+      final fieldWidget = tester.widget<TextFormField>(field);
+      expect(fieldWidget.controller?.text, isEmpty);
+    }
+  }
+
+  /// AddProduct ekranının temel bileşenlerini kontrol eder
+  static void verifyAddProductScreenComponents() {
+    expect(find.byType(AddProductScreen), findsOneWidget);
+    expect(find.byType(Scaffold), findsOneWidget);
+    expect(find.byType(Form), findsOneWidget);
+    expect(find.byType(SingleChildScrollView), findsOneWidget);
+  }
+
+  /// AddProduct resim bölümünün bileşenlerini kontrol eder
+  static void verifyImageSectionComponents() {
+    expect(find.byType(ImageSection), findsOneWidget);
+    expect(find.byType(ElevatedButton), findsAtLeastNWidgets(2));
+    expect(find.byIcon(Icons.photo_library), findsOneWidget);
+    expect(find.byIcon(Icons.camera_alt), findsOneWidget);
+  }
+
+  /// AddProduct barkod bölümünün bileşenlerini kontrol eder
+  static void verifyBarcodeSectionComponents() {
+    expect(find.byType(TextFormField), findsAtLeastNWidgets(1));
+    expect(find.byIcon(Icons.qr_code_scanner), findsOneWidget);
+    expect(find.byType(IconButton), findsAtLeastNWidgets(1));
+  }
+
+  /// AddProduct form validasyon hatalarını kontrol eder
+  static void verifyValidationErrors({required List<String> expectedErrors}) {
+    for (final error in expectedErrors) {
+      expect(find.text(error), findsOneWidget);
+    }
+  }
+
+  /// AddProduct başarı mesajını kontrol eder
+  static void verifySuccessMessage() {
+    expect(
+      find.text('add_product.validation.product_added_success'.tr()),
+      findsOneWidget,
+    );
+  }
+
+  /// AddProduct hata mesajını kontrol eder
+  static void verifyErrorMessage(String expectedError) {
+    expect(find.text(expectedError), findsOneWidget);
+  }
+
   /// Firebase'i test ortamında başlat (daha basit versiyon)
   static Future<void> initializeFirebaseForTests() async {
     TestWidgetsFlutterBinding.ensureInitialized();
