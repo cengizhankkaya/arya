@@ -1,7 +1,7 @@
 # 🛒 Arya - Modern Flutter Grocery Shopping App
 
-[![Flutter](https://img.shields.io/badge/Flutter-3.8.1-blue.svg)](https://flutter.dev/)
-[![Dart](https://img.shields.io/badge/Dart-3.0.0-blue.svg)](https://dart.dev/)
+[![Flutter](https://img.shields.io/badge/Flutter-3.35.3-blue.svg)](https://flutter.dev/)
+[![Dart](https://img.shields.io/badge/Dart-3.9.2-blue.svg)](https://dart.dev/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen.svg)](https://github.com/yourusername/arya)
 [![Coverage](https://img.shields.io/badge/Coverage-85%25-brightgreen.svg)](https://github.com/yourusername/arya)
@@ -236,13 +236,17 @@ lib/
 
 | Kategori | Teknoloji | Versiyon | Amaç |
 |----------|-----------|----------|------|
-| **Framework** | Flutter | 3.8.1 | Cross-platform UI framework |
-| **Language** | Dart | 3.0.0 | Modern, type-safe programming language |
+| **Framework** | Flutter | 3.35.3 | Cross-platform UI framework |
+| **Language** | Dart | 3.9.2 | Modern, type-safe programming language |
 | **Backend** | Firebase | Latest | Authentication, Database, Storage |
 | **State Management** | Provider | 6.1.5 | Reactive state management |
 | **Navigation** | Auto Route | 10.1.2 | Type-safe routing with code generation |
 | **HTTP Client** | Dio | 5.9.0 | Powerful HTTP client for API calls |
 | **Localization** | Easy Localization | 3.0.8 | Multi-language support |
+| **QR Scanner** | Mobile Scanner | 7.0.1 | QR/Barcode scanning capabilities |
+| **Image Handling** | Image Picker | 1.2.0 | Image selection and capture |
+| **Animations** | Lottie | 3.3.1 | High-quality animations |
+| **Shimmer Effect** | Shimmer | 3.0.0 | Loading skeleton animations |
 | **Testing** | Flutter Test + Mockito | Latest | Unit, Widget, Integration testing |
 
 ### 🔧 Geliştirme Araçları
@@ -493,7 +497,9 @@ void main() {
 
 ### 📊 Code Quality Metrics
 
-- **Test Coverage**: %90+ (Unit + Widget + Integration)
+- **Test Coverage**: %85+ (Unit + Widget + Integration)
+- **Total Test Files**: 256 test files
+- **Source Files**: 192 Dart files
 - **Code Complexity**: Cyclomatic complexity < 10
 - **Function Length**: Average < 20 lines
 - **Class Length**: Average < 200 lines
@@ -545,9 +551,11 @@ flutter test --coverage
 
 ### Test Coverage
 
-- **Unit Tests**: %90+ coverage
-- **Widget Tests**: %85+ coverage
-- **Integration Tests**: Ana akışlar %100 coverage
+- **Total Test Files**: 256 test files
+- **Unit Tests**: %85+ coverage
+- **Widget Tests**: %80+ coverage
+- **Integration Tests**: Ana akışlar %90+ coverage
+- **Test Types**: Unit, Widget, Integration, and Patrol tests
 
 ## 🔒 Güvenlik
 
@@ -600,6 +608,7 @@ auto_route: ^10.1.2
 
 # Localization
 easy_localization: ^3.0.8
+localization: ^2.1.1
 
 # UI & Animations
 lottie: ^3.3.1
@@ -609,6 +618,11 @@ shimmer: ^3.0.0
 shared_preferences: ^2.5.3
 image_picker: ^1.2.0
 mobile_scanner: ^7.0.1
+url_launcher: ^6.3.2
+collection: ^1.19.1
+
+# Asset Management
+assets_cleaner: ^0.1.5+12
 ```
 
 ### Geliştirme Bağımlılıkları
