@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:arya/features/index.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:auto_route/auto_route.dart';
 
 /// Mock RouterConfig sınıfı test ortamı için
 class MockRouterConfig extends RouterConfig<Object> {
@@ -73,6 +74,56 @@ class MockRouterDelegate extends RouterDelegate<Object> {
 
   @override
   void removeListener(VoidCallback listener) {}
+}
+
+/// Mock AutoRouter sınıfı test ortamı için
+class MockAutoRouter extends StatelessWidget {
+  final Widget child;
+
+  const MockAutoRouter({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return child;
+  }
+}
+
+/// Mock AutoRouter extension'ı
+extension MockAutoRouterExtension on BuildContext {
+  MockAutoRouterX get router => MockAutoRouterX();
+}
+
+/// Mock AutoRouterX sınıfı
+class MockAutoRouterX {
+  Future<T?> push<T extends Object?>(PageRouteInfo route) async {
+    // Test ortamında navigation'ı mock'la
+    return null;
+  }
+
+  Future<T?> pushAndClearStack<T extends Object?>(PageRouteInfo route) async {
+    return null;
+  }
+
+  Future<T?> replace<T extends Object?>(PageRouteInfo route) async {
+    return null;
+  }
+
+  Future<bool> pop<T extends Object?>([T? result]) async {
+    return true;
+  }
+
+  void popUntil(RoutePredicate predicate) {}
+
+  void popUntilRoot() {}
+
+  Future<T?> pushNamed<T extends Object?>(
+    String path, {
+    Object? arguments,
+    Map<String, String>? pathParameters,
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    return null;
+  }
 }
 
 /// Mock SharedPreferences sınıfı test ortamı için
@@ -187,6 +238,27 @@ class TestHelpers {
         .setMockMessageHandler('flutter/assets', (message) async {
           return null;
         });
+  }
+
+  /// Test için asset yükleme sorunlarını çözen mock
+  static void setupAssetMocks() {
+    final messenger =
+        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+
+    // Tüm asset isteklerini null döndür - test ortamında asset'leri yok say
+    messenger.setMockMessageHandler('flutter/assets', (message) async {
+      return null;
+    });
+
+    // Platform asset bundle mock'u
+    messenger.setMockMessageHandler('flutter/platform_assets', (message) async {
+      return null;
+    });
+
+    // Font manifest mock'u
+    messenger.setMockMessageHandler('flutter/fonts', (message) async {
+      return null;
+    });
   }
 
   /// Firebase mock setup'ı - Geliştirilmiş versiyon
@@ -469,35 +541,37 @@ class TestHelpers {
     required Map<String, dynamic> mockViewModels,
   }) {
     return createTestAppWithEasyLocalization(
-      MultiProvider(
-        providers: [
-          // AppShellViewModel
-          if (mockViewModels.containsKey('AppShellViewModel'))
-            ChangeNotifierProvider<AppShellViewModel>.value(
-              value: mockViewModels['AppShellViewModel'] as AppShellViewModel,
-            ),
-          // CartViewModel
-          if (mockViewModels.containsKey('CartViewModel'))
-            ChangeNotifierProvider<CartViewModel>.value(
-              value: mockViewModels['CartViewModel'] as CartViewModel,
-            ),
-          // ProfileViewModel
-          if (mockViewModels.containsKey('ProfileViewModel'))
-            ChangeNotifierProvider<ProfileViewModel>.value(
-              value: mockViewModels['ProfileViewModel'] as ProfileViewModel,
-            ),
-          // HomeViewModel
-          if (mockViewModels.containsKey('HomeViewModel'))
-            ChangeNotifierProvider<HomeViewModel>.value(
-              value: mockViewModels['HomeViewModel'] as HomeViewModel,
-            ),
-          // StoreViewModel
-          if (mockViewModels.containsKey('StoreViewModel'))
-            ChangeNotifierProvider<StoreViewModel>.value(
-              value: mockViewModels['StoreViewModel'] as StoreViewModel,
-            ),
-        ],
-        child: child,
+      MockAutoRouter(
+        child: MultiProvider(
+          providers: [
+            // AppShellViewModel
+            if (mockViewModels.containsKey('AppShellViewModel'))
+              ChangeNotifierProvider<AppShellViewModel>.value(
+                value: mockViewModels['AppShellViewModel'] as AppShellViewModel,
+              ),
+            // CartViewModel
+            if (mockViewModels.containsKey('CartViewModel'))
+              ChangeNotifierProvider<CartViewModel>.value(
+                value: mockViewModels['CartViewModel'] as CartViewModel,
+              ),
+            // ProfileViewModel
+            if (mockViewModels.containsKey('ProfileViewModel'))
+              ChangeNotifierProvider<ProfileViewModel>.value(
+                value: mockViewModels['ProfileViewModel'] as ProfileViewModel,
+              ),
+            // HomeViewModel
+            if (mockViewModels.containsKey('HomeViewModel'))
+              ChangeNotifierProvider<HomeViewModel>.value(
+                value: mockViewModels['HomeViewModel'] as HomeViewModel,
+              ),
+            // StoreViewModel
+            if (mockViewModels.containsKey('StoreViewModel'))
+              ChangeNotifierProvider<StoreViewModel>.value(
+                value: mockViewModels['StoreViewModel'] as StoreViewModel,
+              ),
+          ],
+          child: child,
+        ),
       ),
     );
   }
@@ -520,6 +594,19 @@ class TestHelpers {
   /// Mock CartScreen widget'ı
   static Widget createMockCartScreen() {
     return const Scaffold(body: Center(child: Text('Mock Cart Screen')));
+  }
+
+  /// Test ortamı için mock image widget'ı
+  static Widget createMockImage(String assetPath) {
+    return Container(
+      width: 50,
+      height: 50,
+      decoration: BoxDecoration(
+        color: Colors.grey[300],
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: const Icon(Icons.image, color: Colors.grey),
+    );
   }
 
   /// Firebase'i test ortamında tam olarak başlat

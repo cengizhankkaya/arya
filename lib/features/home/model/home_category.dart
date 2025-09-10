@@ -56,4 +56,32 @@ class HomeCategory {
     required this.imageUrl,
     required this.palette,
   });
+
+  /// Returns true if this HomeCategory is equal to [other].
+  /// Two HomeCategory instances are considered equal if all their properties
+  /// (titleKey, imageUrl, palette) are equal.
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! HomeCategory) return false;
+
+    return titleKey == other.titleKey &&
+        imageUrl == other.imageUrl &&
+        palette == other.palette;
+  }
+
+  /// Returns the hash code for this HomeCategory.
+  /// The hash code is computed based on all properties to ensure
+  /// that equal objects have the same hash code.
+  @override
+  int get hashCode {
+    return Object.hash(titleKey, imageUrl, palette);
+  }
+
+  /// Returns a string representation of this HomeCategory.
+  /// Useful for debugging and logging purposes.
+  @override
+  String toString() {
+    return 'HomeCategory(titleKey: $titleKey, imageUrl: $imageUrl, palette: $palette)';
+  }
 }

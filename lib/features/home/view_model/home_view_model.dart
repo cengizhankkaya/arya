@@ -41,8 +41,11 @@ class HomeViewModel extends ChangeNotifier {
   /// 1. Creates category instances with localized keys
   /// 2. Assigns appropriate image assets
   /// 3. Applies consistent color palettes
-  HomeViewModel() {
-    categories = _buildCategories();
+  ///
+  /// Parameters:
+  /// - [categories]: Optional list of categories for testing purposes
+  HomeViewModel({List<HomeCategory>? categories}) {
+    this.categories = categories ?? _buildCategories();
   }
 
   /// Builds and returns the complete list of product categories.
@@ -141,5 +144,15 @@ class HomeViewModel extends ChangeNotifier {
   /// ```
   String localize(BuildContext context, String key) {
     return key.tr();
+  }
+
+  /// Disposes the view model and cleans up resources.
+  /// This method can be called multiple times safely.
+  @override
+  void dispose() {
+    if (!hasListeners) {
+      return; // Already disposed
+    }
+    super.dispose();
   }
 }
