@@ -1,6 +1,9 @@
 import 'package:arya/product/theme/app_typography.dart';
+import 'package:arya/product/utility/constants/dimensions/project_padding.dart';
 import 'package:arya/product/utility/constants/dimensions/project_radius.dart';
+import 'package:arya/product/utility/constants/dimensions/project_sizedbox.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProductDetailNutritionGrid extends StatelessWidget {
   const ProductDetailNutritionGrid({
@@ -27,7 +30,7 @@ class ProductDetailNutritionGrid extends StatelessWidget {
       if (value == null) return const SizedBox.shrink();
 
       return Container(
-        padding: const EdgeInsets.all(14),
+        padding: ProjectPadding.nutritionGrid,
         decoration: BoxDecoration(
           color: scheme.surfaceContainerHighest,
           borderRadius: ProjectRadius.xxLarge,
@@ -46,9 +49,9 @@ class ProductDetailNutritionGrid extends StatelessWidget {
                 fontWeight: AppTypography.displayWeight,
               ),
             ),
-            const SizedBox(height: 6),
+            ProjectSizedBox.heightSmall,
             Text(
-              item['label'] ?? '',
+              (item['label'] ?? '').tr(),
               style: AppTypography.lightTextTheme.bodySmall?.copyWith(
                 color: scheme.onSurfaceVariant,
                 fontWeight: AppTypography.labelWeight,

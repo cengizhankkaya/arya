@@ -37,10 +37,17 @@ class _ProductDetailViewBody extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     color: scheme.surface,
-                    borderRadius: ProjectRadius.xxLarge,
+                    borderRadius: ProjectRadius.topOnly,
+                    boxShadow: [
+                      BoxShadow(
+                        color: scheme.shadow.withValues(alpha: 0.1),
+                        blurRadius: 20,
+                        offset: const Offset(0, -5),
+                      ),
+                    ],
                   ),
                   child: Padding(
-                    padding: ProjectPadding.allLarge(),
+                    padding: ProjectPadding.productDetailMain,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -51,50 +58,95 @@ class _ProductDetailViewBody extends StatelessWidget {
                             scheme: scheme,
                           ),
                         Container(
-                          padding: ProjectPadding.allLarge(),
+                          padding: ProjectPadding.productDetailCard,
                           decoration: BoxDecoration(
                             color: scheme.surfaceContainerHighest,
                             borderRadius: ProjectRadius.xxLarge,
+                            border: Border.all(
+                              color: scheme.outline.withValues(alpha: 0.08),
+                              width: 1,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: scheme.shadow.withValues(alpha: 0.05),
+                                blurRadius: 10,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
+                              Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Expanded(
-                                    child: Text(
-                                      viewModel.productName,
-                                      style: AppTypography
-                                          .lightTextTheme
-                                          .headlineLarge
-                                          ?.copyWith(
-                                            fontWeight:
-                                                AppTypography.boldWeight,
-                                            color: scheme.onSurface,
-                                          ),
-                                    ),
+                                  Text(
+                                    viewModel.productName,
+                                    style: AppTypography
+                                        .lightTextTheme
+                                        .headlineLarge
+                                        ?.copyWith(
+                                          fontWeight: AppTypography.boldWeight,
+                                          color: scheme.onSurface,
+                                          height: 1.2,
+                                        ),
                                   ),
-                                  if (viewModel.brand != null)
+                                  if (viewModel.brand != null) ...[
+                                    ProjectSizedBox.heightNormal,
                                     Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 12,
-                                        vertical: 6,
-                                      ),
+                                      padding:
+                                          ProjectPadding.productDetailBrand,
                                       decoration: BoxDecoration(
-                                        color: scheme.primaryContainer,
-                                        borderRadius: ProjectRadius.xxLarge,
-                                      ),
-                                      child: Text(
-                                        viewModel.brand!,
-                                        style: AppTypography
-                                            .lightTextTheme
-                                            .labelLarge
-                                            ?.copyWith(
-                                              color: scheme.onPrimaryContainer,
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            scheme.primaryContainer,
+                                            scheme.primaryContainer.withValues(
+                                              alpha: 0.8,
                                             ),
+                                          ],
+                                        ),
+                                        borderRadius: ProjectRadius.xxLarge,
+                                        border: Border.all(
+                                          color: scheme.primary.withValues(
+                                            alpha: 0.2,
+                                          ),
+                                          width: 1,
+                                        ),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: scheme.primary.withValues(
+                                              alpha: 0.1,
+                                            ),
+                                            blurRadius: 8,
+                                            offset: const Offset(0, 2),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Icon(
+                                            Icons.business,
+                                            size: 16,
+                                            color: scheme.onPrimaryContainer,
+                                          ),
+                                          ProjectSizedBox.widthSmall,
+                                          Text(
+                                            viewModel.brand!,
+                                            style: AppTypography
+                                                .lightTextTheme
+                                                .labelLarge
+                                                ?.copyWith(
+                                                  color:
+                                                      scheme.onPrimaryContainer,
+                                                  fontWeight:
+                                                      AppTypography.boldWeight,
+                                                ),
+                                          ),
+                                        ],
                                       ),
                                     ),
+                                  ],
                                 ],
                               ),
                               ProjectSizedBox.heightXLarge,
@@ -172,21 +224,68 @@ class _CompactDetailChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: ProjectPadding.productDetailChip,
       decoration: BoxDecoration(
-        color: scheme.surfaceContainerHighest,
+        gradient: LinearGradient(
+          colors: [
+            scheme.surfaceContainerHighest,
+            scheme.surfaceContainerHighest.withValues(alpha: 0.7),
+          ],
+        ),
         borderRadius: ProjectRadius.xxLarge,
         border: Border.all(
-          color: scheme.outline.withValues(alpha: 0.16),
+          color: scheme.outline.withValues(alpha: 0.12),
           width: 1,
         ),
+        boxShadow: [
+          BoxShadow(
+            color: scheme.shadow.withValues(alpha: 0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
-      child: Text(
-        "$label: $value",
-        style: AppTypography.lightTextTheme.bodySmall?.copyWith(
-          color: scheme.onSurface,
-          fontWeight: AppTypography.bodyLargeWeight,
-        ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: ProjectPadding.productDetailIcon,
+            decoration: BoxDecoration(
+              color: scheme.primary.withValues(alpha: 0.1),
+              borderRadius: ProjectRadius.medium,
+            ),
+            child: Icon(
+              label == 'detail.ingredients'.tr()
+                  ? Icons.eco_outlined
+                  : Icons.scale_outlined,
+              size: 14,
+              color: scheme.primary,
+            ),
+          ),
+          ProjectSizedBox.widthSmall,
+          Flexible(
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: "$label: ",
+                    style: AppTypography.lightTextTheme.bodySmall?.copyWith(
+                      color: scheme.onSurfaceVariant,
+                      fontWeight: AppTypography.bodyLargeWeight,
+                    ),
+                  ),
+                  TextSpan(
+                    text: value,
+                    style: AppTypography.lightTextTheme.bodySmall?.copyWith(
+                      color: scheme.onSurface,
+                      fontWeight: AppTypography.boldWeight,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

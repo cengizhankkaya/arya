@@ -1,5 +1,6 @@
 import 'package:arya/features/index.dart';
 import 'package:arya/product/index.dart';
+import 'package:arya/product/utility/theme/theme_view_model.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,9 +11,9 @@ class ProfileActionsConsumer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ProfileViewModel>(
-      builder: (context, viewModel, child) {
-        if (!viewModel.hasUser) return const SizedBox.shrink();
+    return Consumer2<ProfileViewModel, ThemeViewModel>(
+      builder: (context, profileViewModel, themeViewModel, child) {
+        if (!profileViewModel.hasUser) return const SizedBox.shrink();
 
         return PopupMenuButton<String>(
           color: AppColors.of(context).addbackground,
@@ -39,7 +40,7 @@ class ProfileActionsConsumer extends StatelessWidget {
                           Text(
                             'dialogs.language.current_language'.tr(
                               args: [
-                                (context.locale?.languageCode ?? 'en') == 'tr'
+                                (context.locale.languageCode) == 'tr'
                                     ? 'dialogs.language.turkish'.tr()
                                     : 'dialogs.language.english'.tr(),
                               ],
@@ -166,8 +167,23 @@ class ProfileActionsConsumer extends StatelessWidget {
                   ),
                 );
                 break;
+              case 'theme':
+                await themeViewModel.toggleTheme();
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        themeViewModel.isDarkMode
+                            ? 'settings.theme_changed_to_dark'.tr()
+                            : 'settings.theme_changed_to_light'.tr(),
+                      ),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                }
+                break;
               case 'delete':
-                await showDeleteAccountDialog(context, viewModel);
+                await showDeleteAccountDialog(context, profileViewModel);
                 break;
             }
           },
@@ -189,9 +205,47 @@ class ProfileActionsConsumer extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         Text(
-                          (context.locale?.languageCode ?? 'en') == 'tr'
+                          (context.locale.languageCode) == 'tr'
                               ? 'dialogs.language.turkish'.tr()
                               : 'dialogs.language.english'.tr(),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurfaceVariant,
+                              ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            PopupMenuItem(
+              value: 'theme',
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    themeViewModel.isDarkMode
+                        ? Icons.light_mode
+                        : Icons.dark_mode,
+                  ),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'settings.theme'.tr(),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          themeViewModel.isDarkMode
+                              ? 'settings.dark_theme'.tr()
+                              : 'settings.light_theme'.tr(),
                           style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(
                                 color: Theme.of(

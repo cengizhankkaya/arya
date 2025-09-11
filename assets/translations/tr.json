@@ -3,7 +3,13 @@
         "title": "Ana Sayfa"
     },
     "settings": {
-        "language": "Dil"
+        "language": "Dil",
+        "theme": "Tema",
+        "light_theme": "Açık Tema",
+        "dark_theme": "Koyu Tema",
+        "theme_changed": "Tema değiştirildi",
+        "theme_changed_to_light": "Tema açık moda değiştirildi",
+        "theme_changed_to_dark": "Tema koyu moda değiştirildi"
     },
     "dialogs": {
         "language": {

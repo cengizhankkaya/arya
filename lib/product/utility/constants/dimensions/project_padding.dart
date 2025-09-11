@@ -79,4 +79,27 @@ final class ProjectPadding extends EdgeInsets {
     horizontal: 20,
     vertical: 16,
   );
+
+  // Special padding for product detail view
+  static const EdgeInsets productDetailMain = EdgeInsets.fromLTRB(
+    24,
+    32,
+    24,
+    24,
+  );
+  static const EdgeInsets productDetailCard = EdgeInsets.all(24);
+  static const EdgeInsets productDetailChip = EdgeInsets.symmetric(
+    horizontal: 16,
+    vertical: 12,
+  );
+  static const EdgeInsets productDetailIcon = EdgeInsets.all(6);
+  static const EdgeInsets productDetailBrand = EdgeInsets.symmetric(
+    horizontal: 16,
+    vertical: 8,
+  );
+  static const EdgeInsets bottomBarQuantity = EdgeInsets.symmetric(
+    horizontal: 4,
+    vertical: 8,
+  );
+  static const EdgeInsets nutritionGrid = EdgeInsets.all(14);
 }

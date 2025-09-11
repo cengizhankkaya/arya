@@ -6,6 +6,7 @@ class AppPrefs {
   static const String _offPasswordKey = 'off_password';
   static const String _hasSeenOffWelcomeDialogKey =
       'has_seen_off_welcome_dialog';
+  static const String _isDarkModeKey = 'is_dark_mode';
 
   const AppPrefs._();
 
@@ -54,5 +55,16 @@ class AppPrefs {
   static Future<void> setHasSeenOffWelcomeDialog(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_hasSeenOffWelcomeDialogKey, value);
+  }
+
+  // Theme preferences
+  static Future<bool> getIsDarkMode() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_isDarkModeKey) ?? false;
+  }
+
+  static Future<void> setIsDarkMode(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_isDarkModeKey, value);
   }
 }

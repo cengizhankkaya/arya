@@ -3,7 +3,13 @@
         "title": "Home Page"
     },
     "settings": {
-        "language": "Language"
+        "language": "Language",
+        "theme": "Theme",
+        "light_theme": "Light Theme",
+        "dark_theme": "Dark Theme",
+        "theme_changed": "Theme changed",
+        "theme_changed_to_light": "Theme changed to light mode",
+        "theme_changed_to_dark": "Theme changed to dark mode"
     },
     "dialogs": {
         "language": {
