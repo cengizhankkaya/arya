@@ -32,6 +32,14 @@ class _SearchStoreBarState extends State<SearchStoreBar> {
           hintStyle: Theme.of(
             context,
           ).textTheme.bodyMedium?.copyWith(color: scheme.onSurfaceVariant),
+          prefixIcon: IconButton(
+            icon: Icon(
+              Icons.qr_code_scanner,
+              color: appColors?.textMuted ?? scheme.outline,
+            ),
+            onPressed: () => _showBarcodeScanner(context),
+            tooltip: 'store.barcode_search'.tr(),
+          ),
           suffixIcon: IconButton(
             icon: Icon(
               Icons.search,
@@ -53,15 +61,34 @@ class _SearchStoreBarState extends State<SearchStoreBar> {
           filled: true,
           fillColor: scheme.surface,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: ProjectRadius.xxLarge,
             borderSide: BorderSide.none,
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: ProjectRadius.xxLarge,
             borderSide: BorderSide(color: scheme.outline, width: 2),
           ),
         ),
       ),
     );
+  }
+
+  void _showBarcodeScanner(BuildContext context) async {
+    try {
+      final result = await Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => const BarcodeScannerScreen()),
+      );
+
+      if (result != null && result is String && result.isNotEmpty) {
+        // Barkod değerini arama çubuğuna yaz
+        _controller.text = result;
+
+        // Otomatik olarak arama yap
+        final viewModel = Provider.of<StoreViewModel>(context, listen: false);
+        viewModel.search(result);
+      }
+    } catch (e) {
+      print('Barkod tarama hatası: $e');
+    }
   }
 }

@@ -73,7 +73,7 @@ void main() {
 
         // Assert
         expect(find.byIcon(Icons.search), findsOneWidget);
-        expect(find.byType(IconButton), findsOneWidget);
+        expect(find.byType(IconButton), findsNWidgets(2));
       });
 
       testWidgets('should have correct container decoration', (tester) async {
@@ -275,7 +275,7 @@ void main() {
 
         // Assert
         expect(find.byType(TextField), findsOneWidget);
-        expect(find.byType(IconButton), findsOneWidget);
+        expect(find.byType(IconButton), findsNWidgets(2));
 
         final textField = tester.widget<TextField>(find.byType(TextField));
         expect(textField.decoration?.hintText, isNotNull);

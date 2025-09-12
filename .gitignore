@@ -99,6 +99,7 @@ secrets.json
 **/android/gradlew
 **/android/gradlew.bat
 **/android/local.properties
+**/android/gradle.properties
 **/android/**/GeneratedPluginRegistrant.java
 **/android/key.properties
 **/android/app/debug/
@@ -177,6 +178,22 @@ key.properties
 keystore.properties
 *.keystore
 *.jks
+
+# Play Store release files
+android/app/upload-keystore.jks
+android/app/upload-keystore.properties
+android/app/release-keystore.jks
+android/app/release-keystore.properties
+android/keystore/
+android/keys/
+
+# App signing
+android/app/signing.properties
+android/signing.properties
+*.p12
+*.pem
+*.crt
+*.cer
 
 # FVM (Flutter Version Management)
 .fvm/

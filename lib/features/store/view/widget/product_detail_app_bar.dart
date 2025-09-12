@@ -57,6 +57,59 @@ class ProductDetailAppBar extends StatelessWidget {
           ),
         ),
       ),
+      actions: [
+        Container(
+          margin: const EdgeInsets.all(8),
+          child: ClipRRect(
+            borderRadius: ProjectRadius.xxLarge,
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: appColors.white.withValues(alpha: 0.18),
+                  borderRadius: ProjectRadius.xxLarge,
+                  border: Border.all(
+                    color: appColors.white.withValues(alpha: 0.22),
+                    width: 1,
+                  ),
+                ),
+                child: IconButton(
+                  icon: Icon(
+                    viewModel.isFavorite
+                        ? Icons.favorite
+                        : Icons.favorite_border,
+                    color: appColors.white,
+                  ),
+                  onPressed: () => viewModel.toggleFavorite(),
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.all(8),
+          child: ClipRRect(
+            borderRadius: ProjectRadius.xxLarge,
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: appColors.white.withValues(alpha: 0.18),
+                  borderRadius: ProjectRadius.xxLarge,
+                  border: Border.all(
+                    color: appColors.white.withValues(alpha: 0.22),
+                    width: 1,
+                  ),
+                ),
+                child: IconButton(
+                  icon: Icon(Icons.share, color: appColors.white),
+                  onPressed: () => viewModel.shareProduct(),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
       flexibleSpace: FlexibleSpaceBar(
         background: Stack(
           fit: StackFit.expand,
@@ -68,7 +121,7 @@ class ProductDetailAppBar extends StatelessWidget {
                   tag: viewModel.imageUrl ?? viewModel.productName,
                   child: Image.network(
                     viewModel.imageUrl!,
-                    fit: BoxFit.contain,
+                    fit: BoxFit.cover,
                     headers: const {'User-Agent': 'AryaApp/1.0'},
                     filterQuality: FilterQuality.high,
                     errorBuilder: (context, error, stackTrace) {

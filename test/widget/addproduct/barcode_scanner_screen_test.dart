@@ -103,7 +103,7 @@ void main() {
         // AppBar title'ını kontrol et
         final appBar = tester.widget<AppBar>(find.byType(AppBar));
         final titleWidget = appBar.title as Text;
-        expect(titleWidget.data, 'add_product.fields.scan_barcode');
+        expect(titleWidget.data, 'Barkod Tarayıcı');
       });
 
       testWidgets('AppBar doğru action butonlarına sahip olmalı', (
@@ -198,9 +198,7 @@ void main() {
         expect(instructionContainer, findsWidgets);
 
         // Talimat metnini bul
-        final instructionText = find.text(
-          'add_product.fields.scan_instructions',
-        );
+        final instructionText = find.text('Barkodu kameraya doğrultun');
         expect(instructionText, findsOneWidget);
       });
 
@@ -226,9 +224,7 @@ void main() {
         await tester.pump();
 
         // Talimat metnini bul
-        final instructionText = find.text(
-          'add_product.fields.scan_instructions',
-        );
+        final instructionText = find.text('Barkodu kameraya doğrultun');
         final textWidget = tester.widget<Text>(instructionText);
 
         // Text stil özelliklerini kontrol et

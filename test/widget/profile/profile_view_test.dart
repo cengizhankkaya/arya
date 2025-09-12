@@ -8,20 +8,29 @@ import 'package:arya/features/profile/view/widgets/profile_body.dart';
 import 'package:arya/features/profile/view/widgets/profile_actions_consumer.dart';
 import 'package:arya/features/auth/model/user_model.dart';
 import 'package:arya/product/theme/custom_light_theme.dart';
+import 'package:arya/product/utility/theme/theme_view_model.dart';
 
-@GenerateMocks([ProfileViewModel])
+@GenerateMocks([ProfileViewModel, ThemeViewModel])
 import 'profile_view_test.mocks.dart';
 
 // Test için ProfileScreen'i mock'layan basit bir widget
 class TestProfileScreen extends StatelessWidget {
-  final ProfileViewModel viewModel;
+  final ProfileViewModel profileViewModel;
+  final ThemeViewModel themeViewModel;
 
-  const TestProfileScreen({super.key, required this.viewModel});
+  const TestProfileScreen({
+    super.key,
+    required this.profileViewModel,
+    required this.themeViewModel,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      value: viewModel,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ProfileViewModel>.value(value: profileViewModel),
+        ChangeNotifierProvider<ThemeViewModel>.value(value: themeViewModel),
+      ],
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -43,25 +52,36 @@ class TestProfileScreen extends StatelessWidget {
 
 void main() {
   group('ProfileScreen Tests', () {
-    late MockProfileViewModel mockViewModel;
+    late MockProfileViewModel mockProfileViewModel;
+    late MockThemeViewModel mockThemeViewModel;
 
     setUp(() {
-      mockViewModel = MockProfileViewModel();
+      mockProfileViewModel = MockProfileViewModel();
+      mockThemeViewModel = MockThemeViewModel();
+
       // Mock controller'ları ekle
-      when(mockViewModel.nameController).thenReturn(TextEditingController());
-      when(mockViewModel.surnameController).thenReturn(TextEditingController());
+      when(
+        mockProfileViewModel.nameController,
+      ).thenReturn(TextEditingController());
+      when(
+        mockProfileViewModel.surnameController,
+      ).thenReturn(TextEditingController());
 
       // Mock temel property'ler
-      when(mockViewModel.isLoading).thenReturn(false);
-      when(mockViewModel.errorMessage).thenReturn(null);
-      when(mockViewModel.hasUser).thenReturn(false);
-      when(mockViewModel.user).thenReturn(null);
-      when(mockViewModel.isEditing).thenReturn(false);
-      when(mockViewModel.isUserComplete).thenReturn(false);
+      when(mockProfileViewModel.isLoading).thenReturn(false);
+      when(mockProfileViewModel.errorMessage).thenReturn(null);
+      when(mockProfileViewModel.hasUser).thenReturn(false);
+      when(mockProfileViewModel.user).thenReturn(null);
+      when(mockProfileViewModel.isEditing).thenReturn(false);
+      when(mockProfileViewModel.isUserComplete).thenReturn(false);
 
       // Mock method'lar
-      when(mockViewModel.fetchUser()).thenAnswer((_) async {});
-      when(mockViewModel.dispose()).thenAnswer((_) {});
+      when(mockProfileViewModel.fetchUser()).thenAnswer((_) async {});
+      when(mockProfileViewModel.dispose()).thenAnswer((_) {});
+
+      // Mock ThemeViewModel properties
+      when(mockThemeViewModel.isDarkMode).thenReturn(false);
+      when(mockThemeViewModel.toggleTheme()).thenAnswer((_) async {});
     });
 
     Widget createTestWidget(Widget child) {
@@ -74,7 +94,12 @@ void main() {
       ) async {
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert
@@ -89,7 +114,12 @@ void main() {
       ) async {
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert
@@ -107,7 +137,12 @@ void main() {
       ) async {
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert
@@ -120,7 +155,12 @@ void main() {
       ) async {
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert
@@ -135,14 +175,16 @@ void main() {
       ) async {
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert
-        expect(
-          find.byType(ChangeNotifierProvider<ProfileViewModel>),
-          findsOneWidget,
-        );
+        expect(find.byType(MultiProvider), findsOneWidget);
         expect(find.byType(ProfileBody), findsOneWidget);
         expect(find.byType(ProfileActionsConsumer), findsOneWidget);
       });
@@ -151,24 +193,34 @@ void main() {
         WidgetTester tester,
       ) async {
         // Arrange
-        when(mockViewModel.isLoading).thenReturn(true);
+        when(mockProfileViewModel.isLoading).thenReturn(true);
 
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert initial state
         expect(find.byType(TestProfileScreen), findsOneWidget);
 
         // Change state
-        when(mockViewModel.isLoading).thenReturn(false);
-        when(mockViewModel.errorMessage).thenReturn('Test error');
-        when(mockViewModel.hasUser).thenReturn(false);
+        when(mockProfileViewModel.isLoading).thenReturn(false);
+        when(mockProfileViewModel.errorMessage).thenReturn('Test error');
+        when(mockProfileViewModel.hasUser).thenReturn(false);
 
         // Trigger rebuild
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert
@@ -182,7 +234,12 @@ void main() {
       ) async {
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert
@@ -200,7 +257,12 @@ void main() {
       ) async {
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert
@@ -217,13 +279,18 @@ void main() {
         WidgetTester tester,
       ) async {
         // Arrange
-        when(mockViewModel.isLoading).thenReturn(true);
-        when(mockViewModel.errorMessage).thenReturn(null);
-        when(mockViewModel.hasUser).thenReturn(false);
+        when(mockProfileViewModel.isLoading).thenReturn(true);
+        when(mockProfileViewModel.errorMessage).thenReturn(null);
+        when(mockProfileViewModel.hasUser).thenReturn(false);
 
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert
@@ -235,13 +302,20 @@ void main() {
         WidgetTester tester,
       ) async {
         // Arrange
-        when(mockViewModel.isLoading).thenReturn(false);
-        when(mockViewModel.errorMessage).thenReturn('Test error message');
-        when(mockViewModel.hasUser).thenReturn(false);
+        when(mockProfileViewModel.isLoading).thenReturn(false);
+        when(
+          mockProfileViewModel.errorMessage,
+        ).thenReturn('Test error message');
+        when(mockProfileViewModel.hasUser).thenReturn(false);
 
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert
@@ -260,16 +334,21 @@ void main() {
           email: 'john.doe@example.com',
         );
 
-        when(mockViewModel.isLoading).thenReturn(false);
-        when(mockViewModel.errorMessage).thenReturn(null);
-        when(mockViewModel.hasUser).thenReturn(true);
-        when(mockViewModel.user).thenReturn(testUser);
-        when(mockViewModel.isEditing).thenReturn(false);
-        when(mockViewModel.isUserComplete).thenReturn(true);
+        when(mockProfileViewModel.isLoading).thenReturn(false);
+        when(mockProfileViewModel.errorMessage).thenReturn(null);
+        when(mockProfileViewModel.hasUser).thenReturn(true);
+        when(mockProfileViewModel.user).thenReturn(testUser);
+        when(mockProfileViewModel.isEditing).thenReturn(false);
+        when(mockProfileViewModel.isUserComplete).thenReturn(true);
 
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert
@@ -288,16 +367,21 @@ void main() {
           email: 'john.doe@example.com',
         );
 
-        when(mockViewModel.isLoading).thenReturn(false);
-        when(mockViewModel.errorMessage).thenReturn(null);
-        when(mockViewModel.hasUser).thenReturn(true);
-        when(mockViewModel.user).thenReturn(testUser);
-        when(mockViewModel.isEditing).thenReturn(true);
-        when(mockViewModel.isUserComplete).thenReturn(false);
+        when(mockProfileViewModel.isLoading).thenReturn(false);
+        when(mockProfileViewModel.errorMessage).thenReturn(null);
+        when(mockProfileViewModel.hasUser).thenReturn(true);
+        when(mockProfileViewModel.user).thenReturn(testUser);
+        when(mockProfileViewModel.isEditing).thenReturn(true);
+        when(mockProfileViewModel.isUserComplete).thenReturn(false);
 
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert
@@ -311,13 +395,18 @@ void main() {
         WidgetTester tester,
       ) async {
         // Arrange
-        when(mockViewModel.isLoading).thenReturn(false);
-        when(mockViewModel.errorMessage).thenReturn('Network error');
-        when(mockViewModel.hasUser).thenReturn(false);
+        when(mockProfileViewModel.isLoading).thenReturn(false);
+        when(mockProfileViewModel.errorMessage).thenReturn('Network error');
+        when(mockProfileViewModel.hasUser).thenReturn(false);
 
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert
@@ -329,14 +418,19 @@ void main() {
         WidgetTester tester,
       ) async {
         // Arrange
-        when(mockViewModel.isLoading).thenReturn(false);
-        when(mockViewModel.errorMessage).thenReturn(null);
-        when(mockViewModel.hasUser).thenReturn(false);
-        when(mockViewModel.user).thenReturn(null);
+        when(mockProfileViewModel.isLoading).thenReturn(false);
+        when(mockProfileViewModel.errorMessage).thenReturn(null);
+        when(mockProfileViewModel.hasUser).thenReturn(false);
+        when(mockProfileViewModel.user).thenReturn(null);
 
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert
@@ -350,13 +444,18 @@ void main() {
         WidgetTester tester,
       ) async {
         // Arrange
-        when(mockViewModel.isLoading).thenReturn(false);
-        when(mockViewModel.errorMessage).thenReturn(null);
-        when(mockViewModel.hasUser).thenReturn(false);
+        when(mockProfileViewModel.isLoading).thenReturn(false);
+        when(mockProfileViewModel.errorMessage).thenReturn(null);
+        when(mockProfileViewModel.hasUser).thenReturn(false);
 
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert
@@ -369,18 +468,28 @@ void main() {
         WidgetTester tester,
       ) async {
         // Arrange
-        when(mockViewModel.isLoading).thenReturn(true);
+        when(mockProfileViewModel.isLoading).thenReturn(true);
 
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Multiple rebuilds
         for (int i = 0; i < 3; i++) {
-          when(mockViewModel.isLoading).thenReturn(i % 2 == 0);
+          when(mockProfileViewModel.isLoading).thenReturn(i % 2 == 0);
           await tester.pumpWidget(
-            createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+            createTestWidget(
+              TestProfileScreen(
+                profileViewModel: mockProfileViewModel,
+                themeViewModel: mockThemeViewModel,
+              ),
+            ),
           );
         }
 
@@ -392,13 +501,18 @@ void main() {
     group('Accessibility Tests', () {
       testWidgets('should be accessible', (WidgetTester tester) async {
         // Arrange
-        when(mockViewModel.isLoading).thenReturn(false);
-        when(mockViewModel.errorMessage).thenReturn(null);
-        when(mockViewModel.hasUser).thenReturn(false);
+        when(mockProfileViewModel.isLoading).thenReturn(false);
+        when(mockProfileViewModel.errorMessage).thenReturn(null);
+        when(mockProfileViewModel.hasUser).thenReturn(false);
 
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert
@@ -411,13 +525,18 @@ void main() {
         WidgetTester tester,
       ) async {
         // Arrange
-        when(mockViewModel.isLoading).thenReturn(false);
-        when(mockViewModel.errorMessage).thenReturn(null);
-        when(mockViewModel.hasUser).thenReturn(false);
+        when(mockProfileViewModel.isLoading).thenReturn(false);
+        when(mockProfileViewModel.errorMessage).thenReturn(null);
+        when(mockProfileViewModel.hasUser).thenReturn(false);
 
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert
@@ -433,13 +552,18 @@ void main() {
         WidgetTester tester,
       ) async {
         // Arrange
-        when(mockViewModel.isLoading).thenReturn(false);
-        when(mockViewModel.errorMessage).thenReturn(null);
-        when(mockViewModel.hasUser).thenReturn(false);
+        when(mockProfileViewModel.isLoading).thenReturn(false);
+        when(mockProfileViewModel.errorMessage).thenReturn(null);
+        when(mockProfileViewModel.hasUser).thenReturn(false);
 
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert
@@ -451,13 +575,18 @@ void main() {
         WidgetTester tester,
       ) async {
         // Arrange
-        when(mockViewModel.isLoading).thenReturn(false);
-        when(mockViewModel.errorMessage).thenReturn(null);
-        when(mockViewModel.hasUser).thenReturn(false);
+        when(mockProfileViewModel.isLoading).thenReturn(false);
+        when(mockProfileViewModel.errorMessage).thenReturn(null);
+        when(mockProfileViewModel.hasUser).thenReturn(false);
 
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Navigate away and back
@@ -465,7 +594,12 @@ void main() {
           createTestWidget(const Scaffold(body: Text('Other Screen'))),
         );
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert
@@ -478,16 +612,21 @@ void main() {
         // Arrange
         const emptyUser = UserModel(uid: '', name: '', surname: '', email: '');
 
-        when(mockViewModel.isLoading).thenReturn(false);
-        when(mockViewModel.errorMessage).thenReturn(null);
-        when(mockViewModel.hasUser).thenReturn(true);
-        when(mockViewModel.user).thenReturn(emptyUser);
-        when(mockViewModel.isEditing).thenReturn(false);
-        when(mockViewModel.isUserComplete).thenReturn(false);
+        when(mockProfileViewModel.isLoading).thenReturn(false);
+        when(mockProfileViewModel.errorMessage).thenReturn(null);
+        when(mockProfileViewModel.hasUser).thenReturn(true);
+        when(mockProfileViewModel.user).thenReturn(emptyUser);
+        when(mockProfileViewModel.isEditing).thenReturn(false);
+        when(mockProfileViewModel.isUserComplete).thenReturn(false);
 
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert
@@ -507,16 +646,21 @@ void main() {
               'very.long.email.address.that.might.cause.issues@verylongdomainname.com',
         );
 
-        when(mockViewModel.isLoading).thenReturn(false);
-        when(mockViewModel.errorMessage).thenReturn(null);
-        when(mockViewModel.hasUser).thenReturn(true);
-        when(mockViewModel.user).thenReturn(longUser);
-        when(mockViewModel.isEditing).thenReturn(false);
-        when(mockViewModel.isUserComplete).thenReturn(true);
+        when(mockProfileViewModel.isLoading).thenReturn(false);
+        when(mockProfileViewModel.errorMessage).thenReturn(null);
+        when(mockProfileViewModel.hasUser).thenReturn(true);
+        when(mockProfileViewModel.user).thenReturn(longUser);
+        when(mockProfileViewModel.isEditing).thenReturn(false);
+        when(mockProfileViewModel.isUserComplete).thenReturn(true);
 
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert
@@ -535,16 +679,21 @@ void main() {
           email: 'jose.maria@example.com',
         );
 
-        when(mockViewModel.isLoading).thenReturn(false);
-        when(mockViewModel.errorMessage).thenReturn(null);
-        when(mockViewModel.hasUser).thenReturn(true);
-        when(mockViewModel.user).thenReturn(specialUser);
-        when(mockViewModel.isEditing).thenReturn(false);
-        when(mockViewModel.isUserComplete).thenReturn(true);
+        when(mockProfileViewModel.isLoading).thenReturn(false);
+        when(mockProfileViewModel.errorMessage).thenReturn(null);
+        when(mockProfileViewModel.hasUser).thenReturn(true);
+        when(mockProfileViewModel.user).thenReturn(specialUser);
+        when(mockProfileViewModel.isEditing).thenReturn(false);
+        when(mockProfileViewModel.isUserComplete).thenReturn(true);
 
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert
@@ -559,7 +708,12 @@ void main() {
       ) async {
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert
@@ -572,7 +726,12 @@ void main() {
       ) async {
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert
@@ -587,7 +746,12 @@ void main() {
       ) async {
         // Act
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert initial state
@@ -598,7 +762,12 @@ void main() {
           createTestWidget(const Scaffold(body: Text('Disposed'))),
         );
         await tester.pumpWidget(
-          createTestWidget(TestProfileScreen(viewModel: mockViewModel)),
+          createTestWidget(
+            TestProfileScreen(
+              profileViewModel: mockProfileViewModel,
+              themeViewModel: mockThemeViewModel,
+            ),
+          ),
         );
 
         // Assert
@@ -611,9 +780,9 @@ void main() {
         WidgetTester tester,
       ) async {
         // Arrange
-        when(mockViewModel.isLoading).thenReturn(false);
-        when(mockViewModel.errorMessage).thenReturn(null);
-        when(mockViewModel.hasUser).thenReturn(false);
+        when(mockProfileViewModel.isLoading).thenReturn(false);
+        when(mockProfileViewModel.errorMessage).thenReturn(null);
+        when(mockProfileViewModel.hasUser).thenReturn(false);
 
         // Act - Test with small screen
         await tester.pumpWidget(
@@ -621,7 +790,10 @@ void main() {
             SizedBox(
               width: 300,
               height: 600,
-              child: TestProfileScreen(viewModel: mockViewModel),
+              child: TestProfileScreen(
+                profileViewModel: mockProfileViewModel,
+                themeViewModel: mockThemeViewModel,
+              ),
             ),
           ),
         );
@@ -636,7 +808,10 @@ void main() {
             SizedBox(
               width: 800,
               height: 1200,
-              child: TestProfileScreen(viewModel: mockViewModel),
+              child: TestProfileScreen(
+                profileViewModel: mockProfileViewModel,
+                themeViewModel: mockThemeViewModel,
+              ),
             ),
           ),
         );
@@ -650,9 +825,9 @@ void main() {
         WidgetTester tester,
       ) async {
         // Arrange
-        when(mockViewModel.isLoading).thenReturn(false);
-        when(mockViewModel.errorMessage).thenReturn(null);
-        when(mockViewModel.hasUser).thenReturn(false);
+        when(mockProfileViewModel.isLoading).thenReturn(false);
+        when(mockProfileViewModel.errorMessage).thenReturn(null);
+        when(mockProfileViewModel.hasUser).thenReturn(false);
 
         // Act - Portrait
         await tester.pumpWidget(
@@ -660,7 +835,10 @@ void main() {
             SizedBox(
               width: 400,
               height: 800,
-              child: TestProfileScreen(viewModel: mockViewModel),
+              child: TestProfileScreen(
+                profileViewModel: mockProfileViewModel,
+                themeViewModel: mockThemeViewModel,
+              ),
             ),
           ),
         );
@@ -674,7 +852,10 @@ void main() {
             SizedBox(
               width: 800,
               height: 400,
-              child: TestProfileScreen(viewModel: mockViewModel),
+              child: TestProfileScreen(
+                profileViewModel: mockProfileViewModel,
+                themeViewModel: mockThemeViewModel,
+              ),
             ),
           ),
         );

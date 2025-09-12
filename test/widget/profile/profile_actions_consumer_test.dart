@@ -6,9 +6,10 @@ import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:arya/features/profile/view/widgets/profile_actions_consumer.dart';
 import 'package:arya/features/profile/view_model/profile_view_model.dart';
+import 'package:arya/product/utility/theme/theme_view_model.dart';
 import '../../helpers/test_helpers.dart';
 
-@GenerateMocks([ProfileViewModel])
+@GenerateMocks([ProfileViewModel, ThemeViewModel])
 import 'profile_actions_consumer_test.mocks.dart';
 
 void main() {
@@ -16,16 +17,29 @@ void main() {
   TestHelpers.setupEasyLocalization();
 
   group('ProfileActionsConsumer Tests', () {
-    late MockProfileViewModel mockViewModel;
+    late MockProfileViewModel mockProfileViewModel;
+    late MockThemeViewModel mockThemeViewModel;
 
     setUp(() {
-      mockViewModel = MockProfileViewModel();
+      mockProfileViewModel = MockProfileViewModel();
+      mockThemeViewModel = MockThemeViewModel();
+
+      // Mock ThemeViewModel properties
+      when(mockThemeViewModel.isDarkMode).thenReturn(false);
+      when(mockThemeViewModel.toggleTheme()).thenAnswer((_) async {});
     });
 
     Widget createTestWidget(Widget child) {
       return TestHelpers.createTestAppWithLocalization(
-        ChangeNotifierProvider<ProfileViewModel>.value(
-          value: mockViewModel,
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider<ProfileViewModel>.value(
+              value: mockProfileViewModel,
+            ),
+            ChangeNotifierProvider<ThemeViewModel>.value(
+              value: mockThemeViewModel,
+            ),
+          ],
           child: child,
         ),
       );
@@ -35,7 +49,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // Arrange
-      when(mockViewModel.hasUser).thenReturn(false);
+      when(mockProfileViewModel.hasUser).thenReturn(false);
 
       // Act
       await tester.pumpWidget(createTestWidget(const ProfileActionsConsumer()));
@@ -50,7 +64,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // Arrange
-      when(mockViewModel.hasUser).thenReturn(true);
+      when(mockProfileViewModel.hasUser).thenReturn(true);
 
       // Act
       await tester.pumpWidget(createTestWidget(const ProfileActionsConsumer()));
@@ -65,7 +79,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // Arrange
-      when(mockViewModel.hasUser).thenReturn(true);
+      when(mockProfileViewModel.hasUser).thenReturn(true);
 
       await tester.pumpWidget(createTestWidget(const ProfileActionsConsumer()));
       await tester.pumpAndSettle();
@@ -75,7 +89,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Assert
-      expect(find.byType(PopupMenuItem<String>), findsNWidgets(3));
+      expect(find.byType(PopupMenuItem<String>), findsNWidgets(4));
       // Icons are inside PopupMenuItem widgets, so we need to find them within the menu
       expect(
         find.descendant(
@@ -91,6 +105,23 @@ void main() {
         ),
         findsOneWidget,
       );
+      // Theme icon can be either light_mode or dark_mode depending on theme state
+      // We'll verify that a theme icon exists (either light_mode or dark_mode)
+      final hasLightMode = find
+          .descendant(
+            of: find.byType(PopupMenuItem<String>),
+            matching: find.byIcon(Icons.light_mode),
+          )
+          .evaluate()
+          .isNotEmpty;
+      final hasDarkMode = find
+          .descendant(
+            of: find.byType(PopupMenuItem<String>),
+            matching: find.byIcon(Icons.dark_mode),
+          )
+          .evaluate()
+          .isNotEmpty;
+      expect(hasLightMode || hasDarkMode, isTrue);
       expect(
         find.descendant(
           of: find.byType(PopupMenuItem<String>),
@@ -104,12 +135,12 @@ void main() {
       'should show language dialog when language option is selected',
       (WidgetTester tester) async {
         // Arrange
-        when(mockViewModel.hasUser).thenReturn(true);
+        when(mockProfileViewModel.hasUser).thenReturn(true);
 
         await tester.pumpWidget(
           createTestWidget(
             ChangeNotifierProvider<ProfileViewModel>.value(
-              value: mockViewModel,
+              value: mockProfileViewModel,
               child: const ProfileActionsConsumer(),
             ),
           ),
@@ -139,12 +170,12 @@ void main() {
       WidgetTester tester,
     ) async {
       // Arrange
-      when(mockViewModel.hasUser).thenReturn(true);
+      when(mockProfileViewModel.hasUser).thenReturn(true);
 
       await tester.pumpWidget(
         createTestWidget(
           ChangeNotifierProvider<ProfileViewModel>.value(
-            value: mockViewModel,
+            value: mockProfileViewModel,
             child: const ProfileActionsConsumer(),
           ),
         ),
@@ -157,19 +188,19 @@ void main() {
 
       // Assert
       // Verify the menu items exist
-      expect(find.byType(PopupMenuItem<String>), findsNWidgets(3));
+      expect(find.byType(PopupMenuItem<String>), findsNWidgets(4));
     });
 
     testWidgets('should display delete menu item correctly', (
       WidgetTester tester,
     ) async {
       // Arrange
-      when(mockViewModel.hasUser).thenReturn(true);
+      when(mockProfileViewModel.hasUser).thenReturn(true);
 
       await tester.pumpWidget(
         createTestWidget(
           ChangeNotifierProvider<ProfileViewModel>.value(
-            value: mockViewModel,
+            value: mockProfileViewModel,
             child: const ProfileActionsConsumer(),
           ),
         ),
@@ -182,14 +213,14 @@ void main() {
 
       // Assert
       // Verify the menu items exist
-      expect(find.byType(PopupMenuItem<String>), findsNWidgets(3));
+      expect(find.byType(PopupMenuItem<String>), findsNWidgets(4));
     });
 
     testWidgets('should display correct menu item text and icons', (
       WidgetTester tester,
     ) async {
       // Arrange
-      when(mockViewModel.hasUser).thenReturn(true);
+      when(mockProfileViewModel.hasUser).thenReturn(true);
 
       await tester.pumpWidget(createTestWidget(const ProfileActionsConsumer()));
       await tester.pumpAndSettle();
@@ -200,14 +231,14 @@ void main() {
 
       // Assert
       // Check that menu items exist
-      expect(find.byType(PopupMenuItem<String>), findsNWidgets(3));
+      expect(find.byType(PopupMenuItem<String>), findsNWidgets(4));
     });
 
     testWidgets('should handle popup menu selection correctly', (
       WidgetTester tester,
     ) async {
       // Arrange
-      when(mockViewModel.hasUser).thenReturn(true);
+      when(mockProfileViewModel.hasUser).thenReturn(true);
 
       await tester.pumpWidget(createTestWidget(const ProfileActionsConsumer()));
       await tester.pumpAndSettle();
@@ -220,7 +251,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify popup is open
-      expect(find.byType(PopupMenuItem<String>), findsNWidgets(3));
+      expect(find.byType(PopupMenuItem<String>), findsNWidgets(4));
 
       // Close popup by tapping outside
       await tester.tapAt(const Offset(0, 0));
@@ -235,12 +266,12 @@ void main() {
         WidgetTester tester,
       ) async {
         // Arrange
-        when(mockViewModel.hasUser).thenReturn(true);
+        when(mockProfileViewModel.hasUser).thenReturn(true);
 
         await tester.pumpWidget(
           createTestWidget(
             ChangeNotifierProvider<ProfileViewModel>.value(
-              value: mockViewModel,
+              value: mockProfileViewModel,
               child: const ProfileActionsConsumer(),
             ),
           ),
@@ -256,19 +287,19 @@ void main() {
 
         // Assert
         // Verify menu items exist
-        expect(find.byType(PopupMenuItem<String>), findsNWidgets(3));
+        expect(find.byType(PopupMenuItem<String>), findsNWidgets(4));
       });
 
       testWidgets('should display language submenu correctly', (
         WidgetTester tester,
       ) async {
         // Arrange
-        when(mockViewModel.hasUser).thenReturn(true);
+        when(mockProfileViewModel.hasUser).thenReturn(true);
 
         await tester.pumpWidget(
           createTestWidget(
             ChangeNotifierProvider<ProfileViewModel>.value(
-              value: mockViewModel,
+              value: mockProfileViewModel,
               child: const ProfileActionsConsumer(),
             ),
           ),
@@ -299,12 +330,12 @@ void main() {
         WidgetTester tester,
       ) async {
         // Arrange
-        when(mockViewModel.hasUser).thenReturn(false);
+        when(mockProfileViewModel.hasUser).thenReturn(false);
 
         await tester.pumpWidget(
           createTestWidget(
             ChangeNotifierProvider<ProfileViewModel>.value(
-              value: mockViewModel,
+              value: mockProfileViewModel,
               child: const ProfileActionsConsumer(),
             ),
           ),
@@ -316,13 +347,13 @@ void main() {
         expect(find.byType(SizedBox), findsOneWidget);
 
         // Change state
-        when(mockViewModel.hasUser).thenReturn(true);
+        when(mockProfileViewModel.hasUser).thenReturn(true);
 
         // Trigger rebuild
         await tester.pumpWidget(
           createTestWidget(
             ChangeNotifierProvider<ProfileViewModel>.value(
-              value: mockViewModel,
+              value: mockProfileViewModel,
               child: const ProfileActionsConsumer(),
             ),
           ),

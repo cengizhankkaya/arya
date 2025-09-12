@@ -125,7 +125,7 @@
         }
     },
     "store": {
-        "search_hint": "Search product...",
+        "search_hint": "Search product or enter barcode number...",
         "search_products": "Search Products",
         "add_product": "Add Product",
         "no_products": "No products found",
@@ -135,6 +135,9 @@
         "nutrition_title": "Nutrition Facts (100g)",
         "kcal": "Calories",
         "protein": "Protein",
+        "barcode_search": "Barcode Search",
+        "barcode_not_found": "No product found with this barcode number",
+        "invalid_barcode": "Invalid barcode number",
         "carbs": "Carbohydrate",
         "fat": "Fat",
         "empty_cart_title": "Cart is empty",

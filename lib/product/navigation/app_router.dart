@@ -1,3 +1,4 @@
+import 'package:arya/features/addproduct/view/add_product_view.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:arya/features/index.dart';
 import 'package:arya/product/index.dart';

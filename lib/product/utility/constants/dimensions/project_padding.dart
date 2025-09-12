@@ -98,8 +98,8 @@ final class ProjectPadding extends EdgeInsets {
     vertical: 8,
   );
   static const EdgeInsets bottomBarQuantity = EdgeInsets.symmetric(
-    horizontal: 4,
-    vertical: 8,
+    horizontal: 8,
+    vertical: 4,
   );
   static const EdgeInsets nutritionGrid = EdgeInsets.all(14);
 }

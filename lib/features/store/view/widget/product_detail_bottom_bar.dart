@@ -89,7 +89,7 @@ class ProductDetailBottomBar extends StatelessWidget {
                         ),
                       ),
                     ),
-                    ProjectSizedBox.widthMedium,
+                    ProjectSizedBox.widthSmall,
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 16,
@@ -108,7 +108,7 @@ class ProductDetailBottomBar extends StatelessWidget {
                             ),
                       ),
                     ),
-                    ProjectSizedBox.widthMedium,
+                    ProjectSizedBox.widthSmall,
                     Container(
                       decoration: BoxDecoration(
                         color: scheme.primary.withValues(alpha: 0.1),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:arya/features/store/view/widget/product_detail_detail_card.dart';
+import 'package:arya/features/store/view/widget/product_detail_card.dart';
 import 'package:arya/product/theme/app_colors.dart';
 
 void main() {
@@ -14,7 +14,6 @@ void main() {
     });
 
     Widget createTestWidget({
-      required ColorScheme scheme,
       required String titleKey,
       required IconData icon,
       required Widget child,
@@ -24,7 +23,6 @@ void main() {
         theme: ThemeData(colorScheme: colorScheme, extensions: [appColors]),
         home: Scaffold(
           body: ProductDetailCard(
-            scheme: scheme,
             titleKey: titleKey,
             icon: icon,
             child: child,
@@ -41,7 +39,6 @@ void main() {
       const testChild = Text('Test Child Widget');
       await tester.pumpWidget(
         createTestWidget(
-          scheme: colorScheme,
           titleKey: 'detail.nutrition_facts',
           icon: Icons.monitor_heart_outlined,
           child: testChild,
@@ -54,7 +51,7 @@ void main() {
       // Assert
       expect(find.byType(Container), findsAtLeastNWidgets(2));
       expect(find.byType(Column), findsAtLeastNWidgets(1));
-      expect(find.byType(Row), findsOneWidget);
+      expect(find.byType(Row), findsAtLeastNWidgets(1));
       expect(find.byType(Icon), findsOneWidget);
       expect(find.byType(Text), findsAtLeastNWidgets(2));
     });
@@ -66,7 +63,6 @@ void main() {
       const testChild = Text('Test Child Widget');
       await tester.pumpWidget(
         createTestWidget(
-          scheme: colorScheme,
           titleKey: 'detail.nutrition_facts',
           icon: Icons.monitor_heart_outlined,
           child: testChild,
@@ -80,7 +76,10 @@ void main() {
       final mainContainer = tester.widget<Container>(
         find.byType(Container).first,
       );
-      expect(mainContainer.padding, const EdgeInsets.all(20));
+      expect(
+        mainContainer.margin,
+        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      );
     });
 
     testWidgets('ana container gradient decoration almalı', (
@@ -90,7 +89,6 @@ void main() {
       const testChild = Text('Test Child Widget');
       await tester.pumpWidget(
         createTestWidget(
-          scheme: colorScheme,
           titleKey: 'detail.nutrition_facts',
           icon: Icons.monitor_heart_outlined,
           child: testChild,
@@ -106,16 +104,15 @@ void main() {
       );
       expect(mainContainer.decoration, isA<BoxDecoration>());
       final decoration = mainContainer.decoration as BoxDecoration;
-      expect(decoration.gradient, isA<LinearGradient>());
       expect(decoration.borderRadius, isA<BorderRadius>());
+      expect(decoration.border, isA<Border>());
     });
 
-    testWidgets('gradient doğru renkler almalı', (WidgetTester tester) async {
+    testWidgets('border doğru renkler almalı', (WidgetTester tester) async {
       // Arrange
       const testChild = Text('Test Child Widget');
       await tester.pumpWidget(
         createTestWidget(
-          scheme: colorScheme,
           titleKey: 'detail.nutrition_facts',
           icon: Icons.monitor_heart_outlined,
           child: testChild,
@@ -130,13 +127,10 @@ void main() {
         find.byType(Container).first,
       );
       final decoration = mainContainer.decoration as BoxDecoration;
-      final gradient = decoration.gradient as LinearGradient;
+      final border = decoration.border as Border;
 
-      expect(gradient.begin, Alignment.topLeft);
-      expect(gradient.end, Alignment.bottomRight);
-      expect(gradient.colors.length, 2);
-      expect(gradient.colors[0], colorScheme.surfaceContainerHighest);
-      expect(gradient.colors[1], colorScheme.surface);
+      expect(border.top.width, 1);
+      expect(border.top.color, colorScheme.outline.withValues(alpha: 0.2));
     });
 
     testWidgets('Column crossAxisAlignment start olmalı', (
@@ -146,7 +140,6 @@ void main() {
       const testChild = Text('Test Child Widget');
       await tester.pumpWidget(
         createTestWidget(
-          scheme: colorScheme,
           titleKey: 'detail.nutrition_facts',
           icon: Icons.monitor_heart_outlined,
           child: testChild,
@@ -166,7 +159,6 @@ void main() {
       const testChild = Text('Test Child Widget');
       await tester.pumpWidget(
         createTestWidget(
-          scheme: colorScheme,
           titleKey: 'detail.nutrition_facts',
           icon: Icons.monitor_heart_outlined,
           child: testChild,
@@ -177,8 +169,12 @@ void main() {
       await tester.pumpAndSettle();
 
       // Assert
-      final row = tester.widget<Row>(find.byType(Row));
-      expect(row.children.length, 3); // Icon container, SizedBox, Text
+      final rows = tester.widgetList<Row>(find.byType(Row));
+      final row = rows.first; // İlk Row'u al (header Row'u)
+      expect(
+        row.children.length,
+        3,
+      ); // Container (icon), SizedBox, Expanded (text)
     });
 
     testWidgets('icon container doğru özellikler almalı', (
@@ -188,7 +184,6 @@ void main() {
       const testChild = Text('Test Child Widget');
       await tester.pumpWidget(
         createTestWidget(
-          scheme: colorScheme,
           titleKey: 'detail.nutrition_facts',
           icon: Icons.monitor_heart_outlined,
           child: testChild,
@@ -202,6 +197,7 @@ void main() {
       final containers = tester.widgetList<Container>(find.byType(Container));
       final iconContainer = containers.firstWhere(
         (container) => container.padding == const EdgeInsets.all(8),
+        orElse: () => throw StateError('Icon container not found'),
       );
 
       expect(iconContainer.padding, const EdgeInsets.all(8));
@@ -217,7 +213,6 @@ void main() {
       const testChild = Text('Test Child Widget');
       await tester.pumpWidget(
         createTestWidget(
-          scheme: colorScheme,
           titleKey: 'detail.nutrition_facts',
           icon: Icons.monitor_heart_outlined,
           child: testChild,
@@ -228,7 +223,8 @@ void main() {
       await tester.pumpAndSettle();
 
       // Assert
-      final icon = tester.widget<Icon>(find.byType(Icon));
+      final icons = tester.widgetList<Icon>(find.byType(Icon));
+      final icon = icons.first; // İlk Icon'u al
       expect(icon.icon, Icons.monitor_heart_outlined);
       expect(icon.color, colorScheme.onPrimaryContainer);
       expect(icon.size, 20);
@@ -241,7 +237,6 @@ void main() {
       const testChild = Text('Test Child Widget');
       await tester.pumpWidget(
         createTestWidget(
-          scheme: colorScheme,
           titleKey: 'detail.nutrition_facts',
           icon: Icons.monitor_heart_outlined,
           child: testChild,
@@ -255,6 +250,7 @@ void main() {
       final texts = tester.widgetList<Text>(find.byType(Text));
       final titleText = texts.firstWhere(
         (text) => text.data == 'detail.nutrition_facts',
+        orElse: () => throw StateError('Title text not found'),
       );
 
       expect(titleText.data, 'detail.nutrition_facts');
@@ -266,7 +262,6 @@ void main() {
       const testChild = Text('Test Child Widget');
       await tester.pumpWidget(
         createTestWidget(
-          scheme: colorScheme,
           titleKey: 'detail.nutrition_facts',
           icon: Icons.monitor_heart_outlined,
           child: testChild,
@@ -280,12 +275,16 @@ void main() {
       final sizedBoxes = tester.widgetList<SizedBox>(find.byType(SizedBox));
 
       // Header'daki SizedBox (width: 12)
-      final headerSizedBox = sizedBoxes.firstWhere((box) => box.width == 12.0);
+      final headerSizedBox = sizedBoxes.firstWhere(
+        (box) => box.width == 12.0,
+        orElse: () => throw StateError('Header SizedBox not found'),
+      );
       expect(headerSizedBox.width, 12.0);
 
       // Header ile child arasındaki SizedBox (height: 16)
       final spacingSizedBox = sizedBoxes.firstWhere(
         (box) => box.height == 16.0,
+        orElse: () => throw StateError('Spacing SizedBox not found'),
       );
       expect(spacingSizedBox.height, 16.0);
     });
@@ -295,7 +294,6 @@ void main() {
       const testChild = Text('Test Child Widget');
       await tester.pumpWidget(
         createTestWidget(
-          scheme: colorScheme,
           titleKey: 'detail.nutrition_facts',
           icon: Icons.monitor_heart_outlined,
           child: testChild,
@@ -316,7 +314,6 @@ void main() {
       const testChild = Text('Test Child Widget');
       await tester.pumpWidget(
         createTestWidget(
-          scheme: colorScheme,
           titleKey: 'detail.nutrition_facts',
           icon: Icons.monitor_heart_outlined,
           child: testChild,
@@ -338,7 +335,6 @@ void main() {
       const testChild = Text('Test Child Widget');
       await tester.pumpWidget(
         createTestWidget(
-          scheme: colorScheme,
           titleKey: 'detail.nutrition_facts',
           icon: Icons.monitor_heart_outlined,
           child: testChild,
@@ -358,7 +354,6 @@ void main() {
       const testChild = Text('Test Child Widget');
       await tester.pumpWidget(
         createTestWidget(
-          scheme: colorScheme,
           titleKey: 'detail.ingredients',
           icon: Icons.eco,
           child: testChild,
@@ -369,7 +364,8 @@ void main() {
       await tester.pumpAndSettle();
 
       // Assert
-      final icon = tester.widget<Icon>(find.byType(Icon));
+      final icons = tester.widgetList<Icon>(find.byType(Icon));
+      final icon = icons.first; // İlk Icon'u al
       expect(icon.icon, Icons.eco);
     });
 
@@ -378,7 +374,6 @@ void main() {
       const testChild = Text('Test Child Widget');
       await tester.pumpWidget(
         createTestWidget(
-          scheme: colorScheme,
           titleKey: 'detail.ingredients',
           icon: Icons.eco,
           child: testChild,
@@ -413,7 +408,6 @@ void main() {
 
       await tester.pumpWidget(
         createTestWidget(
-          scheme: colorScheme,
           titleKey: 'detail.nutrition_facts',
           icon: Icons.monitor_heart_outlined,
           child: complexChild,
@@ -435,7 +429,6 @@ void main() {
       const testChild = Text('Test Child Widget');
       await tester.pumpWidget(
         createTestWidget(
-          scheme: colorScheme,
           titleKey: 'detail.nutrition_facts',
           icon: Icons.monitor_heart_outlined,
           child: testChild,
@@ -463,7 +456,6 @@ void main() {
       const testChild = Text('Test Child Widget');
       await tester.pumpWidget(
         createTestWidget(
-          scheme: colorScheme,
           titleKey: 'detail.nutrition_facts',
           icon: Icons.monitor_heart_outlined,
           child: testChild,
@@ -477,6 +469,7 @@ void main() {
       final containers = tester.widgetList<Container>(find.byType(Container));
       final iconContainer = containers.firstWhere(
         (container) => container.padding == const EdgeInsets.all(8),
+        orElse: () => throw StateError('Icon container not found'),
       );
 
       final decoration = iconContainer.decoration as BoxDecoration;
@@ -492,7 +485,6 @@ void main() {
       const testChild = Text('Test Child Widget');
       await tester.pumpWidget(
         createTestWidget(
-          scheme: colorScheme,
           titleKey: 'detail.nutrition_facts',
           icon: Icons.monitor_heart_outlined,
           child: testChild,
@@ -506,6 +498,7 @@ void main() {
       final texts = tester.widgetList<Text>(find.byType(Text));
       final titleText = texts.firstWhere(
         (text) => text.data == 'detail.nutrition_facts',
+        orElse: () => throw StateError('Title text not found'),
       );
 
       expect(titleText.style, isNotNull);
@@ -520,7 +513,6 @@ void main() {
       const testChild = Text('Test Child Widget');
       await tester.pumpWidget(
         createTestWidget(
-          scheme: colorScheme,
           titleKey: 'detail.nutrition_facts',
           icon: Icons.monitor_heart_outlined,
           child: testChild,
@@ -535,11 +527,12 @@ void main() {
       final texts = tester.widgetList<Text>(find.byType(Text));
       final disclaimerText = texts.firstWhere(
         (text) => text.data == 'detail.data_disclaimer',
+        orElse: () => throw StateError('Disclaimer text not found'),
       );
 
       expect(disclaimerText.style, isNotNull);
       expect(disclaimerText.style?.color, colorScheme.onSurfaceVariant);
-      expect(disclaimerText.style?.fontWeight, isNotNull);
+      expect(disclaimerText.style?.fontStyle, FontStyle.italic);
     });
 
     testWidgets('widget yükseklik ve genişlik doğru olmalı', (
@@ -549,7 +542,6 @@ void main() {
       const testChild = Text('Test Child Widget');
       await tester.pumpWidget(
         createTestWidget(
-          scheme: colorScheme,
           titleKey: 'detail.nutrition_facts',
           icon: Icons.monitor_heart_outlined,
           child: testChild,
@@ -579,14 +571,12 @@ void main() {
             body: Column(
               children: [
                 ProductDetailCard(
-                  scheme: colorScheme,
                   titleKey: 'detail.nutrition_facts',
                   icon: Icons.monitor_heart_outlined,
                   child: const Text('Nutrition Data'),
                 ),
                 const SizedBox(height: 16),
                 ProductDetailCard(
-                  scheme: colorScheme,
                   titleKey: 'detail.ingredients',
                   icon: Icons.eco,
                   child: const Text('Ingredients Data'),
@@ -608,8 +598,8 @@ void main() {
       expect(find.text('Ingredients Data'), findsOneWidget);
       expect(
         find.text('detail.data_disclaimer'),
-        findsOneWidget,
-      ); // Sadece ilkinde
+        findsNothing,
+      ); // Hiçbirinde disclaimer yok çünkü showDisclaimer default false
       expect(find.byIcon(Icons.monitor_heart_outlined), findsOneWidget);
       expect(find.byIcon(Icons.eco), findsOneWidget);
     });

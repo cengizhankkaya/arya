@@ -41,12 +41,28 @@ class StoreViewModel extends ChangeNotifier {
         await fetchRandomProducts();
         return;
       }
-      products = await _service.searchProducts(
-        query,
-        country: selectedCountry,
-        page: currentPage,
-        pageSize: 20,
-      );
+
+      // Barkod numarası kontrolü (sadece rakamlar ve 8-14 karakter arası)
+      final cleanQuery = query.replaceAll(RegExp(r'[^0-9]'), '');
+      if (cleanQuery.length >= 8 && cleanQuery.length <= 14) {
+        // Barkod arama
+        final barcodeProduct = await _service.searchProductByBarcode(
+          cleanQuery,
+        );
+        if (barcodeProduct != null) {
+          products = [barcodeProduct];
+        } else {
+          products = [];
+        }
+      } else {
+        // Normal metin arama
+        products = await _service.searchProducts(
+          query,
+          country: selectedCountry,
+          page: currentPage,
+          pageSize: 20,
+        );
+      }
     } catch (e) {
       products = [];
     }

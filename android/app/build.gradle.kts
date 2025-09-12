@@ -36,11 +36,20 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file("../arya-release-key.keystore")
+            storePassword = project.findProperty("ARYA_UPLOAD_STORE_PASSWORD") as String? ?: ""
+            keyAlias = "arya"
+            keyPassword = project.findProperty("ARYA_UPLOAD_KEY_PASSWORD") as String? ?: ""
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
+            isMinifyEnabled = false
+            isShrinkResources = false
         }
     }
 }

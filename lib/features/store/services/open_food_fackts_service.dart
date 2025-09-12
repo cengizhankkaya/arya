@@ -749,6 +749,32 @@ class OpenFoodFactsService {
     return trimmed;
   }
 
+  /// Barkod numarasına göre ürün arama
+  Future<Map<String, dynamic>?> searchProductByBarcode(String barcode) async {
+    try {
+      // Barkod numarasını temizle (sadece rakamlar)
+      final cleanBarcode = barcode.replaceAll(RegExp(r'[^0-9]'), '');
+
+      if (cleanBarcode.isEmpty) {
+        throw Exception('Geçersiz barkod numarası');
+      }
+
+      final response = await _dio.get(
+        '/api/v0/product/$cleanBarcode.json',
+        queryParameters: {'json': 1},
+      );
+
+      final data = response.data;
+      if (data['status'] == 1 && data['product'] != null) {
+        return data['product'] as Map<String, dynamic>;
+      } else {
+        return null; // Ürün bulunamadı
+      }
+    } catch (e) {
+      throw Exception('Barkod ile ürün aranırken hata oluştu: $e');
+    }
+  }
+
   List<String> _candidateTagsForCategory(String displayName) {
     final slug = _slugifyCategory(displayName);
     // Hand-tuned mappings to OFF category tags

@@ -5,24 +5,38 @@ import 'package:mockito/annotations.dart';
 import 'package:provider/provider.dart';
 import 'package:arya/features/profile/view/widgets/profile_actions_consumer.dart';
 import 'package:arya/features/profile/view_model/profile_view_model.dart';
+import 'package:arya/product/utility/theme/theme_view_model.dart';
 import '../../helpers/test_helpers.dart';
 
-@GenerateMocks([ProfileViewModel])
+@GenerateMocks([ProfileViewModel, ThemeViewModel])
 import 'profile_actions_consumer_test.mocks.dart';
 
 void main() {
   group('ProfileActionsConsumer Simple Tests', () {
-    late MockProfileViewModel mockViewModel;
+    late MockProfileViewModel mockProfileViewModel;
+    late MockThemeViewModel mockThemeViewModel;
 
     setUp(() {
-      mockViewModel = MockProfileViewModel();
+      mockProfileViewModel = MockProfileViewModel();
+      mockThemeViewModel = MockThemeViewModel();
       TestHelpers.setupEasyLocalization();
+
+      // Mock ThemeViewModel properties
+      when(mockThemeViewModel.isDarkMode).thenReturn(false);
+      when(mockThemeViewModel.toggleTheme()).thenAnswer((_) async {});
     });
 
     Widget createTestWidget(Widget child) {
       return TestHelpers.createTestApp(
-        child: ChangeNotifierProvider<ProfileViewModel>.value(
-          value: mockViewModel,
+        child: MultiProvider(
+          providers: [
+            ChangeNotifierProvider<ProfileViewModel>.value(
+              value: mockProfileViewModel,
+            ),
+            ChangeNotifierProvider<ThemeViewModel>.value(
+              value: mockThemeViewModel,
+            ),
+          ],
           child: child,
         ),
       );
@@ -32,7 +46,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // Arrange
-      when(mockViewModel.hasUser).thenReturn(false);
+      when(mockProfileViewModel.hasUser).thenReturn(false);
 
       // Act
       await tester.pumpWidget(createTestWidget(const ProfileActionsConsumer()));
@@ -47,7 +61,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // Arrange
-      when(mockViewModel.hasUser).thenReturn(true);
+      when(mockProfileViewModel.hasUser).thenReturn(true);
 
       // Act
       await tester.pumpWidget(createTestWidget(const ProfileActionsConsumer()));
@@ -62,7 +76,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // Arrange
-      when(mockViewModel.hasUser).thenReturn(true);
+      when(mockProfileViewModel.hasUser).thenReturn(true);
 
       // Act
       await tester.pumpWidget(createTestWidget(const ProfileActionsConsumer()));
@@ -81,16 +95,9 @@ void main() {
       WidgetTester tester,
     ) async {
       // Arrange
-      when(mockViewModel.hasUser).thenReturn(false);
+      when(mockProfileViewModel.hasUser).thenReturn(false);
 
-      await tester.pumpWidget(
-        createTestWidget(
-          ChangeNotifierProvider<ProfileViewModel>.value(
-            value: mockViewModel,
-            child: const ProfileActionsConsumer(),
-          ),
-        ),
-      );
+      await tester.pumpWidget(createTestWidget(const ProfileActionsConsumer()));
       await tester.pumpAndSettle();
 
       // Initially no popup menu (widget returns SizedBox.shrink())
@@ -98,17 +105,10 @@ void main() {
       expect(find.byType(SizedBox), findsOneWidget);
 
       // Change state
-      when(mockViewModel.hasUser).thenReturn(true);
+      when(mockProfileViewModel.hasUser).thenReturn(true);
 
       // Trigger rebuild
-      await tester.pumpWidget(
-        createTestWidget(
-          ChangeNotifierProvider<ProfileViewModel>.value(
-            value: mockViewModel,
-            child: const ProfileActionsConsumer(),
-          ),
-        ),
-      );
+      await tester.pumpWidget(createTestWidget(const ProfileActionsConsumer()));
       await tester.pumpAndSettle();
 
       // Assert

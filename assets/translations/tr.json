@@ -125,7 +125,7 @@
         }
     },
     "store": {
-        "search_hint": "Ürün ara...",
+        "search_hint": "Ürün ara veya barkod numarası gir...",
         "search_products": "Ürün Ara",
         "add_product": "Ürün Ekle",
         "no_products": "Ürün bulunamadı",
@@ -135,6 +135,9 @@
         "nutrition_title": "Besin Değerleri (100g)",
         "kcal": "Kalori",
         "protein": "Protein",
+        "barcode_search": "Barkod Arama",
+        "barcode_not_found": "Bu barkod numarasına sahip ürün bulunamadı",
+        "invalid_barcode": "Geçersiz barkod numarası",
         "carbs": "Karbonhidrat",
         "fat": "Yağ",
         "empty_cart_title": "Sepet boş",

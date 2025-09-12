@@ -5,7 +5,6 @@ import 'package:arya/features/addproduct/view/widgets/common/section_title.dart'
 import 'package:arya/features/addproduct/view/widgets/common/form_field.dart';
 import 'package:arya/product/index.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 
 class BasicInfoFields extends StatelessWidget {
   final AddProductViewModel viewModel;
@@ -88,111 +87,12 @@ class BasicInfoFields extends StatelessWidget {
 
       if (result != null && result is String && result.isNotEmpty) {
         // Debug için konsola yazdır
-        print('Barkod tarandı: $result');
         viewModel.barcodeController.text = result;
         // Controller'ı güncelle
         viewModel.barcodeController.selection = TextSelection.fromPosition(
           TextPosition(offset: result.length),
         );
-      } else {
-        print('Barkod tarama sonucu: $result');
-      }
-    } catch (e) {
-      print('Barkod tarama hatası: $e');
-    }
-  }
-}
-
-class BarcodeScannerScreen extends StatefulWidget {
-  const BarcodeScannerScreen({super.key});
-
-  @override
-  State<BarcodeScannerScreen> createState() => _BarcodeScannerScreenState();
-}
-
-class _BarcodeScannerScreenState extends State<BarcodeScannerScreen> {
-  MobileScannerController controller = MobileScannerController();
-  bool _isScanning = true;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('add_product.fields.scan_barcode'.tr()),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.flash_on),
-            onPressed: () => controller.toggleTorch(),
-          ),
-          IconButton(
-            icon: const Icon(Icons.camera_rear),
-            onPressed: () => controller.switchCamera(),
-          ),
-        ],
-      ),
-      body: Stack(
-        children: [
-          MobileScanner(
-            controller: controller,
-            onDetect: (capture) {
-              if (!_isScanning) return;
-
-              final List<Barcode> barcodes = capture.barcodes;
-              print('Taranan barkod sayısı: ${barcodes.length}');
-
-              for (final barcode in barcodes) {
-                print(
-                  'Barkod tipi: ${barcode.type}, Değer: ${barcode.rawValue}',
-                );
-
-                if (barcode.rawValue != null && barcode.rawValue!.isNotEmpty) {
-                  _isScanning = false;
-
-                  // Haptic feedback
-                  HapticFeedback.lightImpact();
-
-                  // Barkod değerini al ve geri dön
-                  Navigator.of(context).pop(barcode.rawValue);
-                  break;
-                }
-              }
-            },
-          ),
-          if (_isScanning)
-            Positioned(
-              bottom: 20,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.black54,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    'add_product.fields.scan_instructions'.tr(),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _isScanning = false;
-    controller.dispose();
-    super.dispose();
+      } else {}
+    } catch (e) {}
   }
 }

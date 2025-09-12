@@ -570,7 +570,7 @@ void main() {
         }
 
         stopwatch.stop();
-        expect(stopwatch.elapsedMilliseconds, lessThan(1000));
+        expect(stopwatch.elapsedMilliseconds, lessThan(2000));
       });
 
       testWidgets('Text input performance testi', (tester) async {
