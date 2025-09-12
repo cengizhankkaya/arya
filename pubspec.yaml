@@ -5,7 +5,14 @@ description: "A new Flutter project."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 
-version: 1.0.0+1
+# SÜRÜM BİLGİSİ - Google Play için önemli!
+# Format: MAJOR.MINOR.PATCH+BUILD_NUMBER
+# MAJOR: Büyük değişiklikler (2.0.0)
+# MINOR: Yeni özellikler (1.1.0) 
+# PATCH: Bug düzeltmeleri (1.0.1)
+# BUILD_NUMBER: Her yayın için mutlaka artırılmalı (+1, +2, +3...)
+# Google Play Console'da yeni sürüm yüklemek için build number artırılmalı!
+version: 1.0.1+2
 
 environment:
   sdk: ^3.8.1
