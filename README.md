@@ -6,59 +6,59 @@
 [![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen.svg)](https://github.com/yourusername/arya)
 [![Coverage](https://img.shields.io/badge/Coverage-85%25-brightgreen.svg)](https://github.com/yourusername/arya)
 
-> **Arya**, temiz mimari prensipleri ile geliştirilmiş modern bir Flutter market alışveriş uygulamasıdır. Firebase entegrasyonu, çoklu dil desteği ve kapsamlı test coverage ile profesyonel bir alışveriş deneyimi sunar.
+> **Arya** is a modern Flutter grocery shopping app developed with clean architecture principles. It provides a professional shopping experience with Firebase integration, multi-language support, and comprehensive test coverage.
 
-## 📋 İçindekiler
+## 📋 Table of Contents
 
-- [🎯 Özellikler](#-özellikler)
-- [🏛️ Mimari ve Tasarım Desenleri](#️-mimari-ve-tasarım-desenleri)
-- [🛠️ Teknoloji Stack'i](#️-teknoloji-stacki)
-- [🧹 Temiz Kod Prensipleri](#-temiz-kod-prensipleri)
-- [📱 Kullanım](#-kullanım)
-- [🧪 Test](#-test)
-- [🔒 Güvenlik](#-güvenlik)
-- [🌍 Çoklu Dil Desteği](#-çoklu-dil-desteği)
-- [📦 Bağımlılıklar](#-bağımlılıklar)
-- [🤝 Katkıda Bulunma](#-katkıda-bulunma)
-- [📄 Lisans](#-lisans)
+- [🎯 Features](#-features)
+- [🏛️ Architecture and Design Patterns](#️-architecture-and-design-patterns)
+- [🛠️ Technology Stack](#️-technology-stack)
+- [🧹 Clean Code Principles](#-clean-code-principles)
+- [📱 Usage](#-usage)
+- [🧪 Testing](#-testing)
+- [🔒 Security](#-security)
+- [🌍 Multi-language Support](#-multi-language-support)
+- [📦 Dependencies](#-dependencies)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
 
-## 🎯 Özellikler
+## 🎯 Features
 
-### 🔐 Kimlik Doğrulama Sistemi
-- **Güvenli Giriş/Çıkış**: Email ve şifre ile kimlik doğrulama
-- **Kullanıcı Kaydı**: Yeni hesap oluşturma
-- **Şifre Sıfırlama**: Güvenli şifre kurtarma
-- **Token Yönetimi**: JWT tabanlı güvenli oturum yönetimi
-- **Rate Limiting**: Güvenlik için istek sınırlandırma
+### 🔐 Authentication System
+- **Secure Login/Logout**: Email and password authentication
+- **User Registration**: New account creation
+- **Password Reset**: Secure password recovery
+- **Token Management**: JWT-based secure session management
+- **Rate Limiting**: Request throttling for security
 
-### 🛍️ Ürün Yönetimi
-- **Ürün Ekleme**: Resim ve detaylarla yeni ürün ekleme
-- **Ürün Düzenleme**: Mevcut ürünleri güncelleme
-- **Kategori Sistemi**: Ürünleri kategorilere göre organize etme
-- **QR Kod Tarama**: Ürün bilgilerini QR kod ile alma
-- **Open Food Facts Entegrasyonu**: Gerçek ürün verileri
-- **Arama ve Filtreleme**: Gelişmiş ürün arama özellikleri
+### 🛍️ Product Management
+- **Product Addition**: Adding new products with images and details
+- **Product Editing**: Updating existing products
+- **Category System**: Organizing products by categories
+- **QR Code Scanning**: Getting product information via QR code
+- **Open Food Facts Integration**: Real product data
+- **Search and Filtering**: Advanced product search features
 
-### 🛒 Alışveriş Sepeti
-- **Sepet Yönetimi**: Ürün ekleme/çıkarma
-- **Miktar Kontrolü**: Ürün miktarlarını ayarlama
-- **Fiyat Hesaplama**: Otomatik toplam hesaplama
-- **Sipariş Özeti**: Detaylı sipariş bilgileri
-- **Persistent Storage**: Sepet verilerinin kalıcı saklanması
+### 🛒 Shopping Cart
+- **Cart Management**: Adding/removing products
+- **Quantity Control**: Adjusting product quantities
+- **Price Calculation**: Automatic total calculation
+- **Order Summary**: Detailed order information
+- **Persistent Storage**: Persistent cart data storage
 
-### 🏠 Ana Sayfa ve Navigasyon
-- **Dashboard**: Kategorilere göre ürün görüntüleme
-- **Bottom Navigation**: Kolay sayfa geçişleri
-- **Responsive Tasarım**: Tüm ekran boyutlarında uyumlu
-- **Dark/Light Theme**: Kullanıcı tercihine göre tema
+### 🏠 Home Page and Navigation
+- **Dashboard**: Product display by categories
+- **Bottom Navigation**: Easy page transitions
+- **Responsive Design**: Compatible with all screen sizes
+- **Dark/Light Theme**: Theme based on user preference
 
-### 👤 Profil Yönetimi
-- **Kullanıcı Profili**: Kişisel bilgi yönetimi
-- **Hesap Ayarları**: Güvenlik ve gizlilik ayarları
-- **Hesap Silme**: Güvenli hesap kapatma
-- **Çıkış Yapma**: Güvenli oturum sonlandırma
+### 👤 Profile Management
+- **User Profile**: Personal information management
+- **Account Settings**: Security and privacy settings
+- **Account Deletion**: Secure account closure
+- **Logout**: Secure session termination
 
-## 🏛️ Mimari ve Tasarım Desenleri
+## 🏛️ Architecture and Design Patterns
 
 ### 🎨 Clean Architecture Implementation
 
@@ -90,7 +90,7 @@
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### 🔄 Tasarım Desenleri
+### 🔄 Design Patterns
 
 #### 1. **Repository Pattern**
 ```dart
@@ -138,7 +138,7 @@ class AppRouter {
           path: '/',
           builder: (context, state) => const HomeView(),
         ),
-        // ... diğer route'lar
+        // ... other routes
       ],
     );
   }
@@ -177,7 +177,7 @@ class ProductViewModel extends ChangeNotifier {
 }
 ```
 
-### 🏗️ Proje Yapısı Detayı
+### 🏗️ Project Structure Details
 
 ```
 lib/
@@ -230,12 +230,12 @@ lib/
 └── main.dart                         # App entry point
 ```
 
-## 🛠️ Teknoloji Stack'i
+## 🛠️ Technology Stack
 
-### 🎯 Ana Teknolojiler
+### 🎯 Core Technologies
 
-| Kategori | Teknoloji | Versiyon | Amaç |
-|----------|-----------|----------|------|
+| Category | Technology | Version | Purpose |
+|----------|------------|---------|---------|
 | **Framework** | Flutter | 3.35.3 | Cross-platform UI framework |
 | **Language** | Dart | 3.9.2 | Modern, type-safe programming language |
 | **Backend** | Firebase | Latest | Authentication, Database, Storage |
@@ -249,27 +249,27 @@ lib/
 | **Shimmer Effect** | Shimmer | 3.0.0 | Loading skeleton animations |
 | **Testing** | Flutter Test + Mockito | Latest | Unit, Widget, Integration testing |
 
-### 🔧 Geliştirme Araçları
+### 🔧 Development Tools
 
-- **Code Generation**: `build_runner` - Otomatik kod üretimi
-- **Linting**: `flutter_lints` - Kod kalitesi kontrolü
+- **Code Generation**: `build_runner` - Automatic code generation
+- **Linting**: `flutter_lints` - Code quality control
 - **Testing**: `patrol` - Integration test framework
-- **Asset Management**: `assets_cleaner` - Kullanılmayan asset temizliği
+- **Asset Management**: `assets_cleaner` - Unused asset cleanup
 
-### 📱 Platform Desteği
+### 📱 Platform Support
 
 - ✅ **Android** (API 21+)
 - ✅ **iOS** (iOS 11+)
 - ✅ **Web** (Chrome, Firefox, Safari)
 - ✅ **Desktop** (Windows, macOS, Linux)
 
-## 🧹 Temiz Kod Prensipleri
+## 🧹 Clean Code Principles
 
-### 📋 SOLID Prensipleri
+### 📋 SOLID Principles
 
 #### 1. **Single Responsibility Principle (SRP)**
 ```dart
-// ✅ Her sınıf tek bir sorumluluğa sahip
+// ✅ Each class has a single responsibility
 class UserValidator {
   static bool isValidEmail(String email) {
     return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
@@ -278,14 +278,14 @@ class UserValidator {
 
 class UserRepository {
   Future<User> getUser(String id) async {
-    // Sadece kullanıcı verisi getirme sorumluluğu
+    // Only responsible for fetching user data
   }
 }
 ```
 
 #### 2. **Open/Closed Principle (OCP)**
 ```dart
-// ✅ Genişletmeye açık, değişikliğe kapalı
+// ✅ Open for extension, closed for modification
 abstract class PaymentMethod {
   Future<bool> processPayment(double amount);
 }
@@ -307,7 +307,7 @@ class PayPalPayment implements PaymentMethod {
 
 #### 3. **Dependency Inversion Principle (DIP)**
 ```dart
-// ✅ Soyutlamalara bağımlı, somutlamalara değil
+// ✅ Depends on abstractions, not concretions
 abstract class IStorageService {
   Future<void> save(String key, String value);
   Future<String?> get(String key);
@@ -328,7 +328,7 @@ class ProductService {
 
 #### 1. **Meaningful Names**
 ```dart
-// ✅ Anlamlı isimler
+// ✅ Meaningful names
 class ShoppingCartManager {
   final List<CartItem> _items = [];
   
@@ -341,7 +341,7 @@ class ShoppingCartManager {
   }
 }
 
-// ❌ Kötü isimlendirme
+// ❌ Bad naming
 class SCM {
   final List<CI> _i = [];
   
@@ -353,7 +353,7 @@ class SCM {
 
 #### 2. **Small Functions**
 ```dart
-// ✅ Küçük, odaklanmış fonksiyonlar
+// ✅ Small, focused functions
 class ProductValidator {
   static ValidationResult validateProduct(Product product) {
     final nameValidation = _validateName(product.name);
@@ -386,7 +386,7 @@ class ProductValidator {
 
 #### 3. **Error Handling**
 ```dart
-// ✅ Kapsamlı hata yönetimi
+// ✅ Comprehensive error handling
 class ProductRepository {
   Future<Result<List<Product>, AppError>> getProducts() async {
     try {
@@ -497,7 +497,7 @@ void main() {
 
 ### 📊 Code Quality Metrics
 
-- **Test Coverage**: %85+ (Unit + Widget + Integration)
+- **Test Coverage**: 85%+ (Unit + Widget + Integration)
 - **Total Test Files**: 256 test files
 - **Source Files**: 192 Dart files
 - **Code Complexity**: Cyclomatic complexity < 10
@@ -506,89 +506,89 @@ void main() {
 - **Naming Convention**: Consistent camelCase/PascalCase
 - **Documentation**: All public APIs documented
 
-## 📱 Kullanım
+## 📱 Usage
 
-### 🎯 Temel Kullanım Akışı
+### 🎯 Basic Usage Flow
 
-1. **Kayıt Ol/Giriş Yap**: Email ve şifre ile hesap oluşturun
-2. **Ürünleri Keşfedin**: Ana sayfada kategorilere göre ürünleri görüntüleyin
-3. **Ürün Arayın**: QR kod tarayarak veya manuel arama yaparak ürün bulun
-4. **Sepete Ekleyin**: Beğendiğiniz ürünleri sepetinize ekleyin
-5. **Sipariş Verin**: Sepetinizi kontrol edip siparişinizi tamamlayın
+1. **Sign Up/Login**: Create an account with email and password
+2. **Discover Products**: View products by categories on the home page
+3. **Search Products**: Find products by scanning QR codes or manual search
+4. **Add to Cart**: Add your favorite products to your cart
+5. **Place Order**: Review your cart and complete your order
 
-### 🔍 Gelişmiş Özellikler
+### 🔍 Advanced Features
 
-- **QR Kod Tarama**: Ürün barkodlarını tarayarak bilgi alın
-- **Çoklu Dil**: Türkçe ve İngilizce arasında geçiş yapın
-- **Dark Mode**: Karanlık tema ile göz yorgunluğunu azaltın
-- **Offline Desteği**: İnternet bağlantısı olmadan da temel özellikleri kullanın
+- **QR Code Scanning**: Get product information by scanning barcodes
+- **Multi-language**: Switch between Turkish and English
+- **Dark Mode**: Reduce eye strain with dark theme
+- **Offline Support**: Use basic features without internet connection
 
-## 🧪 Test
+## 🧪 Testing
 
-Proje kapsamlı test coverage'a sahiptir:
+The project has comprehensive test coverage:
 
-### Test Türleri
+### Test Types
 
-- **Unit Tests**: İş mantığı testleri
-- **Widget Tests**: UI bileşen testleri  
-- **Integration Tests**: End-to-end akış testleri
+- **Unit Tests**: Business logic tests
+- **Widget Tests**: UI component tests  
+- **Integration Tests**: End-to-end flow tests
 
-### Test Çalıştırma
+### Running Tests
 
 ```bash
-# Tüm testleri çalıştır
+# Run all tests
 flutter test
 
-# Belirli test dosyasını çalıştır
+# Run specific test file
 flutter test test/unit/auth/auth_test.dart
 
-# Integration testleri çalıştır
+# Run integration tests
 flutter test integration_test/
 
-# Coverage ile test çalıştır
+# Run tests with coverage
 flutter test --coverage
 ```
 
 ### Test Coverage
 
 - **Total Test Files**: 256 test files
-- **Unit Tests**: %85+ coverage
-- **Widget Tests**: %80+ coverage
-- **Integration Tests**: Ana akışlar %90+ coverage
+- **Unit Tests**: 85%+ coverage
+- **Widget Tests**: 80%+ coverage
+- **Integration Tests**: Main flows 90%+ coverage
 - **Test Types**: Unit, Widget, Integration, and Patrol tests
 
-## 🔒 Güvenlik
+## 🔒 Security
 
-Uygulama güvenlik best practices'lerine uygun olarak geliştirilmiştir:
+The application is developed in accordance with security best practices:
 
-### Güvenlik Özellikleri
+### Security Features
 
-- **Input Validation**: Tüm kullanıcı girdileri doğrulanır
-- **Rate Limiting**: API istekleri sınırlandırılır
-- **XSS Koruması**: Malicious script injection'ları engellenir
-- **SQL Injection Koruması**: Veritabanı güvenliği sağlanır
-- **Secure Storage**: Hassas veriler güvenli şekilde saklanır
+- **Input Validation**: All user inputs are validated
+- **Rate Limiting**: API requests are throttled
+- **XSS Protection**: Malicious script injections are prevented
+- **SQL Injection Protection**: Database security is ensured
+- **Secure Storage**: Sensitive data is stored securely
 
-Detaylı güvenlik bilgileri için [SECURITY_IMPROVEMENTS.md](SECURITY_IMPROVEMENTS.md) dosyasını inceleyin.
+For detailed security information, see the [SECURITY_IMPROVEMENTS.md](SECURITY_IMPROVEMENTS.md) file.
 
-## 🌍 Çoklu Dil Desteği
+## 🌍 Multi-language Support
 
-Uygulama 2 dilde tam destek sunar:
+The application provides full support in 2 languages:
 
-- 🇹🇷 **Türkçe** (Varsayılan)
+- 🇹🇷 **Turkish** (Default)
 - 🇬🇧 **English**
 
-### Dil Değiştirme
+### Language Switching
 
 ```dart
-// Programatik dil değiştirme
-context.setLocale(Locale('en', 'US')); // İngilizce
-context.setLocale(Locale('tr', 'TR')); // Türkçe
+// Programmatic language switching
+context.setLocale(Locale('en', 'US')); // English
+context.setLocale(Locale('tr', 'TR')); // Turkish
 ```
 
-## 📦 Bağımlılıklar
+## 📦 Dependencies
 
-### Ana Bağımlılıklar
+### Core Dependencies
 
 ```yaml
 # Firebase
@@ -625,7 +625,7 @@ collection: ^1.19.1
 assets_cleaner: ^0.1.5+12
 ```
 
-### Geliştirme Bağımlılıkları
+### Development Dependencies
 
 ```yaml
 # Testing
@@ -642,47 +642,44 @@ auto_route_generator: ^10.0.2
 flutter_lints: ^6.0.0
 ```
 
-## 🤝 Katkıda Bulunma
+## 🤝 Contributing
 
-Katkılarınızı bekliyoruz! Detaylı bilgi için [CONTRIBUTING.md](CONTRIBUTING.md) dosyasını inceleyin.
+We welcome your contributions! For detailed information, see the [CONTRIBUTING.md](CONTRIBUTING.md) file.
 
-### Katkı Süreci
+### Contribution Process
 
-1. **Fork** yapın
-2. **Feature branch** oluşturun (`git checkout -b feature/AmazingFeature`)
-3. **Commit** yapın (`git commit -m 'Add some AmazingFeature'`)
-4. **Push** yapın (`git push origin feature/AmazingFeature`)
-5. **Pull Request** açın
+1. **Fork** the repository
+2. **Create a feature branch** (`git checkout -b feature/AmazingFeature`)
+3. **Commit** your changes (`git commit -m 'Add some AmazingFeature'`)
+4. **Push** to the branch (`git push origin feature/AmazingFeature`)
+5. **Open a Pull Request**
 
-### Kod Standartları
+### Code Standards
 
-- [Dart Style Guide](https://dart.dev/guides/language/effective-dart/style) takip edilir
-- Conventional commits kullanılır
-- Test coverage %80'in altına düşmemelidir
-- Tüm PR'lar review edilmelidir
+- Follow [Dart Style Guide](https://dart.dev/guides/language/effective-dart/style)
+- Use conventional commits
+- Test coverage should not fall below 80%
+- All PRs must be reviewed
 
-## 📄 Lisans
+## 📄 License
 
-Bu proje MIT Lisansı altında lisanslanmıştır. Detaylar için [LICENSE](LICENSE) dosyasını inceleyin.
+This project is licensed under the MIT License. For details, see the [LICENSE](LICENSE) file.
 
-## 🙏 Teşekkürler
+## 🙏 Acknowledgments
 
-- **Flutter Team** - Harika framework için
-- **Firebase Team** - Backend servisleri için
-- **Open Food Facts** - Ürün veritabanı için
-- **Community Contributors** - Katkıları için
+- **Flutter Team** - For the amazing framework
+- **Firebase Team** - For backend services
+- **Open Food Facts** - For product database
+- **Community Contributors** - For their contributions
 
-## 📞 İletişim
 
-- **GitHub Issues**: [Issues](https://github.com/yourusername/arya/issues)
-- **Discussions**: [Discussions](https://github.com/yourusername/arya/discussions)
 
 ---
 
 <div align="center">
 
-⭐ **Bu repository'yi faydalı bulduysanız yıldızlamayı unutmayın!**
+⭐ **If you found this repository useful, don't forget to star it!**
 
-Made with ❤️ by [Your Name](https://github.com/yourusername)
+
 
 </div>
