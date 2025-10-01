@@ -1,11 +1,11 @@
 {
-    "name": "arya",
-    "short_name": "arya",
+    "name": "HealthShop",
+    "short_name": "HealthShop",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#FFFFFF",
     "theme_color": "#000000",
-    "description": "A new Flutter project.",
+    "description": "HealthShop - Health and nutrition tracking app.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

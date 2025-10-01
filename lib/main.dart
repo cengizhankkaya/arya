@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
       child: Consumer<ThemeViewModel>(
         builder: (context, themeViewModel, child) {
           return MaterialApp.router(
+            title: 'HealthShop',
             debugShowCheckedModeBanner: false,
             locale: context.locale,
             supportedLocales: context.supportedLocales,

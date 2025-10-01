@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:arya/features/auth/login/view/widget/error_message.dart';
-import 'package:arya/product/index.dart';
 
 void main() {
   group('ErrorMessage Widget Tests', () {

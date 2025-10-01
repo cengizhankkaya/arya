@@ -77,7 +77,7 @@ class ProfileActionsConsumer extends StatelessWidget {
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor:
-                                          (context.locale?.languageCode ??
+                                          (context.locale.languageCode ??
                                                   'en') ==
                                               'tr'
                                           ? Theme.of(
@@ -85,7 +85,7 @@ class ProfileActionsConsumer extends StatelessWidget {
                                             ).colorScheme.primary
                                           : null,
                                       foregroundColor:
-                                          (context.locale?.languageCode ??
+                                          (context.locale.languageCode ??
                                                   'en') ==
                                               'tr'
                                           ? Theme.of(
@@ -126,7 +126,7 @@ class ProfileActionsConsumer extends StatelessWidget {
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor:
-                                          (context.locale?.languageCode ??
+                                          (context.locale.languageCode ??
                                                   'en') ==
                                               'en'
                                           ? Theme.of(
@@ -134,7 +134,7 @@ class ProfileActionsConsumer extends StatelessWidget {
                                             ).colorScheme.primary
                                           : null,
                                       foregroundColor:
-                                          (context.locale?.languageCode ??
+                                          (context.locale.languageCode ??
                                                   'en') ==
                                               'en'
                                           ? Theme.of(

@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:arya/features/addproduct/service/product_repository.dart';
 import 'package:arya/features/addproduct/model/add_product_model.dart';
-import 'package:openfoodfacts/openfoodfacts.dart' as off;
 
 void main() {
   group('ProductRepository Simple Tests', () {
