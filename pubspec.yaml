@@ -12,7 +12,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # PATCH: Bug düzeltmeleri (1.0.1)
 # BUILD_NUMBER: Her yayın için mutlaka artırılmalı (+1, +2, +3...)
 # Google Play Console'da yeni sürüm yüklemek için build number artırılmalı!
-version: 1.0.1+2
+version: 1.0.1+4
 
 environment:
   sdk: ^3.8.1
@@ -32,7 +32,6 @@ dependencies:
   
   
   # Assets cleaner
-  assets_cleaner: ^0.1.5+12
 
   # Shared Preferences
   shared_preferences: ^2.5.3

@@ -23,12 +23,16 @@ android {
     ndkVersion = "27.0.12077973"
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
+    }
+    
+    kotlin {
+        jvmToolchain(17)
     }
 
     defaultConfig {
@@ -43,13 +47,21 @@ android {
         
         // Image cropper için gerekli
         vectorDrawables.useSupportLibrary = true
+        
+        // Sadece gerekli CPU mimarilerini dahil et (app boyutunu küçültür)
+        ndk {
+            abiFilters += listOf("arm64-v8a", "armeabi-v7a")
+        }
+
+        // Yalnızca kullanılan yerel dilleri paketle (APK boyutunu küçültür)
+        resConfigs("en", "tr")
     }
 
     signingConfigs {
         create("release") {
             keyAlias = keystoreProperties["keyAlias"] as String
             keyPassword = keystoreProperties["keyPassword"] as String
-            storeFile = keystoreProperties["storeFile"]?.let { file("../${it as String}") }
+            storeFile = keystoreProperties["storeFile"]?.let { file("${it as String}") }
             storePassword = keystoreProperties["storePassword"] as String
         }
     }
@@ -63,6 +75,34 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            // Debug symbols için
+            ndk {
+                debugSymbolLevel = "SYMBOL_TABLE"
+            }
+        }
+    }
+
+    // App Bundle optimizasyonları
+    bundle {
+        language {
+            // Dil paketlerini ayrı modüller olarak paketle
+            enableSplit = true
+        }
+        density {
+            // Yoğunluk paketlerini ayrı modüller olarak paketle
+            enableSplit = true
+        }
+        abi {
+            // CPU mimarisi paketlerini ayrı modüller olarak paketle
+            enableSplit = true
+        }
+    }
+
+    // Paketleme seçenekleri
+    packagingOptions {
+        // Asset sıkıştırmayı etkinleştir
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
 }
