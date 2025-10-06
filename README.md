@@ -6,6 +6,10 @@
 [![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen.svg)](https://github.com/yourusername/arya)
 [![Coverage](https://img.shields.io/badge/Coverage-85%25-brightgreen.svg)](https://github.com/yourusername/arya)
 
+[![Get it on Google Play](https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png)](https://play.google.com/store/apps/details?id=com.cngz.arya)
+
+Uygulamayı Google Play'den indirin: https://play.google.com/store/apps/details?id=com.cngz.arya
+
 > **Arya** is a modern Flutter grocery shopping app developed with clean architecture principles. It provides a professional shopping experience with Firebase integration, multi-language support, and comprehensive test coverage.
 
 ## 📋 Table of Contents
