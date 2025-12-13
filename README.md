@@ -1,16 +1,17 @@
 # 🛒 Arya - Modern Flutter Grocery Shopping App
 
-[![Flutter](https://img.shields.io/badge/Flutter-3.35.3-blue.svg)](https://flutter.dev/)
-[![Dart](https://img.shields.io/badge/Dart-3.9.2-blue.svg)](https://dart.dev/)
+[![Flutter](https://img.shields.io/badge/Flutter-3.38.1-blue.svg)](https://flutter.dev/)
+[![Dart](https://img.shields.io/badge/Dart-3.10.0-blue.svg)](https://dart.dev/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen.svg)](https://github.com/yourusername/arya)
 [![Coverage](https://img.shields.io/badge/Coverage-85%25-brightgreen.svg)](https://github.com/yourusername/arya)
+[![Version](https://img.shields.io/badge/Version-1.0.1%2B4-blue.svg)](https://github.com/yourusername/arya)
 
 [![Get it on Google Play](https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png)](https://play.google.com/store/apps/details?id=com.cngz.arya)
 
 Uygulamayı Google Play'den indirin: https://play.google.com/store/apps/details?id=com.cngz.arya
 
-> **Arya** is a modern Flutter grocery shopping app developed with clean architecture principles. It provides a professional shopping experience with Firebase integration, multi-language support, and comprehensive test coverage.
+> **Arya** (HealthShop) is a modern Flutter grocery shopping app developed with clean architecture principles. It provides a professional shopping experience with Firebase integration, multi-language support, and comprehensive test coverage. The app helps users track their health and nutrition by managing grocery products with Open Food Facts integration.
 
 ## 📋 Table of Contents
 
@@ -29,11 +30,11 @@ Uygulamayı Google Play'den indirin: https://play.google.com/store/apps/details?
 ## 🎯 Features
 
 ### 🔐 Authentication System
-- **Secure Login/Logout**: Email and password authentication
-- **User Registration**: New account creation
-- **Password Reset**: Secure password recovery
-- **Token Management**: JWT-based secure session management
-- **Rate Limiting**: Request throttling for security
+- **Secure Login/Logout**: Email and password authentication via Firebase Auth
+- **User Registration**: New account creation with email verification
+- **Password Reset**: Secure password recovery via email
+- **Session Management**: Firebase Auth-based secure session management
+- **Route Guards**: Protected routes with authentication guards
 
 ### 🛍️ Product Management
 - **Product Addition**: Adding new products with images and details
@@ -57,10 +58,12 @@ Uygulamayı Google Play'den indirin: https://play.google.com/store/apps/details?
 - **Dark/Light Theme**: Theme based on user preference
 
 ### 👤 Profile Management
-- **User Profile**: Personal information management
+- **User Profile**: Personal information management and editing
+- **Open Food Facts Credentials**: Manage OFF API credentials for product data
 - **Account Settings**: Security and privacy settings
-- **Account Deletion**: Secure account closure
+- **Account Deletion**: Secure account closure with Firebase
 - **Logout**: Secure session termination
+- **Theme Toggle**: Dark/Light mode switching
 
 ## 🏛️ Architecture and Design Patterns
 
@@ -124,32 +127,63 @@ class ProductRepository implements IProductRepository {
 }
 ```
 
-#### 2. **Dependency Injection**
+#### 2. **Application Initialization**
 ```dart
-class AppRouter {
-  static final _instance = AppRouter._internal();
-  factory AppRouter() => _instance;
-  AppRouter._internal();
+class ApplicationInitialize {
+  static Future<void> init() async {
+    try {
+      await _initFlutterBinding();
+      await _initLocalization();
+      await _initFirebase();
+      debugPrint('✅ ApplicationInitialize başarıyla tamamlandı');
+    } catch (e) {
+      debugPrint('❌ ApplicationInitialize hatası: $e');
+      rethrow;
+    }
+  }
 
-  late final GoRouter _router;
+  static Future<void> _initFlutterBinding() async {
+    WidgetsFlutterBinding.ensureInitialized();
+  }
 
-  GoRouter get router => _router;
+  static Future<void> _initLocalization() async {
+    await EasyLocalization.ensureInitialized();
+  }
 
-  void initialize() {
-    _router = GoRouter(
-      routes: [
-        GoRoute(
-          path: '/',
-          builder: (context, state) => const HomeView(),
-        ),
-        // ... other routes
-      ],
-    );
+  static Future<void> _initFirebase() async {
+    await Firebase.initializeApp();
   }
 }
 ```
 
-#### 3. **State Management (Provider Pattern)**
+#### 3. **Route Guards (Auto Route)**
+```dart
+class OnboardingGuard extends AutoRouteGuard {
+  @override
+  void onNavigation(NavigationResolver resolver, StackRouter router) async {
+    final hasCompletedOnboarding = await AppPrefs.getHasOnboarded();
+    if (!hasCompletedOnboarding) {
+      await resolver.redirectUntil(const OnBoardRoute());
+      return;
+    }
+    resolver.next(true);
+  }
+}
+
+class AuthGuard extends AutoRouteGuard {
+  @override
+  void onNavigation(NavigationResolver resolver, StackRouter router) async {
+    final isAuthenticated = FirebaseAuthService().currentUser != null;
+    if (!isAuthenticated) {
+      await resolver.redirectUntil(LoginRoute());
+      return;
+    }
+    resolver.next(true);
+  }
+}
+```
+
+#### 4. **State Management (Provider Pattern)**
 ```dart
 class ProductViewModel extends ChangeNotifier {
   final IProductRepository _repository;
@@ -229,8 +263,8 @@ lib/
 │   │   ├── loading_widget.dart       # Loading indicator
 │   │   └── error_widget.dart         # Error display widget
 │   └── init/                         # App initialization
-│       ├── app_initialize.dart       # App startup logic
-│       └── dependency_injection.dart # DI setup
+│       ├── application_initialize.dart # App startup logic (Flutter, Firebase, Localization)
+│       └── product_localization.dart   # Localization setup
 └── main.dart                         # App entry point
 ```
 
@@ -240,8 +274,9 @@ lib/
 
 | Category | Technology | Version | Purpose |
 |----------|------------|---------|---------|
-| **Framework** | Flutter | 3.35.3 | Cross-platform UI framework |
-| **Language** | Dart | 3.9.2 | Modern, type-safe programming language |
+| **Framework** | Flutter | 3.38.1 | Cross-platform UI framework |
+| **Language** | Dart | 3.10.0 | Modern, type-safe programming language |
+| **Dart SDK** | Dart | ^3.8.1 | Minimum SDK requirement |
 | **Backend** | Firebase | Latest | Authentication, Database, Storage |
 | **State Management** | Provider | 6.1.5 | Reactive state management |
 | **Navigation** | Auto Route | 10.1.2 | Type-safe routing with code generation |
@@ -255,10 +290,11 @@ lib/
 
 ### 🔧 Development Tools
 
-- **Code Generation**: `build_runner` - Automatic code generation
-- **Linting**: `flutter_lints` - Code quality control
-- **Testing**: `patrol` - Integration test framework
-- **Asset Management**: `assets_cleaner` - Unused asset cleanup
+- **Code Generation**: `build_runner` (^2.7.1) - Automatic code generation
+- **Linting**: `flutter_lints` (^6.0.0) - Code quality control
+- **Testing**: `patrol` (^3.19.0) + `patrol_cli` (^3.10.0) - Integration test framework
+- **Route Generation**: `auto_route_generator` (^10.0.2) - Type-safe routing code generation
+- **Launcher Icons**: `flutter_launcher_icons` (^0.14.1) - App icon generation
 
 ### 📱 Platform Support
 
@@ -512,20 +548,49 @@ void main() {
 
 ## 📱 Usage
 
+### 🚀 Getting Started
+
+#### Prerequisites
+- Flutter SDK 3.38.1 or higher
+- Dart SDK 3.8.1 or higher
+- Firebase project setup
+- Android Studio / VS Code with Flutter extensions
+
+#### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/arya.git
+cd arya
+
+# Install dependencies
+flutter pub get
+
+# Generate route files
+flutter pub run build_runner build --delete-conflicting-outputs
+
+# Run the app
+flutter run
+```
+
 ### 🎯 Basic Usage Flow
 
-1. **Sign Up/Login**: Create an account with email and password
-2. **Discover Products**: View products by categories on the home page
-3. **Search Products**: Find products by scanning QR codes or manual search
-4. **Add to Cart**: Add your favorite products to your cart
-5. **Place Order**: Review your cart and complete your order
+1. **Onboarding**: Complete the first-time user experience
+2. **Sign Up/Login**: Create an account with email and password
+3. **Discover Products**: View products by categories on the home page
+4. **Search Products**: Find products by scanning QR codes or manual search
+5. **Add Products**: Add new products with images and nutrition information
+6. **Add to Cart**: Add your favorite products to your cart
+7. **Manage Profile**: Update your profile and Open Food Facts credentials
 
 ### 🔍 Advanced Features
 
-- **QR Code Scanning**: Get product information by scanning barcodes
-- **Multi-language**: Switch between Turkish and English
-- **Dark Mode**: Reduce eye strain with dark theme
-- **Offline Support**: Use basic features without internet connection
+- **QR Code/Barcode Scanning**: Get product information by scanning barcodes via Open Food Facts
+- **Multi-language**: Switch between Turkish (default) and English
+- **Dark/Light Mode**: Toggle theme based on user preference
+- **Open Food Facts Integration**: Real product data and nutrition information
+- **Nutrition Calculator**: Calculate total nutrition values in cart
+- **Persistent Cart**: Cart data persists across app sessions
 
 ## 🧪 Testing
 
@@ -567,13 +632,12 @@ The application is developed in accordance with security best practices:
 
 ### Security Features
 
-- **Input Validation**: All user inputs are validated
-- **Rate Limiting**: API requests are throttled
-- **XSS Protection**: Malicious script injections are prevented
-- **SQL Injection Protection**: Database security is ensured
-- **Secure Storage**: Sensitive data is stored securely
-
-For detailed security information, see the [SECURITY_IMPROVEMENTS.md](SECURITY_IMPROVEMENTS.md) file.
+- **Input Validation**: All user inputs are validated before processing
+- **Firebase Security Rules**: Database access controlled via Firestore security rules
+- **Authentication Guards**: Route protection with Auto Route guards
+- **Secure Storage**: Sensitive data stored securely using SharedPreferences
+- **Firebase Auth**: Industry-standard authentication with email/password
+- **Error Handling**: Comprehensive error handling prevents information leakage
 
 ## 🌍 Multi-language Support
 
@@ -584,10 +648,17 @@ The application provides full support in 2 languages:
 
 ### Language Switching
 
+The app uses `easy_localization` package for multi-language support. Translation files are located in `assets/translations/`:
+- `en.json` - English translations
+- `tr.json` - Turkish translations (default)
+
 ```dart
 // Programmatic language switching
 context.setLocale(Locale('en', 'US')); // English
 context.setLocale(Locale('tr', 'TR')); // Turkish
+
+// Get translated string
+Text('welcome_message'.tr()) // Uses current locale
 ```
 
 ## 📦 Dependencies
@@ -625,18 +696,21 @@ mobile_scanner: ^7.0.1
 url_launcher: ^6.3.2
 collection: ^1.19.1
 
-# Asset Management
-assets_cleaner: ^0.1.5+12
+# Testing (in dependencies for test helpers)
+mockito: ^5.5.0
 ```
 
 ### Development Dependencies
 
 ```yaml
 # Testing
-flutter_test: sdk
-integration_test: sdk
+flutter_test:
+  sdk: flutter
+integration_test:
+  sdk: flutter
 mockito: ^5.5.0
 patrol: ^3.19.0
+patrol_cli: ^3.10.0
 
 # Code Generation
 build_runner: ^2.7.1
@@ -644,7 +718,34 @@ auto_route_generator: ^10.0.2
 
 # Linting
 flutter_lints: ^6.0.0
+
+# App Icons
+flutter_launcher_icons: ^0.14.1
 ```
+
+## 🏗️ Project Structure
+
+### Key Components
+
+- **ApplicationInitialize**: Centralized app initialization (Flutter binding, Firebase, Localization)
+- **AppRouter**: Type-safe routing with Auto Route, includes OnboardingGuard and AuthGuard
+- **Feature Modules**: Each feature (auth, store, profile, etc.) follows clean architecture
+- **Theme System**: Custom light/dark themes with ThemeViewModel for state management
+- **Product Localization**: Easy Localization wrapper for multi-language support
+
+### Route Structure
+
+- `/onboard` - Onboarding screen (guarded by OnboardingGuard)
+- `/login` - Login screen (guarded by OnboardingGuard)
+- `/register` - Registration screen (guarded by OnboardingGuard)
+- `/` - App shell with bottom navigation (guarded by OnboardingGuard + AuthGuard)
+- `/categories` - Category view
+- `/products` - Product listing
+- `/cart` - Shopping cart
+- `/profile` - User profile
+- `/add-product` - Add new product
+- `/product-detail` - Product details
+- `/off-credentials` - Open Food Facts credentials
 
 ## 🤝 Contributing
 
@@ -654,9 +755,12 @@ We welcome your contributions! For detailed information, see the [CONTRIBUTING.m
 
 1. **Fork** the repository
 2. **Create a feature branch** (`git checkout -b feature/AmazingFeature`)
-3. **Commit** your changes (`git commit -m 'Add some AmazingFeature'`)
-4. **Push** to the branch (`git push origin feature/AmazingFeature`)
-5. **Open a Pull Request**
+3. **Make your changes** following the code standards
+4. **Run tests** (`flutter test`)
+5. **Generate routes** if you modified routes (`flutter pub run build_runner build`)
+6. **Commit** your changes (`git commit -m 'Add some AmazingFeature'`)
+7. **Push** to the branch (`git push origin feature/AmazingFeature`)
+8. **Open a Pull Request**
 
 ### Code Standards
 
@@ -664,16 +768,36 @@ We welcome your contributions! For detailed information, see the [CONTRIBUTING.m
 - Use conventional commits
 - Test coverage should not fall below 80%
 - All PRs must be reviewed
+- Run `flutter analyze` before committing
+- Update tests for new features
 
 ## 📄 License
 
 This project is licensed under the MIT License. For details, see the [LICENSE](LICENSE) file.
 
+## 📸 Screenshots
+
+> Screenshots will be added soon
+
+## 🔄 Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
+
+### Current Version: 1.0.1+4
+
+- Initial release on Google Play
+- Core features implemented
+- Multi-language support (TR/EN)
+- Firebase integration
+- Open Food Facts integration
+
 ## 🙏 Acknowledgments
 
 - **Flutter Team** - For the amazing framework
 - **Firebase Team** - For backend services
-- **Open Food Facts** - For product database
+- **Open Food Facts** - For product database and API
+- **Auto Route** - For type-safe navigation
+- **Easy Localization** - For multi-language support
 - **Community Contributors** - For their contributions
 
 
